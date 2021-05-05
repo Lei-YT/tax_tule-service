@@ -18,12 +18,9 @@
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
-                <Input
-                  v-model="formInline.checkBeginDate"
-                  placeholder="请输入"
-                />
+                <DatePicker type="date" v-model="formInline.checkBeginDate" placeholder="请输入" style="width: 100%" />
                 <span style="margin: 0 15px">——</span>
-                <Input v-model="formInline.checkEndDate" placeholder="请输入" />
+                <DatePicker type="date" v-model="formInline.checkEndDate" placeholder="请输入" style="width: 100%" />
               </div>
             </FormItem>
           </div>
@@ -353,7 +350,7 @@ export default {
     //   let { data } = logJson.data;
     //   this.tableData = data;
     // }
-    this.query();
+    // this.query();
   },
   mounted() {
     this.adjustWidth();
@@ -363,7 +360,7 @@ export default {
     //   let { data } = logJson.data;
     //   this.tableData = data;
     // }
-    // this.query();
+    this.query();
   },
   methods: {
     handleChange(value) {
@@ -394,7 +391,7 @@ export default {
           let data = response.data;
           console.log(data, "77777777777777");
           if (data.code == 20000) {
-            _this.tableData = data.data;
+            _this.tableData = data.data.data;
           }
         })
         .catch(function (error) {
