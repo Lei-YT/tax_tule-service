@@ -1,0 +1,73 @@
+{
+    "success": true,
+    "code": 20000,	
+    "message": "成功",
+    "data": {
+        "data": [
+            {
+                "code": "20210428172928640004656764",  
+                "type": "CRTG_材料结算单",
+                "money": "237520.00", 
+                "checkDate": "2021-05-04", 
+                "checkBeginDate": "2021-05-04T14:05:04", 
+                "checkEndDate": "2021-05-04T14:13:42",  
+                "ocrSchedule": "50%",  
+                "invoiceSize": 25,   
+                "checkResult": null,  
+                "earlyWarning": null,  
+                "rpaDate": "30",  
+                "ocrDate": "166",  
+                "rulesDate": "30", 
+                "totalDate": "226"  
+            },
+            {
+                "code": "20210429172928731004666332",
+                "type": "CRTG_劳务结算单",
+                "money": "118875.33",
+                "checkDate": "2021-05-04",
+                "checkBeginDate": "2021-05-04T14:05:12",
+                "checkEndDate": "2021-05-04T14:13:48",
+                "ocrSchedule": "100%",
+                "invoiceSize": 1,
+                "checkResult": null,
+                "earlyWarning": null,
+                "rpaDate": "48",
+                "ocrDate": "17",
+                "rulesDate": "2",
+                "totalDate": "67"
+            },
+            {
+                "code": "20210430673359143004671314",
+                "type": "CRTG_劳务结算单（成本推送）",
+                "money": "235790.18",
+                "checkDate": "2021-05-04",
+                "checkBeginDate": "2021-05-04T14:05:14",
+                "checkEndDate": "2021-05-04T14:14:05",
+                "ocrSchedule": "100%",
+                "invoiceSize": 3,
+                "checkResult": null,
+                "earlyWarning": null,
+                "rpaDate": "24",
+                "ocrDate": "20",
+                "rulesDate": "7",
+                "totalDate": "51"
+            },
+            {
+                "code": "20210420109309292004617284",
+                "type": "CRTG_材料结算单(成本推送)",
+                "money": "2292093.13",
+                "checkDate": "2021-05-04",
+                "checkBeginDate": "2021-05-04T14:05:17",
+                "checkEndDate": "2021-05-04T14:14:27",
+                "ocrSchedule": "100%",
+                "invoiceSize": 2,
+                "checkResult": null,
+                "earlyWarning": null,
+                "rpaDate": "22",
+                "ocrDate": "23",
+                "rulesDate": "3",
+                "totalDate": "48"
+            }
+        ]
+    }
+}
