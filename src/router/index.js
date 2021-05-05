@@ -13,41 +13,39 @@ const { homeName } = config
 // }
 Vue.use(Router)
 const router = new Router({
-  routes,
-  mode: 'hash'
+    routes,
+    mode: 'hash'
 })
 const LOGIN_PAGE_NAME = 'login'
 
 const turnTo = (to, access, next) => {
-  if (canTurnTo(to.name, access, routes)) next() // 有权限，可访问
-  else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
+    if (canTurnTo(to.name, access, routes)) next() // 有权限，可访问
+    else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
 }
 
 router.beforeEach((to, from, next) => {
-  const token = getToken()
-  console.log(to, '++++++++');
-  // next()
-  if (!token && to.name !== LOGIN_PAGE_NAME) {
-    console.log('11111');
-    // 未登录且要跳转的页面不是登录页
-    if (from.name !== LOGIN_PAGE_NAME) {
-      iView.LoadingBar.start()
-      next({
-        name: 'login' // 跳转到登录页
-      })
+    const token = getToken()
+    if (!token && to.name !== LOGIN_PAGE_NAME) {
+        // 未登录且要跳转的页面不是登录页
+        if (from.name !== LOGIN_PAGE_NAME) {
+            iView.LoadingBar.start()
+            next({
+                name: 'login' // 跳转到登录页
+            })
+        }
+    } else if (!token && to.name == LOGIN_PAGE_NAME) {
+        iView.LoadingBar.start()
+            // 未登陆且要跳转的页面是登录页
+        next() // 跳转
+    } else if (token && to.name == LOGIN_PAGE_NAME) {
+        iView.LoadingBar.start()
+            // 已登录且要跳转的页面是登录页
+        next({
+            name: homeName // 跳转到homeName页
+        })
     }
-  } else if (!token && to.name == LOGIN_PAGE_NAME) {
-    console.log('222222222222');
     iView.LoadingBar.start()
-    // 未登陆且要跳转的页面是登录页
-    next() // 跳转
-  } else if (token && to.name == LOGIN_PAGE_NAME) {
-    iView.LoadingBar.start()
-    // 已登录且要跳转的页面是登录页
-    next({
-      name: homeName // 跳转到homeName页
-    })
-  }
+    next()
 })
 
 // router.onError((error) => {
@@ -60,9 +58,9 @@ router.beforeEach((to, from, next) => {
 // });
 
 router.afterEach(to => {
-  setTitle(to, router.app)
-  iView.LoadingBar.finish()
-  window.scrollTo(0, 0)
+    setTitle(to, router.app)
+    iView.LoadingBar.finish()
+    window.scrollTo(0, 0)
 })
 
 export default router
