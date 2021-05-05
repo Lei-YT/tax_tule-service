@@ -17,36 +17,22 @@
               <Input v-model="formInline.type" placeholder="请输入业务名称" />
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
-              <DatePicker
-                style="width: 100%"
-                type="daterange"
-                placement="bottom-end"
-                placeholder="请选择"
-              />
+              <div class="numCount">
+                <Input
+                  v-model="formInline.checkBeginDate"
+                  placeholder="请输入"
+                />
+                <span style="margin: 0 15px">——</span>
+                <Input v-model="formInline.checkEndDate" placeholder="请输入" />
+              </div>
             </FormItem>
           </div>
           <div class="searchItem">
             <FormItem label="审核结果:" prop="checkResult">
               <Input placeholder="审核结果" />
-              <!-- <Select v-model="model1">
-                <Option
-                  v-for="item in cityList"
-                  :value="item.value"
-                  :key="item.value"
-                  >{{ item.label }}</Option
-                >
-              </Select> -->
             </FormItem>
             <FormItem label="预警风险:" prop="earlyWarning">
               <Input placeholder="预警风险" />
-              <!-- <Select v-model="model1">
-                <Option
-                  v-for="item in cityList"
-                  :value="item.value"
-                  :key="item.value"
-                  >{{ item.label }}</Option
-                >
-              </Select> -->
             </FormItem>
 
             <FormItem label="金额区间:" prop="cname">
@@ -58,19 +44,14 @@
             </FormItem>
           </div>
 
-          <FormItem style="display: flex; justify-content: flex-end">
+          <div class="footerBox">
             <Button @click="searchData()">查询</Button>
             <Button @click="handleReset('formInline')" style="margin-left: 15px"
               >重置</Button
             >
-            <Button
-              style="margin-left: 15px"
-              @click="exported"
-              :disabled="idArr.length == 0"
-              >导出</Button
-            >
-            <Button @click="setting" style="margin-left: 15px">设置</Button>
-          </FormItem>
+            <Button @click="exported" style="margin: 0 15px">导出</Button>
+            <Button @click="setting">设置</Button>
+          </div>
         </Form>
       </Card>
 
@@ -89,17 +70,17 @@
             }"
             @selection-change="handleSelectionChange"
             show-summary
-            sum-text=" "
+            sum-text="x"
             :summary-method="calculateSummary"
           >
-            <el-table-column type="selection" width="45" />
+            <el-table-column type="selection" width="55" align="center" />
             <el-table-column
               type="index"
               label="序号"
               align="center"
-              width="45"
+              width="60"
             />
-            <el-table-column label="操作" align="center">
+            <el-table-column label="操作" align="center" width="100">
               <template slot-scope="scope">
                 <el-button
                   @click="handleClick(scope.row)"
@@ -113,74 +94,82 @@
               prop="code"
               label="单据编号"
               align="center"
+              width="230"
               sortable
             />
             <el-table-column
               prop="type"
               label="业务名单"
               align="center"
+              width="280"
               sortable
             />
             <el-table-column
               prop="money"
               label="金额"
               align="center"
+              width="130"
               sortable
             />
             <el-table-column
               prop="checkDate"
               label="审核日期"
               align="center"
+              width="150"
               sortable
             />
             <el-table-column
               prop="checkBeginDate"
               label="审核开始时间"
+              width="180"
               align="center"
             />
             <el-table-column
               prop="checkEndDate"
               label="审核结束时间"
+              width="180"
               align="center"
             />
             <el-table-column
-              width="180"
+              width="200"
               prop="ocrSchedule"
               label="识别进度"
               align="center"
             >
               <template slot-scope="scope">
-                <Progress
-                  :percent="parseFloat(scope.row.ocrSchedule)"
-                  :stroke-width="5"
-                />
+                <Progress :percent="scope.row.ocrSchedule" :stroke-width="5" />
               </template>
             </el-table-column>
             <el-table-column
               prop="invoiceSize"
               label="影像张数"
               align="center"
+              width="90"
             />
-            <el-table-column prop="checkResult" label="审核结果" align="center">
+            <el-table-column
+              prop="checkResult"
+              label="审核结果"
+              align="center"
+              width="120"
+            >
               <template slot-scope="scope">
-                <span v-if="scope.row.status === 1">可用</span>
-                <span v-if="scope.row.status === 0">不可用</span>
+                <span v-if="scope.row.checkResult == 3">不通过</span>
+                <span v-if="scope.row.checkResult == 2">通过</span>
+                <span v-if="scope.row.checkResult == 1">审核中</span>
+                <span v-if="scope.row.checkResult == 4">超时</span>
               </template>
             </el-table-column>
             <el-table-column
               prop="earlyWarning"
               label="预警风险"
               align="center"
-            >
-              <template slot-scope="scope">
-                <span v-if="scope.row.status === 1">可用</span>
-                <span v-if="scope.row.status === 0">不可用</span>
-              </template>
-            </el-table-column>
+              width="130"
+            />
             <el-table-column
               prop="rpaDate"
               label="数据获取时长"
               align="center"
+              width="135"
               sortable
             >
               <template slot-scope="scope">
@@ -191,11 +180,12 @@
               prop="ocrDate"
               label="OCR识别时长"
               align="center"
+              width="135"
               sortable
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.ocrDate ? scope.row.ocrDate + "min" : "--"
+                  scope.row.ocrDate ? scope.row.ocrDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
@@ -203,29 +193,31 @@
               prop="rulesDate"
               label="规则审核时长"
               align="center"
+              width="135"
               sortable
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.rulesDate ? scope.row.rulesDate + "min" : "--"
+                  scope.row.rulesDate ? scope.row.rulesDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
             <el-table-column
               prop="totalDate"
               label="审核总时长"
+              width="120"
               align="center"
               sortable
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.totalDate ? scope.row.totalDate + "min" : "--"
+                  scope.row.totalDate ? scope.row.totalDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
             <div slot="append">
               <div class="sum_footer xiaoji" ref="sum_xiaoji">
-                <div class="sum_footer_unit"></div>
+                <div class="sum_footer_unit center">合计</div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
@@ -243,7 +235,7 @@
                 <div class="sum_footer_unit center">审单平均时长</div>
               </div>
               <div class="sum_footer" ref="sum_heji">
-                <div class="sum_footer_unit"></div>
+                <div class="sum_footer_unit center">{{tableData.length}}条</div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
@@ -346,20 +338,6 @@ export default {
         ],
       },
       tableData: [],
-      cityList: [
-        {
-          value: "New York",
-          label: "New York",
-        },
-        {
-          value: "London",
-          label: "London",
-        },
-        {
-          value: "Sydney",
-          label: "Sydney",
-        },
-      ],
       model1: "",
       idArr: [],
       tableSum: {
@@ -371,14 +349,20 @@ export default {
     };
   },
   created() {
-    if (logJson.code == 20000) {
-      let { data } = logJson.data;
-      this.tableData = data;
-    }
+    // if (logJson.code == 20000) {
+    //   let { data } = logJson.data;
+    //   this.tableData = data;
+    // }
+    this.query();
   },
   mounted() {
     this.adjustWidth();
     window.addEventListener("resize", this.adjustWidth.bind(this));
+    // this.query();
+    // if (logJson.code == 20000) {
+    //   let { data } = logJson.data;
+    //   this.tableData = data;
+    // }
     // this.query();
   },
   methods: {
@@ -394,37 +378,48 @@ export default {
     },
     query() {
       const _this = this;
-      axios({
-        url: `http://10.15.196.127:7070/bill/page/${this.page.currentPage}/${this.page.size}`,
-        method: "POST",
-        data: {
-          code: this.formInline.code,
-          type: this.formInline.type,
-          checkResult: this.formInline.checkResult,
-          earlyWarning: this.formInline.earlyWarning,
-          beginMoney: this.formInline.beginMoney,
-          endMoney: this.formInline.endMoney,
-        },
-        success: (res) => {
-          if (res.code == 20000) {
-            _this.tableData = res.data.data;
+      axios
+        .post(
+          `http://10.15.196.127:7070/bill/page/${_this.page.currentPage}/${_this.page.size}`,
+          {
+            code: _this.formInline.code || "",
+            type: _this.formInline.type || "",
+            checkResult: _this.formInline.checkResult || "",
+            earlyWarning: _this.formInline.earlyWarning || "",
+            beginMoney: _this.formInline.beginMoney || "",
+            endMoney: _this.formInline.endMoney || "",
           }
-        },
-      });
+        )
+        .then(function (response) {
+          let data = response.data;
+          console.log(data, "77777777777777");
+          if (data.code == 20000) {
+            _this.tableData = data.data;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     // 导出
     exported() {
-      axios({
-        url: `http://10.15.196.127:7070/bill/export`,
-        method: "POST",
-        data: this.idArr,
-        success: (res) => {
-          console.log(res, "导出返回的");
-          // if (res.code == 20000) {
-          //   this.tableData = res.data.data;
-          // }
-        },
-      });
+      axios
+        .post(`http://10.15.196.127:7070/bill/export`, {
+          id: this.idArr,
+        })
+        .then(function (response) {
+          let data = response.data;
+          if (data.code == 20000) {
+            this.$message({
+              message: data.message,
+              type: "success",
+              duration: 1200,
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     // 设置
     setting() {
@@ -486,7 +481,7 @@ export default {
           return;
         }
         if (index === 15) {
-          sums[index] = "规则审核平均时长\nww" + '<br/>' +'ww';
+          sums[index] = "规则审核平均时长";
           _this.calculateAvg(
             sumColumn,
             allRpaDateValues.length,
@@ -495,7 +490,7 @@ export default {
           return;
         }
         if (index === 16) {
-          sums[index] = `审单平均时长\nww`;
+          sums[index] = "审单平均时长";
           _this.calculateAvg(
             sumColumn,
             allRpaDateValues.length,
@@ -522,8 +517,8 @@ export default {
           var width = getComputedStyle(
             this.$refs.table.$refs.headerWrapper.querySelector("table")
           ).width;
-          this.$refs.sum_xiaoji.style = "width:" + (width - 16) + 'px';
-          this.$refs.sum_heji.style = "width:" + (width - 16) + 'px';
+          this.$refs.sum_xiaoji.style = "width:" + (width );
+          this.$refs.sum_heji.style = "width:" + (width ) ;
           Array.from(
             this.$refs.table.$refs.headerWrapper.querySelectorAll("col")
           ).forEach((n, i) => {
@@ -565,9 +560,17 @@ export default {
   font-size: 12px !important;
   display: none;
 }
+/deep/.el-table__append-wrapper{
+  overflow: visible;
+}
 .page-box {
 }
 
+.footerBox {
+  width: 100%;
+  padding-right: 3%;
+  text-align: right;
+}
 .sum_footer {
   display: flex;
   display: -webkit-flex;
