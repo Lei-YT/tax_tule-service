@@ -80,21 +80,21 @@ export default {
           password
         }).then(res => {
           console.log(res,'res111111111111');
-          if (res.code != 0) {
+          if (res.data.code != 0) {
             Notification({
-              message: res.msg,
+              message: res.data.msg,
               type: 'warning',
               duration: 1300
             })
             return false
           } else {
-            commit('setToken', res.data.token)
-            commit('setId', res.data.id)
-            commit('setUserName', res.data.name)
-            commit('setAvatar', res.data.imgUrl)
-            commit('setAdminNo', res.data.adminNo)
-            commit('setStationName', res.data.stationName)
-            resolve(res)
+            commit('setToken', res.data.data.token)
+            commit('setId', res.data.data.id)
+            commit('setUserName', res.data.data.name)
+            commit('setAvatar', res.data.data.imgUrl)
+            commit('setAdminNo', res.data.data.adminNo)
+            commit('setStationName', res.data.data.stationName)
+            resolve(res.data)
           }
         }).catch(err => {
           reject(err)
