@@ -29,19 +29,11 @@ export default {
     LoginForm,
   },
   methods: {
-    ...mapActions(["handleLogin", "getUserInfo"]),
+    ...mapActions(["handleLogin"]),
     handleSubmit({ adminNo, password }) {
       // this.$router.push({ path: "/" });
       this.handleLogin({ adminNo, password }).then((res) => {
-        console.log(res, "-------------------");
-        if (res.code == 0) {
-          //   this.$router.push({ path: "/" });
-          // this.getUserInfo().then((res) => {
-            this.$router.push({
-              name: this.$config.homeName,
-            });
-          // });
-        }
+        this.$router.push({ path: "/" });
       });
     },
   },

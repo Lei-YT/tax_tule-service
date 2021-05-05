@@ -103,9 +103,6 @@ export default {
     local() {
       return this.$store.state.app.local;
     },
-    hasReadErrorPage() {
-      return this.$store.state.app.hasReadErrorPage;
-    },
     unreadCount() {
       return this.$store.state.user.unreadCount;
     },

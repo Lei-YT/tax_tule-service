@@ -1,23 +1,18 @@
 import {
   login,
   logout,
-  // getUserInfo,
-  // getMessage,
-  // getContentByMsgId,
-  // hasRead,
-  // removeReaded,
-  // restoreTrash,
-  // getUnreadCount
 } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
+import { Notification } from 'element-ui'
 
 export default {
   state: {
     userName: '',
-    userId: '',
+    id: '',
     avatarImgPath: '',
     token: getToken(),
-    access: '',
+    adminNo: '',
+    stationName: '',
     hasGetInfo: false,
     unreadCount: 0,
     messageUnreadList: [],
@@ -26,41 +21,44 @@ export default {
     messageContentStore: {}
   },
   mutations: {
-    setAvatar (state, avatarPath) {
+    setAvatar(state, avatarPath) {
       state.avatarImgPath = avatarPath
     },
-    setUserId (state, id) {
-      state.userId = id
+    setId(state, id) {
+      state.id = id
     },
-    setUserName (state, name) {
+    setUserName(state, name) {
       state.userName = name
     },
-    setAccess (state, access) {
-      state.access = access
+    setAdminNo(state, adminNo) {
+      state.adminNo = adminNo
     },
-    setToken (state, token) {
+    setToken(state, token) {
       state.token = token
       setToken(token)
     },
-    setHasGetInfo (state, status) {
+    setStationName(state, stationName) {
+      state.stationName = stationName
+    },
+    setHasGetInfo(state, status) {
       state.hasGetInfo = status
     },
-    setMessageCount (state, count) {
+    setMessageCount(state, count) {
       state.unreadCount = count
     },
-    setMessageUnreadList (state, list) {
+    setMessageUnreadList(state, list) {
       state.messageUnreadList = list
     },
-    setMessageReadedList (state, list) {
+    setMessageReadedList(state, list) {
       state.messageReadedList = list
     },
-    setMessageTrashList (state, list) {
+    setMessageTrashList(state, list) {
       state.messageTrashList = list
     },
-    updateMessageContentStore (state, { msg_id, content }) {
+    updateMessageContentStore(state, { msg_id, content }) {
       state.messageContentStore[msg_id] = content
     },
-    moveMsg (state, { from, to, msg_id }) {
+    moveMsg(state, { from, to, msg_id }) {
       const index = state[from].findIndex(_ => _.msg_id === msg_id)
       const msgItem = state[from].splice(index, 1)[0]
       msgItem.loading = false
@@ -74,68 +72,57 @@ export default {
   },
   actions: {
     // 登录
-    handleLogin ({ commit }, { adminNo, password }) {
+    handleLogin({ commit }, { adminNo, password }) {
       adminNo = adminNo.trim()
       return new Promise((resolve, reject) => {
         login({
           adminNo,
           password
         }).then(res => {
-          // console.log(res,'***********');
-          // return
-          const data = res.data
-          commit('setToken', data.token)
-          resolve(data)
+          console.log(res,'res111111111111');
+          if (res.code != 0) {
+            Notification({
+              message: res.msg,
+              type: 'warning',
+              duration: 1300
+            })
+            return false
+          } else {
+            commit('setToken', res.data.token)
+            commit('setId', res.data.id)
+            commit('setUserName', res.data.name)
+            commit('setAvatar', res.data.imgUrl)
+            commit('setAdminNo', res.data.adminNo)
+            commit('setStationName', res.data.stationName)
+            resolve(res)
+          }
         }).catch(err => {
           reject(err)
         })
       })
     },
     // 退出登录
-    handleLogOut ({ state, commit }) {
+    handleLogOut({ state, commit }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('setToken', '')
-          commit('setAccess', [])
+          commit('setUserName', '')
+          commit('setAvatar', '')
           resolve()
         }).catch(err => {
           reject(err)
         })
-        // 如果你的退出登录无需请求接口，则可以直接使用下面三行代码而无需使用logout调用接口
-        // commit('setToken', '')
-        // commit('setAccess', [])
-        // resolve()
-      })
-    },
-    // 获取用户相关信息
-    getUserInfo ({ state, commit }) {
-      return new Promise((resolve, reject) => {
-        try {
-          getUserInfo(state.token).then(res => {
-            const data = res.data
-            commit('setAvatar', data.avatar)
-            commit('setUserName', data.name)
-            commit('setUserId', data.user_id)
-            commit('setAccess', data.access)
-            commit('setHasGetInfo', true)
-            resolve(data)
-          }).catch(err => {
-            reject(err)
-          })
-        } catch (error) {
-          reject(error)
-        }
       })
     },
     // 此方法用来获取未读消息条数，接口只返回数值，不返回消息列表
-    getUnreadMessageCount ({ state, commit }) {
+    getUnreadMessageCount({ state, commit }) {
       getUnreadCount().then(res => {
         const { data } = res
         commit('setMessageCount', data)
       })
     },
     // 获取消息列表，其中包含未读、已读、回收站三个列表
-    getMessageList ({ state, commit }) {
+    getMessageList({ state, commit }) {
       return new Promise((resolve, reject) => {
         getMessage().then(res => {
           const { unread, readed, trash } = res.data
@@ -155,7 +142,7 @@ export default {
       })
     },
     // 根据当前点击的消息的id获取内容
-    getContentByMsgId ({ state, commit }, { msg_id }) {
+    getContentByMsgId({ state, commit }, { msg_id }) {
       return new Promise((resolve, reject) => {
         let contentItem = state.messageContentStore[msg_id]
         if (contentItem) {
@@ -170,7 +157,7 @@ export default {
       })
     },
     // 把一个未读消息标记为已读
-    hasRead ({ state, commit }, { msg_id }) {
+    hasRead({ state, commit }, { msg_id }) {
       return new Promise((resolve, reject) => {
         hasRead(msg_id).then(() => {
           commit('moveMsg', {
@@ -186,7 +173,7 @@ export default {
       })
     },
     // 删除一个已读消息到回收站
-    removeReaded ({ commit }, { msg_id }) {
+    removeReaded({ commit }, { msg_id }) {
       return new Promise((resolve, reject) => {
         removeReaded(msg_id).then(() => {
           commit('moveMsg', {
@@ -201,7 +188,7 @@ export default {
       })
     },
     // 还原一个已删除消息到已读消息
-    restoreTrash ({ commit }, { msg_id }) {
+    restoreTrash({ commit }, { msg_id }) {
       return new Promise((resolve, reject) => {
         restoreTrash(msg_id).then(() => {
           commit('moveMsg', {

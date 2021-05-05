@@ -37,11 +37,10 @@ class HttpRequest {
     })
     // 响应拦截
     instance.interceptors.response.use(res => {
-      console.log(res,'-------------');
       loadingInstance.close()
       this.destroy(url)
       const { data, status } = res
-      return res
+      return { data, status }
     }, error => {
       this.destroy(url)
       let errorInfo = error.response
