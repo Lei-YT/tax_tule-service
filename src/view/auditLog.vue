@@ -112,7 +112,7 @@
               prop="checkDate"
               label="审核日期"
               align="center"
-              width="150"
+              width="180"
               sortable
             />
             <el-table-column
@@ -134,7 +134,9 @@
               align="center"
             >
               <template slot-scope="scope">
-                <Progress :percent="scope.row.ocrSchedule" :stroke-width="5" />
+                <Progress :percent="scope.row.ocrSchedule" :stroke-width="5" >
+                  <span>{{scope.row.ocrSchedule}}%</span>
+                </Progress>
               </template>
             </el-table-column>
             <el-table-column
@@ -245,12 +247,12 @@
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit center">{{ tableSum.rpaDateAvg }}s</div>
-                <div class="sum_footer_unit center">{{ tableSum.ocrDateAvg }}min</div>
+                <div class="sum_footer_unit center">{{ tableSum.ocrDateAvg }}s</div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.rulesDateAvg }}min
+                  {{ tableSum.rulesDateAvg }}s
                 </div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.totalDateAvg }}min
+                  {{ tableSum.totalDateAvg }}s
                 </div>
               </div>
             </div>
@@ -375,6 +377,7 @@ export default {
     },
     query() {
       const _this = this;
+      _this.tableData = [{"id":"1389948817180491777","code":"20210430673359143004671314","type":"CRTG_劳务结算单（成本推送）","money":"235790.18","checkDate":"2021-05-05 22:23:17","checkBeginDate":"2021-05-05 22:23:17","checkEndDate":"2021-05-06 01:26:13","ocrSchedule":"70","invoiceSize":3,"checkResult":"false","earlyWarning":null,"rpaDate":"27","ocrDate":"23","rulesDate":"4","totalDate":"54"},{"id":"1389989859619536897","code":"20210429172928743004662535","type":"CRTG_机械租赁结算单","money":"15942.36","checkDate":"2021-05-06 01:06:22","checkBeginDate":"2021-05-06 01:06:22","checkEndDate":"2021-05-06 01:26:24","ocrSchedule":"100","invoiceSize":1,"checkResult":"false","earlyWarning":null,"rpaDate":"31","ocrDate":"9","rulesDate":"1","totalDate":"41"}]
       axios
         .post(
           `http://10.15.196.127:7070/bill/page/${_this.page.currentPage}/${_this.page.size}`,
