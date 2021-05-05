@@ -33,7 +33,7 @@ export default {
     handleSubmit({ adminNo, password }) {
       // this.$router.push({ path: "/" });
       this.handleLogin({ adminNo, password }).then((res) => {
-        this.$router.push({ path: "/" });
+        this.$router.push({ name: this.$config.homeName });
       });
     },
   },

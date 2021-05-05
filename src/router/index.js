@@ -24,21 +24,25 @@ const turnTo = (to, access, next) => {
 }
 
 router.beforeEach((to, from, next) => {
-  iView.LoadingBar.start()
   const token = getToken()
   console.log(to, '++++++++');
   // next()
   if (!token && to.name !== LOGIN_PAGE_NAME) {
     console.log('11111');
     // 未登录且要跳转的页面不是登录页
-    next({
-      name: 'login' // 跳转到登录页
-    })
+    if (from.name !== LOGIN_PAGE_NAME) {
+      iView.LoadingBar.start()
+      next({
+        name: 'login' // 跳转到登录页
+      })
+    }
   } else if (!token && to.name == LOGIN_PAGE_NAME) {
     console.log('222222222222');
+    iView.LoadingBar.start()
     // 未登陆且要跳转的页面是登录页
     next() // 跳转
   } else if (token && to.name == LOGIN_PAGE_NAME) {
+    iView.LoadingBar.start()
     // 已登录且要跳转的页面是登录页
     next({
       name: homeName // 跳转到homeName页

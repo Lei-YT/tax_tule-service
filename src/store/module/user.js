@@ -97,7 +97,7 @@ export default {
             resolve(res.data)
           }
         }).catch(err => {
-          reject(err)
+            reject(err)
         })
       })
     },
