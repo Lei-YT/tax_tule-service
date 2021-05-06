@@ -86,13 +86,12 @@
                         <template v-if="typeof value === 'object'">
                           <template v-for="(v, i) in value">
                             <template v-for="(vv, kk) in v">
-                              <p style="padding: 5px 15px" flex :key="kk + i">
+                              <p style="padding: 5px 15px" flex :key="kk + i" class="flex-space">
                                 <span flex-box="0">{{ kk }}：</span>
-                                <!-- <span
+                                <span
                                 flex-box="1"
                                 style="text-align:right"
-                                :style="{color:errorFieldCode.indexOf(kk)!=-1?'red':''}"
-                              >{{vv||'--'}}</span> -->
+                              >{{vv||'--'}}</span>
                               </p>
                             </template>
                           </template>
@@ -136,6 +135,7 @@
 <script>
 import resultJson from "@/dataJson/result.json";
 import ResultItem from "@/components/resultItem/index";
+import { matchCNkeys } from "@/libs/invoice";
 import axios from "axios";
 // import jsonpath from "jsonpath";
 import store from "@/store";
@@ -162,22 +162,25 @@ export default {
     this.imgSrc = resultJson.imageInfo[0].imageURL;
     this.imageId = resultJson.imageInfo[0]["imageId"];
     this.getMessageInfo(this.imageId);
-    this.getErrorFieldCode(this.invoiceId);
+    // this.getErrorFieldCode(this.invoiceId);
   },
   mounted() {
-    this.query()
+    this.query();
   },
 
   methods: {
-    query(){
+    query() {
+      const _this = this;
       axios({
         url: `http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`,
         method: "GET",
         success: (res) => {
-          console.log(res,'详情');
-          // if (res.code == 20000) {
-          //   this.tableData = res.data.data;
-          // }
+          console.log(res, "详情");
+          _this.allData = res.data.data;
+          _this.imageData = res.data.data.imageInfo;
+          _this.imgSrc = res.data.data.imageInfo[0].imageURL;
+          _this.imageId = res.data.data.imageInfo[0]["imageId"];
+          _this.getMessageInfo(_this.imageId);
         },
       });
     },
@@ -185,7 +188,13 @@ export default {
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
         if (data[i]["imageId"] == imageId) {
-          this.$set(this, "messageInfo", data[i]);
+          const _dataI = {
+            ...data[i],
+            invoices: data[i].invoices.map((io) => {
+              return matchCNkeys(io.invoiceType, io);
+            }),
+          };
+          this.$set(this, "messageInfo", _dataI);
         }
       }
     },
