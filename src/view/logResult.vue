@@ -86,13 +86,13 @@
                         <template v-if="typeof value === 'object'">
                           <template v-for="(v, i) in value">
                             <template v-for="(vv, kk) in v">
-                              <p style="padding: 5px 15px" flex :key="kk + i">
+                              <p style="padding: 5px 15px" flex :key="kk + i" class="flex-space">
                                 <span flex-box="0">{{ kk }}：</span>
-                                <!-- <span
+                                <span
                                 flex-box="1"
                                 style="text-align:right"
                                 :style="{color:errorFieldCode.indexOf(kk)!=-1?'red':''}"
-                              >{{vv||'--'}}</span> -->
+                              >{{vv||'--'}}</span>
                               </p>
                             </template>
                           </template>
@@ -136,6 +136,7 @@
 <script>
 import resultJson from "@/dataJson/result.json";
 import ResultItem from "@/components/resultItem/index";
+import { matchCNkeys } from "@/libs/invoice";
 import axios from "axios";
 // import jsonpath from "jsonpath";
 import store from "@/store";
@@ -167,6 +168,7 @@ export default {
   },
   methods: {
     query() {
+      const _this = this;
       console.log('ppppppppppp');
       axios
         .get(`http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`)
@@ -182,7 +184,13 @@ export default {
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
         if (data[i]["imageId"] == imageId) {
-          this.$set(this, "messageInfo", data[i]);
+          const _dataI = {
+            ...data[i],
+            invoices: data[i].invoices.map((io) => {
+              return matchCNkeys(io.invoiceType, io);
+            }),
+          };
+          this.$set(this, "messageInfo", _dataI);
         }
       }
     },
