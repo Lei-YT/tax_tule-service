@@ -4,12 +4,142 @@
       <!-- 头部 -->
       <Card style="width: 100%" class="ticketType">
         <p>单据类型：{{ allData.billType }}</p>
-        <p>单据编号：{{ allData.billNumber }}</p>
+        <p>单据编号：{{ allData.billNo }}</p>
       </Card>
       <!-- 内容 -->
       <div class="conBox">
         <div class="leftCon">
-          <ResultItem :data="allData.data"></ResultItem>
+          <div class="item" v-for="(item, index) in allData.data" :key="index">
+            <Card style="width: 100%">
+              <div class="cardTit" slot="title">
+                <p v-if="item.ruleType == 'IMAGES'">影像规则</p>
+                <p v-if="item.ruleType == 'OTHERS'">非影像规则</p>
+                <p v-if="item.ruleType == 'WARNING'">超预警通知</p>
+                <div class="countBox">
+                  <p
+                    v-if="
+                      item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'
+                    "
+                  >
+                    规则：{{ item.ruleCount }}条
+                  </p>
+                  <p
+                    v-if="
+                      item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'
+                    "
+                  >
+                    报错：{{ item.errorCount }}条
+                  </p>
+                  <p v-if="item.ruleType == 'WARNING'">
+                    预警数：{{ item.ruleCount }}条
+                  </p>
+                </div>
+              </div>
+              <el-collapse
+                @change="handleChange"
+                v-if="item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'"
+              >
+                <el-collapse-item title="未通过规则" name="1">
+                  <template
+                    v-if="
+                      item.result.filter((obj) => {
+                        return obj.correct == false;
+                      }).length
+                    "
+                  >
+                    <Table
+                      size="small"
+                      :columns="columns"
+                      :data="
+                        item.result.filter((obj) => {
+                          return obj.correct == false;
+                        })
+                      "
+                    >
+                      <template slot="ruleName" slot-scope="{ row }">
+                        <div flex>
+                          {{ row.ruleName }}
+                          <Icon
+                            type="md-close-circle"
+                            size="18"
+                            color="#E02020"
+                            style="margin-left: 60%"
+                          />
+                        </div>
+                      </template>
+                      <template slot="message" slot-scope="{ row }">
+                        {{ row.message ? row.message : "——" }}
+                      </template>
+                    </Table>
+                  </template>
+                </el-collapse-item>
+                <el-collapse-item title="通过规则" name="2">
+                  <template
+                    v-if="
+                      item.result.filter((obj) => {
+                        return obj.correct == true;
+                      }).length
+                    "
+                  >
+                    <Table
+                      size="small"
+                      :columns="columns"
+                      :data="
+                        item.result.filter((obj) => {
+                          return obj.correct == true;
+                        })
+                      "
+                    >
+                      <template slot="ruleName" slot-scope="{ row }">
+                        <div flex>
+                          {{ row.ruleName }}
+                          <Icon
+                            type="md-checkmark-circle"
+                            size="18"
+                            color="#6DD400"
+                            style="margin-left: 60%"
+                          />
+                        </div>
+                      </template>
+                      <template slot="message" slot-scope="{ row }">
+                        {{ row.message ? row.message : "——" }}
+                      </template>
+                    </Table>
+                  </template>
+                </el-collapse-item>
+              </el-collapse>
+              <el-collapse v-else>
+                <Table
+                  size="small"
+                  :columns="columns1"
+                  :data="
+                    item.result.filter((obj) => {
+                      return obj.correct == false;
+                    })
+                  "
+                >
+                  <template slot="grade" slot-scope="{ row }">
+                    <div flex>{{ row.warnRank.grade }}</div>
+                  </template>
+                  <template slot="ruleName" slot-scope="{ row }">
+                    <div flex>
+                      {{ row.ruleName }}
+                      <Icon
+                        type="ios-information-circle"
+                        size="18"
+                        :color="row.warnRank.color"
+                        style="margin-left: 60%"
+                      />
+                    </div>
+                  </template>
+                  <template slot="message" slot-scope="{ row }">
+                    {{ row.message ? row.message : "——" }}
+                  </template>
+                </Table>
+              </el-collapse>
+            </Card>
+          </div>
+          <!-- <ResultItem :data="allData.data"></ResultItem> -->
         </div>
         <!-- 右面 -->
         <div class="rightCon">
@@ -146,13 +276,13 @@
 </template>
 <script>
 import resultJson from "@/dataJson/result.json";
-import ResultItem from "@/components/resultItem/index";
+// import ResultItem from "@/components/resultItem/index";
 import { matchCNkeys } from "@/libs/invoice";
 import axios from "axios";
 // import jsonpath from "jsonpath";
 import store from "@/store";
 export default {
-  components: { ResultItem },
+  // components: { ResultItem },
   data() {
     return {
       allData: [],
@@ -246,6 +376,9 @@ export default {
 };
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
+.item {
+  margin-bottom: 20px;
+}
 .ticketType {
   /deep/.ivu-card-body {
     display: flex;
