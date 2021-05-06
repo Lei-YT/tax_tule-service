@@ -18,12 +18,17 @@
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
-                <Input
+                <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkBeginDate" :key="formInline.checkBeginDate" format="yyyy-MM-dd" @on-change="formInline.checkBeginDate=$event" >
+    </Date-picker>
+    <span style="margin: 0 5px">—</span>
+    <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkEndDate" :key="formInline.checkEndDate" format="yyyy-MM-dd" @on-change="formInline.checkEndDate=$event" >
+    </Date-picker>
+                <!-- <Input
                   v-model="formInline.checkBeginDate"
                   placeholder="请输入"
-                />
-                <span style="margin: 0 15px">——</span>
-                <Input v-model="formInline.checkEndDate" placeholder="请输入" />
+                /> -->
+                <!-- <span style="margin: 0 15px">——</span> -->
+                <!-- <Input v-model="formInline.checkEndDate" placeholder="请输入" /> -->
               </div>
             </FormItem>
           </div>
@@ -37,9 +42,9 @@
 
             <FormItem label="金额区间:" prop="cname">
               <div class="numCount">
-                <Input v-model="formInline.cname" placeholder="请输入" />
-                <span style="margin: 0 15px">——</span>
-                <Input v-model="formInline.cname" placeholder="请输入" />
+                <Input v-model="formInline.beginMoney" placeholder="请输入" />
+                <span style="margin: 0 5px">—</span>
+                <Input v-model="formInline.endMoney" placeholder="请输入" />
               </div>
             </FormItem>
           </div>
@@ -73,6 +78,7 @@
             show-summary
             sum-text="x"
             :summary-method="calculateSummary"
+            @sort-change="sortChange"
           >
             <el-table-column type="selection" width="55" align="center" />
             <el-table-column
@@ -97,7 +103,7 @@
               v-if="form.type.includes('单据编号')"
               align="center"
               width="250"
-              sortable
+              sortable="custom"
             />
             <el-table-column
               prop="type"
@@ -105,7 +111,7 @@
               v-if="form.type.includes('业务名称')"
               align="center"
               width="280"
-              sortable
+              sortable="custom"
             />
             <el-table-column
               prop="money"
@@ -113,7 +119,7 @@
               v-if="form.type.includes('金额')"
               align="center"
               width="130"
-              sortable
+              sortable="custom"
             />
             <el-table-column
               prop="checkDate"
@@ -121,7 +127,7 @@
               align="center"
               v-if="form.type.includes('审核日期')"
               width="180"
-              sortable
+              sortable="custom"
             />
             <el-table-column
               prop="checkBeginDate"
@@ -184,7 +190,7 @@
               label="数据获取时长"
               align="center"
               width="135"
-              sortable
+              sortable="custom"
             >
               <template slot-scope="scope">
                 <span>{{ scope.row.rpaDate }}s</span>
@@ -195,7 +201,7 @@
               label="OCR识别时长"
               align="center"
               width="135"
-              sortable
+              sortable="custom"
             >
               <template slot-scope="scope">
                 <span>{{
@@ -208,7 +214,7 @@
               label="规则审核时长"
               align="center"
               width="135"
-              sortable
+              sortable="custom"
             >
               <template slot-scope="scope">
                 <span>{{
@@ -221,7 +227,7 @@
               label="审核总时长"
               width="120"
               align="center"
-              sortable
+              sortable="custom"
             >
               <template slot-scope="scope">
                 <span>{{
@@ -234,15 +240,16 @@
                 <div class="sum_footer_unit center">合计</div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('单据编号')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('业务名称')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('金额')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核日期')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核开始时间')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核结束时间')"></div>
                 <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('影像张数')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核结果')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('预警风险')"></div>
                 <div class="sum_footer_unit center">数据获取平均时长</div>
                 <div class="sum_footer_unit center">OCR识别平均时长</div>
                 <div class="sum_footer_unit center">规则审核平均时长</div>
@@ -254,15 +261,16 @@
                 </div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('单据编号')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('业务名称')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('金额')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核日期')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核开始时间')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核结束时间')"></div>
                 <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('影像张数')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('审核结果')"></div>
+                <div class="sum_footer_unit" v-if="form.type.includes('预警风险')"></div>
                 <div class="sum_footer_unit center">
                   {{ tableSum.rpaDateAvg }}s
                 </div>
@@ -343,6 +351,8 @@ export default {
         checkEndDate: "",
         beginMoney: "",
         endMoney: "",
+        orderField: "",
+        orderType: "",
       },
       form: {
         type: [
@@ -388,6 +398,7 @@ export default {
     },
     handleChange(value) {
       this.form.type = value;
+      this.adjustWidth();
     },
     handleSelectionChange(val) {
       let idArr = [];
@@ -395,6 +406,17 @@ export default {
         return idArr.push(item.id);
       });
       this.idArr = idArr;
+    },
+    sortChange(val){
+      this.formInline.orderField = val.prop
+      if (val.order == 'ascending')
+        this.formInline.orderType = 'asc'
+      else if (val.order == 'descending')
+        this.formInline.orderType = 'desc'
+      else
+        this.formInline.orderType = ''
+
+      this.query()
     },
     query() {
       const _this = this;
@@ -406,15 +428,19 @@ export default {
             type: _this.formInline.type || "",
             checkResult: _this.formInline.checkResult || "",
             earlyWarning: _this.formInline.earlyWarning || "",
+            checkBeginDate: _this.formInline.checkBeginDate || "",
+            checkEndDate: _this.formInline.checkEndDate || "",
             beginMoney: _this.formInline.beginMoney || "",
             endMoney: _this.formInline.endMoney || "",
+            orderField: _this.formInline.orderField || "",
+            orderType: _this.formInline.orderType || "",
           }
         )
         .then(function (response) {
           let data = response.data;
           if (data.code == 20000) {
             _this.tableData = data.data.data;
-            this.tableData = data.data.data;
+            // this.tableData = data.data.data;
           }
         })
         .catch(function (error) {
@@ -424,7 +450,7 @@ export default {
     // 导出
     exported() {
       axios
-        .post(`http://10.15.196.127:7070/bill/export`, this.idArr)
+        .post(`http://10.15.196.127:7070/bill/export`, this.idArr, { responseType: "blob" })
         .then(function (response) {
           // let data = response.data;
           // if (data.code == 20000) {
@@ -440,6 +466,7 @@ export default {
           let blobType = "application/vnd.ms-excel";
           let url = window.URL.createObjectURL(
             new Blob([response.data], { type: blobType })
+            // response.data
           );
           let link = document.createElement("a");
           link.style.display = "none";
@@ -470,6 +497,31 @@ export default {
     },
     handleReset(name) {
       this.$refs[name].resetFields();
+      this.formInline = {
+        code: "",
+        type: "",
+        checkResult: "",
+        earlyWarning: "",
+        checkBeginDate: "",
+        checkEndDate: "",
+        beginMoney: "",
+        endMoney: "",
+        orderField: "",
+        orderType: "",
+      }
+      this.form = {
+        type: [
+          "单据编号",
+          "业务名称",
+          "金额",
+          "审核日期",
+          "审核开始时间",
+          "审核结束时间",
+          "审核结果",
+          "预警风险",
+          "影像张数",
+        ],
+      }
       this.query();
     },
     currentChange(current) {
@@ -553,7 +605,7 @@ export default {
           this.$refs.sum_heji.style = "width:" + width;
           Array.from(
             this.$refs.table.$refs.headerWrapper.querySelectorAll("col")
-          ).forEach((n, i) => {
+          ).forEach((n, i, raw) => {
             this.$refs.sum_xiaoji.children[i].style =
               "width:" + n.getAttribute("width") + "px";
             this.$refs.sum_heji.children[i].style =
@@ -603,10 +655,11 @@ export default {
   display: -webkit-flex;
   line-height: 50px;
   color: #606266;
+  justify-content:center;
 }
 .sum_footer_unit {
-  flex-grow: 1;
-  -webkit-flex-grow: 1;
+  // flex-grow: 1;
+  // -webkit-flex-grow: 1;
   // text-indent: 10px;
   font-size: 12px !important;
   // font-size: 14px;
