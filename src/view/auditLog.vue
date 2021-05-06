@@ -19,10 +19,10 @@
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
                 <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkBeginDate" :key="formInline.checkBeginDate" format="yyyy-MM-dd" @on-change="formInline.checkBeginDate=$event" >
-    </Date-picker>
-    <span style="margin: 0 5px">—</span>
-    <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkEndDate" :key="formInline.checkEndDate" format="yyyy-MM-dd" @on-change="formInline.checkEndDate=$event" >
-    </Date-picker>
+                </Date-picker>
+                <span style="margin: 0 5px">—</span>
+                <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkEndDate" :key="formInline.checkEndDate" format="yyyy-MM-dd" @on-change="formInline.checkEndDate=$event" >
+                </Date-picker>
                 <!-- <Input
                   v-model="formInline.checkBeginDate"
                   placeholder="请输入"
@@ -34,7 +34,13 @@
           </div>
           <div class="searchItem">
             <FormItem label="审核结果:" prop="checkResult">
-              <Input placeholder="审核结果" />
+              <Select v-model="formInline.checkResult" ref="checkResult" clearable>
+                  <Option value="1">审核中</Option>
+                  <Option value="2">通过</Option>
+                  <Option value="3">不通过</Option>
+                  <Option value="4">超时</Option>
+              </Select>
+              <!-- <Input placeholder="审核结果" /> -->
             </FormItem>
             <FormItem label="预警风险:" prop="earlyWarning">
               <Input placeholder="预警风险" />
@@ -78,7 +84,6 @@
             show-summary
             sum-text="x"
             :summary-method="calculateSummary"
-            @sort-change="sortChange"
           >
             <el-table-column type="selection" width="55" align="center" />
             <el-table-column
@@ -172,10 +177,41 @@
               width="120"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.checkResult == 3">不通过</span>
-                <span v-if="scope.row.checkResult == 2">通过</span>
-                <span v-if="scope.row.checkResult == 1">审核中</span>
-                <span v-if="scope.row.checkResult == 4">超时</span>
+                <span v-if="scope.row.checkResult == 3">
+                  <Icon
+                    type="md-close-circle"
+                    size="18"
+                    color="#ed4014"
+                    style="margin-right: 3%"
+                  />
+                  不通过
+                </span>
+                <span v-if="scope.row.checkResult == 2">
+                  <Icon
+                    type="md-checkmark-circle"
+                    size="18"
+                    color="#19be6b"
+                    style="margin-right: 7%"
+                  />
+                  通过</span
+                >
+                <span v-if="scope.row.checkResult == 1">
+                  <Icon
+                    type="md-ionitron"
+                    size="18"
+                    color="#2d8cf0"
+                    style="margin-right: 3%"
+                  />审核中</span
+                >
+                <span v-if="scope.row.checkResult == 4">
+                  <Icon
+                    type="md-close-circle"
+                    size="18"
+                    color="#ff9900"
+                    style="margin-right: 7%"
+                  />
+                  超时</span
+                >
               </template>
             </el-table-column>
             <el-table-column
@@ -184,7 +220,64 @@
               v-if="form.type.includes('预警风险')"
               align="center"
               width="130"
-            />
+            >
+              <template slot-scope="scope">
+                <span v-if="scope.row.earlyWarning == '一级等级'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#ff0000"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-if="scope.row.earlyWarning == '二级等级'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#ff8c00"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-if="scope.row.earlyWarning == '三级等级'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#ffff00"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-if="scope.row.earlyWarning == '四级等级'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#1e90ff"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-if="scope.row.earlyWarning == '五级等级'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#483d8b"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-if="scope.row.earlyWarning == '六级等级'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#696969"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+              </template>
+            </el-table-column>
             <el-table-column
               prop="rpaDate"
               label="数据获取时长"
@@ -357,8 +450,16 @@ export default {
         checkEndDate: "",
         beginMoney: "",
         endMoney: "",
-        orderField: "",
-        orderType: "",
+        // orderField: "",
+        // orderType: "",
+        orderCode:"",             //单据编号排序  是否排序  默认""  asc升序  desc降序
+        orderType:"",             //业务名称排序  默认""
+        orderMoney:"",              //金额排序    默认""
+        orderCheckDate:"",         //审核日期    默认""
+        orderRpaDate:"",          //数据获取时长  默认""
+        orderOcrDate:"",            //OCR识别时长 默认""
+        orderRulesDate:"",            //规则审核时长  默认""
+        orderTotalDate:""           //审单总时长 默认""
       },
       form: {
         type: [
@@ -415,12 +516,37 @@ export default {
     },
     sortChange(val){
       this.formInline.orderField = val.prop
+      var order = '';
       if (val.order == 'ascending')
-        this.formInline.orderType = 'asc'
+        order = 'asc'
       else if (val.order == 'descending')
-        this.formInline.orderType = 'desc'
-      else
-        this.formInline.orderType = ''
+        order = 'desc'
+
+      this.formInline.orderCode = '';
+      this.formInline.orderType = '';
+      this.formInline.orderMoney = '';
+      this.formInline.orderCheckDate = '';
+      this.formInline.orderRpaDate = '';
+      this.formInline.orderOcrDate = '';
+      this.formInline.orderRulesDate = '';
+      this.formInline.orderTotalDate = '';
+
+      if (val.prop == 'code') 
+        this.formInline.orderCode = order;
+      else if (val.prop == 'type') 
+        this.formInline.orderType = order;
+      else if (val.prop == 'money') 
+        this.formInline.orderMoney = order;
+      else if (val.prop == 'checkDate') 
+        this.formInline.orderCheckDate = order;
+      else if (val.prop == 'rpaDate') 
+        this.formInline.orderRpaDate = order;
+      else if (val.prop == 'ocrDate') 
+        this.formInline.orderOcrDate = order;
+      else if (val.prop == 'rulesDate') 
+        this.formInline.orderRulesDate = order;
+      else if (val.prop == 'totalDate') 
+        this.formInline.orderTotalDate = order;
 
       this.query()
     },
@@ -438,8 +564,17 @@ export default {
             checkEndDate: _this.formInline.checkEndDate || "",
             beginMoney: _this.formInline.beginMoney || "",
             endMoney: _this.formInline.endMoney || "",
-            orderField: _this.formInline.orderField || "",
+            // orderField: _this.formInline.orderField || "",
+            // orderType: _this.formInline.orderType || "",
+
+            orderCode: _this.formInline.orderCode || "",
             orderType: _this.formInline.orderType || "",
+            orderMoney: _this.formInline.orderMoney || "",
+            orderCheckDate: _this.formInline.orderCheckDate || "",
+            orderRpaDate: _this.formInline.orderRpaDate || "",
+            orderOcrDate: _this.formInline.orderOcrDate || "",
+            orderRulesDate: _this.formInline.orderRulesDate || "",
+            orderTotalDate: _this.formInline.orderTotalDate || "",
           }
         )
         .then(function (response) {
@@ -514,7 +649,7 @@ export default {
         endMoney: "",
         orderField: "",
         orderType: "",
-      };
+      }
       this.form = {
         type: [
           "单据编号",
@@ -527,7 +662,8 @@ export default {
           "预警风险",
           "影像张数",
         ],
-      };
+      }
+      this.$refs.checkResult.clearSingleSelect();
       this.query();
     },
     currentChange(current) {
@@ -611,7 +747,7 @@ export default {
           this.$refs.sum_heji.style = "width:" + width;
           Array.from(
             this.$refs.table.$refs.headerWrapper.querySelectorAll("col")
-          ).forEach((n, i, raw) => {
+          ).forEach((n, i) => {
             this.$refs.sum_xiaoji.children[i].style =
               "width:" + n.getAttribute("width") + "px";
             this.$refs.sum_heji.children[i].style =
