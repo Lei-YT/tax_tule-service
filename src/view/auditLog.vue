@@ -426,14 +426,27 @@ export default {
       axios
         .post(`http://10.15.196.127:7070/bill/export`, this.idArr)
         .then(function (response) {
-          let data = response.data;
-          if (data.code == 20000) {
-            this.$message({
-              message: data.message,
-              type: "success",
-              duration: 1200,
-            });
+          // let data = response.data;
+          // if (data.code == 20000) {
+          //   this.$message({
+          //     message: data.message,
+          //     type: "success",
+          //     duration: 1200,
+          //   });
+          // }
+          if (!response) {
+            return;
           }
+          let blobType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+          let url = window.URL.createObjectURL(
+            new Blob([response.data], { type: blobType })
+          );
+          let link = document.createElement("a");
+          link.style.display = "none";
+          link.href = url;
+          link.setAttribute("download", '导出结果');
+          document.body.appendChild(link);
+          link.click();
         })
         .catch(function (error) {
           console.log(error);
