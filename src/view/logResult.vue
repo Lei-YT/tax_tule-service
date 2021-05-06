@@ -86,12 +86,13 @@
                         <template v-if="typeof value === 'object'">
                           <template v-for="(v, i) in value">
                             <template v-for="(vv, kk) in v">
-                              <p style="padding: 5px 15px" flex :key="kk + i" class="flex-space">
+                              <p style="padding: 5px 15px" flex :key="kk + i">
                                 <span flex-box="0">{{ kk }}：</span>
-                                <span
+                                <!-- <span
                                 flex-box="1"
                                 style="text-align:right"
-                              >{{vv||'--'}}</span>
+                                :style="{color:errorFieldCode.indexOf(kk)!=-1?'red':''}"
+                              >{{vv||'--'}}</span> -->
                               </p>
                             </template>
                           </template>
@@ -135,7 +136,6 @@
 <script>
 import resultJson from "@/dataJson/result.json";
 import ResultItem from "@/components/resultItem/index";
-import { matchCNkeys } from "@/libs/invoice";
 import axios from "axios";
 // import jsonpath from "jsonpath";
 import store from "@/store";
@@ -143,7 +143,7 @@ export default {
   components: { ResultItem },
   data() {
     return {
-      allData: JSON.parse(JSON.stringify(resultJson)),
+      allData: [],
       imageData: [],
       imgSrc: "",
       messageInfo: {},
@@ -157,44 +157,32 @@ export default {
 
   created() {
     this.billNumber = this.$route.query.billNumber;
+    this.query();
     this.allData = resultJson;
     this.imageData = resultJson.imageInfo;
     this.imgSrc = resultJson.imageInfo[0].imageURL;
     this.imageId = resultJson.imageInfo[0]["imageId"];
     this.getMessageInfo(this.imageId);
-    // this.getErrorFieldCode(this.invoiceId);
+    this.getErrorFieldCode(this.invoiceId);
   },
-  mounted() {
-    this.query();
-  },
-
   methods: {
     query() {
-      const _this = this;
-      axios({
-        url: `http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`,
-        method: "GET",
-        success: (res) => {
-          console.log(res, "详情");
-          _this.allData = res.data.data;
-          _this.imageData = res.data.data.imageInfo;
-          _this.imgSrc = res.data.data.imageInfo[0].imageURL;
-          _this.imageId = res.data.data.imageInfo[0]["imageId"];
-          _this.getMessageInfo(_this.imageId);
-        },
-      });
+      console.log('ppppppppppp');
+      axios
+        .get(`http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`)
+        .then((resp) => {
+          console.log(resp,'1111111111111');
+          console.log(resp.data,'22222222222');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     getMessageInfo(imageId) {
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
         if (data[i]["imageId"] == imageId) {
-          const _dataI = {
-            ...data[i],
-            invoices: data[i].invoices.map((io) => {
-              return matchCNkeys(io.invoiceType, io);
-            }),
-          };
-          this.$set(this, "messageInfo", _dataI);
+          this.$set(this, "messageInfo", data[i]);
         }
       }
     },

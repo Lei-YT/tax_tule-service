@@ -95,7 +95,7 @@
               prop="code"
               label="单据编号"
               align="center"
-              width="230"
+              width="250"
               sortable
             />
             <el-table-column
@@ -132,18 +132,16 @@
               align="center"
             />
             <el-table-column
-              width="200"
+              width="230"
               prop="ocrSchedule"
               label="识别进度"
               align="center"
             >
               <template slot-scope="scope">
-                <Progress
-                  :percent="parseFloat(scope.row.ocrSchedule)"
+                <el-progress
+                  :percentage="parseFloat(scope.row.ocrSchedule)"
                   :stroke-width="5"
-                >
-                <span>{{scope.row.ocrSchedule}}%</span>
-                </Progress>
+                />
               </template>
             </el-table-column>
             <el-table-column
@@ -361,10 +359,10 @@ export default {
     };
   },
   created() {
-    // if (logJson.code == 20000) {
-    //   let { data } = logJson.data;
-    //   this.tableData = data;
-    // }
+    if (logJson.code == 20000) {
+      let { data } = logJson.data;
+      this.tableData = data;
+    }
     this.query();
   },
   mounted() {
@@ -373,6 +371,11 @@ export default {
     this.query();
   },
   methods: {
+    format(percentage) {
+      if (percentage == 100) {
+        return `${percentage}%`;
+      }
+    },
     handleChange(value) {
       this.form.type = value;
     },
@@ -399,11 +402,9 @@ export default {
         )
         .then(function (response) {
           let data = response.data;
-          console.log(data.data.data, "------------");
-          console.log(this, "this111111111111");
-          console.log(_this, "_this222222222222222");
           if (data.code == 20000) {
             _this.tableData = data.data.data;
+            this.tableData = data.data.data;
           }
         })
         .catch(function (error) {
@@ -413,9 +414,7 @@ export default {
     // 导出
     exported() {
       axios
-        .post(`http://10.15.196.127:7070/bill/export`, {
-          id: this.idArr,
-        })
+        .post(`http://10.15.196.127:7070/bill/export`, this.idArr)
         .then(function (response) {
           let data = response.data;
           if (data.code == 20000) {
