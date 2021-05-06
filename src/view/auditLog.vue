@@ -94,13 +94,15 @@
             <el-table-column
               prop="code"
               label="单据编号"
+              v-if="form.type.includes('单据编号')"
               align="center"
               width="250"
               sortable
             />
             <el-table-column
               prop="type"
-              label="业务名单"
+              label="业务名称"
+              v-if="form.type.includes('业务名称')"
               align="center"
               width="280"
               sortable
@@ -108,6 +110,7 @@
             <el-table-column
               prop="money"
               label="金额"
+              v-if="form.type.includes('金额')"
               align="center"
               width="130"
               sortable
@@ -116,18 +119,21 @@
               prop="checkDate"
               label="审核日期"
               align="center"
+              v-if="form.type.includes('审核日期')"
               width="180"
               sortable
             />
             <el-table-column
               prop="checkBeginDate"
               label="审核开始时间"
+              v-if="form.type.includes('审核开始时间')"
               width="180"
               align="center"
             />
             <el-table-column
               prop="checkEndDate"
               label="审核结束时间"
+              v-if="form.type.includes('审核结束时间')"
               width="180"
               align="center"
             />
@@ -141,18 +147,21 @@
                 <el-progress
                   :percentage="parseFloat(scope.row.ocrSchedule)"
                   :stroke-width="5"
+                  color="#909399"
                 />
               </template>
             </el-table-column>
             <el-table-column
               prop="invoiceSize"
               label="影像张数"
+              v-if="form.type.includes('影像张数')"
               align="center"
               width="90"
             />
             <el-table-column
               prop="checkResult"
               label="审核结果"
+              v-if="form.type.includes('审核结果')"
               align="center"
               width="120"
             >
@@ -166,6 +175,7 @@
             <el-table-column
               prop="earlyWarning"
               label="预警风险"
+              v-if="form.type.includes('预警风险')"
               align="center"
               width="130"
             />
@@ -433,7 +443,9 @@ export default {
     setting() {
       this.dialogFormVisible = true;
     },
-    submit() {},
+    submit() {
+      this.dialogFormVisible = false;
+    },
     handleClick(row) {
       this.$router.push({
         path: `/logResult/logResult?billNumber=${row.code}`,

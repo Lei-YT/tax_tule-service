@@ -36,7 +36,7 @@ export default {
       // });
       this.handleLogin({ adminNo, password }).then((res) => {
         this.$router.push({
-          name: "home"
+          name: "home",
         });
       });
     },

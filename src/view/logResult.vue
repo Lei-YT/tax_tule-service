@@ -86,13 +86,24 @@
                         <template v-if="typeof value === 'object'">
                           <template v-for="(v, i) in value">
                             <template v-for="(vv, kk) in v">
-                              <p style="padding: 5px 15px" flex :key="kk + i" class="flex-space">
+                              <p
+                                style="padding: 5px 15px"
+                                flex
+                                :key="kk + i"
+                                class="flex-space"
+                              >
                                 <span flex-box="0">{{ kk }}：</span>
                                 <span
-                                flex-box="1"
-                                style="text-align:right"
-                                :style="{color:errorFieldCode.indexOf(kk)!=-1?'red':''}"
-                              >{{vv||'--'}}</span>
+                                  flex-box="1"
+                                  style="text-align: right"
+                                  :style="{
+                                    color:
+                                      errorFieldCode.indexOf(kk) != -1
+                                        ? 'red'
+                                        : '',
+                                  }"
+                                  >{{ vv || "--" }}</span
+                                >
                               </p>
                             </template>
                           </template>
