@@ -288,13 +288,19 @@
           </el-table>
         </div>
         <el-row class="paginationStyle">
+          <el-button
+            @click="currentChange(1)"
+            type="text"
+            size="small"
+            >首页</el-button
+          >
           <Page
             @on-change="currentChange"
             @on-page-size-change="sizeChange"
             :current="page.currentPage"
             :total="page.totalElement"
-            prev-text="上一页"
-            next-text="下一页"
+            prev-text="< 上一页"
+            next-text="下一页 >"
             show-elevator
             show-sizer
             class-name="page-box"
@@ -508,7 +514,7 @@ export default {
         endMoney: "",
         orderField: "",
         orderType: "",
-      }
+      };
       this.form = {
         type: [
           "单据编号",
@@ -521,7 +527,7 @@ export default {
           "预警风险",
           "影像张数",
         ],
-      }
+      };
       this.query();
     },
     currentChange(current) {
@@ -647,7 +653,12 @@ export default {
   font-size: 12px !important;
   display: none;
 }
-.page-box {
+.paginationStyle{
+  display: flex;
+  justify-content: flex-end;
+}
+.paginationStyle > .el-button {
+  margin-right: 1rem;
 }
 
 .sum_footer {
@@ -676,5 +687,33 @@ export default {
   width: 100%;
   padding-right: 3%;
   text-align: right;
+}
+/deep/.ivu-page-prev,/deep/.ivu-page-next {
+  display: inline-block;
+  vertical-align: middle;
+  min-width: 32px;
+  height: 32px;
+  line-height: 30px;
+  margin-right: 4px;
+  text-align: center;
+  list-style: none;
+  background-color: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  font-family: Arial;
+  font-weight: 500;
+  border: 1px solid #dcdee2;
+  border-radius: 4px;
+  -webkit-transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+/deep/.ivu-page-prev a,/deep/.ivu-page-next a{
+  margin: 0 6px;
+}
+/deep/.ivu-page-item, /deep/.ivu-page-item-jump-next {
+  display:none;
 }
 </style>
