@@ -141,7 +141,9 @@
                 <Progress
                   :percent="parseFloat(scope.row.ocrSchedule)"
                   :stroke-width="5"
-                />
+                >
+                <span>{{scope.row.ocrSchedule}}%</span>
+                </Progress>
               </template>
             </el-table-column>
             <el-table-column
@@ -401,10 +403,7 @@ export default {
           console.log(this, "this111111111111");
           console.log(_this, "_this222222222222222");
           if (data.code == 20000) {
-            console.log(this, "this");
-            console.log(_this, "_this");
             _this.tableData = data.data.data;
-            this.tableData = data.data.data;
           }
         })
         .catch(function (error) {
