@@ -22,13 +22,18 @@
           </div>
           <div class="service">
             启停服务：
-            <el-button size="small" type="primary" v-if="item.status == 1"
+            <el-button
+              size="small"
+              type="primary"
+              v-if="item.status == 1"
+              @click="handleChange(2, item.sceneId)"
               >开始</el-button
             >
             <el-button
               size="small"
               style="margin-left: 20px"
               v-if="item.status == 2"
+              @click="handleChange(3, item.sceneId)"
               >暂停</el-button
             >
             <el-button
@@ -36,18 +41,24 @@
               style="margin-left: 20px"
               type="primary"
               v-if="item.status == 3"
+              @click="handleChange(2, item.sceneId)"
               >继续</el-button
             >
             <el-button
               size="small"
               style="margin-left: 20px"
               v-if="item.status == 3"
+              @click="handleChange(4, item.sceneId)"
               >结束</el-button
             >
             <el-button size="small" type="info" v-if="item.status == 4"
               >结束</el-button
             >
-            <el-button size="small" type="warning" v-if="item.status == 5"
+            <el-button
+              size="small"
+              type="warning"
+              v-if="item.status == 5"
+              @click="handleChange(item.status, item.sceneId)"
               >需人工处理</el-button
             >
           </div>
@@ -58,15 +69,45 @@
             <div class="left">
               <div class="itemCon">
                 <p>已完成：</p>
-                <el-progress :percentage="item.completedNum"></el-progress>
+                <el-progress
+                  :percentage="
+                    (
+                      (item.completedNum /
+                        (item.completedNum +
+                          item.uncompletedNum +
+                          item.failNum)) *
+                      100
+                    ).toFixed(2)
+                  "
+                ></el-progress>
               </div>
               <div class="itemCon">
                 <p>未完成：</p>
-                <el-progress :percentage="item.uncompletedNum"></el-progress>
+                <el-progress
+                  :percentage="
+                    (
+                      (item.uncompletedNum /
+                        (item.completedNum +
+                          item.uncompletedNum +
+                          item.failNum)) *
+                      100
+                    ).toFixed(2)
+                  "
+                ></el-progress>
               </div>
               <div class="itemCon">
                 <p>失效：</p>
-                <el-progress :percentage="item.failNum"></el-progress>
+                <el-progress
+                  :percentage="
+                    (
+                      (item.failNum /
+                        (item.completedNum +
+                          item.uncompletedNum +
+                          item.failNum)) *
+                      100
+                    ).toFixed(2)
+                  "
+                ></el-progress>
               </div>
             </div>
             <div class="right">
@@ -74,7 +115,10 @@
               <el-progress
                 type="circle"
                 :percentage="
-                  item.completedNum / (item.completedNum + item.failNum)
+                  (
+                    (item.completedNum / (item.completedNum + item.failNum)) *
+                    100
+                  ).toFixed(2)
                 "
               />
             </div>
@@ -85,8 +129,10 @@
   </div>
 </template>
 <script>
-import process from "@/dataJson/process.json";
-import store from "@/store";
+import {
+  homelist, // 列表
+  changeStatus, // 改变状态
+} from "@/api/user";
 export default {
   data() {
     return {
@@ -99,23 +145,23 @@ export default {
   },
   methods: {
     query() {
-      let params = {
-        // id: store.state.user.id,
-        secneName: this.secneName.replace(/\s*/g, "") || "",
-      };
-      if (process.code == 0) {
-        let data = process.data;
-        this.dataList = data;
-      }
-      // selectCompanyList(params).then((res) => {
-      //   let data = res.data;
-      //   if (data.code === 200) {
-      //     let showData = data.data;
-      //     this.tableData = showData.list;
-      //     this.page.totalElement = showData.total;
-      //     this.page.size = showData.pageSize;
-      //   }
-      // });
+      homelist({ secneName: this.secneName }).then((res) => {
+        if (res.data.code == 0) {
+          this.dataList = res.data.data;
+        }
+      });
+    },
+    handleChange(status, sceneId) {
+      changeStatus({ status, sceneId }).then((res) => {
+        if (res.data.code == 0) {
+          this.$message({
+            message: res.data.msg,
+            type: "success",
+            duration: 1500,
+          });
+          this.query();
+        }
+      });
     },
   },
 };

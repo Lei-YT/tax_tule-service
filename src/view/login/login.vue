@@ -31,9 +31,13 @@ export default {
   methods: {
     ...mapActions(["handleLogin"]),
     handleSubmit({ adminNo, password }) {
-      // this.$router.push({ path: "/" });
+      // this.$router.push({
+      //   name: "home",
+      // });
       this.handleLogin({ adminNo, password }).then((res) => {
-        this.$router.push({ name: this.$config.homeName });
+        this.$router.push({
+          name: "home"
+        });
       });
     },
   },

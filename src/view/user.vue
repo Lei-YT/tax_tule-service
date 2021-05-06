@@ -26,7 +26,9 @@
 
       <Card style="width: 100%; margin-top: 20px">
         <div class="addBox">
-          <Button type="primary" @click="handleClick('add')">添加账号</Button>
+          <Button type="primary" @click="handleClick('add', '')"
+            >添加账号</Button
+          >
         </div>
         <div class="tableList">
           <el-table
@@ -51,8 +53,8 @@
             />
             <el-table-column prop="isEnable" label="启用/禁用" align="center">
               <template slot-scope="scope">
-                <span v-if="scope.row.isEnable === 1">启用</span>
-                <span v-if="scope.row.isEnable === 0">禁用</span>
+                <span v-if="scope.row.isEnable === 1">禁用</span>
+                <span v-if="scope.row.isEnable === 0">启用</span>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="120" align="center">
@@ -64,8 +66,9 @@
                   >编辑</el-button
                 >
                 <el-button
-                  type="text danger"
+                  type="text"
                   size="small"
+                  style="color: red"
                   @click="handleDel(scope.row)"
                   >删除</el-button
                 >
@@ -117,103 +120,157 @@
   </div>
 </template>
 <script>
-import user from '@/dataJson/user.json'
-// import store from '@/store'
+import user from "@/dataJson/user.json";
+import {
+  getUserList, // 列表
+  addUser, // 新增
+  editUser, // 编辑
+  delUser, // 删除
+} from "@/api/user";
 export default {
-  data () {
+  data() {
     return {
-      title: '',
-      type: '',
+      title: "",
+      type: "",
       dialogFormVisible: false,
       ruleForm: {
-        name: '',
-        stationName: '',
-        adminNo: '',
-        password: ''
+        name: "",
+        stationName: "",
+        adminNo: "",
+        password: "",
       },
-      id: '',
+      id: "",
       rules: {
-        stationName: [
-          { required: true, message: '请输入岗位名称', trigger: 'blur' }
-        ],
-        name: [{ required: true, message: '请填写姓名', trigger: 'blur' }],
-        adminNo: [{ required: true, message: '请填写账号', trigger: 'blur' }],
-        password: [{ required: true, message: '请填写密码', trigger: 'blur' }]
+        stationName: [{ required: true, message: "请输入岗位名称" }],
+        name: [{ required: true, message: "请填写姓名" }],
+        adminNo: [{ required: true, message: "请填写账号" }],
+        password: [{ required: true, message: "请填写密码" }],
       },
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
-        size: 10 // 每页显示多少条
+        size: 10, // 每页显示多少条
       },
       formInline: {
-        name: '',
-        stationName: ''
+        name: "",
+        stationName: "",
       },
-      tableData: []
-    }
+      tableData: [],
+    };
   },
-  created () {
-    this.query()
+  created() {
+    this.query();
   },
   methods: {
-    query () {
-      // let params = {
-      //   name: this.formInline.name.replace(/\s*/g, '') || '',
-      //   stationName: this.formInline.stationName.replace(/\s*/g, '') || '',
-      //   pageindex: this.page.currentPage,
-      //   pagesize: this.page.size
+    query() {
+      // if (user.code == 0) {
+      //   this.tableData = user.data;
       // }
-      if (user.code === 0) {
-        this.tableData = user.data
-        this.page.totalElement = user.totalcount
+      let params = {
+        name: this.formInline.name.replace(/\s*/g, "") || "",
+        stationName: this.formInline.stationName.replace(/\s*/g, "") || "",
+        pageindex: this.page.currentPage,
+        pagesize: this.page.size,
+      };
+      getUserList(params).then((res) => {
+        if (res.data.code == 0) {
+          this.tableData = res.data.data;
+          this.page.totalElement = res.data.totalcount;
+        }
+      });
+    },
+    handleClick(type, row) {
+      this.type = type;
+      this.title = type == "edit" ? "编辑账号" : "添加账号";
+      if (type == "edit") {
+        this.ruleForm = row;
+      }else{
+        this.ruleForm = {};
       }
+      this.id = row.id;
+      this.dialogFormVisible = true;
     },
-    handleClick (type, row = null) {
-      this.type = type
-      this.title = type === 'edit' ? '编辑账号' : '添加账号'
-      this.ruleForm = row || this.ruleForm
-      this.id = row ? row.id : null
-      this.dialogFormVisible = true
+    searchData() {
+      this.page.currentPage = 1;
+      this.query();
     },
-    searchData () {
-      this.page.currentPage = 1
-      this.query()
+    handleReset(name) {
+      this.$refs[name].resetFields();
+      this.query();
     },
-    handleReset (name) {
-      this.$refs[name].resetFields()
-      this.query()
+    currentChange(current) {
+      this.page.currentPage = current;
+      this.query();
     },
-    currentChange (current) {
-      this.page.currentPage = current
-      this.query()
+    sizeChange(size) {
+      this.page.size = size;
+      this.query();
     },
-    sizeChange (size) {
-      this.page.size = size
-      this.query()
+    handleDel(row) {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          delUser(row.id).then((res) => {
+            if (res.data.code == 0) {
+              this.$message({
+                message: res.data.msg,
+                type: "success",
+                duration: 1200,
+              });
+              this.query();
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
-    handleDel (row) {
-      // row.id
-    },
-    submit (formName) {
-      // let params = {
-      //   id: this.id,
-      //   name: this.ruleForm.name.replace(/\s*/g, '') || '',
-      //   stationName: this.ruleForm.stationName.replace(/\s*/g, '') || '',
-      //   adminNo: this.ruleForm.adminNo.replace(/\s*/g, '') || '',
-      //   password: this.ruleForm.password.replace(/\s*/g, '') || ''
-      // }
+    submit(formName) {
+      let params = {
+        id: this.type == "edit" ? this.id : "",
+        name: this.ruleForm.name.replace(/\s*/g, "") || "",
+        stationName: this.ruleForm.stationName.replace(/\s*/g, "") || "",
+        adminNo: this.ruleForm.adminNo.replace(/\s*/g, "") || "",
+        password: this.ruleForm.password.replace(/\s*/g, "") || "",
+      };
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.type === 'add') {
-          } else if (this.type === 'edit') {
+          if (this.type == "add") {
+            addUser(params).then((res) => {
+              if (res.data.code == 0) {
+                this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1500,
+                });
+                this.query();
+              }
+            });
+          } else if (this.type == "edit") {
+            editUser(params).then((res) => {
+              if (res.data.code == 0) {
+                this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1500,
+                });
+                this.query();
+              }
+            });
           }
         } else {
-          return false
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .numCount {

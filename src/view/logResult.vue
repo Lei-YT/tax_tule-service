@@ -100,10 +100,9 @@
                         <template v-else>
                           <p style="padding: 5px 15px" flex :key="key">
                             <span flex-box="0">{{ key }}：</span>
-                            <span
-                            flex-box="1"
-                            style="text-align:right"
-                          >{{value||'--'}}</span>
+                            <span flex-box="1" style="text-align: right">{{
+                              value || "--"
+                            }}</span>
                           </p>
                         </template>
                       </template>
@@ -137,6 +136,7 @@
 <script>
 import resultJson from "@/dataJson/result.json";
 import ResultItem from "@/components/resultItem/index";
+import axios from "axios";
 // import jsonpath from "jsonpath";
 import store from "@/store";
 export default {
@@ -151,10 +151,12 @@ export default {
       invoiceId: "",
       cur: 0,
       errorFieldCode: [],
+      billNumber: "",
     };
   },
 
   created() {
+    this.billNumber = this.$route.query.billNumber;
     this.allData = resultJson;
     this.imageData = resultJson.imageInfo;
     this.imgSrc = resultJson.imageInfo[0].imageURL;
@@ -163,10 +165,22 @@ export default {
     this.getErrorFieldCode(this.invoiceId);
   },
   mounted() {
-    // this.imgSrc = this.imgContent[0];
+    this.query()
   },
 
   methods: {
+    query(){
+      axios({
+        url: `http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`,
+        method: "GET",
+        success: (res) => {
+          console.log(res,'详情');
+          // if (res.code == 20000) {
+          //   this.tableData = res.data.data;
+          // }
+        },
+      });
+    },
     getMessageInfo(imageId) {
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
@@ -387,7 +401,7 @@ export default {
   }
 }
 .invoice-scroll {
-  margin-top:50px;
+  margin-top: 50px;
   // position: absolute;
   // top: 50px;
   // left: 0;

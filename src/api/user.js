@@ -1,79 +1,71 @@
 import axios from '@/libs/api.request'
 
+// 登录
 export const login = ({ adminNo, password }) => {
   return axios.request({
     url: `/api/login/login?adminNo=${adminNo}&password=${password}`,
     method: 'GET'
   })
 }
-
-export const getUserInfo = (token) => {
+// 退出登录
+export const logout = () => {
   return axios.request({
-    url: 'get_info',
-    params: {
-      token
-    },
-    method: 'get'
+    url: `/api/login/logout`,
+    method: 'GET'
+  })
+}
+// 机器人流程监控列表接口
+export const homelist = ({ secneName }) => {
+  return axios.request({
+    url: `/api/scene/homelist?secneName=${secneName}`,
+    method: 'GET'
   })
 }
 
-export const logout = (token) => {
+// 机器人流程监控页启停服务操作接口
+export const changeStatus = ({ sceneId, status }) => {
   return axios.request({
-    url: 'logout',
-    method: 'post'
+    url: `/api/scene/infostatus?id=${sceneId}&status=${status}`,
+    method: 'GET'
   })
 }
 
-export const getUnreadCount = () => {
+// 帐号列表接口 
+export const getUserList = (params) => {
   return axios.request({
-    url: 'message/count',
-    method: 'get'
+    url: `/api/user/list?pagesize=${params.pagesize}&pageindex=${params.pageindex}&name=${params.name}&stationName=${params.stationName}`,
+    method: 'GET'
   })
 }
 
-export const getMessage = () => {
+// 账号新增
+export const addUser = (params) => {
   return axios.request({
-    url: 'message/init',
-    method: 'get'
+    url: `/api/user/add?stationName=${params.stationName}&name=${params.name}&adminNo=${params.adminNo}&password=${params.password}`,
+    method: 'GET'
   })
 }
 
-export const getContentByMsgId = msg_id => {
+// 账号编辑
+export const editUser = (params) => {
   return axios.request({
-    url: 'message/content',
-    method: 'get',
-    params: {
-      msg_id
-    }
+    url: `/api/user/edit?id=${params.id}&stationName=${params.stationName}&name=${params.name}&adminNo=${params.adminNo}&password=${params.password}`,
+    method: 'GET'
   })
 }
 
-export const hasRead = msg_id => {
+// 账号删除
+export const delUser = (id) => {
   return axios.request({
-    url: 'message/has_read',
-    method: 'post',
-    data: {
-      msg_id
-    }
+    url: `/api/user/del?id=${id}`,
+    method: 'GET'
   })
 }
 
-export const removeReaded = msg_id => {
-  return axios.request({
-    url: 'message/remove_readed',
-    method: 'post',
-    data: {
-      msg_id
-    }
-  })
-}
-
-export const restoreTrash = msg_id => {
-  return axios.request({
-    url: 'message/restore',
-    method: 'post',
-    data: {
-      msg_id
-    }
-  })
-}
+// 审单日志
+// export const auditLogList = (id) => {
+//   return axios.request({
+//     url: `/api/user/del?id=${id}`,
+//     method: 'POST'
+//   })
+// }

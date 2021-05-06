@@ -1,9 +1,12 @@
 <template>
   <div class="user-avatar-dropdown">
     <Dropdown @on-click="handleClick">
-      <Avatar :src="userAvatar" />
-      <span>{{userName}}</span>
-      <Icon :size="18" type="md-arrow-dropdown"></Icon>
+      <div class="avatarBox">
+        <img :src="userAvatar" class="icon" /> 
+        <span>{{ userName }}</span>
+        <Icon :size="18" type="md-arrow-dropdown"></Icon>
+      </div>
+
       <DropdownMenu slot="list">
         <DropdownItem name="logout">退出登录</DropdownItem>
       </DropdownMenu>
@@ -29,19 +32,15 @@ export default {
       type: Number,
       default: 0,
     },
-
   },
   methods: {
     ...mapActions(["handleLogOut"]),
     logout() {
-      this.$router.push({
+      this.handleLogOut().then(() => {
+        this.$router.push({
           name: "login",
         });
-      // this.handleLogOut().then(() => {
-      //   this.$router.push({
-      //     name: "login",
-      //   });
-      // });
+      });
     },
     message() {
       this.$router.push({
@@ -61,3 +60,19 @@ export default {
   },
 };
 </script>
+
+
+<style rel="stylesheet/scss" lang="less" scoped>
+.avatarBox{
+  height: 100%;
+  // background: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 13%;
+  .icon{
+    width: 45px;
+    height: 45px;
+  }
+}
+</style>

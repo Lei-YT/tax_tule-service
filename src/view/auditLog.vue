@@ -18,9 +18,12 @@
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
-                <DatePicker type="date" v-model="formInline.checkBeginDate" placeholder="请输入" style="width: 100%" />
+                <Input
+                  v-model="formInline.checkBeginDate"
+                  placeholder="请输入"
+                />
                 <span style="margin: 0 15px">——</span>
-                <DatePicker type="date" v-model="formInline.checkEndDate" placeholder="请输入" style="width: 100%" />
+                <Input v-model="formInline.checkEndDate" placeholder="请输入" />
               </div>
             </FormItem>
           </div>
@@ -54,7 +57,8 @@
 
       <Card style="width: 100%; margin-top: 20px">
         <div class="tableList">
-          <el-table ref='table'
+          <el-table
+            ref="table"
             :data="tableData"
             border
             style="width: 100%"
@@ -134,9 +138,10 @@
               align="center"
             >
               <template slot-scope="scope">
-                <Progress :percent="scope.row.ocrSchedule" :stroke-width="5" >
-                  <span>{{scope.row.ocrSchedule}}%</span>
-                </Progress>
+                <Progress
+                  :percent="parseFloat(scope.row.ocrSchedule)"
+                  :stroke-width="5"
+                />
               </template>
             </el-table-column>
             <el-table-column
@@ -234,7 +239,9 @@
                 <div class="sum_footer_unit center">审单平均时长</div>
               </div>
               <div class="sum_footer" ref="sum_heji">
-                <div class="sum_footer_unit center">{{tableData.length}}条</div>
+                <div class="sum_footer_unit center">
+                  {{ tableData.length }}条
+                </div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
@@ -246,8 +253,12 @@
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit center">{{ tableSum.rpaDateAvg }}s</div>
-                <div class="sum_footer_unit center">{{ tableSum.ocrDateAvg }}s</div>
+                <div class="sum_footer_unit center">
+                  {{ tableSum.rpaDateAvg }}s
+                </div>
+                <div class="sum_footer_unit center">
+                  {{ tableSum.ocrDateAvg }}s
+                </div>
                 <div class="sum_footer_unit center">
                   {{ tableSum.rulesDateAvg }}s
                 </div>
@@ -352,16 +363,11 @@ export default {
     //   let { data } = logJson.data;
     //   this.tableData = data;
     // }
-    // this.query();
+    this.query();
   },
   mounted() {
     this.adjustWidth();
     window.addEventListener("resize", this.adjustWidth.bind(this));
-    // this.query();
-    // if (logJson.code == 20000) {
-    //   let { data } = logJson.data;
-    //   this.tableData = data;
-    // }
     this.query();
   },
   methods: {
@@ -377,7 +383,6 @@ export default {
     },
     query() {
       const _this = this;
-      _this.tableData = [{"id":"1389948817180491777","code":"20210430673359143004671314","type":"CRTG_劳务结算单（成本推送）","money":"235790.18","checkDate":"2021-05-05 22:23:17","checkBeginDate":"2021-05-05 22:23:17","checkEndDate":"2021-05-06 01:26:13","ocrSchedule":"70","invoiceSize":3,"checkResult":"false","earlyWarning":null,"rpaDate":"27","ocrDate":"23","rulesDate":"4","totalDate":"54"},{"id":"1389989859619536897","code":"20210429172928743004662535","type":"CRTG_机械租赁结算单","money":"15942.36","checkDate":"2021-05-06 01:06:22","checkBeginDate":"2021-05-06 01:06:22","checkEndDate":"2021-05-06 01:26:24","ocrSchedule":"100","invoiceSize":1,"checkResult":"false","earlyWarning":null,"rpaDate":"31","ocrDate":"9","rulesDate":"1","totalDate":"41"}]
       axios
         .post(
           `http://10.15.196.127:7070/bill/page/${_this.page.currentPage}/${_this.page.size}`,
@@ -392,9 +397,14 @@ export default {
         )
         .then(function (response) {
           let data = response.data;
-          console.log(data, "77777777777777");
+          console.log(data.data.data, "------------");
+          console.log(this, "this111111111111");
+          console.log(_this, "_this222222222222222");
           if (data.code == 20000) {
+            console.log(this, "this");
+            console.log(_this, "_this");
             _this.tableData = data.data.data;
+            this.tableData = data.data.data;
           }
         })
         .catch(function (error) {
@@ -504,7 +514,6 @@ export default {
 
       return sums;
     },
-
     adjustWidth() {
       this.$nextTick(() => {
         if (
@@ -517,13 +526,13 @@ export default {
           var width = getComputedStyle(
             this.$refs.table.$refs.headerWrapper.querySelector("table")
           ).width;
-          this.$refs.sum_xiaoji.style = "width:" + (width );
-          this.$refs.sum_heji.style = "width:" + (width ) ;
+          this.$refs.sum_xiaoji.style = "width:" + width;
+          this.$refs.sum_heji.style = "width:" + width;
           Array.from(
             this.$refs.table.$refs.headerWrapper.querySelectorAll("col")
           ).forEach((n, i) => {
             this.$refs.sum_xiaoji.children[i].style =
-              "width:" + (n.getAttribute("width")) + "px";
+              "width:" + n.getAttribute("width") + "px";
             this.$refs.sum_heji.children[i].style =
               "width:" + n.getAttribute("width") + "px";
           });
@@ -538,7 +547,7 @@ export default {
   display: flex;
 }
 /deep/.el-dialog {
-  width: 30%;
+  width: 35%;
 }
 .searchItem {
   width: 100%;
@@ -556,21 +565,16 @@ export default {
   display: grid;
   grid-template-columns: 30% 30% 30%;
 }
+/deep/.el-table__append-wrapper {
+  overflow: visible;
+}
 /deep/.el-table__footer {
   font-size: 12px !important;
   display: none;
 }
-/deep/.el-table__append-wrapper{
-  overflow: visible;
-}
 .page-box {
 }
 
-.footerBox {
-  width: 100%;
-  padding-right: 3%;
-  text-align: right;
-}
 .sum_footer {
   display: flex;
   display: -webkit-flex;
@@ -591,5 +595,10 @@ export default {
 }
 .sum_footer.xiaoji {
   border-bottom: 1px solid #ebeef5;
+}
+.footerBox {
+  width: 100%;
+  padding-right: 3%;
+  text-align: right;
 }
 </style>
