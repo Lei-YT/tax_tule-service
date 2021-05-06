@@ -437,7 +437,7 @@ export default {
           if (!response) {
             return;
           }
-          let blobType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+          let blobType = "application/vnd.ms-excel";
           let url = window.URL.createObjectURL(
             new Blob([response.data], { type: blobType })
           );
@@ -570,7 +570,7 @@ export default {
   display: flex;
 }
 /deep/.el-dialog {
-  width: 35%;
+  width: 65%;
 }
 .searchItem {
   width: 100%;
