@@ -159,22 +159,23 @@ export default {
   created() {
     this.billNumber = this.$route.query.billNumber;
     this.query();
-    this.allData = resultJson;
-    this.imageData = resultJson.imageInfo;
-    this.imgSrc = resultJson.imageInfo[0].imageURL;
-    this.imageId = resultJson.imageInfo[0]["imageId"];
-    this.getMessageInfo(this.imageId);
-    this.getErrorFieldCode(this.invoiceId);
   },
   methods: {
     query() {
       const _this = this;
-      console.log('ppppppppppp');
       axios
         .get(`http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`)
         .then((resp) => {
-          console.log(resp,'1111111111111');
-          console.log(resp.data,'22222222222');
+          let data = resp.data;
+          console.log(data, "..........");
+          if (data.status == 200) {
+            _this.allData = data.data;
+            _this.imageData = data.data.imageInfo;
+            _this.imgSrc = data.data.imageInfo[0].imageURL;
+            _this.imageId = data.data.imageInfo[0]["imageId"];
+            _this.getMessageInfo(_this.imageId);
+            _this.getErrorFieldCode(_this.invoiceId);
+          }
         })
         .catch((err) => {
           console.log(err);
