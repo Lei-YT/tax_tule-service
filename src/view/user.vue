@@ -2,34 +2,38 @@
   <div class="wraps">
     <div id="list">
       <Card style="width: 100%">
-        <Form
-          :inline="true"
-          :model="formInline"
-          :label-width="80"
-          class="demo-form-inline"
-          ref="formInline"
-        >
-          <FormItem label="姓名：" prop="name">
-            <Input v-model="formInline.name" placeholder="请输入" />
-          </FormItem>
-          <FormItem label="账号：" prop="stationName">
-            <Input v-model="formInline.stationName" placeholder="请输入" />
-          </FormItem>
-          <FormItem>
-            <Button type="primary" @click="searchData()">查询</Button>
-            <Button @click="handleReset('formInline')" style="margin-left: 15px"
-              >重置</Button
+        <div style="display: flex;justify-content: space-between;">
+            <Form
+              :inline="true"
+              :model="formInline"
+              :label-width="80"
+              class="demo-form-inline"
+              ref="formInline"
             >
-          </FormItem>
-        </Form>
+              <FormItem label="姓名：" prop="name">
+                <Input v-model="formInline.name" placeholder="请输入" />
+              </FormItem>
+              <FormItem label="账号：" prop="stationName">
+                <Input v-model="formInline.stationName" placeholder="请输入" />
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="searchData()">查询</Button>
+                <Button @click="handleReset('formInline')" style="margin-left: 15px"
+                  >重置</Button
+                >
+              </FormItem>
+            </Form>
+            <div class="addBox">
+              <Button type="primary" @click="handleClick('add', '')"
+                >添加账号</Button
+              >
+            </div>
+        </div>
+       
       </Card>
 
       <Card style="width: 100%; margin-top: 20px">
-        <div class="addBox">
-          <Button type="primary" @click="handleClick('add', '')"
-            >添加账号</Button
-          >
-        </div>
+        
         <div class="tableList">
           <el-table
             :data="tableData"

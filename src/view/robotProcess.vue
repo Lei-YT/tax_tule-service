@@ -72,12 +72,13 @@
                 <el-progress
                   :percentage="
                     (
+                      (item.completedNum + item.uncompletedNum + item.failNum)==0?0:
                       (item.completedNum /
                         (item.completedNum +
                           item.uncompletedNum +
                           item.failNum)) *
                       100
-                    ).toFixed(2)
+                    ).toFixed(2)-0
                   "
                 ></el-progress>
               </div>
@@ -86,12 +87,13 @@
                 <el-progress
                   :percentage="
                     (
+                      (item.completedNum + item.uncompletedNum + item.failNum)==0?0:
                       (item.uncompletedNum /
                         (item.completedNum +
                           item.uncompletedNum +
                           item.failNum)) *
                       100
-                    ).toFixed(2)
+                    ).toFixed(2)-0
                   "
                 ></el-progress>
               </div>
@@ -100,12 +102,13 @@
                 <el-progress
                   :percentage="
                     (
+                      (item.completedNum + item.uncompletedNum + item.failNum)==0?0:
                       (item.failNum /
                         (item.completedNum +
                           item.uncompletedNum +
                           item.failNum)) *
                       100
-                    ).toFixed(2)
+                    ).toFixed(2)-0
                   "
                 ></el-progress>
               </div>
@@ -116,9 +119,10 @@
                 type="circle"
                 :percentage="
                   (
+                    (item.completedNum + item.failNum)==0?0:
                     (item.completedNum / (item.completedNum + item.failNum)) *
                     100
-                  ).toFixed(2)
+                  ).toFixed(2)-0
                 "
               />
             </div>
@@ -138,10 +142,19 @@ export default {
     return {
       secneName: "",
       dataList: [],
+      timer: null  // 定时器
     };
   },
   created() {
     this.query();
+    this.timer = setInterval(() =>{                    
+      this.query();               
+    }, 10000);     
+    
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);        
+    this.timer = null;
   },
   methods: {
     query() {
@@ -150,6 +163,41 @@ export default {
           this.dataList = res.data.data;
         }
       });
+
+      // this.dataList = [
+      //   {
+      //       "id": 334,
+      //       "sceneId": "334",
+      //       "completedNum": 6,
+      //       "uncompletedNum": 2,
+      //       "failNum": 9,
+      //       "status": 1,
+      //       "created_at": "2020-11-07 17:18:01",
+      //       "updated_at": "2020-11-07 17:18:01",
+      //       "deleted_at": null,
+      //       "machineId": 1,
+      //       "sceneNo": 2,
+      //       "name": "小铁-1",
+      //       "ip": "10.15.196.130",
+      //       "isEnable": 0
+      //   },
+      //   {
+      //       "id": 330,
+      //       "sceneId": "330",
+      //       "completedNum": 1,
+      //       "uncompletedNum": 0,
+      //       "failNum": 1,
+      //       "status": 4,
+      //       "created_at": "2020-10-30 08:37:18",
+      //       "updated_at": "2020-11-07 17:18:01",
+      //       "deleted_at": null,
+      //       "machineId": 1,
+      //       "sceneNo": 1,
+      //       "name": "小铁-2",
+      //       "ip": "10.15.196.130",
+      //       "isEnable": 0
+      //   }
+      // ]
     },
     handleChange(status, sceneId) {
       changeStatus({ status, sceneId }).then((res) => {
@@ -224,11 +272,15 @@ export default {
         align-items: center;
         line-height: 2.3;
         > p {
-          width: 15%;
+          width: 20%;
         }
         .el-progress {
           flex: 1;
         }
+        /deep/ .el-progress-bar {
+          width: 95%;
+        }
+        
       }
     }
     .right {

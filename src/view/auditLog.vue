@@ -18,10 +18,10 @@
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
-                <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkBeginDate" :key="formInline.checkBeginDate" format="yyyy-MM-dd" @on-change="formInline.checkBeginDate=$event" >
+                <Date-picker placeholder="选择日期" type="date" :value="formInline.checkBeginDate" format="yyyy-MM-dd" @on-change="formInline.checkBeginDate=$event" >
                 </Date-picker>
                 <span style="margin: 0 5px">—</span>
-                <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkEndDate" :key="formInline.checkEndDate" format="yyyy-MM-dd" @on-change="formInline.checkEndDate=$event" >
+                <Date-picker placeholder="选择日期" type="date" :value="formInline.checkEndDate" format="yyyy-MM-dd" @on-change="formInline.checkEndDate=$event" >
                 </Date-picker>
                 <!-- <Input
                   v-model="formInline.checkBeginDate"
@@ -84,6 +84,7 @@
             show-summary
             sum-text="x"
             :summary-method="calculateSummary"
+            @sort-change="sortChange"
           >
             <el-table-column type="selection" width="55" align="center" />
             <el-table-column
@@ -156,7 +157,7 @@
             >
               <template slot-scope="scope">
                 <el-progress
-                  :percentage="parseFloat(scope.row.ocrSchedule)"
+                  :percentage="scope.row.ocrSchedule?parseFloat(scope.row.ocrSchedule):0"
                   :stroke-width="5"
                   color="#909399"
                 />
@@ -174,44 +175,63 @@
               label="审核结果"
               v-if="form.type.includes('审核结果')"
               align="center"
-              width="120"
+              width="130"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.checkResult == 3">
-                  <Icon
-                    type="md-close-circle"
-                    size="18"
-                    color="#ed4014"
-                    style="margin-right: 3%"
-                  />
-                  不通过
-                </span>
-                <span v-if="scope.row.checkResult == 2">
+                <div
+                  v-if="scope.row.checkResult == 3"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
+                >
+                  <Icon type="md-close-circle" size="18" color="#ed4014" />
+                  <span>不通过</span>
+                </div>
+                <div
+                  v-if="scope.row.checkResult == 2"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
+                >
                   <Icon
                     type="md-checkmark-circle"
                     size="18"
                     color="#19be6b"
-                    style="margin-right: 7%"
+                    style="margin-right: 10%"
                   />
-                  通过</span
+                  <span>通过</span>
+                </div>
+                <div
+                  v-if="scope.row.checkResult == 1"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
                 >
-                <span v-if="scope.row.checkResult == 1">
-                  <Icon
-                    type="md-ionitron"
-                    size="18"
-                    color="#2d8cf0"
-                    style="margin-right: 3%"
-                  />审核中</span
+                  <Icon type="md-ionitron" size="18" color="#2d8cf0" />
+                  <span>审核中</span>
+                </div>
+                <div
+                  v-if="scope.row.checkResult == 4"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
                 >
-                <span v-if="scope.row.checkResult == 4">
                   <Icon
                     type="md-close-circle"
                     size="18"
                     color="#ff9900"
-                    style="margin-right: 7%"
+                    style="margin-right: 10%"
                   />
-                  超时</span
-                >
+                  <span>超时</span>
+                </div>
               </template>
             </el-table-column>
             <el-table-column
@@ -222,7 +242,7 @@
               width="130"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.earlyWarning == '一级等级'">
+                <span v-if="scope.row.earlyWarning == '一级预警'">
                   <Icon
                     type="md-information-circle"
                     size="18"
@@ -231,7 +251,7 @@
                   />
                   {{ scope.row.earlyWarning }}
                 </span>
-                <span v-if="scope.row.earlyWarning == '二级等级'">
+                <span v-else-if="scope.row.earlyWarning == '二级预警'">
                   <Icon
                     type="md-information-circle"
                     size="18"
@@ -240,7 +260,7 @@
                   />
                   {{ scope.row.earlyWarning }}
                 </span>
-                <span v-if="scope.row.earlyWarning == '三级等级'">
+                <span v-else-if="scope.row.earlyWarning == '三级预警'">
                   <Icon
                     type="md-information-circle"
                     size="18"
@@ -249,7 +269,7 @@
                   />
                   {{ scope.row.earlyWarning }}
                 </span>
-                <span v-if="scope.row.earlyWarning == '四级等级'">
+                <span v-else-if="scope.row.earlyWarning == '四级预警'">
                   <Icon
                     type="md-information-circle"
                     size="18"
@@ -258,7 +278,7 @@
                   />
                   {{ scope.row.earlyWarning }}
                 </span>
-                <span v-if="scope.row.earlyWarning == '五级等级'">
+                <span v-else-if="scope.row.earlyWarning == '五级预警'">
                   <Icon
                     type="md-information-circle"
                     size="18"
@@ -267,13 +287,22 @@
                   />
                   {{ scope.row.earlyWarning }}
                 </span>
-                <span v-if="scope.row.earlyWarning == '六级等级'">
+                <span v-else-if="scope.row.earlyWarning == '六级预警'">
                   <Icon
                     type="md-information-circle"
                     size="18"
                     color="#696969"
                     style="margin-left: 3%"
                   />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-else>
+                  <!-- <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#696969"
+                    style="margin-left: 3%"
+                  /> -->
                   {{ scope.row.earlyWarning }}
                 </span>
               </template>
@@ -286,7 +315,9 @@
               sortable="custom"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.rpaDate }}s</span>
+                <span>{{
+                scope.row.rpaDate !== null ? scope.row.rpaDate + "s" : "--"
+              }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -298,7 +329,7 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.ocrDate ? scope.row.ocrDate + "s" : "--"
+                  scope.row.ocrDate !== null ? scope.row.ocrDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
@@ -311,7 +342,7 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.rulesDate ? scope.row.rulesDate + "s" : "--"
+                  scope.row.rulesDate !== null ? scope.row.rulesDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
@@ -324,11 +355,11 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.totalDate ? scope.row.totalDate + "s" : "--"
+                  scope.row.totalDate !== null ? scope.row.totalDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
-            <div slot="append">
+            <div slot="append" v-if="!dialogFormVisible">
               <div class="sum_footer xiaoji" ref="sum_xiaoji">
                 <div class="sum_footer_unit center">合计</div>
                 <div class="sum_footer_unit"></div>
@@ -365,16 +396,16 @@
                 <div class="sum_footer_unit" v-if="form.type.includes('审核结果')"></div>
                 <div class="sum_footer_unit" v-if="form.type.includes('预警风险')"></div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.rpaDateAvg }}s
+                  {{ tableSum.rpaDateAvg.toFixed(2) }}s
                 </div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.ocrDateAvg }}s
+                  {{ tableSum.ocrDateAvg.toFixed(2) }}s
                 </div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.rulesDateAvg }}s
+                  {{ tableSum.rulesDateAvg.toFixed(2) }}s
                 </div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.totalDateAvg }}s
+                  {{ tableSum.totalDateAvg.toFixed(2) }}s
                 </div>
               </div>
             </div>
@@ -423,7 +454,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="submit">取 消</el-button>
         <el-button type="primary" @click="submit">确 定</el-button>
       </div>
     </el-dialog>
@@ -505,7 +536,7 @@ export default {
     },
     handleChange(value) {
       this.form.type = value;
-      this.adjustWidth();
+      // this.adjustWidth();
     },
     handleSelectionChange(val) {
       let idArr = [];
@@ -531,21 +562,21 @@ export default {
       this.formInline.orderRulesDate = '';
       this.formInline.orderTotalDate = '';
 
-      if (val.prop == 'code') 
+      if (val.prop == 'code')
         this.formInline.orderCode = order;
-      else if (val.prop == 'type') 
+      else if (val.prop == 'type')
         this.formInline.orderType = order;
-      else if (val.prop == 'money') 
+      else if (val.prop == 'money')
         this.formInline.orderMoney = order;
-      else if (val.prop == 'checkDate') 
+      else if (val.prop == 'checkDate')
         this.formInline.orderCheckDate = order;
-      else if (val.prop == 'rpaDate') 
+      else if (val.prop == 'rpaDate')
         this.formInline.orderRpaDate = order;
-      else if (val.prop == 'ocrDate') 
+      else if (val.prop == 'ocrDate')
         this.formInline.orderOcrDate = order;
-      else if (val.prop == 'rulesDate') 
+      else if (val.prop == 'rulesDate')
         this.formInline.orderRulesDate = order;
-      else if (val.prop == 'totalDate') 
+      else if (val.prop == 'totalDate')
         this.formInline.orderTotalDate = order;
 
       this.query()
@@ -581,6 +612,7 @@ export default {
           let data = response.data;
           if (data.code == 20000) {
             _this.tableData = data.data.data;
+            _this.page.totalElement = data.data.total;
             // this.tableData = data.data.data;
           }
         })
@@ -626,6 +658,7 @@ export default {
     },
     submit() {
       this.dialogFormVisible = false;
+      this.adjustWidth();
     },
     handleClick(row) {
       this.$router.push({

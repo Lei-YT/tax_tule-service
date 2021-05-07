@@ -29,7 +29,7 @@ class HttpRequest {
     // 请求拦截
     instance.interceptors.request.use(config => {
       // 添加全局的loading...
-      loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+      // loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       this.queue[url] = false
       return config
     }, error => {
@@ -37,7 +37,7 @@ class HttpRequest {
     })
     // 响应拦截
     instance.interceptors.response.use(res => {
-      loadingInstance.close()
+      // loadingInstance.close()
       this.destroy(url)
       const { data, status } = res
       return { data, status }
