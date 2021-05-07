@@ -18,11 +18,11 @@
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
-                <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkBeginDate" :key="formInline.checkBeginDate" format="yyyy-MM-dd" @on-change="formInline.checkBeginDate=$event" >
-    </Date-picker>
-    <span style="margin: 0 5px">—</span>
-    <Date-picker placeholder="选择日期" type="datetime" v-model="formInline.checkEndDate" :key="formInline.checkEndDate" format="yyyy-MM-dd" @on-change="formInline.checkEndDate=$event" >
-    </Date-picker>
+                <Date-picker placeholder="选择日期" type="date" :value="formInline.checkBeginDate" format="yyyy-MM-dd" @on-change="formInline.checkBeginDate=$event" >
+                </Date-picker>
+                <span style="margin: 0 5px">—</span>
+                <Date-picker placeholder="选择日期" type="date" :value="formInline.checkEndDate" format="yyyy-MM-dd" @on-change="formInline.checkEndDate=$event" >
+                </Date-picker>
                 <!-- <Input
                   v-model="formInline.checkBeginDate"
                   placeholder="请输入"
@@ -34,7 +34,13 @@
           </div>
           <div class="searchItem">
             <FormItem label="审核结果:" prop="checkResult">
-              <Input placeholder="审核结果" />
+              <Select v-model="formInline.checkResult" ref="checkResult" clearable>
+                  <Option value="1">审核中</Option>
+                  <Option value="2">通过</Option>
+                  <Option value="3">不通过</Option>
+                  <Option value="4">超时</Option>
+              </Select>
+              <!-- <Input placeholder="审核结果" /> -->
             </FormItem>
             <FormItem label="预警风险:" prop="earlyWarning">
               <Input placeholder="预警风险" />
@@ -151,7 +157,7 @@
             >
               <template slot-scope="scope">
                 <el-progress
-                  :percentage="parseFloat(scope.row.ocrSchedule)"
+                  :percentage="scope.row.ocrSchedule?parseFloat(scope.row.ocrSchedule):0"
                   :stroke-width="5"
                   color="#909399"
                 />
@@ -172,10 +178,41 @@
               width="120"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.checkResult == 3">不通过</span>
-                <span v-if="scope.row.checkResult == 2">通过</span>
-                <span v-if="scope.row.checkResult == 1">审核中</span>
-                <span v-if="scope.row.checkResult == 4">超时</span>
+                <span v-if="scope.row.checkResult == 3">
+                  <Icon
+                    type="md-close-circle"
+                    size="18"
+                    color="#ed4014"
+                    style="margin-right: 3%"
+                  />
+                  不通过
+                </span>
+                <span v-if="scope.row.checkResult == 2">
+                  <Icon
+                    type="md-checkmark-circle"
+                    size="18"
+                    color="#19be6b"
+                    style="margin-right: 7%"
+                  />
+                  通过</span
+                >
+                <span v-if="scope.row.checkResult == 1">
+                  <Icon
+                    type="md-ionitron"
+                    size="18"
+                    color="#2d8cf0"
+                    style="margin-right: 3%"
+                  />审核中</span
+                >
+                <span v-if="scope.row.checkResult == 4">
+                  <Icon
+                    type="md-close-circle"
+                    size="18"
+                    color="#ff9900"
+                    style="margin-right: 7%"
+                  />
+                  超时</span
+                >
               </template>
             </el-table-column>
             <el-table-column
@@ -184,7 +221,73 @@
               v-if="form.type.includes('预警风险')"
               align="center"
               width="130"
-            />
+            >
+              <template slot-scope="scope">
+                <span v-if="scope.row.earlyWarning == '一级预警'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#ff0000"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-else-if="scope.row.earlyWarning == '二级预警'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#ff8c00"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-else-if="scope.row.earlyWarning == '三级预警'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#ffff00"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-else-if="scope.row.earlyWarning == '四级预警'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#1e90ff"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-else-if="scope.row.earlyWarning == '五级预警'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#483d8b"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-else-if="scope.row.earlyWarning == '六级预警'">
+                  <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#696969"
+                    style="margin-left: 3%"
+                  />
+                  {{ scope.row.earlyWarning }}
+                </span>
+                <span v-else>
+                  <!-- <Icon
+                    type="md-information-circle"
+                    size="18"
+                    color="#696969"
+                    style="margin-left: 3%"
+                  /> -->
+                  {{ scope.row.earlyWarning }}
+                </span>
+              </template>
+            </el-table-column>
             <el-table-column
               prop="rpaDate"
               label="数据获取时长"
@@ -193,7 +296,9 @@
               sortable="custom"
             >
               <template slot-scope="scope">
-                <span>{{ scope.row.rpaDate }}s</span>
+                <span>{{ 
+                scope.row.rpaDate !== null ? scope.row.rpaDate + "s" : "--"
+              }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -205,7 +310,7 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.ocrDate ? scope.row.ocrDate + "s" : "--"
+                  scope.row.ocrDate !== null ? scope.row.ocrDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
@@ -218,7 +323,7 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.rulesDate ? scope.row.rulesDate + "s" : "--"
+                  scope.row.rulesDate !== null ? scope.row.rulesDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
@@ -231,7 +336,7 @@
             >
               <template slot-scope="scope">
                 <span>{{
-                  scope.row.totalDate ? scope.row.totalDate + "s" : "--"
+                  scope.row.totalDate !== null ? scope.row.totalDate + "s" : "--"
                 }}</span>
               </template>
             </el-table-column>
@@ -272,29 +377,35 @@
                 <div class="sum_footer_unit" v-if="form.type.includes('审核结果')"></div>
                 <div class="sum_footer_unit" v-if="form.type.includes('预警风险')"></div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.rpaDateAvg }}s
+                  {{ tableSum.rpaDateAvg.toFixed(2) }}s
                 </div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.ocrDateAvg }}s
+                  {{ tableSum.ocrDateAvg.toFixed(2) }}s
                 </div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.rulesDateAvg }}s
+                  {{ tableSum.rulesDateAvg.toFixed(2) }}s
                 </div>
                 <div class="sum_footer_unit center">
-                  {{ tableSum.totalDateAvg }}s
+                  {{ tableSum.totalDateAvg.toFixed(2) }}s
                 </div>
               </div>
             </div>
           </el-table>
         </div>
         <el-row class="paginationStyle">
+          <el-button
+            @click="currentChange(1)"
+            type="text"
+            size="small"
+            >首页</el-button
+          >
           <Page
             @on-change="currentChange"
             @on-page-size-change="sizeChange"
             :current="page.currentPage"
             :total="page.totalElement"
-            prev-text="上一页"
-            next-text="下一页"
+            prev-text="< 上一页"
+            next-text="下一页 >"
             show-elevator
             show-sizer
             class-name="page-box"
@@ -351,8 +462,16 @@ export default {
         checkEndDate: "",
         beginMoney: "",
         endMoney: "",
-        orderField: "",
-        orderType: "",
+        // orderField: "",
+        // orderType: "",
+        orderCode:"",             //单据编号排序  是否排序  默认""  asc升序  desc降序
+        orderType:"",             //业务名称排序  默认""
+        orderMoney:"",              //金额排序    默认""
+        orderCheckDate:"",         //审核日期    默认""
+        orderRpaDate:"",          //数据获取时长  默认""
+        orderOcrDate:"",            //OCR识别时长 默认""
+        orderRulesDate:"",            //规则审核时长  默认""
+        orderTotalDate:""           //审单总时长 默认""
       },
       form: {
         type: [
@@ -409,12 +528,37 @@ export default {
     },
     sortChange(val){
       this.formInline.orderField = val.prop
+      var order = '';
       if (val.order == 'ascending')
-        this.formInline.orderType = 'asc'
+        order = 'asc'
       else if (val.order == 'descending')
-        this.formInline.orderType = 'desc'
-      else
-        this.formInline.orderType = ''
+        order = 'desc'
+
+      this.formInline.orderCode = '';
+      this.formInline.orderType = '';
+      this.formInline.orderMoney = '';
+      this.formInline.orderCheckDate = '';
+      this.formInline.orderRpaDate = '';
+      this.formInline.orderOcrDate = '';
+      this.formInline.orderRulesDate = '';
+      this.formInline.orderTotalDate = '';
+
+      if (val.prop == 'code') 
+        this.formInline.orderCode = order;
+      else if (val.prop == 'type') 
+        this.formInline.orderType = order;
+      else if (val.prop == 'money') 
+        this.formInline.orderMoney = order;
+      else if (val.prop == 'checkDate') 
+        this.formInline.orderCheckDate = order;
+      else if (val.prop == 'rpaDate') 
+        this.formInline.orderRpaDate = order;
+      else if (val.prop == 'ocrDate') 
+        this.formInline.orderOcrDate = order;
+      else if (val.prop == 'rulesDate') 
+        this.formInline.orderRulesDate = order;
+      else if (val.prop == 'totalDate') 
+        this.formInline.orderTotalDate = order;
 
       this.query()
     },
@@ -432,14 +576,24 @@ export default {
             checkEndDate: _this.formInline.checkEndDate || "",
             beginMoney: _this.formInline.beginMoney || "",
             endMoney: _this.formInline.endMoney || "",
-            orderField: _this.formInline.orderField || "",
+            // orderField: _this.formInline.orderField || "",
+            // orderType: _this.formInline.orderType || "",
+
+            orderCode: _this.formInline.orderCode || "",
             orderType: _this.formInline.orderType || "",
+            orderMoney: _this.formInline.orderMoney || "",
+            orderCheckDate: _this.formInline.orderCheckDate || "",
+            orderRpaDate: _this.formInline.orderRpaDate || "",
+            orderOcrDate: _this.formInline.orderOcrDate || "",
+            orderRulesDate: _this.formInline.orderRulesDate || "",
+            orderTotalDate: _this.formInline.orderTotalDate || "",
           }
         )
         .then(function (response) {
           let data = response.data;
           if (data.code == 20000) {
             _this.tableData = data.data.data;
+            _this.page.totalElement = data.data.total;
             // this.tableData = data.data.data;
           }
         })
@@ -522,6 +676,7 @@ export default {
           "影像张数",
         ],
       }
+      this.$refs.checkResult.clearSingleSelect();
       this.query();
     },
     currentChange(current) {
@@ -605,7 +760,7 @@ export default {
           this.$refs.sum_heji.style = "width:" + width;
           Array.from(
             this.$refs.table.$refs.headerWrapper.querySelectorAll("col")
-          ).forEach((n, i, raw) => {
+          ).forEach((n, i) => {
             this.$refs.sum_xiaoji.children[i].style =
               "width:" + n.getAttribute("width") + "px";
             this.$refs.sum_heji.children[i].style =
@@ -647,7 +802,12 @@ export default {
   font-size: 12px !important;
   display: none;
 }
-.page-box {
+.paginationStyle{
+  display: flex;
+  justify-content: flex-end;
+}
+.paginationStyle > .el-button {
+  margin-right: 1rem;
 }
 
 .sum_footer {
@@ -676,5 +836,33 @@ export default {
   width: 100%;
   padding-right: 3%;
   text-align: right;
+}
+/deep/.ivu-page-prev,/deep/.ivu-page-next {
+  display: inline-block;
+  vertical-align: middle;
+  min-width: 32px;
+  height: 32px;
+  line-height: 30px;
+  margin-right: 4px;
+  text-align: center;
+  list-style: none;
+  background-color: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  font-family: Arial;
+  font-weight: 500;
+  border: 1px solid #dcdee2;
+  border-radius: 4px;
+  -webkit-transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+/deep/.ivu-page-prev a,/deep/.ivu-page-next a{
+  margin: 0 6px;
+}
+/deep/.ivu-page-item, /deep/.ivu-page-item-jump-next {
+  display:none;
 }
 </style>

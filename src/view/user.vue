@@ -2,34 +2,38 @@
   <div class="wraps">
     <div id="list">
       <Card style="width: 100%">
-        <Form
-          :inline="true"
-          :model="formInline"
-          :label-width="80"
-          class="demo-form-inline"
-          ref="formInline"
-        >
-          <FormItem label="姓名：" prop="name">
-            <Input v-model="formInline.name" placeholder="请输入" />
-          </FormItem>
-          <FormItem label="账号：" prop="stationName">
-            <Input v-model="formInline.stationName" placeholder="请输入" />
-          </FormItem>
-          <FormItem>
-            <Button type="primary" @click="searchData()">查询</Button>
-            <Button @click="handleReset('formInline')" style="margin-left: 15px"
-              >重置</Button
+        <div style="display: flex;justify-content: space-between;">
+            <Form
+              :inline="true"
+              :model="formInline"
+              :label-width="80"
+              class="demo-form-inline"
+              ref="formInline"
             >
-          </FormItem>
-        </Form>
+              <FormItem label="姓名：" prop="name">
+                <Input v-model="formInline.name" placeholder="请输入" />
+              </FormItem>
+              <FormItem label="账号：" prop="stationName">
+                <Input v-model="formInline.stationName" placeholder="请输入" />
+              </FormItem>
+              <FormItem>
+                <Button type="primary" @click="searchData()">查询</Button>
+                <Button @click="handleReset('formInline')" style="margin-left: 15px"
+                  >重置</Button
+                >
+              </FormItem>
+            </Form>
+            <div class="addBox">
+              <Button type="primary" @click="handleClick('add', '')"
+                >添加账号</Button
+              >
+            </div>
+        </div>
+       
       </Card>
 
       <Card style="width: 100%; margin-top: 20px">
-        <div class="addBox">
-          <Button type="primary" @click="handleClick('add', '')"
-            >添加账号</Button
-          >
-        </div>
+        
         <div class="tableList">
           <el-table
             :data="tableData"
@@ -38,7 +42,7 @@
             empty-text="暂无数据"
             :header-cell-style="{ background: '#eef1f6' }"
           >
-            <el-table-column type="index" label="序号" align="center" />
+            <el-table-column type="index" label="序号" align="center" width="50" />
             <el-table-column
               prop="stationName"
               label="岗位名称"
@@ -77,14 +81,21 @@
           </el-table>
         </div>
         <el-row class="paginationStyle">
+          <el-button
+            @click="currentChange(1)"
+            type="text"
+            size="small"
+            >首页</el-button
+          >
           <Page
             @on-change="currentChange"
             @on-page-size-change="sizeChange"
             :current="page.currentPage"
             :total="page.totalElement"
+            prev-text="< 上一页"
+            next-text="下一页 >"
             show-elevator
             show-sizer
-            show-total
           />
         </el-row>
       </Card>
@@ -278,5 +289,41 @@ export default {
 }
 /deep/.el-dialog {
   width: 30%;
+}
+
+.paginationStyle{
+  display: flex;
+  justify-content: flex-end;
+}
+.paginationStyle > .el-button {
+  margin-right: 1rem;
+}
+/deep/.ivu-page-prev,/deep/.ivu-page-next {
+  display: inline-block;
+  vertical-align: middle;
+  min-width: 32px;
+  height: 32px;
+  line-height: 30px;
+  margin-right: 4px;
+  text-align: center;
+  list-style: none;
+  background-color: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  font-family: Arial;
+  font-weight: 500;
+  border: 1px solid #dcdee2;
+  border-radius: 4px;
+  -webkit-transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+/deep/.ivu-page-prev a,/deep/.ivu-page-next a{
+  margin: 0 6px;
+}
+/deep/.ivu-page-item, /deep/.ivu-page-item-jump-next {
+  display:none;
 }
 </style>

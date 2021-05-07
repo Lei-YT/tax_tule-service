@@ -98,7 +98,7 @@ export default [
         name: 'logResult',
         meta: {
           icon: 'ios-create-outline',
-          title: '审核结果'
+          title: '机器人审单日志 / 机器人审核结果页'
         },
         component: () => import('@/view/logResult.vue')
       }
