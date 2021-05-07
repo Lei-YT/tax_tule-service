@@ -296,7 +296,7 @@
               sortable="custom"
             >
               <template slot-scope="scope">
-                <span>{{ 
+                <span>{{
                 scope.row.rpaDate !== null ? scope.row.rpaDate + "s" : "--"
               }}</span>
               </template>
@@ -340,7 +340,7 @@
                 }}</span>
               </template>
             </el-table-column>
-            <div slot="append">
+            <div slot="append" v-if="!dialogFormVisible">
               <div class="sum_footer xiaoji" ref="sum_xiaoji">
                 <div class="sum_footer_unit center">合计</div>
                 <div class="sum_footer_unit"></div>
@@ -435,7 +435,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="submit">取 消</el-button>
         <el-button type="primary" @click="submit">确 定</el-button>
       </div>
     </el-dialog>
@@ -517,7 +517,7 @@ export default {
     },
     handleChange(value) {
       this.form.type = value;
-      this.adjustWidth();
+      // this.adjustWidth();
     },
     handleSelectionChange(val) {
       let idArr = [];
@@ -543,21 +543,21 @@ export default {
       this.formInline.orderRulesDate = '';
       this.formInline.orderTotalDate = '';
 
-      if (val.prop == 'code') 
+      if (val.prop == 'code')
         this.formInline.orderCode = order;
-      else if (val.prop == 'type') 
+      else if (val.prop == 'type')
         this.formInline.orderType = order;
-      else if (val.prop == 'money') 
+      else if (val.prop == 'money')
         this.formInline.orderMoney = order;
-      else if (val.prop == 'checkDate') 
+      else if (val.prop == 'checkDate')
         this.formInline.orderCheckDate = order;
-      else if (val.prop == 'rpaDate') 
+      else if (val.prop == 'rpaDate')
         this.formInline.orderRpaDate = order;
-      else if (val.prop == 'ocrDate') 
+      else if (val.prop == 'ocrDate')
         this.formInline.orderOcrDate = order;
-      else if (val.prop == 'rulesDate') 
+      else if (val.prop == 'rulesDate')
         this.formInline.orderRulesDate = order;
-      else if (val.prop == 'totalDate') 
+      else if (val.prop == 'totalDate')
         this.formInline.orderTotalDate = order;
 
       this.query()
@@ -639,6 +639,7 @@ export default {
     },
     submit() {
       this.dialogFormVisible = false;
+      this.adjustWidth();
     },
     handleClick(row) {
       this.$router.push({
