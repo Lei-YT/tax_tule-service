@@ -175,44 +175,63 @@
               label="审核结果"
               v-if="form.type.includes('审核结果')"
               align="center"
-              width="120"
+              width="130"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.checkResult == 3">
-                  <Icon
-                    type="md-close-circle"
-                    size="18"
-                    color="#ed4014"
-                    style="margin-right: 3%"
-                  />
-                  不通过
-                </span>
-                <span v-if="scope.row.checkResult == 2">
+                <div
+                  v-if="scope.row.checkResult == 3"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
+                >
+                  <Icon type="md-close-circle" size="18" color="#ed4014" />
+                  <span>不通过</span>
+                </div>
+                <div
+                  v-if="scope.row.checkResult == 2"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
+                >
                   <Icon
                     type="md-checkmark-circle"
                     size="18"
                     color="#19be6b"
-                    style="margin-right: 7%"
+                    style="margin-right: 10%"
                   />
-                  通过</span
+                  <span>通过</span>
+                </div>
+                <div
+                  v-if="scope.row.checkResult == 1"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
                 >
-                <span v-if="scope.row.checkResult == 1">
-                  <Icon
-                    type="md-ionitron"
-                    size="18"
-                    color="#2d8cf0"
-                    style="margin-right: 3%"
-                  />审核中</span
+                  <Icon type="md-ionitron" size="18" color="#2d8cf0" />
+                  <span>审核中</span>
+                </div>
+                <div
+                  v-if="scope.row.checkResult == 4"
+                  style="
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                  "
                 >
-                <span v-if="scope.row.checkResult == 4">
                   <Icon
                     type="md-close-circle"
                     size="18"
                     color="#ff9900"
-                    style="margin-right: 7%"
+                    style="margin-right: 10%"
                   />
-                  超时</span
-                >
+                  <span>超时</span>
+                </div>
               </template>
             </el-table-column>
             <el-table-column
