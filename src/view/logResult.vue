@@ -39,7 +39,7 @@
                 v-model="activeName"
                 v-if="item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'"
               >
-                <el-collapse-item title="未通过规则" name="1">
+                <el-collapse-item title="未通过规则" v-bind:name="item.ruleType+'1'">
                   <template
                     v-if="
                       item.result.filter((obj) => {
@@ -47,32 +47,6 @@
                       }).length
                     "
                   >
-                    <!-- <table style="width: 100%;" class="rule-table">
-                      <thead>
-                        <tr>
-                          <th width="60">序号</th>
-                          <th style="text-align: left;">规则</th>
-                          <th width="60"></th>
-                          <th width="200" style="text-align: left;">审核结果</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="(n,i) in item.result.filter((obj) => {
-                          return obj.correct == false;
-                        })" v-bind:key="i" @click="rowClick">
-                          <td style="text-align: center;">{{ i+1 }}</td>
-                          <td>{{ n.ruleName }}</td>
-                          <td style="text-align: center;">
-                              <Icon
-                              type="md-close-circle"
-                              size="25"
-                              color="#E02020"
-                            />
-                          </td>
-                          <td>{{ n.message ? n.message : "——" }}</td>
-                        </tr>
-                      </tbody>
-                    </table> -->
                     <Table
                       size="small"
                       :columns="columns"
@@ -102,7 +76,7 @@
                     </Table>
                   </template>
                 </el-collapse-item>
-                <el-collapse-item title="通过规则" name="2">
+                <el-collapse-item title="通过规则" v-bind:name="item.ruleType+'2'">
                   <template
                     v-if="
                       item.result.filter((obj) => {
@@ -136,30 +110,6 @@
                         </tr>
                       </tbody>
                     </table>
-                    <!-- <Table
-                      size="small"
-                      :columns="columns"
-                      :data="
-                        item.result.filter((obj) => {
-                          return obj.correct == true;
-                        })
-                      "
-                    >
-                      <template slot="ruleName" slot-scope="{ row }">
-                        <div flex>
-                          {{ row.ruleName }}
-                          <Icon
-                            type="md-checkmark-circle"
-                            size="18"
-                            color="#6DD400"
-                            style="margin-left: 60%"
-                          />
-                        </div>
-                      </template>
-                      <template slot="message" slot-scope="{ row }">
-                        {{ row.message ? row.message : "——" }}
-                      </template>
-                    </Table> -->
                   </template>
                 </el-collapse-item>
               </el-collapse>
@@ -318,7 +268,7 @@ export default {
   data() {
     return {
       allData: [],
-      activeName: "1",
+      activeName: "IMAGES1",
       imageData: [],
       imgSrc: "",
       messageInfo: {},
@@ -375,12 +325,6 @@ export default {
   created() {
     this.billNumber = this.$route.query.billNumber;
     this.query();
-    // this.allData = resultJson;
-    // this.imageData = resultJson.imageInfo;
-    // this.imgSrc = resultJson.imageInfo[0].imageURL;
-    // this.imageId = resultJson.imageInfo[0]["imageId"];
-    // this.getMessageInfo(this.imageId);
-    // this.getErrorFieldCode(this.invoiceId);
   },
   mounted() {
     this.handelAllImage();
