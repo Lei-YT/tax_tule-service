@@ -21,7 +21,7 @@
                       item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'
                     "
                   >
-                    规则：{{ item.ruleCount }}条
+                    规则：{{ item.ruleCount }}条&nbsp;&nbsp;&nbsp;
                   </p>
                   <p
                     v-if="
@@ -47,6 +47,32 @@
                       }).length
                     "
                   >
+                    <!-- <table style="width: 100%;" class="rule-table">
+                      <thead>
+                        <tr>
+                          <th width="60">序号</th>
+                          <th style="text-align: left;">规则</th>
+                          <th width="60"></th>
+                          <th width="200" style="text-align: left;">审核结果</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(n,i) in item.result.filter((obj) => {
+                          return obj.correct == false;
+                        })" v-bind:key="i" @click="rowClick">
+                          <td style="text-align: center;">{{ i+1 }}</td>
+                          <td>{{ n.ruleName }}</td>
+                          <td style="text-align: center;">
+                              <Icon
+                              type="md-close-circle"
+                              size="25"
+                              color="#E02020"
+                            />
+                          </td>
+                          <td>{{ n.message ? n.message : "——" }}</td>
+                        </tr>
+                      </tbody>
+                    </table> -->
                     <Table
                       size="small"
                       :columns="columns"
@@ -60,13 +86,15 @@
                       <template slot="ruleName" slot-scope="{ row }">
                         <div flex>
                           {{ row.ruleName }}
+                        </div>
+                      </template>
+                      <template slot="icon" >
                           <Icon
                             type="md-close-circle"
                             size="18"
                             color="#E02020"
                             style="margin-left: 60%"
                           />
-                        </div>
                       </template>
                       <template slot="message" slot-scope="{ row }">
                         {{ row.message ? row.message : "——" }}
@@ -82,7 +110,33 @@
                       }).length
                     "
                   >
-                    <Table
+                    <table style="width: 100%;" class="rule-table">
+                      <thead>
+                        <tr>
+                          <th width="60">序号</th>
+                          <th style="text-align: left;">规则</th>
+                          <th width="60"></th>
+                          <th width="200" style="text-align: left;">审核结果</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(n,i) in item.result.filter((obj) => {
+                          return obj.correct == true;
+                        })" v-bind:key="i">
+                          <td style="text-align: center;">{{ i+1 }}</td>
+                          <td>{{ n.ruleName }}</td>
+                          <td style="text-align: center;">
+                              <Icon
+                              type="md-checkmark-circle"
+                              size="25"
+                              color="#6DD400"
+                            />
+                          </td>
+                          <td>通过</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- <Table
                       size="small"
                       :columns="columns"
                       :data="
@@ -105,7 +159,7 @@
                       <template slot="message" slot-scope="{ row }">
                         {{ row.message ? row.message : "——" }}
                       </template>
-                    </Table>
+                    </Table> -->
                   </template>
                 </el-collapse-item>
               </el-collapse>
@@ -285,6 +339,11 @@ export default {
           slot: "ruleName",
         },
         {
+          title: " ",
+          slot: "icon",
+          width: 65,
+        },
+        {
           title: "审核结果",
           slot: "message",
         },
@@ -349,10 +408,10 @@ export default {
       this.getErrorMessage(this.invoiceId);
       this.getErrorFieldCode(this.invoiceId);
     },
-    rowClick(vo) {
-      if (vo.imageData && vo.imageData.length) {
-        let ids = vo.imageData.map((vo) => {
-          return vo.imageId;
+    rowClick(vo, i) {
+      if (vo.hasOwnProperty('imageData') && vo.imageData.length > 0) {
+        let ids = vo.imageData.map((voi) => {
+          return voi.imageId;
         });
         this.setImageData(ids);
       }
@@ -473,6 +532,31 @@ export default {
   width: 100%;
   height: 450px;
   display: flex;
+  .leftImg {
+    width: 80%;
+    border: 0;
+    position: relative;
+    .bigImg {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+  .rightImg {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    .smallImg {
+      width: 100%;
+      height: 85px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .smallImg:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 .conBoxs {
   width: 100%;
@@ -484,10 +568,11 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    button {
+    .tabItem {
       width: 100%;
       height: 50px;
       color: #333;
+      background: #fafafa;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -578,5 +663,22 @@ export default {
   // right: 0;
   // bottom: 0;
   overflow-y: auto;
+}
+.rule-table{
+  width:100%;
+  border-collapse:collapse;
+  border: 1px solid #eeeeee;
+  thead{
+    background-color:#EEEEEE;
+  }
+  tr{
+    border: 1px solid #EEEEEE;
+  }
+  td{
+    padding:10px 0;
+  }
+  th{
+    padding:10px 0;
+  }
 }
 </style>
