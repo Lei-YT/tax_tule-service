@@ -7,7 +7,7 @@
     justify-content: center;
     border-bottom: 1px solid #ccc;
     p{
-      color:#333;
+      color:#fff;
       font-size: 18px;
       font-weight: 500;
     }
@@ -42,9 +42,21 @@
     .ivu-layout-sider-children{
       overflow-y: scroll;
       margin-right: -18px;
+      background-color: #1991DD;
+      color: #fff;
     }
   }
 }
+.ivu-menu-item{
+  background-color: #1991DD;
+  color: #fff;
+}
+.ivu-menu-vertical .ivu-menu-item:hover, .ivu-menu-vertical .ivu-menu-submenu-title:hover,
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu){
+  color: #fff!important;
+  background-color: #1686CD!important;
+}
+
 .ivu-menu-item > i{
   margin-right: 12px !important;
 }
