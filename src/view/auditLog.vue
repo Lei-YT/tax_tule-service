@@ -56,12 +56,15 @@
           </div>
 
           <div class="footerBox">
-            <Button @click="searchData()">查询</Button>
-            <Button @click="handleReset('formInline')" style="margin-left: 15px"
-              >重置</Button
-            >
-            <Button @click="exported" style="margin: 0 15px">导出</Button>
-            <Button @click="setting">设置</Button>
+            <el-button type="primary" plain @click="searchData" icon="el-icon-search" size="small">查询</el-button>
+            <el-button type="primary" plain @click="handleReset('formInline')" icon="el-icon-refresh-left" size="small">重置</el-button>
+            <el-button type="primary" plain @click="exported" icon="el-icon-upload2" size="small">导出</el-button>
+            <el-button type="primary" plain @click="setting" icon="el-icon-setting" size="small">设置</el-button>
+            <!-- <Button @click="handleReset('formInline')" icon="md-refresh" style="margin-left: 15px" -->
+              <!-- >重置</Button -->
+            <!-- > -->
+            <!-- <Button @click="exported" icon="ios-cloud-upload-outline" style="margin: 0 15px"><Icon type="ios-cloud-upload-outline" />导出</Button> -->
+            <!-- <Button @click="setting"><Icon custom="iconfont icon-setting" :size="18"/>设置</Button> -->
           </div>
         </Form>
       </Card>
@@ -885,4 +888,15 @@ export default {
 /deep/.ivu-page-item, /deep/.ivu-page-item-jump-next {
   display:none;
 }
+/deep/.el-button--primary.is-plain {
+    color: #1991DD;
+    background: #ffffff;
+    border-color: #1991DD;
+}
+/deep/.el-button--primary.is-plain:focus,/deep/.el-button--primary.is-plain:hover {
+    color: #ffffff;
+    background: #1991DD;
+    border-color: #1991DD;
+}
+
 </style>
