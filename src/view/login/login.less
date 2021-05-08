@@ -1,9 +1,10 @@
 .login{
     width: 100%;
     height: 100%;
-    background-image: url('../../assets/images/login-bg.jpg');
+    background: url('../../assets/images/login-bg.jpg') rgba(128,207,247, .5);
     background-size: cover;
     background-position: center;
+    background-blend-mode: multiply;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -21,6 +22,18 @@
             position: absolute;
             left: 15%;
         }
+    }
+    .footer{
+      position:fixed;
+      bottom: 0;width: 100%;height:70px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content:center;
+      p{
+        font-size:14px;
+        color:#666;
+      }
     }
     .logBox{
         display: flex;

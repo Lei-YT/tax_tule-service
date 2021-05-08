@@ -4,9 +4,6 @@
 
 <template>
   <div class="login">
-    <div class="header">
-      <img src="@/assets/images/compyLogo.png" class="compyLogo" />
-    </div>
     <div class="logBox">
       <img src="@/assets/images/logo.png" class="logImg" />
       <p>中铁隧道局智能审单管理平台</p>
