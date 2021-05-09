@@ -561,7 +561,6 @@ export default {
     .smallImgBox{
       position:relative;
       margin-bottom: 5px;
-      height: 50px;
     }
     .smallImgBox:last-child{
       margin-bottom: 0;
@@ -585,6 +584,7 @@ export default {
     .smallImg {
       width: 100%;
       border-radius: 8px;
+      height: 50px;
     }
   }
 

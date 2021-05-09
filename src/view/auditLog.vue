@@ -538,7 +538,7 @@ export default {
     //   let { data } = logJson.data;
     //   this.tableData = data;
     // }
-    this.query();
+    // this.query();
   },
   mounted() {
     this.adjustWidth();
@@ -632,6 +632,7 @@ export default {
             _this.page.totalElement = data.data.total;
             // this.tableData = data.data.data;
           }
+          _this.adjustWidth();
         })
         .catch(function (error) {
           console.log(error);
@@ -737,7 +738,8 @@ export default {
     },
     sizeChange(size) {
       this.page.size = size;
-      this.query();
+      this.currentChange(1);
+      // this.query();
     },
     calculateAvg(sum, length, key) {
       const _this = this;
