@@ -148,7 +148,7 @@
         <div class="rightCon">
           <Card style="width: 100%">
             <div class="cardTit" slot="title">
-              <p>影像展示{{imageId}}</p>
+              <p>影像展示</p>
               <div class="countBox">
                 <Button @click="handelAllImage">返回全部展示</Button>
               </div>
@@ -561,6 +561,7 @@ export default {
     .smallImgBox{
       position:relative;
       margin-bottom: 5px;
+      height: 50px;
     }
     .smallImgBox:last-child{
       margin-bottom: 0;
