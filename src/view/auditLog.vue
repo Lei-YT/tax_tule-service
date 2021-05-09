@@ -370,7 +370,7 @@
                 }}</span>
               </template>
             </el-table-column>
-            <div slot="append" v-if="!dialogFormVisible">
+            <div slot="append" v-if="!dialogFormVisible&&page.totalElement>0">
               <div class="sum_footer xiaoji" ref="sum_xiaoji">
                 <div class="sum_footer_unit center">合计</div>
                 <div class="sum_footer_unit"></div>
@@ -641,14 +641,19 @@ export default {
     exported() {
       let idArr = this.idArr
       if (idArr.length == 0) {
-        this.$Message.info({
-            content: '请勾选后再导出',
-            top: '305',
-            // duration: 10,
-            // closable: true
+        // this.$Message.info({
+        //     content: '请勾选后再导出',
+        //     top: '305',
+        //     // duration: 10,
+        //     // closable: true
+        // });
+        // return;
+        this.tableData.map((item, index) => {
+           idArr.push(item.id);
         });
-        return;
+
       }
+      // console.log('ids',idArr)
       axios
         .post(`http://10.15.196.127:7070/bill/export`, idArr, { responseType: "blob" })
         .then(function (response) {

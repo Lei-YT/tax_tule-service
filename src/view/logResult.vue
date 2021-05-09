@@ -47,33 +47,32 @@
                       }).length
                     "
                   >
-                    <Table
-                      size="small"
-                      :columns="columns"
-                      :data="
-                        item.result.filter((obj) => {
+                    <table style="width: 100%;" class="rule-table">
+                      <thead>
+                        <tr>
+                          <th width="60">序号</th>
+                          <th style="text-align: left;">规则</th>
+                          <th width="60"></th>
+                          <th width="200" style="text-align: left;">审核结果</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(n,i) in item.result.filter((obj) => {
                           return obj.correct == false;
-                        })
-                      "
-                      @on-row-click="rowClick"
-                    >
-                      <template slot="ruleName" slot-scope="{ row }">
-                        <div flex>
-                          {{ row.ruleName }}
-                        </div>
-                      </template>
-                      <template slot="icon" >
+                        })" v-bind:key="i" @click="rowClick(n)">
+                          <td style="text-align: center;">{{ i+1 }}</td>
+                          <td>{{ n.ruleName }}</td>
+                          <td style="text-align: center;">
                           <Icon
                             type="md-close-circle"
-                            size="18"
+                            size="25"
                             color="#E02020"
-                            style="margin-left: 60%"
                           />
-                      </template>
-                      <template slot="message" slot-scope="{ row }">
-                        {{ row.message ? row.message : "——" }}
-                      </template>
-                    </Table>
+                          </td>
+                          <td>{{ n.message ? n.message : "——" }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </template>
                 </el-collapse-item>
                 <el-collapse-item title="通过规则" v-bind:name="item.ruleType+'2'">
@@ -151,7 +150,7 @@
             <div class="cardTit" slot="title">
               <p>影像展示{{imageId}}</p>
               <div class="countBox">
-                <Button class>返回全部展示</Button>
+                <Button @click="handelAllImage">返回全部展示</Button>
               </div>
             </div>
 
@@ -280,7 +279,6 @@ import resultJson from "@/dataJson/result.json";
 import ImagePreview from "@/components/image-preview";
 import { matchCNkeys } from "@/libs/invoice";
 import axios from "axios";
-import jsonpath from "jsonpath";
 export default {
   components: { ImagePreview },
   data() {
@@ -294,7 +292,7 @@ export default {
       invoiceId: "",
       cur: 0,
       errorFieldCode: [],
-      // errorMessage: [],
+      errorMessage: [],
       billNumber: "",
       columns: [
         {
@@ -353,7 +351,6 @@ export default {
     //   _this.imgSrc = data.data.imageInfo[0].imageURL;
     //   _this.imageId = data.data.imageInfo[0]["imageId"];
     //   _this.getMessageInfo(_this.imageId);
-    //   _this.getErrorFieldCode(_this.invoiceId);
     // }
 
     this.billNumber = this.$route.query.billNumber;
@@ -362,45 +359,28 @@ export default {
     this.handelAllImage();
   },
   computed: {
-    errorMessage() {
-      let error = this.allData.errors;
-      for (var i = 0; i < error.length; i++) {
-        for (var j = 0; j < error[i].infos.length; j++) {
-          if (error[i].infos[j].invoiceId = this.invoiceId) {
-            return error[i].infos[j].messages
-          }
-
-        }
-      }
-      return []
-    },
   },
-  // mounted() {
-  //   this.handelAllImage();
-  // },
   methods: {
     handelAllImage(type) {
+      // return false;
       const _this = this;
       _this.imageData = _this.allData.imageInfo;
-      _this.invoiceId = _this.allData.imageInfo[0]["ocrResult"][0]["invoiceId"];
+      _this.invoiceId = _this.imageData[0]["invoices"][0]["发票ID"];
       _this.imageId = _this.allData.imageInfo[0]["imageId"];
-      _this.getMessageInfo(_this.imageId);
+      _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
-      _this.getErrorFieldCode(_this.invoiceId);
       _this.tabsInvoiceIndex = 0;
       if (type === "Refresh") {
-        _this.$refs.ImagePreview.initImage();
       }
     },
     // 右边小图点击事件
     handelImage(data) {
       console.log('handelImage(data)',data)
       this.tabsInvoiceIndex = 0;
-      this.invoiceId = data["invoices"][0]["invoiceId"];
+      this.invoiceId = data["invoices"][0]["发票ID"];
       this.imageId = data.imageId;
-      this.getMessageInfo(data.imageId);
+      this.getMessageInfo([data.imageId]);
       this.getErrorMessage(this.invoiceId);
-      this.getErrorFieldCode(this.invoiceId);
     },
     rowClick(vo, i) {
       if (vo.hasOwnProperty('imageData') && vo.imageData.length > 0) {
@@ -419,15 +399,12 @@ export default {
         }
       }
       this.imageData = newArr;
-      console.log('this.imageData',this.imageData)
-      this.invoiceId = this.imageData[0]["invoices"][0]["invoiceId"];
-      console.log('this.imageData[0]["invoices"]',this.imageData[0]["invoices"])
+      this.invoiceId = this.imageData[0]["invoices"][0]["发票ID"];
       this.imageId = this.imageData[0]["imageId"];
-      this.getMessageInfo(this.imageId);
+      this.getMessageInfo(newArr.map(a => a.imageId));
       this.getErrorMessage(this.invoiceId);
-      this.getErrorFieldCode(this.invoiceId);
+      this.handleClick(this.imageData[0].imageURL, 0);
       this.tabsInvoiceIndex = 0;
-      this.$refs.ImagePreview.initImage();
     },
     query() {
       const _this = this;
@@ -440,8 +417,9 @@ export default {
             _this.imageData = data.data.imageInfo;
             _this.imgSrc = data.data.imageInfo[0].imageURL;
             _this.imageId = data.data.imageInfo[0]["imageId"];
-            _this.getMessageInfo(_this.imageId);
-            _this.getErrorFieldCode(_this.invoiceId);
+            _this.invoiceId = data.data.imageInfo[0]["invoices"][0]["发票ID"];
+            _this.getMessageInfo([]);
+            _this.getErrorMessage(_this.invoiceId);
           }
         })
         .catch((err) => {
@@ -451,34 +429,52 @@ export default {
     },
 
 
-    getMessageInfo(imageId) {
+    getMessageInfo(imageIds) {
       let data = this.allData.imageInfo;
+      let allInvoice = [];
       for (let i = 0; i < data.length; i++) {
-        if (data[i]["imageId"] == imageId) {
-          const _dataI = {
-            ...data[i],
+        const _dataI = {
+          ...data[i],
             invoices: data[i].invoices.map((io) => {
               return matchCNkeys(io.invoiceType, io);
             }),
           };
-          this.$set(this, "messageInfo", _dataI);
-        }
+          data[i] = _dataI;
+          allInvoice = allInvoice.concat(_dataI.invoices);
+      }
+      if ( imageIds.length === 0) {
+        this.$set(this, "messageInfo", {invoices: allInvoice});
+      } else {
+        this.$set(this, "messageInfo", {invoices: allInvoice.filter(a => imageIds.includes(a.imageId))});
       }
     },
-    getErrorMessage(invoiceId) {
-      console.log('invoiceId',invoiceId)
-      let data = jsonpath.query(
-        this.allData,
-        `$.errors[*].infos[?(@.invoiceId==${invoiceId})]`
-      );
-      this.errorMessage = data[0].errorMessages;
+    getErrorMessage(invoiceIdP) {
+      const _this = this;
+      _this.errorMessage = [];
+      let error = this.allData.errors;
+      let findErrorMsg = [];
+      error.map(e => {
+        findErrorMsg = findErrorMsg.concat(e.infos);
+        return true;
+      });
+      let findMsg = findErrorMsg.filter(fi => fi.invoiceId=== invoiceIdP);
+      _this.errorMessage = findMsg[0].messages;
     },
     handleTab(index, invoiceId) {
-      console.log(index, invoiceId)
+      const _this = this;
       this.tabsInvoiceIndex = index;
       this.invoiceId = invoiceId;
+      this.getErrorMessage(invoiceId)
+      const fi = this.imageData.map(id => id.invoices.filter(ii => ii['发票ID']===invoiceId));
+      const findImg = fi.filter(fii => fii.length>0)[0][0].imageId;
+      _this.allData.imageInfo.map((iid,i) => {
+        if (iid.imageId==findImg) {
+          _this.handleClick(iid.imageURL, i);
+          return false;
+        }
+      })
     },
-    handleClick(url,index) {
+    handleClick(url, index) {
       this.imgSrc = url;
       this.imgIndex = index;
     },
@@ -486,7 +482,6 @@ export default {
       this.showbigimg = !this.showbigimg;
       this.showImgData=[];
       this.showImgData.push(this.imageData[this.imgIndex]);
-      console.log('1212',this.showImgData)
     },
   },
 };
