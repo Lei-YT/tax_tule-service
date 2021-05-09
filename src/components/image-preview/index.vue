@@ -3,7 +3,7 @@
     <div class="leftImg">
       <ImageViewer :image="imageUrl" :width="width" :height="height" />
     </div>
-    <div class="rightImg">
+   <!--  <div class="rightImg">
       <img
         :src="vo.imageURL"
         class="smallImg"
@@ -11,7 +11,7 @@
         :key="index"
         @click="handelImage(index, vo)"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 

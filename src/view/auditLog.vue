@@ -100,8 +100,16 @@
               <template slot-scope="scope">
                 <el-button
                   @click="handleClick(scope.row)"
+                  v-if="scope.row.checkResult == 2 || scope.row.checkResult == 3"
                   type="text"
                   size="small"
+                  >审核结果页</el-button
+                >
+                <el-button
+                  v-else
+                  type="text"
+                  size="small"
+                  disabled
                   >审核结果页</el-button
                 >
               </template>
@@ -526,10 +534,10 @@ export default {
     };
   },
   created() {
-    if (logJson.code == 20000) {
-      let { data } = logJson.data;
-      this.tableData = data;
-    }
+    // if (logJson.code == 20000) {
+    //   let { data } = logJson.data;
+    //   this.tableData = data;
+    // }
     this.query();
   },
   mounted() {
@@ -631,8 +639,18 @@ export default {
     },
     // 导出
     exported() {
+      let idArr = this.idArr
+      if (idArr.length == 0) {
+        this.$Message.info({
+            content: '请勾选后再导出',
+            top: '305',
+            // duration: 10,
+            // closable: true
+        });
+        return;
+      }
       axios
-        .post(`http://10.15.196.127:7070/bill/export`, this.idArr, { responseType: "blob" })
+        .post(`http://10.15.196.127:7070/bill/export`, idArr, { responseType: "blob" })
         .then(function (response) {
           // let data = response.data;
           // if (data.code == 20000) {

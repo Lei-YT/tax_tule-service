@@ -17,16 +17,14 @@
                 <Input v-model="formInline.stationName" placeholder="请输入" />
               </FormItem>
               <FormItem>
-                <Button type="primary" @click="searchData()">查询</Button>
-                <Button @click="handleReset('formInline')" style="margin-left: 15px"
-                  >重置</Button
-                >
+                <el-button type="primary" @click="searchData()"  icon="el-icon-search" size="small">查询</el-button>
+                <el-button @click="handleReset('formInline')" style="margin-left: 15px" icon="el-icon-refresh-left" size="small"
+                  >重置</el-button>
               </FormItem>
             </Form>
             <div class="addBox">
-              <Button type="primary" @click="handleClick('add', '')"
-                >添加账号</Button
-              >
+              <el-button type="primary" @click="handleClick('add', '')" icon="el-icon-plus" size="small"
+                >添加账号</el-button>
             </div>
         </div>
        
@@ -289,6 +287,12 @@ export default {
 }
 /deep/.el-dialog {
   width: 30%;
+}
+/deep/.ivu-form-item {
+  margin-bottom: 0;
+}
+/deep/.addBox {
+  margin-bottom: 0;
 }
 
 .paginationStyle{

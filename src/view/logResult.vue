@@ -14,7 +14,7 @@
               <div class="cardTit" slot="title">
                 <p v-if="item.ruleType == 'IMAGES'">影像规则</p>
                 <p v-if="item.ruleType == 'OTHERS'">非影像规则</p>
-                <p v-if="item.ruleType == 'WARNING'">超预警通知</p>
+                <p v-if="item.ruleType == 'WARNING'">预警通知</p>
                 <div class="countBox">
                   <p
                     v-if="
@@ -149,20 +149,38 @@
         <div class="rightCon">
           <Card style="width: 100%">
             <div class="cardTit" slot="title">
-              <p>影像展示</p>
+              <p>影像展示{{imageId}}</p>
               <div class="countBox">
-                <Button>返回全部展示</Button>
+                <Button class>返回全部展示</Button>
               </div>
             </div>
 
+            <div class="bigimgbox" v-if="showbigimg" style="position: fixed;z-index: 9999;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.3);left:0;top:0;display: flex;justify-content: center;align-items: center;">
+                <div class="showbigimgbox" style="width: 1400px;height: 757px;background-color: #fff;">
+                    <div class="showimg-title" style="display: flex;justify-content: space-between; align-items:center;width: 100%;height: 46px; border-bottom: 1px solid #999999;padding:0 20px;">
+                      <div style="color: #1991DD;font-size: 16px;display: flex;align-items: center;"><img src="@/assets/images/tupian-2.png" style="width: 22px;height: 19px;margin-right: 8px;" />查看图片</div>
+                      <div  @click="showImgbox()"><img src="@/assets/images/closebox.png" style="width: 19px;height: 19px;" /></div>
+                    </div>
+                    <div class="showimg-content" style="padding: 22px 20px;">
+                      <ImagePreview :items="showImgData" height="667px" width="1360px"/>
+                    </div>
+                </div>
+            </div>
             <div class="imgBox">
-              <ImagePreview
-                height="450px"
-                :items="imageData"
-                @on-change="handelImage"
-                @refresh="handelAllImage"
-                ref="ImagePreview"
-              />
+              <div class="leftImg">
+                <img :src="imgSrc" class="bigImg" @click="showImgbox()" />
+              </div>
+              <div class="rightImg">
+                <div class="smallImgBox" v-for="(item, index) in imageData" :key="index"
+                    @click="handleClick(item.imageURL,index);handelImage(item);">
+                  <img
+                    :src="item.imageURL"
+                    class="smallImg"
+                  />
+                  <span class="index-icon">{{index+1}}</span>
+                </div>
+
+              </div>
             </div>
 
             <div class="conBoxs">
@@ -172,7 +190,7 @@
                   size="small"
                   v-for="(item, index) in messageInfo.invoices"
                   :key="index"
-                  @click="handleTab(index, item.invoiceId)"
+                  @click="handleTab(index, item['发票ID'])"
                 >
                   {{ index + 1 }}
                 </Button>
@@ -268,7 +286,7 @@ export default {
   data() {
     return {
       allData: [],
-      activeName: "IMAGES1",
+      activeName: ["IMAGES1","OTHERS1"],// "IMAGES1",
       imageData: [],
       imgSrc: "",
       messageInfo: {},
@@ -276,7 +294,7 @@ export default {
       invoiceId: "",
       cur: 0,
       errorFieldCode: [],
-      errorMessage: [],
+      // errorMessage: [],
       billNumber: "",
       columns: [
         {
@@ -319,16 +337,47 @@ export default {
         },
       ],
       tabsInvoiceIndex: 0,
+      showbigimg: false,
+      imgIndex:0,
+      showImgData:[]
     };
   },
 
-  created() {
+  mounted() {
+    // const _this = this;
+    // let data  = resultJson;
+    // console.log(data, "..........");
+    // if (data.status == 200) {
+    //   _this.allData = data.data;
+    //   _this.imageData = data.data.imageInfo;
+    //   _this.imgSrc = data.data.imageInfo[0].imageURL;
+    //   _this.imageId = data.data.imageInfo[0]["imageId"];
+    //   _this.getMessageInfo(_this.imageId);
+    //   _this.getErrorFieldCode(_this.invoiceId);
+    // }
+
     this.billNumber = this.$route.query.billNumber;
     this.query();
-  },
-  mounted() {
+
     this.handelAllImage();
   },
+  computed: {
+    errorMessage() {
+      let error = this.allData.errors;
+      for (var i = 0; i < error.length; i++) {
+        for (var j = 0; j < error[i].infos.length; j++) {
+          if (error[i].infos[j].invoiceId = this.invoiceId) {
+            return error[i].infos[j].messages
+          }
+
+        }
+      }
+      return []
+    },
+  },
+  // mounted() {
+  //   this.handelAllImage();
+  // },
   methods: {
     handelAllImage(type) {
       const _this = this;
@@ -345,8 +394,9 @@ export default {
     },
     // 右边小图点击事件
     handelImage(data) {
+      console.log('handelImage(data)',data)
       this.tabsInvoiceIndex = 0;
-      this.invoiceId = data.invoiceId;
+      this.invoiceId = data["invoices"][0]["invoiceId"];
       this.imageId = data.imageId;
       this.getMessageInfo(data.imageId);
       this.getErrorMessage(this.invoiceId);
@@ -369,7 +419,9 @@ export default {
         }
       }
       this.imageData = newArr;
-      this.invoiceId = this.imageData[0]["ocrResult"][0]["invoiceId"];
+      console.log('this.imageData',this.imageData)
+      this.invoiceId = this.imageData[0]["invoices"][0]["invoiceId"];
+      console.log('this.imageData[0]["invoices"]',this.imageData[0]["invoices"])
       this.imageId = this.imageData[0]["imageId"];
       this.getMessageInfo(this.imageId);
       this.getErrorMessage(this.invoiceId);
@@ -395,7 +447,10 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+
     },
+
+
     getMessageInfo(imageId) {
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
@@ -411,6 +466,7 @@ export default {
       }
     },
     getErrorMessage(invoiceId) {
+      console.log('invoiceId',invoiceId)
       let data = jsonpath.query(
         this.allData,
         `$.errors[*].infos[?(@.invoiceId==${invoiceId})]`
@@ -418,8 +474,19 @@ export default {
       this.errorMessage = data[0].errorMessages;
     },
     handleTab(index, invoiceId) {
+      console.log(index, invoiceId)
       this.tabsInvoiceIndex = index;
       this.invoiceId = invoiceId;
+    },
+    handleClick(url,index) {
+      this.imgSrc = url;
+      this.imgIndex = index;
+    },
+    showImgbox() {
+      this.showbigimg = !this.showbigimg;
+      this.showImgData=[];
+      this.showImgData.push(this.imageData[this.imgIndex]);
+      console.log('1212',this.showImgData)
     },
   },
 };
@@ -459,6 +526,11 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+.rightCon{
+  /deep/.ivu-card-head {
+    padding: 8px 16px;
+  }
+}
 /deep/.ivu-card-head {
   background: #1991dd;
   p {
@@ -477,7 +549,7 @@ export default {
   height: 450px;
   display: flex;
   .leftImg {
-    width: 80%;
+    width: 90%;
     border: 0;
     position: relative;
     .bigImg {
@@ -491,16 +563,54 @@ export default {
     overflow: auto;
     display: flex;
     flex-direction: column;
-    .smallImg {
-      width: 100%;
-      height: 85px;
-      border-radius: 8px;
-      margin-bottom: 15px;
+    .smallImgBox{
+      position:relative;
+      margin-bottom: 5px;
     }
-    .smallImg:last-child {
+    .smallImgBox:last-child{
       margin-bottom: 0;
     }
+    .index-icon{
+      margin-top: -9px;
+      display: block;
+      width: 18px;
+      height: 18px;
+      background: rgba(25, 145, 221, 0.6);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 18px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFFFFF;
+      position:absolute;
+      right: 5px;
+      top: 50%;
+    }
+    .smallImg {
+      width: 100%;
+      border-radius: 8px;
+    }
   }
+
+  /* 设置滚动条的样式 */
+  .rightImg::-webkit-scrollbar {
+    width: 3px;
+  }
+  /* 滚动槽 */
+  .rightImg::-webkit-scrollbar-track {
+    -webkit-box-shadow:inset006pxrgba(0,0,0,0.3);
+    border-radius:10px;
+  }
+  /* 滚动条滑块 */
+  .rightImg::-webkit-scrollbar-thumb {
+    border-radius:10px;
+    background:rgba(0,0,0,0.1);
+    -webkit-box-shadow:inset006pxrgba(0,0,0,0.5);
+  }
+  .rightImg::-webkit-scrollbar-thumb:window-inactive {
+    background:rgba(255,0,0,0.4);
+  }
+
 }
 .conBoxs {
   width: 100%;

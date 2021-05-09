@@ -70,7 +70,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 13%;
   .icon{
     width: 45px;
     height: 45px;
