@@ -44,7 +44,7 @@ class HttpRequest {
     }, error => {
       this.destroy(url)
       let errorInfo = error.response
-      console.log(error.response,'error');
+      console.log(error,'error');
       // const { data, status } = errorInfo
       // Notification.closeAll()
       // Notification({
@@ -52,7 +52,7 @@ class HttpRequest {
       //   type: 'warning',
       //   duration: 2000
       // })
-      loadingInstance.close()
+      // loadingInstance.close()
       return Promise.reject(error)
     })
   }
