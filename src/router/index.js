@@ -28,7 +28,6 @@ router.beforeEach((to, from, next) => {
   const token = getToken()
 
   // next()
-
   if (!token && to.name !== LOGIN_PAGE_NAME) {
     // 未登录且要跳转的页面不是登录页
     next({
@@ -43,15 +42,8 @@ router.beforeEach((to, from, next) => {
       name: homeName // 跳转到homeName页
     })
   } else {
-    if (store.state.user.access) {
-      turnTo(to, store.state.user.access, next)
-    } else {
-      next({
-        name: 'login' // 跳转到登录页
-      })
-    }
+    next()
   }
-  
 })
 
 // router.onError((error) => {
