@@ -56,7 +56,7 @@ export default [
     children: [
       {
         path: 'robotProcess',
-        name: 'robotProcess',
+        name: 'robotProcessIndex',
         meta: {
           icon: 'md-crop',
           title: '机器人流程监控'
@@ -75,7 +75,7 @@ export default [
     children: [
       {
         path: 'auditLog',
-        name: 'auditLog',
+        name: 'auditLogIndex',
         meta: {
           icon: 'ios-create-outline',
           title: '机器人审单日志'
@@ -95,7 +95,7 @@ export default [
     children: [
       {
         path: 'logResult',
-        name: 'logResult',
+        name: 'logResultIndex',
         meta: {
           icon: 'ios-create-outline',
           title: '机器人审单日志 / 机器人审核结果页'
@@ -114,7 +114,7 @@ export default [
     children: [
       {
         path: 'user',
-        name: 'user',
+        name: 'userIndex',
         meta: {
           icon: 'ios-contacts-outline',
           title: '账号管理'
