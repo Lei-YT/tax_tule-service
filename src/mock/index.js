@@ -2,7 +2,8 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import processJson from '@/dataJson/process.json'
-import resultJson from '@/dataJson/result.json'
+import resultJson from '@/dataJson/result3.json'
+import resultDataJson from '@/dataJson/result-data.json'
 import userJson from '@/dataJson/user.json'
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
@@ -40,6 +41,11 @@ Mock.mock(/\/bill\/page\/\d\/\d/, 'post', (req, res) => {
 Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
   console.log('mock res', req, resultJson)
   return Mock.mock(resultJson)
+})
+
+Mock.mock(/\/api\/ql\/result\/data/, 'post', (req, res) => {
+  console.log('mock res', req, resultDataJson)
+  return Mock.mock(resultDataJson)
 })
 
 Mock.mock(/\/api\/user\/list/, 'get', (req, res) => {
