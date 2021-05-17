@@ -335,7 +335,6 @@
                           <th width="60">税率</th>
                           <th width="60">税额</th>
                           <th width="60">价税合计</th>
-                          <!-- <th width="200" style="text-align: left;">审核结果</th> -->
                         </tr>
                       </thead>
                       <tbody>
@@ -356,48 +355,7 @@
 
                 </el-collapse-item>
               </el-collapse>
-                  <!-- <div class="info-box-left">
-                    <div class="billnumber-bar">
-                      <b>结构化数据</b>
-                    </div>
-                    <div class="invoice-scroll scroll-style">
-                      <template v-for="(value, key) in vo">
-                        <template v-if="typeof value === 'object'">
-                          <template v-for="(v, i) in value">
-                            <template v-for="(vv, kk) in v">
-                              <p
-                                style="padding: 5px 15px"
-                                flex
-                                :key="kk + i"
-                                class="flex-space"
-                              >
-                                <span flex-box="0">{{ kk }}：</span>
-                                <span
-                                  flex-box="1"
-                                  style="text-align: right"
-                                  :style="{
-                                    color:
-                                      errorFieldCode.indexOf(kk) != -1
-                                        ? 'red'
-                                        : '',
-                                  }"
-                                  >{{ vv || "--" }}</span
-                                >
-                              </p>
-                            </template>
-                          </template>
-                        </template>
-                        <template v-else>
-                          <p style="padding: 5px 15px" flex :key="key">
-                            <span flex-box="0">{{ key }}：</span>
-                            <span flex-box="1" style="text-align: right">{{
-                              value || "--"
-                            }}</span>
-                          </p>
-                        </template>
-                      </template>
-                    </div>
-                  </div>
+                  <!--
                   <div class="info-box-right">
                     <div class="billnumber-bar">
                       <b>影像报错</b>
@@ -428,6 +386,15 @@
         </div>
       </div>
     </div>
+    <Modal
+      v-model="ruleRowtoggle"
+      :closable="true"
+      :footer-hide="true"
+    >
+      <p>Content of dialog</p>
+      <p>Content of dialog</p>
+      <p>Content of dialog</p>
+    </Modal>
   </div>
 </template>
 <script>
@@ -497,7 +464,8 @@ export default {
       tabsInvoiceIndex: 0,
       showbigimg: false,
       imgIndex: 0,
-      showImgData: []
+      showImgData: [],
+      ruleRowtoggle: false,
     }
   },
 
@@ -534,7 +502,6 @@ export default {
     toggleRuleCollapse (collapseTab) {
       const _this = this;
       let activeTxt = '';
-      console.log(collapseTab)
       if (this.activeName.includes(`${collapseTab}1`) && this.activeName.includes(`${collapseTab}2`) ) {
         _this.activeName = _this.activeName.filter(i => i.includes(collapseTab)===false)
         activeTxt = '展开'
@@ -553,12 +520,35 @@ export default {
       }
     },
     rowClick (vo, i) {
+      const _this = this
       if (vo.hasOwnProperty('imageData') && vo.imageData.length > 0) {
         let ids = vo.imageData.map((voi) => {
           return voi.imageId
         })
         this.setImageData(ids)
+        _this.getRuleInvoice(vo.ruleId, '')
       }
+    },
+    getRuleInvoice(ruleId, taskId){
+      const _this = this
+      axios
+        .post(`http://10.15.196.127/api/ql/result/data`, {
+          "ruleId":ruleId,
+          "billNumber":this.billNumber,
+          "taskId":taskId // ! 没有这个参数
+        })
+        .then((resp) => {
+          let data = resp.data
+          if (data.status == 200) {
+            // Modal
+            // ! 字段怎么对应
+            _this.ruleRowtoggle = true;
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
     },
     setImageData (arr) {
       let newArr = [],
@@ -710,7 +700,7 @@ export default {
   text-align: right;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-end;
 }
 .imgBox {
   width: 100%;
@@ -903,6 +893,14 @@ export default {
   th{
     padding:10px 0;
   }
+}
+/deep/.ivu-form-label-left .ivu-form-item-label{
+  text-align: justify;
+}
+/deep/.ivu-form-label-left .ivu-form-item-label::after{
+  content: '';
+  display: inline-block;
+  padding-left: 100%;
 }
 // , fieldset[disabled] .ivu-input
 /deep/.ivu-input[readonly] {
