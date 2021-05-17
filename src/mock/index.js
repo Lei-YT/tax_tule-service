@@ -44,6 +44,13 @@ Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
 })
 
 Mock.mock(/\/api\/ql\/result\/data/, 'post', (req, res) => {
+  /**
+    {
+    "ruleId":"YQ4685271606",
+    "billNumber":"20210421171075168004623522",
+    "taskId":"1387829612651159553"
+    }
+   */
   console.log('mock res', req, resultDataJson)
   return Mock.mock(resultDataJson)
 })
