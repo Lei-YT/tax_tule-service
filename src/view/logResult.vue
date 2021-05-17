@@ -33,6 +33,10 @@
                   <p v-if="item.ruleType == 'WARNING'">
                     预警数：{{ item.ruleCount }}条
                   </p>
+                <Button
+                v-if="item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'"
+                @click="toggleRuleCollapse(item.ruleType)" style="margin-left: 1rem">{{item.ruleType == 'IMAGES' ? imagesCollapseAction : othersCollapseAction}}</Button>
+
                 </div>
               </div>
               <el-collapse
@@ -195,12 +199,164 @@
                 </Button>
               </div>
               <template v-for="(vo, index) in messageInfo.invoices">
-                <div
+              <el-collapse
                   :key="vo.invoiceId + index"
                   v-if="tabsInvoiceIndex == index"
-                  class="infoBox"
-                >
-                  <div class="info-box-left">
+                  style="width: 100%; padding-left: 10px"
+                  v-model="dataPanelOpen"
+              >
+                <el-collapse-item title="基本信息" v-bind:name="'baseInfo-'+vo['发票ID']" style="width: 100%">
+                  <template>
+                    <Form label-position="left" :label-width="80">
+                    <Row :gutter="16">
+                        <Col span="8">
+                        <FormItem label="发票类型">
+                            <Input v-model="vo['发票类型']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="8">
+                        <FormItem label="发票ID">
+                            <Input v-model="vo['发票ID']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="8">
+                        <FormItem label="发票联次">
+                            <Input v-model="vo['发票联次名称']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="16">
+                        <Col span="8">
+                        <FormItem label="发票号码">
+                            <Input v-model="vo['发票号码']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="8">
+                        <FormItem label="发票代码">
+                            <Input v-model="vo['发票代码']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="8">
+                        <FormItem label="校验码?">
+                            <Input v-model="vo['校验码']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    </Form>
+                </template>
+                </el-collapse-item>
+                <el-collapse-item title="购买方" v-bind:name="'buyerInfo-'+vo['发票ID']" style="width: 100%">
+                    <Form label-position="left" :label-width="100">
+                    <Row :gutter="16">
+                        <Col span="12">
+                        <FormItem label="名称">
+                            <Input v-model="vo['购买方信息-名称']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="12">
+                        <FormItem label="地址电话">
+                            <Input v-model="vo['购买方信息-地址、电话']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="16">
+                        <Col span="12">
+                        <FormItem label="纳税人识别号">
+                            <Input v-model="vo['购买方信息-纳税人识别号']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="12">
+                        <FormItem label="开户行及账号">
+                            <Input v-model="vo['购买方信息-开户行及账号']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    </Form>
+                </el-collapse-item>
+                <el-collapse-item title="销售方信息" v-bind:name="'sellerInfo-'+vo['发票ID']" style="width: 100%">
+                    <Form label-position="left" :label-width="100">
+                    <Row :gutter="16">
+                        <Col span="12">
+                        <FormItem label="名称">
+                            <Input v-model="vo['销售方信息-名称']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="12">
+                        <FormItem label="地址电话">
+                            <Input v-model="vo['销售方信息-地址、电话']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="16">
+                        <Col span="12">
+                        <FormItem label="纳税人识别号">
+                            <Input v-model="vo['销售方信息-纳税人识别号']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="12">
+                        <FormItem label="开户行及账号">
+                            <Input v-model="vo['销售方信息-开户行及账号']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="16">
+                        <Col span="24">
+                        <FormItem label="备注">
+                            <Input v-model="vo['备注']" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="16">
+                        <Col span="12">
+                        <FormItem label="是否有发票专用章" :label-width="120"	>
+                            <Input :value="vo['销售方（章）']=='发票专用章'? '是' : '否'" readonly ></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="12">
+                        <FormItem label="盖章单位与开票方是否一致?" :label-width="180"	>
+                            <Input  readonly ></Input>
+                        </FormItem>
+                        </Col>
+                    </Row>
+                    </Form>
+                </el-collapse-item>
+                <el-collapse-item title="发票详情" v-bind:name="'invoiceInfo-'+vo['发票ID']" style="width: 100%">
+                  <template
+                  >
+                    <table style="width: 100%;text-align: center;" class="rule-table">
+                      <thead>
+                        <tr style="text-align: center;">
+                          <th width="60">序号</th>
+                          <th >发票项目</th>
+                          <th width="60">单位</th>
+                          <th width="60">数量</th>
+                          <th width="60">单价</th>
+                          <th >发票总金额</th>
+                          <th width="60">税率</th>
+                          <th width="60">税额</th>
+                          <th width="60">价税合计</th>
+                          <!-- <th width="200" style="text-align: left;">审核结果</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(n,i) in vo['发票详情']" v-bind:key="i">
+                          <td style="text-align: center;">{{ i+1 }}</td>
+                          <td>{{ n['发票详情--项目名称'] }}</td>
+                          <td>{{ n['发票详情--单位'] }}</td>
+                          <td>{{ n['发票详情--数量'] }}</td>
+                          <td>{{ n['发票详情--单价'] }}</td>
+                          <td>{{ n['发票详情--金额'] }}</td>
+                          <td>{{ n['发票详情--税率'] }}</td>
+                          <td>{{ n['发票详情--税额'] }}</td>
+                          <td>{{ Number(n['发票详情--金额'])+Number(n['发票详情--税额']) }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </template>
+
+                </el-collapse-item>
+              </el-collapse>
+                  <!-- <div class="info-box-left">
                     <div class="billnumber-bar">
                       <b>结构化数据</b>
                     </div>
@@ -264,8 +420,8 @@
                         </p>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </div> -->
+                <!-- </div> -->
               </template>
             </div>
           </Card>
@@ -285,6 +441,10 @@ export default {
     return {
       allData: [],
       activeName: ['IMAGES1', 'OTHERS1'], // "IMAGES1",
+      ruleCollapseActive: 'IMAGES',
+      imagesCollapseAction: '展开',
+      othersCollapseAction: '展开',
+      dataPanelOpen: [],
       imageData: [],
       imgSrc: '',
       messageInfo: {},
@@ -342,17 +502,6 @@ export default {
   },
 
   mounted () {
-    // const _this = this;
-    // let data  = resultJson;
-    // console.log(data, "..........");
-    // if (data.status == 200) {
-    //   _this.allData = data.data;
-    //   _this.imageData = data.data.imageInfo;
-    //   _this.imgSrc = data.data.imageInfo[0].imageURL;
-    //   _this.imageId = data.data.imageInfo[0]["imageId"];
-    //   _this.getMessageInfo(_this.imageId);
-    // }
-
     this.billNumber = this.$route.query.billNumber
     this.query()
 
@@ -381,6 +530,27 @@ export default {
       this.imageId = data.imageId
       this.getMessageInfo([data.imageId])
       this.getErrorMessage(this.invoiceId)
+    },
+    toggleRuleCollapse (collapseTab) {
+      const _this = this;
+      let activeTxt = '';
+      console.log(collapseTab)
+      if (this.activeName.includes(`${collapseTab}1`) && this.activeName.includes(`${collapseTab}2`) ) {
+        _this.activeName = _this.activeName.filter(i => i.includes(collapseTab)===false)
+        activeTxt = '展开'
+      } else {
+        _this.activeName = [...new Set([...this.activeName.concat([`${collapseTab}1`, `${collapseTab}2`])])]
+        activeTxt = '收起'
+      }
+      switch (collapseTab) {
+        case 'IMAGES':
+          this.imagesCollapseAction = activeTxt
+          break;
+        case 'OTHERS':
+          this.othersCollapseAction = activeTxt
+        default:
+          break;
+      }
     },
     rowClick (vo, i) {
       if (vo.hasOwnProperty('imageData') && vo.imageData.length > 0) {
@@ -442,8 +612,11 @@ export default {
       }
       if (imageIds.length === 0) {
         this.$set(this, 'messageInfo', { invoices: allInvoice })
+        this.$set(this, 'dataPanelOpen', ['baseInfo-','buyerInfo-','sellerInfo-','invoiceInfo-'].map(i => `${i}${allInvoice[0]['发票ID']}`))
       } else {
-        this.$set(this, 'messageInfo', { invoices: allInvoice.filter(a => imageIds.includes(a.imageId)) })
+        const filterInvoices = allInvoice.filter(a => imageIds.includes(a.imageId))
+        this.$set(this, 'messageInfo', { invoices: filterInvoices })
+        this.$set(this, 'dataPanelOpen', ['baseInfo-','buyerInfo-','sellerInfo-','invoiceInfo-'].map(i => `${i}${filterInvoices[0]['发票ID']}`))
       }
     },
     getErrorMessage (invoiceIdP) {
@@ -457,6 +630,7 @@ export default {
       })
       let findMsg = findErrorMsg.filter(fi => fi.invoiceId === invoiceIdP)
       _this.errorMessage = findMsg[0].messages
+      _this.$set(_this, 'dataPanelOpen', ['baseInfo-','buyerInfo-','sellerInfo-','invoiceInfo-'].map(i => `${i}${invoiceIdP}`))
     },
     handleTab (index, invoiceId) {
       const _this = this
@@ -532,7 +706,8 @@ export default {
   }
 }
 .countBox {
-  width: 30%;
+  width: 50%;
+  text-align: right;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -608,7 +783,7 @@ export default {
 }
 .conBoxs {
   width: 100%;
-  height: 500px;
+  // height: 500px;
   margin-top: 20px;
   display: flex;
   .tabs {
@@ -728,5 +903,29 @@ export default {
   th{
     padding:10px 0;
   }
+}
+// , fieldset[disabled] .ivu-input
+/deep/.ivu-input[readonly] {
+  color:#333;
+  background-color: #f3f3f3;
+}
+/deep/.el-collapse-item__wrap{
+  border: none;
+}
+/deep/.el-collapse-item__header{
+  position: relative;
+  border: none;
+}
+/deep/.el-collapse-item__header::after{
+  content:" ";
+  width: calc(100% - 20rem);
+  border-top: 1px solid #999;
+  position: absolute;
+  right: 2.5rem;
+  overflow: hidden;
+}
+/deep/.el-collapse-item__header {
+  padding-left: .5rem;
+  border-left: 2px solid #1991dd;
 }
 </style>
