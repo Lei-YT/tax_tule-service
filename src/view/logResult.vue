@@ -207,7 +207,7 @@
               >
                 <el-collapse-item title="基本信息" v-bind:name="'baseInfo-'+vo['发票ID']" style="width: 100%">
                   <template>
-                    <Form label-position="left" :label-width="80">
+                    <Form label-position="left" :label-width="70">
                     <Row :gutter="16">
                         <Col span="8">
                         <FormItem label="发票类型">
@@ -757,14 +757,16 @@ export default {
   }
   /* 滚动槽 */
   .rightImg::-webkit-scrollbar-track {
-    -webkit-box-shadow:inset006pxrgba(0,0,0,0.3);
+    box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
     border-radius:10px;
   }
   /* 滚动条滑块 */
   .rightImg::-webkit-scrollbar-thumb {
     border-radius:10px;
     background:rgba(0,0,0,0.1);
-    -webkit-box-shadow:inset006pxrgba(0,0,0,0.5);
+    box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
   }
   .rightImg::-webkit-scrollbar-thumb:window-inactive {
     background:rgba(255,0,0,0.4);
@@ -893,6 +895,13 @@ export default {
   th{
     padding:10px 0;
   }
+}
+/deep/.el-collapse-item__content{
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+/deep/.ivu-form-item{
+  margin-bottom: .5rem;
 }
 /deep/.ivu-form-label-left .ivu-form-item-label{
   text-align: justify;
