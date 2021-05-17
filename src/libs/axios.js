@@ -44,7 +44,7 @@ class HttpRequest {
     }, error => {
       this.destroy(url)
       let errorInfo = error.response
-      console.log(error,'error');
+      console.log(error, 'error')
       // const { data, status } = errorInfo
       // Notification.closeAll()
       // Notification({

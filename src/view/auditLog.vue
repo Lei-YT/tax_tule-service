@@ -478,168 +478,150 @@
   </div>
 </template>
 <script>
-import logJson from "@/dataJson/log.json";
-import axios from "axios";
+import logJson from '@/dataJson/log.json'
+import axios from 'axios'
 export default {
-  data() {
+  data () {
     return {
       dialogFormVisible: false,
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
-        size: 10, // 每页显示多少条
+        size: 10 // 每页显示多少条
       },
       formInline: {
-        code: "",
-        type: "",
-        checkResult: "",
-        earlyWarning: "",
-        checkBeginDate: "",
-        checkEndDate: "",
-        beginMoney: "",
-        endMoney: "",
+        code: '',
+        type: '',
+        checkResult: '',
+        earlyWarning: '',
+        checkBeginDate: '',
+        checkEndDate: '',
+        beginMoney: '',
+        endMoney: '',
         // orderField: "",
         // orderType: "",
-        orderCode:"",             //单据编号排序  是否排序  默认""  asc升序  desc降序
-        orderType:"",             //业务名称排序  默认""
-        orderMoney:"",              //金额排序    默认""
-        orderCheckDate:"",         //审核日期    默认""
-        orderRpaDate:"",          //数据获取时长  默认""
-        orderOcrDate:"",            //OCR识别时长 默认""
-        orderRulesDate:"",            //规则审核时长  默认""
-        orderTotalDate:""           //审单总时长 默认""
+        orderCode: '', // 单据编号排序  是否排序  默认""  asc升序  desc降序
+        orderType: '', // 业务名称排序  默认""
+        orderMoney: '', // 金额排序    默认""
+        orderCheckDate: '', // 审核日期    默认""
+        orderRpaDate: '', // 数据获取时长  默认""
+        orderOcrDate: '', // OCR识别时长 默认""
+        orderRulesDate: '', // 规则审核时长  默认""
+        orderTotalDate: '' // 审单总时长 默认""
       },
       form: {
         type: [
-          "单据编号",
-          "业务名称",
-          "金额",
-          "审核日期",
-          "审核开始时间",
-          "审核结束时间",
-          "审核结果",
-          "预警风险",
-          "影像张数",
-        ],
+          '单据编号',
+          '业务名称',
+          '金额',
+          '审核日期',
+          '审核开始时间',
+          '审核结束时间',
+          '审核结果',
+          '预警风险',
+          '影像张数'
+        ]
       },
       tableData: [],
-      model1: "",
+      model1: '',
       idArr: [],
       tableSum: {
         rpaDateAvg: 0,
         ocrDateAvg: 0,
         rulesDateAvg: 0,
-        totalDateAvg: 0,
-      },
-    };
+        totalDateAvg: 0
+      }
+    }
   },
-  created() {
+  created () {
     // if (logJson.code == 20000) {
     //   let { data } = logJson.data;
     //   this.tableData = data;
     // }
     // this.query();
   },
-  mounted() {
-    this.adjustWidth();
-    window.addEventListener("resize", this.adjustWidth.bind(this));
-    this.query();
+  mounted () {
+    this.adjustWidth()
+    window.addEventListener('resize', this.adjustWidth.bind(this))
+    this.query()
   },
   methods: {
-    format(percentage) {
+    format (percentage) {
       if (percentage == 100) {
-        return `${percentage}%`;
+        return `${percentage}%`
       }
     },
-    handleChange(value) {
-      this.form.type = value;
+    handleChange (value) {
+      this.form.type = value
       // this.adjustWidth();
     },
-    handleSelectionChange(val) {
-      let idArr = [];
+    handleSelectionChange (val) {
+      let idArr = []
       val.map((item, index) => {
-        return idArr.push(item.id);
-      });
-      this.idArr = idArr;
+        return idArr.push(item.id)
+      })
+      this.idArr = idArr
     },
-    sortChange(val){
+    sortChange (val) {
       this.formInline.orderField = val.prop
-      var order = '';
-      if (val.order == 'ascending')
-        order = 'asc'
-      else if (val.order == 'descending')
-        order = 'desc'
+      var order = ''
+      if (val.order == 'ascending') { order = 'asc' } else if (val.order == 'descending') { order = 'desc' }
 
-      this.formInline.orderCode = '';
-      this.formInline.orderType = '';
-      this.formInline.orderMoney = '';
-      this.formInline.orderCheckDate = '';
-      this.formInline.orderRpaDate = '';
-      this.formInline.orderOcrDate = '';
-      this.formInline.orderRulesDate = '';
-      this.formInline.orderTotalDate = '';
+      this.formInline.orderCode = ''
+      this.formInline.orderType = ''
+      this.formInline.orderMoney = ''
+      this.formInline.orderCheckDate = ''
+      this.formInline.orderRpaDate = ''
+      this.formInline.orderOcrDate = ''
+      this.formInline.orderRulesDate = ''
+      this.formInline.orderTotalDate = ''
 
-      if (val.prop == 'code')
-        this.formInline.orderCode = order;
-      else if (val.prop == 'type')
-        this.formInline.orderType = order;
-      else if (val.prop == 'money')
-        this.formInline.orderMoney = order;
-      else if (val.prop == 'checkDate')
-        this.formInline.orderCheckDate = order;
-      else if (val.prop == 'rpaDate')
-        this.formInline.orderRpaDate = order;
-      else if (val.prop == 'ocrDate')
-        this.formInline.orderOcrDate = order;
-      else if (val.prop == 'rulesDate')
-        this.formInline.orderRulesDate = order;
-      else if (val.prop == 'totalDate')
-        this.formInline.orderTotalDate = order;
+      if (val.prop == 'code') { this.formInline.orderCode = order } else if (val.prop == 'type') { this.formInline.orderType = order } else if (val.prop == 'money') { this.formInline.orderMoney = order } else if (val.prop == 'checkDate') { this.formInline.orderCheckDate = order } else if (val.prop == 'rpaDate') { this.formInline.orderRpaDate = order } else if (val.prop == 'ocrDate') { this.formInline.orderOcrDate = order } else if (val.prop == 'rulesDate') { this.formInline.orderRulesDate = order } else if (val.prop == 'totalDate') { this.formInline.orderTotalDate = order }
 
       this.query()
     },
-    query() {
-      const _this = this;
+    query () {
+      const _this = this
       axios
         .post(
           `http://10.15.196.127:7070/bill/page/${_this.page.currentPage}/${_this.page.size}`,
           {
-            code: _this.formInline.code || "",
-            type: _this.formInline.type || "",
-            checkResult: _this.formInline.checkResult || "",
-            earlyWarning: _this.formInline.earlyWarning || "",
-            checkBeginDate: _this.formInline.checkBeginDate || "",
-            checkEndDate: _this.formInline.checkEndDate || "",
-            beginMoney: _this.formInline.beginMoney || "",
-            endMoney: _this.formInline.endMoney || "",
+            code: _this.formInline.code || '',
+            type: _this.formInline.type || '',
+            checkResult: _this.formInline.checkResult || '',
+            earlyWarning: _this.formInline.earlyWarning || '',
+            checkBeginDate: _this.formInline.checkBeginDate || '',
+            checkEndDate: _this.formInline.checkEndDate || '',
+            beginMoney: _this.formInline.beginMoney || '',
+            endMoney: _this.formInline.endMoney || '',
             // orderField: _this.formInline.orderField || "",
             // orderType: _this.formInline.orderType || "",
 
-            orderCode: _this.formInline.orderCode || "",
-            orderType: _this.formInline.orderType || "",
-            orderMoney: _this.formInline.orderMoney || "",
-            orderCheckDate: _this.formInline.orderCheckDate || "",
-            orderRpaDate: _this.formInline.orderRpaDate || "",
-            orderOcrDate: _this.formInline.orderOcrDate || "",
-            orderRulesDate: _this.formInline.orderRulesDate || "",
-            orderTotalDate: _this.formInline.orderTotalDate || "",
+            orderCode: _this.formInline.orderCode || '',
+            orderType: _this.formInline.orderType || '',
+            orderMoney: _this.formInline.orderMoney || '',
+            orderCheckDate: _this.formInline.orderCheckDate || '',
+            orderRpaDate: _this.formInline.orderRpaDate || '',
+            orderOcrDate: _this.formInline.orderOcrDate || '',
+            orderRulesDate: _this.formInline.orderRulesDate || '',
+            orderTotalDate: _this.formInline.orderTotalDate || ''
           }
         )
         .then(function (response) {
-          let data = response.data;
+          let data = response.data
           if (data.code == 20000) {
-            _this.tableData = data.data.data;
-            _this.page.totalElement = data.data.total;
+            _this.tableData = data.data.data
+            _this.page.totalElement = data.data.total
             // this.tableData = data.data.data;
           }
-          _this.adjustWidth();
+          _this.adjustWidth()
         })
         .catch(function (error) {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     // 导出
-    exported() {
+    exported () {
       let idArr = this.idArr
       if (idArr.length == 0) {
         // this.$Message.info({
@@ -650,13 +632,12 @@ export default {
         // });
         // return;
         this.tableData.map((item, index) => {
-           idArr.push(item.id);
-        });
-
+          idArr.push(item.id)
+        })
       }
       // console.log('ids',idArr)
       axios
-        .post(`http://10.15.196.127:7070/bill/export`, idArr, { responseType: "blob" })
+        .post(`http://10.15.196.127:7070/bill/export`, idArr, { responseType: 'blob' })
         .then(function (response) {
           // let data = response.data;
           // if (data.code == 20000) {
@@ -667,138 +648,138 @@ export default {
           //   });
           // }
           if (!response) {
-            return;
+            return
           }
-          let blobType = "application/vnd.ms-excel";
+          let blobType = 'application/vnd.ms-excel'
           let url = window.URL.createObjectURL(
             new Blob([response.data], { type: blobType })
             // response.data
-          );
-          let link = document.createElement("a");
-          link.style.display = "none";
-          link.href = url;
-          link.setAttribute("download", '导出结果');
-          document.body.appendChild(link);
-          link.click();
+          )
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          link.setAttribute('download', '导出结果')
+          document.body.appendChild(link)
+          link.click()
         })
         .catch(function (error) {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     // 设置
-    setting() {
-      this.dialogFormVisible = true;
+    setting () {
+      this.dialogFormVisible = true
     },
-    submit() {
-      this.dialogFormVisible = false;
-      this.adjustWidth();
+    submit () {
+      this.dialogFormVisible = false
+      this.adjustWidth()
     },
-    handleClick(row) {
+    handleClick (row) {
       this.$router.push({
-        path: `/logResult/logResult?billNumber=${row.code}`,
-      });
+        path: `/logResult/logResult?billNumber=${row.code}`
+      })
     },
-    searchData() {
-      this.page.currentPage = 1;
-      this.query();
+    searchData () {
+      this.page.currentPage = 1
+      this.query()
     },
-    handleReset(name) {
-      this.$refs[name].resetFields();
+    handleReset (name) {
+      this.$refs[name].resetFields()
       this.formInline = {
-        code: "",
-        type: "",
-        checkResult: "",
-        earlyWarning: "",
-        checkBeginDate: "",
-        checkEndDate: "",
-        beginMoney: "",
-        endMoney: "",
-        orderField: "",
-        orderType: "",
+        code: '',
+        type: '',
+        checkResult: '',
+        earlyWarning: '',
+        checkBeginDate: '',
+        checkEndDate: '',
+        beginMoney: '',
+        endMoney: '',
+        orderField: '',
+        orderType: ''
       }
       this.form = {
         type: [
-          "单据编号",
-          "业务名称",
-          "金额",
-          "审核日期",
-          "审核开始时间",
-          "审核结束时间",
-          "审核结果",
-          "预警风险",
-          "影像张数",
-        ],
+          '单据编号',
+          '业务名称',
+          '金额',
+          '审核日期',
+          '审核开始时间',
+          '审核结束时间',
+          '审核结果',
+          '预警风险',
+          '影像张数'
+        ]
       }
-      this.$refs.checkResult.clearSingleSelect();
-      this.query();
+      this.$refs.checkResult.clearSingleSelect()
+      this.query()
     },
-    currentChange(current) {
-      this.page.currentPage = current;
-      this.query();
+    currentChange (current) {
+      this.page.currentPage = current
+      this.query()
     },
-    sizeChange(size) {
-      this.page.size = size;
-      this.currentChange(1);
+    sizeChange (size) {
+      this.page.size = size
+      this.currentChange(1)
       // this.query();
     },
-    calculateAvg(sum, length, key) {
-      const _this = this;
-      _this.tableSum[key] = parseFloat(sum) / parseFloat(length).toFixed(2);
+    calculateAvg (sum, length, key) {
+      const _this = this
+      _this.tableSum[key] = parseFloat(sum) / parseFloat(length).toFixed(2)
     },
-    calculateSummary(param) {
-      const _this = this;
-      const { columns, data } = param;
-      const sums = [];
+    calculateSummary (param) {
+      const _this = this
+      const { columns, data } = param
+      const sums = []
       columns.forEach((column, index) => {
         const allRpaDateValues = data.map((item) =>
           Number(item[column.property])
-        );
-        let sumColumn = 0;
+        )
+        let sumColumn = 0
         if (!allRpaDateValues.every((value) => isNaN(value))) {
           sumColumn = allRpaDateValues.reduce((prev, curr) => {
-            const value = Number(curr);
+            const value = Number(curr)
             if (!isNaN(value)) {
-              return prev + curr;
+              return prev + curr
             } else {
-              return prev;
+              return prev
             }
-          }, 0);
+          }, 0)
         }
         if (index === 13) {
-          sums[index] = "数据获取平均时长";
-          _this.calculateAvg(sumColumn, allRpaDateValues.length, "rpaDateAvg");
-          return;
+          sums[index] = '数据获取平均时长'
+          _this.calculateAvg(sumColumn, allRpaDateValues.length, 'rpaDateAvg')
+          return
         }
         if (index === 14) {
-          sums[index] = "OCR识别平均时长";
-          _this.calculateAvg(sumColumn, allRpaDateValues.length, "ocrDateAvg");
-          return;
+          sums[index] = 'OCR识别平均时长'
+          _this.calculateAvg(sumColumn, allRpaDateValues.length, 'ocrDateAvg')
+          return
         }
         if (index === 15) {
-          sums[index] = "规则审核平均时长";
+          sums[index] = '规则审核平均时长'
           _this.calculateAvg(
             sumColumn,
             allRpaDateValues.length,
-            "rulesDateAvg"
-          );
-          return;
+            'rulesDateAvg'
+          )
+          return
         }
         if (index === 16) {
-          sums[index] = "审单平均时长";
+          sums[index] = '审单平均时长'
           _this.calculateAvg(
             sumColumn,
             allRpaDateValues.length,
-            "totalDateAvg"
-          );
-          return;
+            'totalDateAvg'
+          )
+          return
         }
-        sums[index] = "";
+        sums[index] = ''
         return;
-      });
+      })
 
-      return sums;
+      return sums
     },
-    adjustWidth() {
+    adjustWidth () {
       this.$nextTick(() => {
         if (
           this.$refs &&
@@ -808,23 +789,23 @@ export default {
           this.$refs.table.$refs.headerWrapper
         ) {
           var width = getComputedStyle(
-            this.$refs.table.$refs.headerWrapper.querySelector("table")
-          ).width;
-          this.$refs.sum_xiaoji.style = "width:" + width;
-          this.$refs.sum_heji.style = "width:" + width;
+            this.$refs.table.$refs.headerWrapper.querySelector('table')
+          ).width
+          this.$refs.sum_xiaoji.style = 'width:' + width
+          this.$refs.sum_heji.style = 'width:' + width
           Array.from(
-            this.$refs.table.$refs.headerWrapper.querySelectorAll("col")
+            this.$refs.table.$refs.headerWrapper.querySelectorAll('col')
           ).forEach((n, i) => {
             this.$refs.sum_xiaoji.children[i].style =
-              "width:" + n.getAttribute("width") + "px";
+              'width:' + n.getAttribute('width') + 'px'
             this.$refs.sum_heji.children[i].style =
-              "width:" + n.getAttribute("width") + "px";
-          });
+              'width:' + n.getAttribute('width') + 'px'
+          })
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .numCount {

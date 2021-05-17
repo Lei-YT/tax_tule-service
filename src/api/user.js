@@ -30,7 +30,7 @@ export const changeStatus = ({ sceneId, status }) => {
   })
 }
 
-// 帐号列表接口 
+// 帐号列表接口
 export const getUserList = (params) => {
   return axios.request({
     url: `/api/user/list?pagesize=${params.pagesize}&pageindex=${params.pageindex}&name=${params.name}&stationName=${params.stationName}`,

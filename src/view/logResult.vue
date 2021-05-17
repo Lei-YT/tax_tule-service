@@ -275,73 +275,73 @@
   </div>
 </template>
 <script>
-import resultJson from "@/dataJson/result.json";
-import ImagePreview from "@/components/image-preview";
-import { matchCNkeys } from "@/libs/invoice";
-import axios from "axios";
+import resultJson from '@/dataJson/result.json'
+import ImagePreview from '@/components/image-preview'
+import { matchCNkeys } from '@/libs/invoice'
+import axios from 'axios'
 export default {
   components: { ImagePreview },
-  data() {
+  data () {
     return {
       allData: [],
-      activeName: ["IMAGES1","OTHERS1"],// "IMAGES1",
+      activeName: ['IMAGES1', 'OTHERS1'], // "IMAGES1",
       imageData: [],
-      imgSrc: "",
+      imgSrc: '',
       messageInfo: {},
-      imageId: "",
-      invoiceId: "",
+      imageId: '',
+      invoiceId: '',
       cur: 0,
       errorFieldCode: [],
       errorMessage: [],
-      billNumber: "",
+      billNumber: '',
       columns: [
         {
-          title: "序号",
-          type: "index",
-          width: 65,
+          title: '序号',
+          type: 'index',
+          width: 65
         },
         {
-          title: "规则",
-          slot: "ruleName",
+          title: '规则',
+          slot: 'ruleName'
         },
         {
-          title: " ",
-          slot: "icon",
-          width: 65,
+          title: ' ',
+          slot: 'icon',
+          width: 65
         },
         {
-          title: "审核结果",
-          slot: "message",
-        },
+          title: '审核结果',
+          slot: 'message'
+        }
       ],
       columns1: [
         {
-          title: "序号",
-          type: "index",
-          width: 65,
+          title: '序号',
+          type: 'index',
+          width: 65
         },
         {
-          title: "预警等级",
-          slot: "grade",
-          width: 90,
+          title: '预警等级',
+          slot: 'grade',
+          width: 90
         },
         {
-          title: "规则",
-          slot: "ruleName",
+          title: '规则',
+          slot: 'ruleName'
         },
         {
-          title: "审核结果",
-          slot: "message",
-        },
+          title: '审核结果',
+          slot: 'message'
+        }
       ],
       tabsInvoiceIndex: 0,
       showbigimg: false,
-      imgIndex:0,
-      showImgData:[]
-    };
+      imgIndex: 0,
+      showImgData: []
+    }
   },
 
-  mounted() {
+  mounted () {
     // const _this = this;
     // let data  = resultJson;
     // console.log(data, "..........");
@@ -353,138 +353,136 @@ export default {
     //   _this.getMessageInfo(_this.imageId);
     // }
 
-    this.billNumber = this.$route.query.billNumber;
-    this.query();
+    this.billNumber = this.$route.query.billNumber
+    this.query()
 
-    this.handelAllImage();
+    this.handelAllImage()
   },
   computed: {
   },
   methods: {
-    handelAllImage(type) {
+    handelAllImage (type) {
       // return false;
-      const _this = this;
-      _this.imageData = _this.allData.imageInfo;
-      _this.invoiceId = _this.imageData[0]["invoices"][0]["发票ID"];
-      _this.imageId = _this.allData.imageInfo[0]["imageId"];
-      _this.getMessageInfo([]);
-      _this.getErrorMessage(_this.invoiceId);
-      _this.tabsInvoiceIndex = 0;
-      if (type === "Refresh") {
+      const _this = this
+      _this.imageData = _this.allData.imageInfo
+      _this.invoiceId = _this.imageData[0]['invoices'][0]['发票ID']
+      _this.imageId = _this.allData.imageInfo[0]['imageId']
+      _this.getMessageInfo([])
+      _this.getErrorMessage(_this.invoiceId)
+      _this.tabsInvoiceIndex = 0
+      if (type === 'Refresh') {
       }
     },
     // 右边小图点击事件
-    handelImage(data) {
-      console.log('handelImage(data)',data)
-      this.tabsInvoiceIndex = 0;
-      this.invoiceId = data["invoices"][0]["发票ID"];
-      this.imageId = data.imageId;
-      this.getMessageInfo([data.imageId]);
-      this.getErrorMessage(this.invoiceId);
+    handelImage (data) {
+      console.log('handelImage(data)', data)
+      this.tabsInvoiceIndex = 0
+      this.invoiceId = data['invoices'][0]['发票ID']
+      this.imageId = data.imageId
+      this.getMessageInfo([data.imageId])
+      this.getErrorMessage(this.invoiceId)
     },
-    rowClick(vo, i) {
+    rowClick (vo, i) {
       if (vo.hasOwnProperty('imageData') && vo.imageData.length > 0) {
         let ids = vo.imageData.map((voi) => {
-          return voi.imageId;
-        });
-        this.setImageData(ids);
+          return voi.imageId
+        })
+        this.setImageData(ids)
       }
     },
-    setImageData(arr) {
+    setImageData (arr) {
       let newArr = [],
-        data = this.allData.imageInfo;
+        data = this.allData.imageInfo
       for (let i = 0; i < data.length; i++) {
-        if (arr.indexOf(data[i]["imageId"]) != -1) {
-          newArr.push(data[i]);
+        if (arr.indexOf(data[i]['imageId']) != -1) {
+          newArr.push(data[i])
         }
       }
-      this.imageData = newArr;
-      this.invoiceId = this.imageData[0]["invoices"][0]["发票ID"];
-      this.imageId = this.imageData[0]["imageId"];
-      this.getMessageInfo(newArr.map(a => a.imageId));
-      this.getErrorMessage(this.invoiceId);
-      this.handleClick(this.imageData[0].imageURL, 0);
-      this.tabsInvoiceIndex = 0;
+      this.imageData = newArr
+      this.invoiceId = this.imageData[0]['invoices'][0]['发票ID']
+      this.imageId = this.imageData[0]['imageId']
+      this.getMessageInfo(newArr.map(a => a.imageId))
+      this.getErrorMessage(this.invoiceId)
+      this.handleClick(this.imageData[0].imageURL, 0)
+      this.tabsInvoiceIndex = 0
     },
-    query() {
-      const _this = this;
+    query () {
+      const _this = this
       axios
         .get(`http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`)
         .then((resp) => {
-          let data = resp.data;
+          let data = resp.data
           if (data.status == 200) {
-            _this.allData = data.data;
-            _this.imageData = data.data.imageInfo;
-            _this.imgSrc = data.data.imageInfo[0].imageURL;
-            _this.imageId = data.data.imageInfo[0]["imageId"];
-            _this.invoiceId = data.data.imageInfo[0]["invoices"][0]["发票ID"];
-            _this.getMessageInfo([]);
-            _this.getErrorMessage(_this.invoiceId);
+            _this.allData = data.data
+            _this.imageData = data.data.imageInfo
+            _this.imgSrc = data.data.imageInfo[0].imageURL
+            _this.imageId = data.data.imageInfo[0]['imageId']
+            _this.invoiceId = data.data.imageInfo[0]['invoices'][0]['发票ID']
+            _this.getMessageInfo([])
+            _this.getErrorMessage(_this.invoiceId)
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
-
+          console.log(err)
+        })
     },
 
-
-    getMessageInfo(imageIds) {
-      let data = this.allData.imageInfo;
-      let allInvoice = [];
+    getMessageInfo (imageIds) {
+      let data = this.allData.imageInfo
+      let allInvoice = []
       for (let i = 0; i < data.length; i++) {
         const _dataI = {
           ...data[i],
-            invoices: data[i].invoices.map((io) => {
-              return matchCNkeys(io.invoiceType, io);
-            }),
-          };
-          data[i] = _dataI;
-          allInvoice = allInvoice.concat(_dataI.invoices);
+          invoices: data[i].invoices.map((io) => {
+            return matchCNkeys(io.invoiceType, io)
+          })
+        }
+        data[i] = _dataI
+        allInvoice = allInvoice.concat(_dataI.invoices)
       }
-      if ( imageIds.length === 0) {
-        this.$set(this, "messageInfo", {invoices: allInvoice});
+      if (imageIds.length === 0) {
+        this.$set(this, 'messageInfo', { invoices: allInvoice })
       } else {
-        this.$set(this, "messageInfo", {invoices: allInvoice.filter(a => imageIds.includes(a.imageId))});
+        this.$set(this, 'messageInfo', { invoices: allInvoice.filter(a => imageIds.includes(a.imageId)) })
       }
     },
-    getErrorMessage(invoiceIdP) {
-      const _this = this;
-      _this.errorMessage = [];
-      let error = this.allData.errors;
-      let findErrorMsg = [];
+    getErrorMessage (invoiceIdP) {
+      const _this = this
+      _this.errorMessage = []
+      let error = this.allData.errors
+      let findErrorMsg = []
       error.map(e => {
-        findErrorMsg = findErrorMsg.concat(e.infos);
-        return true;
-      });
-      let findMsg = findErrorMsg.filter(fi => fi.invoiceId=== invoiceIdP);
-      _this.errorMessage = findMsg[0].messages;
+        findErrorMsg = findErrorMsg.concat(e.infos)
+        return true
+      })
+      let findMsg = findErrorMsg.filter(fi => fi.invoiceId === invoiceIdP)
+      _this.errorMessage = findMsg[0].messages
     },
-    handleTab(index, invoiceId) {
-      const _this = this;
-      this.tabsInvoiceIndex = index;
-      this.invoiceId = invoiceId;
+    handleTab (index, invoiceId) {
+      const _this = this
+      this.tabsInvoiceIndex = index
+      this.invoiceId = invoiceId
       this.getErrorMessage(invoiceId)
-      const fi = this.imageData.map(id => id.invoices.filter(ii => ii['发票ID']===invoiceId));
-      const findImg = fi.filter(fii => fii.length>0)[0][0].imageId;
-      _this.allData.imageInfo.map((iid,i) => {
-        if (iid.imageId==findImg) {
-          _this.handleClick(iid.imageURL, i);
-          return false;
+      const fi = this.imageData.map(id => id.invoices.filter(ii => ii['发票ID'] === invoiceId))
+      const findImg = fi.filter(fii => fii.length > 0)[0][0].imageId
+      _this.allData.imageInfo.map((iid, i) => {
+        if (iid.imageId == findImg) {
+          _this.handleClick(iid.imageURL, i)
+          return false
         }
       })
     },
-    handleClick(url, index) {
-      this.imgSrc = url;
-      this.imgIndex = index;
+    handleClick (url, index) {
+      this.imgSrc = url
+      this.imgIndex = index
     },
-    showImgbox() {
-      this.showbigimg = !this.showbigimg;
-      this.showImgData=[];
-      this.showImgData.push(this.imageData[this.imgIndex]);
-    },
-  },
-};
+    showImgbox () {
+      this.showbigimg = !this.showbigimg
+      this.showImgData = []
+      this.showImgData.push(this.imageData[this.imgIndex])
+    }
+  }
+}
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .item {

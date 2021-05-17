@@ -16,7 +16,6 @@ import '@/assets/icons/iconfont.css'
 import TreeTable from 'tree-table-vue'
 import VOrgTree from 'v-org-tree'
 import 'v-org-tree/dist/v-org-tree.css'
-
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
@@ -52,6 +51,9 @@ Vue.prototype.$config = config
 importDirective(Vue)
 Vue.directive('clickOutside', clickOutside)
 
+if (process.env.NODE_ENV === 'development') {
+  require('@/mock/index')
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
