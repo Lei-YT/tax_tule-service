@@ -774,7 +774,7 @@ export default {
           return
         }
         sums[index] = ''
-        return;
+        return true
       })
 
       return sums
