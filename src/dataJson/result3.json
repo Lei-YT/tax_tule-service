@@ -1,387 +1,171 @@
-{"status":200,"message":"成功","data":{
-  "billType": "CRTG_劳务结算单（成本推送）",
-  "billNo": "20210430673359143004671314",
-  "versionName": "测试-1.7",
-  "imageInfo": [
-    {
-      "imageId": "1391352847266013185",
-      "billId": "1391352812059025409",
-      "attachmentId": "1391352812067414018",
-      "imageURL": "http://10.15.196.127:81/2021/05/09/63026fc294b42062fa65cafa9e01b0ea.jpg",
-      "invoices": [
-        {
-          "invoiceFormName": "发票联",
-          "purchaserBankAccount": "中国建设银行股份有限公司重庆两江高新园支行50001040100059667788",
-          "sellerName": "临沂三盟建筑劳务分包有限公司",
-          "isDaikai": "no",
-          "sellerAddress": "山东省临沂市莒南县十字路口镇福祥居000745号18754976233",
-          "purchaserAddress": "重庆市渝北区天山大道西段32号2幢02365933583",
-          "invoicePrintNo": "08733837",
-          "invoiceType": "增值税普通发票",
-          "invoiceNo": "08733837",
-          "amountWithoutTax": "34747.75",
-          "imageId": "1391352847266013185",
-          "specialSeal": "发票专用章",
-          "invoiceDate": "2021-04-25",
-          "invoiceCode": "3700162350",
-          "purchaserName": "中铁隧道集团一处有限公司",
-          "invoicePrintCode": "3700162350",
-          "sellerTaxNo": "91371302796168545F",
-          "invoiceItems": [
-            {
-              "itemUnitPrice": "",
-              "itemName": "*建筑服务*工程款",
-              "itemQuantity": "",
-              "itemAmount": "34747.75",
-              "itemModel": "",
-              "itemUnit": "",
-              "itemTaxAmount": "1042.43",
-              "itemTaxRate": "3%"
-            }
-          ],
-          "purchaserTaxNo": "915000006733598862",
-          "sellerBankAccount": "农业银行临沂临西支行15866101040007188",
-          "invoiceId": "b65811a9cb734158947167bf1bd486e3",
-          "invoiceSubType": "",
-          "taxAmount": "1042.43",
-          "amountWithTax": "35790.18",
-          "fileType": "",
-          "remarks": "工程名称：嘉兴环线3标项目建筑装饰工程<br/>工程地点：浙江省嘉兴市南湖区长水路"
-        }
-      ]
-    },
-    {
-      "imageId": "1391352859895062530",
-      "billId": "1391352812059025409",
-      "attachmentId": "1391352812071608321",
-      "imageURL": "http://10.15.196.127:81/2021/05/09/f99491e91552ed0207e38364a7ee226b.jpg",
-      "invoices": [
-        {
-          "invoiceFormName": "发票联",
-          "purchaserBankAccount": "中国建设银行股份有限公司重庆两江高新园支行50001040100059667788",
-          "sellerName": "临沂三盟建筑劳务分包有限公司",
-          "isDaikai": "no",
-          "sellerAddress": "山东省临沂市莒南县十字路口镇福祥居000745号18754976233",
-          "purchaserAddress": "重庆市渝北区天山大道西段32号2幢02365933583",
-          "invoicePrintNo": "08733836",
-          "invoiceType": "增值税普通发票",
-          "invoiceNo": "08733836",
-          "amountWithoutTax": "97087.38",
-          "imageId": "1391352859895062530",
-          "specialSeal": "发票专用章",
-          "invoiceDate": "2021-04-25",
-          "invoiceCode": "3700162350",
-          "purchaserName": "中铁隧道集团一处有限公司",
-          "invoicePrintCode": "3700162350",
-          "sellerTaxNo": "91371302796168545F",
-          "invoiceItems": [
-            {
-              "itemUnitPrice": "",
-              "itemName": "*建筑服务*工程款",
-              "itemQuantity": "",
-              "itemAmount": "97087.38",
-              "itemModel": "",
-              "itemUnit": "",
-              "itemTaxAmount": "2912.62",
-              "itemTaxRate": "3%"
-            }
-          ],
-          "purchaserTaxNo": "915000006733598862",
-          "sellerBankAccount": "农业银行临沂临西支行15866101040007188",
-          "invoiceId": "e1f73834c0de4cfcbc6b9da463467cc4",
-          "invoiceSubType": "",
-          "taxAmount": "2912.62",
-          "amountWithTax": "100000.00",
-          "fileType": "",
-          "remarks": "工程名称：嘉兴环线3标项目建筑装饰工程<br/>工程地点：浙江省嘉兴市南湖区长水路"
-        }
-      ]
-    },
-    {
-      "imageId": "1391352872524111873",
-      "billId": "1391352812059025409",
-      "attachmentId": "1391352812079996930",
-      "imageURL": "http://10.15.196.127:81/2021/05/09/bf19cd7929dd3c502224995a679e403c.jpg",
-      "invoices": [
-        {
-          "invoiceFormName": "发票联",
-          "purchaserBankAccount": "中国建设银行股份有限公司重庆两江高新园支行50001040100059667788",
-          "sellerName": "临沂三盟建筑劳务分包有限公司",
-          "isDaikai": "no",
-          "purchaserAddress": "重庆市渝北区天山大道西段32号2幢02365933583",
-          "invoicePrintNo": "08122820",
-          "invoiceType": "增值税普通发票",
-          "invoiceNo": "08733835",
-          "amountWithoutTax": "97087.38",
-          "imageId": "1391352872524111873",
-          "specialSeal": "发票专用章",
-          "invoiceDate": "2021-04-25",
-          "invoiceCode": "3100193320",
-          "purchaserName": "中铁隧道集团一处有限公司",
-          "invoicePrintCode": "3700162350",
-          "sellerTaxNo": "91371302796168545F",
-          "invoiceItems": [
-            {
-              "itemUnitPrice": "",
-              "itemName": "*建筑服务*工程款)",
-              "itemQuantity": "",
-              "itemAmount": "97087.38",
-              "itemModel": "",
-              "itemUnit": "",
-              "itemTaxAmount": "2912.62",
-              "itemTaxRate": "3%"
-            }
-          ],
-          "purchaserTaxNo": "915000006733598862",
-          "sellerBankAccount": "农业银行临沂临西支行15866101040007188",
-          "invoiceId": "6ec143860b614edf844138b768b98442",
-          "invoiceSubType": "",
-          "taxAmount": "2912.62",
-          "amountWithTax": "100000.00",
-          "fileType": "",
-          "remarks": "校验码01891299576900775738工程名称:嘉兴环线3标项目建筑装饰工工程地点:浙江省嘉兴市南湖区长路"
-        }
-      ]
-    }
-  ],
-  "errors": [
-    {
-      "imageId": "1391352847266013185",
-      "infos": [
-        {
-          "invoiceId": "b65811a9cb734158947167bf1bd486e3",
-          "messages": [
-            "发票抬头有误"
-          ]
-        }
-      ]
-    },
-    {
-      "imageId": "1391352859895062530",
-      "infos": [
-        {
-          "invoiceId": "e1f73834c0de4cfcbc6b9da463467cc4",
-          "messages": [
-            "发票抬头有误"
-          ]
-        }
-      ]
-    },
-    {
-      "imageId": "1391352872524111873",
-      "infos": [
-        {
-          "invoiceId": "6ec143860b614edf844138b768b98442",
-          "messages": [
-            "发票跳号",
-            "发票抬头有误"
-          ]
-        }
-      ]
-    }
-  ],
-  "data": [
-    {
-      "ruleCount": 8,
-      "errorCount": 2,
-      "ruleType": "IMAGES",
-      "color": null,
-      "result": [
-        {
-          "ruleId": "CB5150927067",
-          "ruleName": "影像.发票.发票代码=机器代码，且影像.发票.发票号码=机器号码",
-          "correct": false,
-          "message": "发票跳号",
-          "ruleType": "IMAGE",
-          "imageData": [
-            {
-              "imageId": "1391352872524111873",
-              "infos": [
-                {
-                  "invoiceId": "6ec143860b614edf844138b768b98442"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "ruleId": "WN5654539076",
-          "ruleName": "影像.发票.购买方名称+纳税人识别号=表单.单据信息.所属法人及纳税人识别号",
-          "correct": false,
-          "message": "发票抬头有误",
-          "ruleType": "IMAGE",
-          "imageData": [
-            {
-              "imageId": "1391352847266013185",
-              "infos": [
-                {
-                  "invoiceId": "b65811a9cb734158947167bf1bd486e3"
-                }
-              ]
-            },
-            {
-              "imageId": "1391352859895062530",
-              "infos": [
-                {
-                  "invoiceId": "e1f73834c0de4cfcbc6b9da463467cc4"
-                }
-              ]
-            },
-            {
-              "imageId": "1391352872524111873",
-              "infos": [
-                {
-                  "invoiceId": "6ec143860b614edf844138b768b98442"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "ruleId": "ZD1152316060",
-          "ruleName": "影像.发票.货物或应税劳务、服务名称=“*建筑服务*”、“技术服务”、“人力资源”、“劳务派遣”",
-          "correct": true,
-          "ruleType": "IMAGE"
-        },
-        {
-          "ruleId": "LS6275925835",
-          "ruleName": "影像.发票.税率=9%、6%、5%、3%、1%、0",
-          "correct": true,
-          "ruleType": "IMAGE"
-        },
-        {
-          "ruleId": "BG9348516788",
-          "ruleName": "影像.发票.联次=发票联",
-          "correct": true,
-          "ruleType": "IMAGE"
-        },
-        {
-          "ruleId": "CK9214631582",
-          "ruleName": "影像.发票≠定额发票",
-          "correct": true,
-          "ruleType": "IMAGE"
-        },
-        {
-          "ruleId": "DH1810193837",
-          "ruleName": "影像.发票.销售方名称=表单.业务信息.客户名称",
-          "correct": true,
-          "ruleType": "IMAGE"
-        },
-        {
-          "ruleId": "AJ3050537413",
-          "ruleName": "增值税发票影像.发票.销售方.地址、电话、开户行及账户≠空",
-          "correct": true,
-          "ruleType": "IMAGE"
-        }
-      ]
-    },
-    {
-      "ruleCount": 15,
-      "errorCount": 2,
-      "ruleType": "OTHERS",
-      "color": null,
-      "result": [
-        {
-          "ruleId": "BQ9853735345",
-          "ruleName": "表单.发票信息.发票类型=影像.发票.发票类型",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "XA9031558433",
-          "ruleName": "表单.发票信息.发票代码=影像.发票.发票代码",
-          "correct": false,
-          "message": "发票代码录入有误",
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "GM6713065082",
-          "ruleName": "表单.发票信息.发票号=影像.发票.发票号",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "EF6206350696",
-          "ruleName": "表单.发票信息.开票日期=影像.发票.开票日期",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "KM3798346856",
-          "ruleName": "表单.发票信息.税率=影像.发票.税率",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "LU8414349360",
-          "ruleName": "表单.发票信息.价税合计=影像.发票.价税合计",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "EX3760127778",
-          "ruleName": "表单.发票信息.金额=影像.发票.金额",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "YQ4976205447",
-          "ruleName": "表单.发票信息.税额=影像.发票.税额",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "UT3161589338",
-          "ruleName": "表单.发票信息.发票类别=“进项发票”",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "CD8881882360",
-          "ruleName": "表单.财务信息.制证日期-表单.发票信息.开票日期＜2个自然年",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "RC6690055483",
-          "ruleName": "表单.财务信息.普票增值税额=表单.业务信息.本期结算金额/(1+3%)*3%",
-          "correct": false,
-          "message": "简易计税项目取得9%高税率或享受减税、免税政策低于3%征收率的工程服务发票，应按照价税合计数换算成3%征收率计算抵减税额，扣除计算抵减税额后的余额列支成本。",
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "WC2673219849",
-          "ruleName": "表单.业务信息.本期结算金额=影像.成本推送单据.劳务费用验工计价表.进入成本金额+可抵扣进项税额（专票）+可抵扣进项税额（普票）",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "MS9370449286",
-          "ruleName": "表单.业务信息.客户名称=影像.成本推送单据.劳务费用验工计价表.对方单位名称",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "JM7183571699",
-          "ruleName": "当表单.财务信息.结算方式=“网银”且支付途径=“中铁资金”时，影像附件不应存在银行回单",
-          "correct": true,
-          "ruleType": "BILLS"
-        },
-        {
-          "ruleId": "BN2354277065",
-          "ruleName": "影像.发票.税率=影像.成本推送单据.劳务费用验工计价表.结算明细.增值税率（%）",
-          "correct": true,
-          "ruleType": "BILLS"
-        }
-      ]
-    },
-    {
-      "ruleCount": 0,
-      "errorCount": null,
-      "ruleType": "WARNING",
-      "color": null,
-      "result": []
-    }
-  ]
-}
+{
+	"status": 200,
+	"message": "成功",
+	"data": {
+		"billType": "CRTG_机械租赁结算单(成本)",
+		"taskId": "7c491088f3ba47b78209d4ba11b1c0ab",
+		"billNo": "20210516673359138004725875",
+		"versionName": "测试-2.0",
+		"imageInfo": [{
+			"imageId": "1394474740949008386",
+			"billId": "1394474714625556481",
+			"attachmentId": "1394474714646528001",
+			"imageURL": "http://10.15.196.127:81/2021/05/18/83344d87fa6207a094ec78eb3f2a72ec.jpg",
+			"invoices": [{
+				"invoiceFormName": "发票联",
+				"purchaserBankAccount": "中国建设银行股份有限公司重庆两江高新园支行 50001040100059667788",
+				"sellerName": "国家税务总局昆明市五华区税务局代开发票特殊纳税人二十四",
+				"isDaikai": "yes",
+				"sellerAddress": "云南省昆明市五华区普吉办事处大普吉第二居民小组大地坡564号附5号商铺 13808700827",
+				"purchaserAddress": "重庆市渝北区天山大道西段32号2幢 02365933583",
+				"isVerify": "yes",
+				"invoicePrintNo": "00138073",
+				"repeat": "no",
+				"invoiceType": "增值税专用发票",
+				"invoiceNo": "00138073",
+				"amountWithoutTax": "17475.73",
+				"imageId": "1394474740949008386",
+				"specialSeal": "发票专用章",
+				"invoiceDate": "2021-04-29",
+				"invoiceCode": "5300203160",
+				"purchaserName": "中铁隧道集团一处有限公司",
+				"invoicePrintCode": "5300203160",
+				"sellerTaxNo": "53010200DKD0118",
+				"invoiceItems": [{
+					"itemUnitPrice": "",
+					"itemName": "洒水车租赁费",
+					"itemQuantity": "",
+					"itemAmount": "17475.73",
+					"itemModel": "",
+					"itemUnit": "",
+					"itemTaxAmount": "174.76",
+					"itemTaxRate": "1%"
+				}],
+				"purchaserTaxNo": "915000006733598862",
+				"sellerBankAccount": "353016210400511658",
+				"invoiceId": "e36725f633b44f4eb617ed913b4f7dbe",
+				"invoiceSubType": "",
+				"taxAmount": "174.76",
+				"amountWithTax": "17650.49",
+				"fileType": "",
+				"remarks": "代开企业税号:92530102MA6M1AW04A 代开企业名称:昆明市五华区顺发汽车修理厂<br/>2021年4月租赁费"
+			}]
+		}],
+		"errors": [],
+		"data": [{
+			"ruleCount": 7,
+			"errorCount": 0,
+			"ruleType": "IMAGES",
+			"color": null,
+			"result": [{
+				"ruleId": "CB5150927067",
+				"ruleName": "影像.发票.发票代码=机器代码，且影像.发票.发票号码=机器号码",
+				"correct": true,
+				"ruleType": "IMAGE"
+			}, {
+				"ruleId": "WN5654539076",
+				"ruleName": "影像.发票.购买方名称=表单.单据信息.所属法人",
+				"correct": true,
+				"ruleType": "IMAGE"
+			}, {
+				"ruleId": "XV8100705232",
+				"ruleName": "专票影像.发票.购买方.地址、电话、开户行及账户≠空",
+				"correct": true,
+				"ruleType": "IMAGE"
+			}, {
+				"ruleId": "AJ3050537413",
+				"ruleName": "增值税发票影像.发票.销售方.地址、电话、开户行及账户≠空",
+				"correct": true,
+				"ruleType": "IMAGE"
+			}, {
+				"ruleId": "BG9348516788",
+				"ruleName": "影像.发票.联次=发票联",
+				"correct": true,
+				"ruleType": "IMAGE"
+			}, {
+				"ruleId": "CK9214631582",
+				"ruleName": "影像.发票≠定额发票",
+				"correct": true,
+				"ruleType": "IMAGE"
+			}, {
+				"ruleId": "HA9250623672",
+				"ruleName": "影像.发票.纳税人识别号=表单.单据信息.纳税人识别号",
+				"correct": true,
+				"ruleType": "IMAGE"
+			}]
+		}, {
+			"ruleCount": 12,
+			"errorCount": 1,
+			"ruleType": "OTHERS",
+			"color": null,
+			"result": [{
+				"ruleId": "XA9031558433",
+				"ruleName": "表单.发票信息.发票代码=影像.发票.发票代码",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "GM6713065082",
+				"ruleName": "表单.发票信息.发票号=影像.发票.发票号",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "EF6206350696",
+				"ruleName": "表单.发票信息.开票日期=影像.发票.开票日期",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "KM3798346856",
+				"ruleName": "表单.发票信息.税率=影像.发票.税率",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "LU8414349360",
+				"ruleName": "表单.发票信息.价税合计=影像.发票.价税合计",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "EX3760127778",
+				"ruleName": "表单.发票信息.金额=影像.发票.金额",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "YQ4976205447",
+				"ruleName": "表单.发票信息.税额=影像.发票.税额",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "UT3161589338",
+				"ruleName": "表单.发票信息.发票类别=“进项发票”",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "CD8881882360",
+				"ruleName": "表单.财务信息.制证日期-表单.发票信息.开票日期＜2个自然年",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "AX8175290180",
+				"ruleName": "表单.发票信息.发票类型=影像.发票类型",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "JM7183571699",
+				"ruleName": "当表单.财务信息.结算方式=“网银”且支付途径=“中铁资金”时，影像附件不应存在银行回单",
+				"correct": true,
+				"ruleType": "BILLS"
+			}, {
+				"ruleId": "HA9987765635",
+				"ruleName": "影像.结算单.设备租赁结算单不为空",
+				"correct": false,
+				"message": "无设备租赁结算单",
+				"ruleType": "BILLS"
+			}]
+		}, {
+			"ruleCount": 0,
+			"errorCount": null,
+			"ruleType": "WARNING",
+			"color": null,
+			"result": []
+		}]
+	}
 }

@@ -308,12 +308,12 @@
                     </Row>
                     <Row :gutter="16">
                         <Col span="12">
-                        <FormItem label="是否有发票专用章" :label-width="120"	>
+                        <FormItem label="是否有发票专用章" :label-width="120">
                             <Input :value="vo['销售方（章）']=='发票专用章'? '是' : '否'" readonly ></Input>
                         </FormItem>
                         </Col>
                         <Col span="12">
-                        <FormItem label="盖章单位与开票方是否一致?" :label-width="180"	>
+                        <FormItem label="盖章单位与开票方是否一致?" :label-width="180">
                             <Input  readonly ></Input>
                         </FormItem>
                         </Col>
@@ -398,7 +398,6 @@
   </div>
 </template>
 <script>
-import resultJson from '@/dataJson/result.json'
 import ImagePreview from '@/components/image-preview'
 import { matchCNkeys } from '@/libs/invoice'
 import axios from 'axios'
@@ -465,7 +464,7 @@ export default {
       showbigimg: false,
       imgIndex: 0,
       showImgData: [],
-      ruleRowtoggle: false,
+      ruleRowtoggle: false
     }
   },
 
@@ -500,10 +499,10 @@ export default {
       this.getErrorMessage(this.invoiceId)
     },
     toggleRuleCollapse (collapseTab) {
-      const _this = this;
-      let activeTxt = '';
-      if (this.activeName.includes(`${collapseTab}1`) && this.activeName.includes(`${collapseTab}2`) ) {
-        _this.activeName = _this.activeName.filter(i => i.includes(collapseTab)===false)
+      const _this = this
+      let activeTxt = ''
+      if (this.activeName.includes(`${collapseTab}1`) && this.activeName.includes(`${collapseTab}2`)) {
+        _this.activeName = _this.activeName.filter(i => i.includes(collapseTab) === false)
         activeTxt = '展开'
       } else {
         _this.activeName = [...new Set([...this.activeName.concat([`${collapseTab}1`, `${collapseTab}2`])])]
@@ -512,11 +511,12 @@ export default {
       switch (collapseTab) {
         case 'IMAGES':
           this.imagesCollapseAction = activeTxt
-          break;
+          break
         case 'OTHERS':
           this.othersCollapseAction = activeTxt
+          break
         default:
-          break;
+          break
       }
     },
     rowClick (vo, i) {
@@ -529,32 +529,31 @@ export default {
         _this.getRuleInvoice(vo.ruleId, '')
       }
     },
-    getRuleInvoice(ruleId, taskId){
+    getRuleInvoice (ruleId, taskId) {
       const _this = this
       axios
         .post(`http://10.15.196.127/api/ql/result/data`, {
-          "ruleId":ruleId,
-          "billNumber":this.billNumber,
-          "taskId":taskId // ! 没有这个参数
+          'ruleId': ruleId,
+          'billNumber': this.billNumber,
+          'taskId': _this.allData.taskId
         })
         .then((resp) => {
           let data = resp.data
-          if (data.status == 200) {
+          if (data.status === 200) {
             // Modal
             // ! 字段怎么对应
-            _this.ruleRowtoggle = true;
+            _this.ruleRowtoggle = true
           }
         })
         .catch((err) => {
           console.log(err)
         })
-
     },
     setImageData (arr) {
-      let newArr = [],
-        data = this.allData.imageInfo
+      let newArr = []
+      let data = this.allData.imageInfo
       for (let i = 0; i < data.length; i++) {
-        if (arr.indexOf(data[i]['imageId']) != -1) {
+        if (arr.indexOf(data[i]['imageId']) !== -1) {
           newArr.push(data[i])
         }
       }
@@ -602,11 +601,11 @@ export default {
       }
       if (imageIds.length === 0) {
         this.$set(this, 'messageInfo', { invoices: allInvoice })
-        this.$set(this, 'dataPanelOpen', ['baseInfo-','buyerInfo-','sellerInfo-','invoiceInfo-'].map(i => `${i}${allInvoice[0]['发票ID']}`))
+        this.$set(this, 'dataPanelOpen', ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(i => `${i}${allInvoice[0]['发票ID']}`))
       } else {
         const filterInvoices = allInvoice.filter(a => imageIds.includes(a.imageId))
         this.$set(this, 'messageInfo', { invoices: filterInvoices })
-        this.$set(this, 'dataPanelOpen', ['baseInfo-','buyerInfo-','sellerInfo-','invoiceInfo-'].map(i => `${i}${filterInvoices[0]['发票ID']}`))
+        this.$set(this, 'dataPanelOpen', ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(i => `${i}${filterInvoices[0]['发票ID']}`))
       }
     },
     getErrorMessage (invoiceIdP) {
@@ -620,7 +619,7 @@ export default {
       })
       let findMsg = findErrorMsg.filter(fi => fi.invoiceId === invoiceIdP)
       _this.errorMessage = findMsg[0].messages
-      _this.$set(_this, 'dataPanelOpen', ['baseInfo-','buyerInfo-','sellerInfo-','invoiceInfo-'].map(i => `${i}${invoiceIdP}`))
+      _this.$set(_this, 'dataPanelOpen', ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(i => `${i}${invoiceIdP}`))
     },
     handleTab (index, invoiceId) {
       const _this = this
