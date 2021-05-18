@@ -99,133 +99,133 @@
   </div>
 </template>
 <script>
-import * as echarts from 'echarts'
-import store from '@/store'
+import * as echarts from "echarts";
+import store from "@/store";
 export default {
-  data () {
+  data() {
     return {
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
-        size: 10 // 每页显示多少条
-      }
-    }
+        size: 10, // 每页显示多少条
+      },
+    };
   },
-  mounted () {
-    this.initChart()
-    this.histogram()
-    this.thirdChart()
+  mounted() {
+    this.initChart();
+    this.histogram();
+    this.thirdChart();
   },
-  created () {
+  created() {
     // this.query();
   },
   methods: {
-    initChart () {
-      let myChart = echarts.init(document.getElementById('charts'))
+    initChart() {
+      let myChart = echarts.init(document.getElementById("charts"));
       let option = {
         tooltip: {
-          trigger: 'item'
+          trigger: "item",
         },
         legend: {
-          top: '5%',
-          left: 'center'
+          top: "5%",
+          left: "center",
         },
-        color: ['#73c0de', '#91cc75', '#fac858'],
+        color: ["#73c0de", "#91cc75", "#fac858"],
         series: [
           {
-            type: 'pie',
-            radius: ['55%', '70%'],
+            type: "pie",
+            radius: ["55%", "70%"],
             avoidLabelOverlap: false,
             label: {
               show: false,
-              position: 'center'
+              position: "center",
             },
             emphasis: {
               label: {
                 show: true,
-                fontSize: '40',
-                fontWeight: 'bold'
-              }
+                fontSize: "40",
+                fontWeight: "bold",
+              },
             },
             labelLine: {
-              show: false
+              show: false,
             },
             data: [
-              { value: 1048, name: '通过' },
-              { value: 735, name: '不通过' },
-              { value: 580, name: '超时' }
-            ]
-          }
-        ]
-      }
-      myChart.setOption(option)
+              { value: 1048, name: "通过" },
+              { value: 735, name: "不通过" },
+              { value: 580, name: "超时" },
+            ],
+          },
+        ],
+      };
+      myChart.setOption(option);
     },
-    histogram () {
-      let secGram = echarts.init(document.getElementById('secgram'))
+    histogram() {
+      let secGram = echarts.init(document.getElementById("secgram"));
       let option = {
         title: {
-          text: '预警单量'
+          text: "预警单量",
         },
-        color: ['#73c0de'],
+        color: ["#73c0de"],
         xAxis: {
-          type: 'category',
+          type: "category",
           data: [
-            '一级预警',
-            '二级预警',
-            '三级预警',
-            '四级预警',
-            '五级预警',
-            '六级预警'
-          ]
+            "一级预警",
+            "二级预警",
+            "三级预警",
+            "四级预警",
+            "五级预警",
+            "六级预警",
+          ],
         },
         yAxis: {
-          type: 'value'
+          type: "value",
         },
         series: [
           {
             data: [120, 200, 150, 80, 70, 110, 130],
-            type: 'bar',
-            barWidth: 25
-          }
-        ]
-      }
-      secGram.setOption(option)
+            type: "bar",
+            barWidth: 25,
+          },
+        ],
+      };
+      secGram.setOption(option);
     },
-    thirdChart () {
-      let thirdGrams = echarts.init(document.getElementById('thirdgram'))
+    thirdChart() {
+      let thirdGrams = echarts.init(document.getElementById("thirdgram"));
       let option = {
         title: {
-          text: '平均时长'
+          text: "平均时长",
         },
         legend: {},
         tooltip: {},
         dataset: {
-          dimensions: ['product', '2015', '2016', '2017'],
+          dimensions: ["product", "2015", "2016", "2017"],
           source: [
-            { product: 'Matcha Latte', 2015: 43.3, 2016: 85.8, 2017: 93.7 },
-            { product: 'Milk Tea', 2015: 83.1, 2016: 73.4, 2017: 55.1 },
-            { product: 'Cheese Cocoa', 2015: 86.4, 2016: 65.2, 2017: 82.5 },
-            { product: 'Walnut Brownie', 2015: 72.4, 2016: 53.9, 2017: 39.1 }
-          ]
+            { product: "Matcha Latte", 2015: 43.3, 2016: 85.8, 2017: 93.7 },
+            { product: "Milk Tea", 2015: 83.1, 2016: 73.4, 2017: 55.1 },
+            { product: "Cheese Cocoa", 2015: 86.4, 2016: 65.2, 2017: 82.5 },
+            { product: "Walnut Brownie", 2015: 72.4, 2016: 53.9, 2017: 39.1 },
+          ],
         },
-        xAxis: { type: 'category' },
+        xAxis: { type: "category" },
         yAxis: {},
         // Declare several bar series, each will be mapped
         // to a column of dataset.source by default.
         series: [
-          { type: 'bar', barWidth: 15 },
-          { type: 'bar', barWidth: 15 },
-          { type: 'bar', barWidth: 15 }
+          { type: "bar", barWidth: 15 },
+          { type: "bar", barWidth: 15 },
+          { type: "bar", barWidth: 15 },
         ],
-        color: ['#73c0de', '#91cc75', '#fac858'],
+        color: ["#73c0de", "#91cc75", "#fac858"],
         yAxis: {
-          type: 'value'
-        }
-      }
-      thirdGrams.setOption(option)
-    }
-  }
-}
+          type: "value",
+        },
+      };
+      thirdGrams.setOption(option);
+    },
+  },
+};
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .ivu-card {

@@ -27,11 +27,11 @@
                 >添加账号</el-button>
             </div>
         </div>
-
+       
       </Card>
 
       <Card style="width: 100%; margin-top: 20px">
-
+        
         <div class="tableList">
           <el-table
             :data="tableData"
@@ -129,157 +129,157 @@
   </div>
 </template>
 <script>
-import user from '@/dataJson/user.json'
+import user from "@/dataJson/user.json";
 import {
   getUserList, // 列表
   addUser, // 新增
   editUser, // 编辑
-  delUser // 删除
-} from '@/api/user'
+  delUser, // 删除
+} from "@/api/user";
 export default {
-  data () {
+  data() {
     return {
-      title: '',
-      type: '',
+      title: "",
+      type: "",
       dialogFormVisible: false,
       ruleForm: {
-        name: '',
-        stationName: '',
-        adminNo: '',
-        password: ''
+        name: "",
+        stationName: "",
+        adminNo: "",
+        password: "",
       },
-      id: '',
+      id: "",
       rules: {
-        stationName: [{ required: true, message: '请输入岗位名称' }],
-        name: [{ required: true, message: '请填写姓名' }],
-        adminNo: [{ required: true, message: '请填写账号' }],
-        password: [{ required: true, message: '请填写密码' }]
+        stationName: [{ required: true, message: "请输入岗位名称" }],
+        name: [{ required: true, message: "请填写姓名" }],
+        adminNo: [{ required: true, message: "请填写账号" }],
+        password: [{ required: true, message: "请填写密码" }],
       },
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
-        size: 10 // 每页显示多少条
+        size: 10, // 每页显示多少条
       },
       formInline: {
-        name: '',
-        stationName: ''
+        name: "",
+        stationName: "",
       },
-      tableData: []
-    }
+      tableData: [],
+    };
   },
-  created () {
-    this.query()
+  created() {
+    this.query();
   },
   methods: {
-    query () {
+    query() {
       // if (user.code == 0) {
       //   this.tableData = user.data;
       // }
       let params = {
-        name: this.formInline.name.replace(/\s*/g, '') || '',
-        stationName: this.formInline.stationName.replace(/\s*/g, '') || '',
+        name: this.formInline.name.replace(/\s*/g, "") || "",
+        stationName: this.formInline.stationName.replace(/\s*/g, "") || "",
         pageindex: this.page.currentPage,
-        pagesize: this.page.size
-      }
+        pagesize: this.page.size,
+      };
       getUserList(params).then((res) => {
         if (res.data.code == 0) {
-          this.tableData = res.data.data
-          this.page.totalElement = res.data.totalcount
+          this.tableData = res.data.data;
+          this.page.totalElement = res.data.totalcount;
         }
-      })
+      });
     },
-    handleClick (type, row) {
-      this.type = type
-      this.title = type == 'edit' ? '编辑账号' : '添加账号'
-      if (type == 'edit') {
-        this.ruleForm = row
-      } else {
-        this.ruleForm = {}
+    handleClick(type, row) {
+      this.type = type;
+      this.title = type == "edit" ? "编辑账号" : "添加账号";
+      if (type == "edit") {
+        this.ruleForm = row;
+      }else{
+        this.ruleForm = {};
       }
-      this.id = row.id
-      this.dialogFormVisible = true
+      this.id = row.id;
+      this.dialogFormVisible = true;
     },
-    searchData () {
-      this.page.currentPage = 1
-      this.query()
+    searchData() {
+      this.page.currentPage = 1;
+      this.query();
     },
-    handleReset (name) {
-      this.$refs[name].resetFields()
-      this.query()
+    handleReset(name) {
+      this.$refs[name].resetFields();
+      this.query();
     },
-    currentChange (current) {
-      this.page.currentPage = current
-      this.query()
+    currentChange(current) {
+      this.page.currentPage = current;
+      this.query();
     },
-    sizeChange (size) {
-      this.page.size = size
-      this.query()
+    sizeChange(size) {
+      this.page.size = size;
+      this.query();
     },
-    handleDel (row) {
-      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+    handleDel(row) {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       })
         .then(() => {
           delUser(row.id).then((res) => {
             if (res.data.code == 0) {
               this.$message({
                 message: res.data.msg,
-                type: 'success',
-                duration: 1200
-              })
-              this.query()
+                type: "success",
+                duration: 1200,
+              });
+              this.query();
             }
-          })
+          });
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
-    submit (formName) {
+    submit(formName) {
       let params = {
-        id: this.type == 'edit' ? this.id : '',
-        name: this.ruleForm.name.replace(/\s*/g, '') || '',
-        stationName: this.ruleForm.stationName.replace(/\s*/g, '') || '',
-        adminNo: this.ruleForm.adminNo.replace(/\s*/g, '') || '',
-        password: this.ruleForm.password.replace(/\s*/g, '') || ''
-      }
+        id: this.type == "edit" ? this.id : "",
+        name: this.ruleForm.name.replace(/\s*/g, "") || "",
+        stationName: this.ruleForm.stationName.replace(/\s*/g, "") || "",
+        adminNo: this.ruleForm.adminNo.replace(/\s*/g, "") || "",
+        password: this.ruleForm.password.replace(/\s*/g, "") || "",
+      };
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.type == 'add') {
+          if (this.type == "add") {
             addUser(params).then((res) => {
               if (res.data.code == 0) {
                 this.$message({
                   message: res.data.msg,
-                  type: 'success',
-                  duration: 1500
-                })
-                this.query()
+                  type: "success",
+                  duration: 1500,
+                });
+                this.query();
               }
-            })
-          } else if (this.type == 'edit') {
+            });
+          } else if (this.type == "edit") {
             editUser(params).then((res) => {
               if (res.data.code == 0) {
                 this.$message({
                   message: res.data.msg,
-                  type: 'success',
-                  duration: 1500
-                })
-                this.query()
+                  type: "success",
+                  duration: 1500,
+                });
+                this.query();
               }
-            })
+            });
           }
         } else {
-          return false
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .numCount {

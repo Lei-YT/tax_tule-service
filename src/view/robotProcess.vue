@@ -135,33 +135,34 @@
 <script>
 import {
   homelist, // 列表
-  changeStatus // 改变状态
-} from '@/api/user'
+  changeStatus, // 改变状态
+} from "@/api/user";
 export default {
-  data () {
+  data() {
     return {
-      secneName: '',
+      secneName: "",
       dataList: [],
-      timer: null // 定时器
-    }
+      timer: null  // 定时器
+    };
   },
-  created () {
-    this.query()
-    this.timer = setInterval(() => {
-      this.query()
-    }, 10000)
+  created() {
+    this.query();
+    this.timer = setInterval(() =>{                    
+      this.query();               
+    }, 10000);     
+    
   },
-  beforeDestroy () {
-    clearInterval(this.timer)
-    this.timer = null
+  beforeDestroy() {
+    clearInterval(this.timer);        
+    this.timer = null;
   },
   methods: {
-    query () {
+    query() {
       homelist({ secneName: this.secneName }).then((res) => {
         if (res.data.code == 0) {
-          this.dataList = res.data.data
+          this.dataList = res.data.data;
         }
-      })
+      });
 
       // this.dataList = [
       //   {
@@ -198,20 +199,20 @@ export default {
       //   }
       // ]
     },
-    handleChange (status, sceneId) {
+    handleChange(status, sceneId) {
       changeStatus({ status, sceneId }).then((res) => {
         if (res.data.code == 0) {
           this.$message({
             message: res.data.msg,
-            type: 'success',
-            duration: 1500
-          })
-          this.query()
+            type: "success",
+            duration: 1500,
+          });
+          this.query();
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .logProcess {
@@ -279,7 +280,7 @@ export default {
         /deep/ .el-progress-bar {
           width: 95%;
         }
-
+        
       }
     }
     .right {
