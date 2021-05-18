@@ -1,0 +1,45 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "image": [
+      {
+        "keyName": "发票代码",
+        "jsonPath": "$.images.invoice[*].invoiceCode",
+        "data": [
+          "3300203130",
+          "040303309100",
+          ""
+        ]
+      },
+      {
+        "keyName": "发票号码",
+        "jsonPath": "$.images.invoice[*].invoiceNo",
+        "data": [
+          "19152293",
+          "19152294",
+          ""
+        ]
+      },
+      {
+        "keyName": "机打发票代码",
+        "jsonPath": "$.images.invoice[*].invoicePrintCode",
+        "data": [
+          "3300203130",
+          "3300203130",
+          ""
+        ]
+      },
+      {
+        "keyName": "机打发票号码",
+        "jsonPath": "$.images.invoice[*].invoicePrintNo",
+        "data": [
+          "19152293",
+          "19152294",
+          "100000"
+        ]
+      }
+    ],
+    "form": []
+  }
+}

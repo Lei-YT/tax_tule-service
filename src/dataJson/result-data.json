@@ -14,6 +14,11 @@
                 "keyName": "发票类型（退票退改发票*）",
                 "jsonPath": "$.images.invoice[*].fpItem[?(@.itemName=='退票'||@.itemName=='退改')]",
                 "data": ["111","222","333"]
+            },
+            {
+                "keyName": "11发票类型（退票退改发票*）",
+                "jsonPath": "$.images.invoice[*].fpItem[?(@.itemName=='退票'||@.itemName=='退改')]",
+                "data": ["000","222","333"]
             }
         ]
     }

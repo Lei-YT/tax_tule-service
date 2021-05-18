@@ -33,17 +33,28 @@
                   <p v-if="item.ruleType == 'WARNING'">
                     预警数：{{ item.ruleCount }}条
                   </p>
-                <Button
-                v-if="item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'"
-                @click="toggleRuleCollapse(item.ruleType)" style="margin-left: 1rem">{{item.ruleType == 'IMAGES' ? imagesCollapseAction : othersCollapseAction}}</Button>
-
+                  <Button
+                    v-if="
+                      item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'
+                    "
+                    @click="toggleRuleCollapse(item.ruleType)"
+                    style="margin-left: 1rem"
+                    >{{
+                      item.ruleType == "IMAGES"
+                        ? imagesCollapseAction
+                        : othersCollapseAction
+                    }}</Button
+                  >
                 </div>
               </div>
               <el-collapse
                 v-model="activeName"
                 v-if="item.ruleType == 'IMAGES' || item.ruleType == 'OTHERS'"
               >
-                <el-collapse-item title="未通过规则" v-bind:name="item.ruleType+'1'">
+                <el-collapse-item
+                  title="未通过规则"
+                  v-bind:name="item.ruleType + '1'"
+                >
                   <template
                     v-if="
                       item.result.filter((obj) => {
@@ -51,27 +62,31 @@
                       }).length
                     "
                   >
-                    <table style="width: 100%;" class="rule-table">
+                    <table style="width: 100%" class="rule-table">
                       <thead>
                         <tr>
                           <th width="60">序号</th>
-                          <th style="text-align: left;">规则</th>
+                          <th style="text-align: left">规则</th>
                           <th width="60"></th>
-                          <th width="200" style="text-align: left;">审核结果</th>
+                          <th width="200" style="text-align: left">审核结果</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(n,i) in item.result.filter((obj) => {
-                          return obj.correct == false;
-                        })" v-bind:key="i" @click="rowClick(n)">
-                          <td style="text-align: center;">{{ i+1 }}</td>
+                        <tr
+                          v-for="(n, i) in item.result.filter((obj) => {
+                            return obj.correct == false;
+                          })"
+                          v-bind:key="i"
+                          @click="rowClick(n)"
+                        >
+                          <td style="text-align: center">{{ i + 1 }}</td>
                           <td>{{ n.ruleName }}</td>
-                          <td style="text-align: center;">
-                          <Icon
-                            type="md-close-circle"
-                            size="25"
-                            color="#E02020"
-                          />
+                          <td style="text-align: center">
+                            <Icon
+                              type="md-close-circle"
+                              size="25"
+                              color="#E02020"
+                            />
                           </td>
                           <td>{{ n.message ? n.message : "——" }}</td>
                         </tr>
@@ -79,7 +94,10 @@
                     </table>
                   </template>
                 </el-collapse-item>
-                <el-collapse-item title="通过规则" v-bind:name="item.ruleType+'2'">
+                <el-collapse-item
+                  title="通过规则"
+                  v-bind:name="item.ruleType + '2'"
+                >
                   <template
                     v-if="
                       item.result.filter((obj) => {
@@ -87,23 +105,26 @@
                       }).length
                     "
                   >
-                    <table style="width: 100%;" class="rule-table">
+                    <table style="width: 100%" class="rule-table">
                       <thead>
                         <tr>
                           <th width="60">序号</th>
-                          <th style="text-align: left;">规则</th>
+                          <th style="text-align: left">规则</th>
                           <th width="60"></th>
-                          <th width="200" style="text-align: left;">审核结果</th>
+                          <th width="200" style="text-align: left">审核结果</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(n,i) in item.result.filter((obj) => {
-                          return obj.correct == true;
-                        })" v-bind:key="i">
-                          <td style="text-align: center;">{{ i+1 }}</td>
+                        <tr
+                          v-for="(n, i) in item.result.filter((obj) => {
+                            return obj.correct == true;
+                          })"
+                          v-bind:key="i"
+                        >
+                          <td style="text-align: center">{{ i + 1 }}</td>
                           <td>{{ n.ruleName }}</td>
-                          <td style="text-align: center;">
-                              <Icon
+                          <td style="text-align: center">
+                            <Icon
                               type="md-checkmark-circle"
                               size="25"
                               color="#6DD400"
@@ -158,31 +179,84 @@
               </div>
             </div>
 
-            <div class="bigimgbox" v-if="showbigimg" style="position: fixed;z-index: 9999;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.3);left:0;top:0;display: flex;justify-content: center;align-items: center;">
-                <div class="showbigimgbox" style="width: 1400px;height: 757px;background-color: #fff;">
-                    <div class="showimg-title" style="display: flex;justify-content: space-between; align-items:center;width: 100%;height: 46px; border-bottom: 1px solid #999999;padding:0 20px;">
-                      <div style="color: #1991DD;font-size: 16px;display: flex;align-items: center;"><img src="@/assets/images/tupian-2.png" style="width: 22px;height: 19px;margin-right: 8px;" />查看图片</div>
-                      <div  @click="showImgbox()"><img src="@/assets/images/closebox.png" style="width: 19px;height: 19px;" /></div>
-                    </div>
-                    <div class="showimg-content" style="padding: 22px 20px;">
-                      <ImagePreview :items="showImgData" height="667px" width="1360px"/>
-                    </div>
+            <div
+              class="bigimgbox"
+              v-if="showbigimg"
+              style="
+                position: fixed;
+                z-index: 9999;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+                left: 0;
+                top: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <div
+                class="showbigimgbox"
+                style="width: 1400px; height: 757px; background-color: #fff"
+              >
+                <div
+                  class="showimg-title"
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    height: 46px;
+                    border-bottom: 1px solid #999999;
+                    padding: 0 20px;
+                  "
+                >
+                  <div
+                    style="
+                      color: #1991dd;
+                      font-size: 16px;
+                      display: flex;
+                      align-items: center;
+                    "
+                  >
+                    <img
+                      src="@/assets/images/tupian-2.png"
+                      style="width: 22px; height: 19px; margin-right: 8px"
+                    />查看图片
+                  </div>
+                  <div @click="showImgbox()">
+                    <img
+                      src="@/assets/images/closebox.png"
+                      style="width: 19px; height: 19px"
+                    />
+                  </div>
                 </div>
+                <div class="showimg-content" style="padding: 22px 20px">
+                  <ImagePreview
+                    :items="showImgData"
+                    height="667px"
+                    width="1360px"
+                  />
+                </div>
+              </div>
             </div>
             <div class="imgBox">
               <div class="leftImg">
                 <img :src="imgSrc" class="bigImg" @click="showImgbox()" />
               </div>
               <div class="rightImg">
-                <div class="smallImgBox" v-for="(item, index) in imageData" :key="index"
-                    @click="handleClick(item.imageURL,index);handelImage(item);">
-                  <img
-                    :src="item.imageURL"
-                    class="smallImg"
-                  />
-                  <span class="index-icon">{{index+1}}</span>
+                <div
+                  class="smallImgBox"
+                  v-for="(item, index) in imageData"
+                  :key="index"
+                  @click="
+                    handleClick(item.imageURL, index);
+                    handelImage(item);
+                  "
+                >
+                  <img :src="item.imageURL" class="smallImg" />
+                  <span class="index-icon">{{ index + 1 }}</span>
                 </div>
-
               </div>
             </div>
 
@@ -199,163 +273,220 @@
                 </Button>
               </div>
               <template v-for="(vo, index) in messageInfo.invoices">
-              <el-collapse
+                <el-collapse
                   :key="vo.invoiceId + index"
                   v-if="tabsInvoiceIndex == index"
                   style="width: 100%; padding-left: 10px"
                   v-model="dataPanelOpen"
-              >
-                <el-collapse-item title="基本信息" v-bind:name="'baseInfo-'+vo['发票ID']" style="width: 100%">
-                  <template>
-                    <Form label-position="left" :label-width="70">
-                    <Row :gutter="16">
-                        <Col span="8">
-                        <FormItem label="发票类型">
-                            <Input v-model="vo['发票类型']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="8">
-                        <FormItem label="发票ID">
-                            <Input v-model="vo['发票ID']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="8">
-                        <FormItem label="发票联次">
-                            <Input v-model="vo['发票联次名称']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    <Row :gutter="16">
-                        <Col span="8">
-                        <FormItem label="发票号码">
-                            <Input v-model="vo['发票号码']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="8">
-                        <FormItem label="发票代码">
-                            <Input v-model="vo['发票代码']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="8">
-                        <FormItem label="校验码?">
-                            <Input v-model="vo['校验码']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    </Form>
-                </template>
-                </el-collapse-item>
-                <el-collapse-item title="购买方" v-bind:name="'buyerInfo-'+vo['发票ID']" style="width: 100%">
-                    <Form label-position="left" :label-width="100">
-                    <Row :gutter="16">
-                        <Col span="12">
-                        <FormItem label="名称">
-                            <Input v-model="vo['购买方信息-名称']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="12">
-                        <FormItem label="地址电话">
-                            <Input v-model="vo['购买方信息-地址、电话']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    <Row :gutter="16">
-                        <Col span="12">
-                        <FormItem label="纳税人识别号">
-                            <Input v-model="vo['购买方信息-纳税人识别号']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="12">
-                        <FormItem label="开户行及账号">
-                            <Input v-model="vo['购买方信息-开户行及账号']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    </Form>
-                </el-collapse-item>
-                <el-collapse-item title="销售方信息" v-bind:name="'sellerInfo-'+vo['发票ID']" style="width: 100%">
-                    <Form label-position="left" :label-width="100">
-                    <Row :gutter="16">
-                        <Col span="12">
-                        <FormItem label="名称">
-                            <Input v-model="vo['销售方信息-名称']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="12">
-                        <FormItem label="地址电话">
-                            <Input v-model="vo['销售方信息-地址、电话']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    <Row :gutter="16">
-                        <Col span="12">
-                        <FormItem label="纳税人识别号">
-                            <Input v-model="vo['销售方信息-纳税人识别号']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="12">
-                        <FormItem label="开户行及账号">
-                            <Input v-model="vo['销售方信息-开户行及账号']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    <Row :gutter="16">
-                        <Col span="24">
-                        <FormItem label="备注">
-                            <Input v-model="vo['备注']" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    <Row :gutter="16">
-                        <Col span="12">
-                        <FormItem label="是否有发票专用章" :label-width="120">
-                            <Input :value="vo['销售方（章）']=='发票专用章'? '是' : '否'" readonly ></Input>
-                        </FormItem>
-                        </Col>
-                        <Col span="12">
-                        <FormItem label="盖章单位与开票方是否一致?" :label-width="180">
-                            <Input  readonly ></Input>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                    </Form>
-                </el-collapse-item>
-                <el-collapse-item title="发票详情" v-bind:name="'invoiceInfo-'+vo['发票ID']" style="width: 100%">
-                  <template
+                >
+                  <el-collapse-item
+                    title="基本信息"
+                    v-bind:name="'baseInfo-' + vo['发票ID']"
+                    style="width: 100%"
                   >
-                    <table style="width: 100%;text-align: center;" class="rule-table">
-                      <thead>
-                        <tr style="text-align: center;">
-                          <th width="60">序号</th>
-                          <th >发票项目</th>
-                          <th width="60">单位</th>
-                          <th width="60">数量</th>
-                          <th width="60">单价</th>
-                          <th >发票总金额</th>
-                          <th width="60">税率</th>
-                          <th width="60">税额</th>
-                          <th width="60">价税合计</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="(n,i) in vo['发票详情']" v-bind:key="i">
-                          <td style="text-align: center;">{{ i+1 }}</td>
-                          <td>{{ n['发票详情--项目名称'] }}</td>
-                          <td>{{ n['发票详情--单位'] }}</td>
-                          <td>{{ n['发票详情--数量'] }}</td>
-                          <td>{{ n['发票详情--单价'] }}</td>
-                          <td>{{ n['发票详情--金额'] }}</td>
-                          <td>{{ n['发票详情--税率'] }}</td>
-                          <td>{{ n['发票详情--税额'] }}</td>
-                          <td>{{ Number(n['发票详情--金额'])+Number(n['发票详情--税额']) }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </template>
-
-                </el-collapse-item>
-              </el-collapse>
-                  <!--
+                    <template>
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo['发票类型']" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票ID">
+                              <Input v-model="vo['发票ID']" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票联次">
+                              <Input
+                                v-model="vo['发票联次名称']"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票号码">
+                              <Input v-model="vo['发票号码']" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票代码">
+                              <Input v-model="vo['发票代码']" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="校验码?">
+                              <Input v-model="vo['校验码']" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                  </el-collapse-item>
+                  <el-collapse-item
+                    title="购买方"
+                    v-bind:name="'buyerInfo-' + vo['发票ID']"
+                    style="width: 100%"
+                  >
+                    <Form label-position="left" :label-width="100">
+                      <Row :gutter="16">
+                        <Col span="12">
+                          <FormItem label="名称">
+                            <Input
+                              v-model="vo['购买方信息-名称']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                        <Col span="12">
+                          <FormItem label="地址电话">
+                            <Input
+                              v-model="vo['购买方信息-地址、电话']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                      </Row>
+                      <Row :gutter="16">
+                        <Col span="12">
+                          <FormItem label="纳税人识别号">
+                            <Input
+                              v-model="vo['购买方信息-纳税人识别号']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                        <Col span="12">
+                          <FormItem label="开户行及账号">
+                            <Input
+                              v-model="vo['购买方信息-开户行及账号']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </el-collapse-item>
+                  <el-collapse-item
+                    title="销售方信息"
+                    v-bind:name="'sellerInfo-' + vo['发票ID']"
+                    style="width: 100%"
+                  >
+                    <Form label-position="left" :label-width="100">
+                      <Row :gutter="16">
+                        <Col span="12">
+                          <FormItem label="名称">
+                            <Input
+                              v-model="vo['销售方信息-名称']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                        <Col span="12">
+                          <FormItem label="地址电话">
+                            <Input
+                              v-model="vo['销售方信息-地址、电话']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                      </Row>
+                      <Row :gutter="16">
+                        <Col span="12">
+                          <FormItem label="纳税人识别号">
+                            <Input
+                              v-model="vo['销售方信息-纳税人识别号']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                        <Col span="12">
+                          <FormItem label="开户行及账号">
+                            <Input
+                              v-model="vo['销售方信息-开户行及账号']"
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                      </Row>
+                      <Row :gutter="16">
+                        <Col span="24">
+                          <FormItem label="备注">
+                            <Input v-model="vo['备注']" readonly></Input>
+                          </FormItem>
+                        </Col>
+                      </Row>
+                      <Row :gutter="16">
+                        <Col span="12">
+                          <FormItem label="是否有发票专用章" :label-width="120">
+                            <Input
+                              :value="
+                                vo['销售方（章）'] == '发票专用章' ? '是' : '否'
+                              "
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                        <Col span="12">
+                          <FormItem
+                            label="盖章单位与开票方是否一致?"
+                            :label-width="180"
+                          >
+                            <Input readonly></Input>
+                          </FormItem>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </el-collapse-item>
+                  <el-collapse-item
+                    title="发票详情"
+                    v-bind:name="'invoiceInfo-' + vo['发票ID']"
+                    style="width: 100%"
+                  >
+                    <template>
+                      <table
+                        style="width: 100%; text-align: center"
+                        class="rule-table"
+                      >
+                        <thead>
+                          <tr style="text-align: center">
+                            <th width="60">序号</th>
+                            <th width="80">发票项目</th>
+                            <th width="60">单位</th>
+                            <th width="60">数量</th>
+                            <th width="60">单价</th>
+                            <th width="80">发票总金额</th>
+                            <th width="60">税率</th>
+                            <th width="60">税额</th>
+                            <th width="60">价税合计</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(n, i) in vo['发票详情']" v-bind:key="i">
+                            <td style="text-align: center">{{ i + 1 }}</td>
+                            <td>{{ n["发票详情--项目名称"] }}</td>
+                            <td>{{ n["发票详情--单位"] }}</td>
+                            <td>{{ n["发票详情--数量"] }}</td>
+                            <td>{{ n["发票详情--单价"] }}</td>
+                            <td>{{ n["发票详情--金额"] }}</td>
+                            <td>{{ n["发票详情--税率"] }}</td>
+                            <td>{{ n["发票详情--税额"] }}</td>
+                            <td>
+                              {{
+                                Number(n["发票详情--金额"]) +
+                                Number(n["发票详情--税额"])
+                              }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </template>
+                  </el-collapse-item>
+                </el-collapse>
+                <!--
                   <div class="info-box-right">
                     <div class="billnumber-bar">
                       <b>影像报错</b>
@@ -387,265 +518,380 @@
       </div>
     </div>
     <Modal
+      title=" "
       v-model="ruleRowtoggle"
       :closable="true"
       :footer-hide="true"
+      width="800"
+      class-name="result-data-modal"
     >
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
+      <Table v-if="showFormRet" border :columns="formColumns" :data="resultFormData"></Table>
+      <Table v-if="showImageRet" border :columns="imageColumns" :data="resultImageData"></Table>
     </Modal>
   </div>
 </template>
 <script>
-import ImagePreview from '@/components/image-preview'
-import { matchCNkeys } from '@/libs/invoice'
-import axios from 'axios'
+import ImagePreview from "@/components/image-preview";
+import { matchCNkeys } from "@/libs/invoice";
+import axios from "axios";
+const clubArray = (arr) => {
+   return arr.reduce((acc, val, ind) => {
+        acc[ind] = acc[ind] ? acc[ind] : {};
+        val.map(v => {
+          const key = Object.keys(v)[0]
+          acc[ind][key] = v[key];
+        });
+      return acc;
+   }, []);
+};
 export default {
   components: { ImagePreview },
-  data () {
+  data() {
     return {
+      showFormRet: false,
+      showImageRet: false,
+      formColumns: [
+        {
+          title: "表单",
+          align: "center",
+          children: [],
+          childrenBak: [
+            {
+              title: "序号",
+              type: "index",
+              width: 65,
+            }
+          ],
+        },
+      ],
+      imageColumns: [
+        {
+          title: "影像",
+          align: "center",
+          children: [],
+          childrenBak: [
+            {
+              title: "序号",
+              type: "index",
+              width: 65,
+            }
+          ]
+        },
+      ],
+      resultFormData: [],
+      resultImageData: [],
       allData: [],
-      activeName: ['IMAGES1', 'OTHERS1'], // "IMAGES1",
-      ruleCollapseActive: 'IMAGES',
-      imagesCollapseAction: '展开',
-      othersCollapseAction: '展开',
+      activeName: ["IMAGES1", "OTHERS1"], // "IMAGES1",
+      ruleCollapseActive: "IMAGES",
+      imagesCollapseAction: "展开",
+      othersCollapseAction: "展开",
       dataPanelOpen: [],
       imageData: [],
-      imgSrc: '',
+      imgSrc: "",
       messageInfo: {},
-      imageId: '',
-      invoiceId: '',
+      imageId: "",
+      invoiceId: "",
       cur: 0,
       errorFieldCode: [],
       errorMessage: [],
-      billNumber: '',
+      billNumber: "",
       columns: [
         {
-          title: '序号',
-          type: 'index',
-          width: 65
+          title: "序号",
+          type: "index",
+          width: 65,
         },
         {
-          title: '规则',
-          slot: 'ruleName'
+          title: "规则",
+          slot: "ruleName",
         },
         {
-          title: ' ',
-          slot: 'icon',
-          width: 65
+          title: " ",
+          slot: "icon",
+          width: 65,
         },
         {
-          title: '审核结果',
-          slot: 'message'
-        }
+          title: "审核结果",
+          slot: "message",
+        },
       ],
       columns1: [
         {
-          title: '序号',
-          type: 'index',
-          width: 65
+          title: "序号",
+          type: "index",
+          width: 65,
         },
         {
-          title: '预警等级',
-          slot: 'grade',
-          width: 90
+          title: "预警等级",
+          slot: "grade",
+          width: 90,
         },
         {
-          title: '规则',
-          slot: 'ruleName'
+          title: "规则",
+          slot: "ruleName",
         },
         {
-          title: '审核结果',
-          slot: 'message'
-        }
+          title: "审核结果",
+          slot: "message",
+        },
       ],
       tabsInvoiceIndex: 0,
       showbigimg: false,
       imgIndex: 0,
       showImgData: [],
-      ruleRowtoggle: false
-    }
+      ruleRowtoggle: false,
+    };
   },
 
-  mounted () {
-    this.billNumber = this.$route.query.billNumber
-    this.query()
+  mounted() {
+    this.billNumber = this.$route.query.billNumber;
+    this.query();
 
-    this.handelAllImage()
+    this.handelAllImage();
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    handelAllImage (type) {
+    handelAllImage(type) {
       // return false;
-      const _this = this
-      _this.imageData = _this.allData.imageInfo
-      _this.invoiceId = _this.imageData[0]['invoices'][0]['发票ID']
-      _this.imageId = _this.allData.imageInfo[0]['imageId']
-      _this.getMessageInfo([])
-      _this.getErrorMessage(_this.invoiceId)
-      _this.tabsInvoiceIndex = 0
-      if (type === 'Refresh') {
+      const _this = this;
+      _this.imageData = _this.allData.imageInfo;
+      _this.invoiceId = _this.imageData[0]["invoices"][0]["发票ID"];
+      _this.imageId = _this.allData.imageInfo[0]["imageId"];
+      _this.getMessageInfo([]);
+      _this.getErrorMessage(_this.invoiceId);
+      _this.tabsInvoiceIndex = 0;
+      if (type === "Refresh") {
       }
     },
     // 右边小图点击事件
-    handelImage (data) {
-      console.log('handelImage(data)', data)
-      this.tabsInvoiceIndex = 0
-      this.invoiceId = data['invoices'][0]['发票ID']
-      this.imageId = data.imageId
-      this.getMessageInfo([data.imageId])
-      this.getErrorMessage(this.invoiceId)
+    handelImage(data) {
+      console.log("handelImage(data)", data);
+      this.tabsInvoiceIndex = 0;
+      this.invoiceId = data["invoices"][0]["发票ID"];
+      this.imageId = data.imageId;
+      this.getMessageInfo([data.imageId]);
+      this.getErrorMessage(this.invoiceId);
     },
-    toggleRuleCollapse (collapseTab) {
-      const _this = this
-      let activeTxt = ''
-      if (this.activeName.includes(`${collapseTab}1`) && this.activeName.includes(`${collapseTab}2`)) {
-        _this.activeName = _this.activeName.filter(i => i.includes(collapseTab) === false)
-        activeTxt = '展开'
+    toggleRuleCollapse(collapseTab) {
+      const _this = this;
+      let activeTxt = "";
+      if (
+        this.activeName.includes(`${collapseTab}1`) &&
+        this.activeName.includes(`${collapseTab}2`)
+      ) {
+        _this.activeName = _this.activeName.filter(
+          (i) => i.includes(collapseTab) === false
+        );
+        activeTxt = "展开";
       } else {
-        _this.activeName = [...new Set([...this.activeName.concat([`${collapseTab}1`, `${collapseTab}2`])])]
-        activeTxt = '收起'
+        _this.activeName = [
+          ...new Set([
+            ...this.activeName.concat([`${collapseTab}1`, `${collapseTab}2`]),
+          ]),
+        ];
+        activeTxt = "收起";
       }
       switch (collapseTab) {
-        case 'IMAGES':
-          this.imagesCollapseAction = activeTxt
-          break
-        case 'OTHERS':
-          this.othersCollapseAction = activeTxt
-          break
+        case "IMAGES":
+          this.imagesCollapseAction = activeTxt;
+          break;
+        case "OTHERS":
+          this.othersCollapseAction = activeTxt;
+          break;
         default:
-          break
+          break;
       }
     },
-    rowClick (vo, i) {
-      const _this = this
-      if (vo.hasOwnProperty('imageData') && vo.imageData.length > 0) {
+    rowClick(vo, i) {
+      const _this = this;
+      if (vo.hasOwnProperty("imageData") && vo.imageData.length > 0) {
         let ids = vo.imageData.map((voi) => {
-          return voi.imageId
-        })
-        this.setImageData(ids)
-        _this.getRuleInvoice(vo.ruleId, '')
+          return voi.imageId;
+        });
+        this.setImageData(ids);
+        _this.getRuleInvoice(vo.ruleId, "");
       }
     },
-    getRuleInvoice (ruleId, taskId) {
-      const _this = this
+    getRuleInvoice(ruleId, taskId) {
+      const _this = this;
       axios
         .post(`http://10.15.196.127/api/ql/result/data`, {
-          'ruleId': ruleId,
-          'billNumber': this.billNumber,
-          'taskId': _this.allData.taskId
+          ruleId: ruleId,
+          billNumber: this.billNumber,
+          taskId: _this.allData.taskId,
         })
         .then((resp) => {
-          let data = resp.data
+          let data = resp.data;
           if (data.status === 200) {
             // Modal
-            // ! 字段怎么对应
-            _this.ruleRowtoggle = true
+            const formColumnsChildren = data.data.form.map((fc, i) => ({
+              title: fc.keyName,
+              key: `data${i}`
+            }))
+            _this.formColumns[0].children = _this.formColumns[0].childrenBak.concat(formColumnsChildren)
+            const imageColumnsChildren = data.data.image.map((fc, i) => ({
+              title: fc.keyName,
+              key: `data${i}`
+            }))
+            _this.imageColumns[0].children = _this.imageColumns[0].childrenBak.concat(imageColumnsChildren)
+            const xx = data.data.form.map((fc, i) => {
+              const keyn = `data${i}`
+              return fc.data.map(d => {
+                const newd = {};
+                newd[keyn] = d;
+                return newd;
+              });
+            })
+            if (xx.length > 0) {
+              const newArray = xx[0].map((col, i) => xx.map(row => row[i]));
+              const parr = JSON.parse(JSON.stringify(newArray));
+              _this.resultFormData = clubArray(parr);
+              _this.showFormRet = true;
+            }
+
+            const tt = data.data.image.map((fc, i) => {
+              const keyn = `data${i}`
+              return fc.data.map(d => {
+                const newd = {};
+                newd[keyn] = d;
+                return newd;
+              });
+            })
+            if (tt.length > 0) {
+              const newArray2 = tt[0].map((col, i) => tt.map(row => row[i]));
+              const parr2 = JSON.parse(JSON.stringify(newArray2));
+              _this.resultImageData = clubArray(parr2);
+              _this.showImageRet = true;
+            }
+            _this.ruleRowtoggle = true;
           }
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    setImageData (arr) {
-      let newArr = []
-      let data = this.allData.imageInfo
+    simpleNormalizeChildren(children) {
+      return Array.prototype.concat.apply([], children);
+    },
+    setImageData(arr) {
+      let newArr = [];
+      let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
-        if (arr.indexOf(data[i]['imageId']) !== -1) {
-          newArr.push(data[i])
+        if (arr.indexOf(data[i]["imageId"]) !== -1) {
+          newArr.push(data[i]);
         }
       }
-      this.imageData = newArr
-      this.invoiceId = this.imageData[0]['invoices'][0]['发票ID']
-      this.imageId = this.imageData[0]['imageId']
-      this.getMessageInfo(newArr.map(a => a.imageId))
-      this.getErrorMessage(this.invoiceId)
-      this.handleClick(this.imageData[0].imageURL, 0)
-      this.tabsInvoiceIndex = 0
+      this.imageData = newArr;
+      this.invoiceId = this.imageData[0]["invoices"][0]["发票ID"];
+      this.imageId = this.imageData[0]["imageId"];
+      this.getMessageInfo(newArr.map((a) => a.imageId));
+      this.getErrorMessage(this.invoiceId);
+      this.handleClick(this.imageData[0].imageURL, 0);
+      this.tabsInvoiceIndex = 0;
     },
-    query () {
-      const _this = this
+    query() {
+      const _this = this;
       axios
         .get(`http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`)
         .then((resp) => {
-          let data = resp.data
+          let data = resp.data;
           if (data.status == 200) {
-            _this.allData = data.data
-            _this.imageData = data.data.imageInfo
-            _this.imgSrc = data.data.imageInfo[0].imageURL
-            _this.imageId = data.data.imageInfo[0]['imageId']
-            _this.invoiceId = data.data.imageInfo[0]['invoices'][0]['发票ID']
-            _this.getMessageInfo([])
-            _this.getErrorMessage(_this.invoiceId)
+            _this.allData = data.data;
+            _this.imageData = data.data.imageInfo;
+            _this.imgSrc = data.data.imageInfo[0].imageURL;
+            _this.imageId = data.data.imageInfo[0]["imageId"];
+            _this.invoiceId = data.data.imageInfo[0]["invoices"][0]["发票ID"];
+            _this.getMessageInfo([]);
+            _this.getErrorMessage(_this.invoiceId);
           }
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
-    getMessageInfo (imageIds) {
-      let data = this.allData.imageInfo
-      let allInvoice = []
+    getMessageInfo(imageIds) {
+      let data = this.allData.imageInfo;
+      let allInvoice = [];
       for (let i = 0; i < data.length; i++) {
         const _dataI = {
           ...data[i],
           invoices: data[i].invoices.map((io) => {
-            return matchCNkeys(io.invoiceType, io)
-          })
-        }
-        data[i] = _dataI
-        allInvoice = allInvoice.concat(_dataI.invoices)
+            return matchCNkeys(io.invoiceType, io);
+          }),
+        };
+        data[i] = _dataI;
+        allInvoice = allInvoice.concat(_dataI.invoices);
       }
       if (imageIds.length === 0) {
-        this.$set(this, 'messageInfo', { invoices: allInvoice })
-        this.$set(this, 'dataPanelOpen', ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(i => `${i}${allInvoice[0]['发票ID']}`))
+        this.$set(this, "messageInfo", { invoices: allInvoice });
+        this.$set(
+          this,
+          "dataPanelOpen",
+          ["baseInfo-", "buyerInfo-", "sellerInfo-", "invoiceInfo-"].map(
+            (i) => `${i}${allInvoice[0]["发票ID"]}`
+          )
+        );
       } else {
-        const filterInvoices = allInvoice.filter(a => imageIds.includes(a.imageId))
-        this.$set(this, 'messageInfo', { invoices: filterInvoices })
-        this.$set(this, 'dataPanelOpen', ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(i => `${i}${filterInvoices[0]['发票ID']}`))
+        const filterInvoices = allInvoice.filter((a) =>
+          imageIds.includes(a.imageId)
+        );
+        this.$set(this, "messageInfo", { invoices: filterInvoices });
+        this.$set(
+          this,
+          "dataPanelOpen",
+          ["baseInfo-", "buyerInfo-", "sellerInfo-", "invoiceInfo-"].map(
+            (i) => `${i}${filterInvoices[0]["发票ID"]}`
+          )
+        );
       }
     },
-    getErrorMessage (invoiceIdP) {
-      const _this = this
-      _this.errorMessage = []
-      let error = this.allData.errors
-      let findErrorMsg = []
-      error.map(e => {
-        findErrorMsg = findErrorMsg.concat(e.infos)
-        return true
-      })
-      let findMsg = findErrorMsg.filter(fi => fi.invoiceId === invoiceIdP)
-      _this.errorMessage = findMsg[0].messages
-      _this.$set(_this, 'dataPanelOpen', ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(i => `${i}${invoiceIdP}`))
+    getErrorMessage(invoiceIdP) {
+      const _this = this;
+      _this.errorMessage = [];
+      let error = this.allData.errors;
+      let findErrorMsg = [];
+      error.map((e) => {
+        findErrorMsg = findErrorMsg.concat(e.infos);
+        return true;
+      });
+      let findMsg = findErrorMsg.filter((fi) => fi.invoiceId === invoiceIdP);
+      _this.errorMessage = findMsg[0].messages;
+      _this.$set(
+        _this,
+        "dataPanelOpen",
+        ["baseInfo-", "buyerInfo-", "sellerInfo-", "invoiceInfo-"].map(
+          (i) => `${i}${invoiceIdP}`
+        )
+      );
     },
-    handleTab (index, invoiceId) {
-      const _this = this
-      this.tabsInvoiceIndex = index
-      this.invoiceId = invoiceId
-      this.getErrorMessage(invoiceId)
-      const fi = this.imageData.map(id => id.invoices.filter(ii => ii['发票ID'] === invoiceId))
-      const findImg = fi.filter(fii => fii.length > 0)[0][0].imageId
+    handleTab(index, invoiceId) {
+      const _this = this;
+      this.tabsInvoiceIndex = index;
+      this.invoiceId = invoiceId;
+      this.getErrorMessage(invoiceId);
+      const fi = this.imageData.map((id) =>
+        id.invoices.filter((ii) => ii["发票ID"] === invoiceId)
+      );
+      const findImg = fi.filter((fii) => fii.length > 0)[0][0].imageId;
       _this.allData.imageInfo.map((iid, i) => {
         if (iid.imageId == findImg) {
-          _this.handleClick(iid.imageURL, i)
-          return false
+          _this.handleClick(iid.imageURL, i);
+          return false;
         }
-      })
+      });
     },
-    handleClick (url, index) {
-      this.imgSrc = url
-      this.imgIndex = index
+    handleClick(url, index) {
+      this.imgSrc = url;
+      this.imgIndex = index;
     },
-    showImgbox () {
-      this.showbigimg = !this.showbigimg
-      this.showImgData = []
-      this.showImgData.push(this.imageData[this.imgIndex])
-    }
-  }
-}
+    showImgbox() {
+      this.showbigimg = !this.showbigimg;
+      this.showImgData = [];
+      this.showImgData.push(this.imageData[this.imgIndex]);
+    },
+  },
+};
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .item {
@@ -682,7 +928,7 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.rightCon{
+.rightCon {
   /deep/.ivu-card-head {
     padding: 8px 16px;
   }
@@ -720,14 +966,14 @@ export default {
     overflow: auto;
     display: flex;
     flex-direction: column;
-    .smallImgBox{
-      position:relative;
+    .smallImgBox {
+      position: relative;
       margin-bottom: 5px;
     }
-    .smallImgBox:last-child{
+    .smallImgBox:last-child {
       margin-bottom: 0;
     }
-    .index-icon{
+    .index-icon {
       margin-top: -9px;
       display: block;
       width: 18px;
@@ -738,8 +984,8 @@ export default {
       line-height: 18px;
       font-size: 12px;
       font-weight: 600;
-      color: #FFFFFF;
-      position:absolute;
+      color: #ffffff;
+      position: absolute;
       right: 5px;
       top: 50%;
     }
@@ -756,21 +1002,20 @@ export default {
   }
   /* 滚动槽 */
   .rightImg::-webkit-scrollbar-track {
-    box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
-    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius:10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
   }
   /* 滚动条滑块 */
   .rightImg::-webkit-scrollbar-thumb {
-    border-radius:10px;
-    background:rgba(0,0,0,0.1);
-    box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
-    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
   }
   .rightImg::-webkit-scrollbar-thumb:window-inactive {
-    background:rgba(255,0,0,0.4);
+    background: rgba(255, 0, 0, 0.4);
   }
-
 }
 .conBoxs {
   width: 100%;
@@ -878,52 +1123,52 @@ export default {
   // bottom: 0;
   overflow-y: auto;
 }
-.rule-table{
-  width:100%;
-  border-collapse:collapse;
+.rule-table {
+  width: 100%;
+  border-collapse: collapse;
   border: 1px solid #eeeeee;
-  thead{
-    background-color:#EEEEEE;
+  thead {
+    background-color: #eeeeee;
   }
-  tr{
-    border: 1px solid #EEEEEE;
+  tr {
+    border: 1px solid #eeeeee;
   }
-  td{
-    padding:10px 0;
+  td {
+    padding: 10px 0;
   }
-  th{
-    padding:10px 0;
+  th {
+    padding: 10px 0;
   }
 }
-/deep/.el-collapse-item__content{
-  padding-top: .5rem;
-  padding-bottom: .5rem;
+/deep/.el-collapse-item__content {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
-/deep/.ivu-form-item{
-  margin-bottom: .5rem;
+/deep/.ivu-form-item {
+  margin-bottom: 0.5rem;
 }
-/deep/.ivu-form-label-left .ivu-form-item-label{
+/deep/.ivu-form-label-left .ivu-form-item-label {
   text-align: justify;
 }
-/deep/.ivu-form-label-left .ivu-form-item-label::after{
-  content: '';
+/deep/.ivu-form-label-left .ivu-form-item-label::after {
+  content: "";
   display: inline-block;
   padding-left: 100%;
 }
 // , fieldset[disabled] .ivu-input
 /deep/.ivu-input[readonly] {
-  color:#333;
+  color: #333;
   background-color: #f3f3f3;
 }
-/deep/.el-collapse-item__wrap{
+/deep/.el-collapse-item__wrap {
   border: none;
 }
-/deep/.el-collapse-item__header{
+/deep/.el-collapse-item__header {
   position: relative;
   border: none;
 }
-/deep/.el-collapse-item__header::after{
-  content:" ";
+/deep/.el-collapse-item__header::after {
+  content: " ";
   width: calc(100% - 20rem);
   border-top: 1px solid #999;
   position: absolute;
@@ -931,7 +1176,13 @@ export default {
   overflow: hidden;
 }
 /deep/.el-collapse-item__header {
-  padding-left: .5rem;
+  padding-left: 0.5rem;
   border-left: 2px solid #1991dd;
+}
+/deep/.result-data-modal .ivu-modal-body {
+  display: flex;
+}
+/deep/.result-data-modal .ivu-modal-body .ivu-table-wrapper{
+  flex: 1;
 }
 </style>
