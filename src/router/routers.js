@@ -79,6 +79,8 @@ export default [
         meta: {
           icon: 'ios-create-outline',
           title: '机器人审单日志'
+          ,keepAlive: true
+          ,isBack: false
         },
         component: () => import('@/view/auditLog.vue')
       }

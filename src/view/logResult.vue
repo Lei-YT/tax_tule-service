@@ -3,6 +3,8 @@
     <div id="list">
       <!-- 头部 -->
       <Card style="width: 100%" class="ticketType">
+        <el-button type="primary" plain @click="$router.back()" icon="el-icon-arrow-left" size="small">返回</el-button>
+
         <p>单据类型：{{ allData.billType }}</p>
         <p>单据编号：{{ allData.billNo }}</p>
       </Card>
@@ -993,6 +995,7 @@ export default {
 .ticketType {
   /deep/.ivu-card-body {
     display: flex;
+    align-items: center;
     p {
       width: 300px;
       color: #1991dd;
@@ -1281,5 +1284,16 @@ export default {
 /deep/.ivu-tooltip,
 /deep/.ivu-tooltip-rel {
   display: inherit;
+}
+
+/deep/.el-button--primary.is-plain {
+  color: #1991DD;
+  background: #ffffff;
+  border-color: #1991DD;
+}
+/deep/.el-button--primary.is-plain:focus,/deep/.el-button--primary.is-plain:hover {
+  color: #ffffff;
+  background: #1991DD;
+  border-color: #1991DD;
 }
 </style>

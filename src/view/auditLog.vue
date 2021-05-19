@@ -544,6 +544,20 @@ export default {
     window.addEventListener('resize', this.adjustWidth.bind(this))
     this.query()
   },
+  // activated() {
+  //   // 如果isBack是false，表明需要获取新数据，否则就不再请求，直接使用缓存的数据
+  //   if(this.$route.meta.isBack){
+  //   } else {
+  //     this.page = {
+  //       totalElement: 0, // 总页数
+  //       currentPage: 1, // 当前页数
+  //       size: 10 // 每页显示多少条
+  //     }
+  //     this.query()
+  //   }
+  //   // 恢复成默认的false，避免isBack一直是true，导致下次无法获取数据
+  //   this.$route.meta.isBack=false
+  // },
   methods: {
     format (percentage) {
       if (percentage == 100) {
