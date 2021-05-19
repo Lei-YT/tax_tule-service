@@ -1,0 +1,48 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "billType": "CRTG_劳务结算单",
+    "taskId": "072d5052ebeb4a5d902612bc701600c8",
+    "billNo": "20210512801126039004710066",
+    "versionName": "正式版-1.2",
+    "imageInfo": [],
+    "errors": [],
+    "data": [
+      {
+        "ruleCount": 0,
+        "errorCount": 0,
+        "ruleType": "IMAGES",
+        "color": null,
+        "result": []
+      },
+      {
+        "ruleCount": 2,
+        "errorCount": 0,
+        "ruleType": "OTHERS",
+        "color": null,
+        "result": [
+          {
+            "ruleId": "CS4881459818",
+            "ruleName": "系统当前日期月数-表单.财务信息.制证日期月数≤3个月",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "WY4234248803",
+            "ruleName": "表单.发票信息.发票类型=影像.发票.发票类型（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "BILLS"
+          }
+        ]
+      },
+      {
+        "ruleCount": 0,
+        "errorCount": null,
+        "ruleType": "WARNING",
+        "color": null,
+        "result": []
+      }
+    ]
+  }
+}

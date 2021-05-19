@@ -56,11 +56,6 @@
                   v-bind:name="item.ruleType + '1'"
                 >
                   <template
-                    v-if="
-                      item.result.filter((obj) => {
-                        return obj.correct == false;
-                      }).length
-                    "
                   >
                     <table style="width: 100%" class="rule-table">
                       <thead>
@@ -72,6 +67,15 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <tr
+                            v-if="
+                              item.result.filter((obj) => {
+                                return obj.correct == false;
+                              }).length===0
+                            " >
+                          <td
+                            colspan="4" style="text-align: center">暂无数据</td>
+                        </tr>
                         <tr
                           v-for="(n, i) in item.result.filter((obj) => {
                             return obj.correct == false;
@@ -99,11 +103,6 @@
                   v-bind:name="item.ruleType + '2'"
                 >
                   <template
-                    v-if="
-                      item.result.filter((obj) => {
-                        return obj.correct == true;
-                      }).length
-                    "
                   >
                     <table style="width: 100%" class="rule-table">
                       <thead>
@@ -115,6 +114,15 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <tr
+                            v-if="
+                              item.result.filter((obj) => {
+                                return obj.correct == true;
+                              }).length===0
+                            " >
+                          <td
+                            colspan="4" style="text-align: center">暂无数据</td>
+                        </tr>
                         <tr
                           v-for="(n, i) in item.result.filter((obj) => {
                             return obj.correct == true;
@@ -174,7 +182,7 @@
           <Card style="width: 100%">
             <div class="cardTit" slot="title">
               <p>影像展示</p>
-              <div class="countBox">
+              <div class="countBox" v-if="!emptyImageInfo">
                 <Button @click="handelAllImage">返回全部展示</Button>
               </div>
             </div>
@@ -240,7 +248,8 @@
                 </div>
               </div>
             </div>
-            <div class="imgBox">
+            <div v-if="emptyImageInfo" class="empty-text" style="text-align: center">暂无数据</div>
+            <div class="imgBox" v-if="!emptyImageInfo">
               <div class="leftImg">
                 <img :src="imgSrc" class="bigImg" @click="showImgbox()" />
               </div>
@@ -704,14 +713,20 @@ export default {
 
     this.handelAllImage()
   },
-  computed: {},
+  computed: {
+    emptyImageInfo: function () {
+      return this.imageData.length === 0
+    }
+  },
   methods: {
     handelAllImage (type) {
       // return false;
       const _this = this
       _this.imageData = _this.allData.imageInfo
-      _this.invoiceId = _this.imageData[0]['invoices'][0]['发票ID']
-      _this.imageId = _this.allData.imageInfo[0]['imageId']
+      _this.invoiceId = _this.imageData.length > 0
+        ? (_this.imageData[0]['invoices'].length > 0 ? _this.imageData[0]['invoices'][0]['发票ID'] : '')
+        : []
+      _this.imageId = _this.imageData.length > 0 ? _this.allData.imageInfo[0]['imageId'] : ''
       _this.getMessageInfo([])
       _this.getErrorMessage(_this.invoiceId)
       _this.tabsInvoiceIndex = 0
@@ -722,7 +737,7 @@ export default {
     handelImage (data) {
       console.log('handelImage(data)', data)
       this.tabsInvoiceIndex = 0
-      this.invoiceId = data['invoices'][0]['发票ID']
+      this.invoiceId = data['invoices'].length > 0 ? data['invoices'][0]['发票ID'] : ''
       this.imageId = data.imageId
       this.getMessageInfo([data.imageId])
       this.getErrorMessage(this.invoiceId)
@@ -838,11 +853,14 @@ export default {
         }
       }
       this.imageData = newArr
-      this.invoiceId = this.imageData[0]['invoices'][0]['发票ID']
-      this.imageId = this.imageData[0]['imageId']
+      this.invoiceId = this.imageData.length > 0
+        ? (this.imageData[0]['invoices'].length > 0 ? this.imageData[0]['invoices'][0]['发票ID'] : '')
+        : ''
+      this.imageId = this.imageData.length > 0 ? this.imageData[0]['imageId'] : ''
       this.getMessageInfo(newArr.map((a) => a.imageId))
       this.getErrorMessage(this.invoiceId)
-      this.handleClick(this.imageData[0].imageURL, 0)
+      const imageURL0 = this.imageData.length > 0 ? this.imageData[0]['imageURL'] : ''
+      this.handleClick(imageURL0, 0)
       this.tabsInvoiceIndex = 0
     },
     query () {
@@ -854,9 +872,11 @@ export default {
           if (data.status == 200) {
             _this.allData = data.data
             _this.imageData = data.data.imageInfo
-            _this.imgSrc = data.data.imageInfo[0].imageURL
-            _this.imageId = data.data.imageInfo[0]['imageId']
-            _this.invoiceId = data.data.imageInfo[0]['invoices'][0]['发票ID']
+            _this.imgSrc = _this.imageData.length > 0 ? data.data.imageInfo[0].imageURL : ''
+            _this.imageId = _this.imageData.length > 0 ? data.data.imageInfo[0]['imageId'] : ''
+            _this.invoiceId = _this.imageData.length > 0
+              ? (_this.imageData[0].invoices.length > 0 ? _this.imageData[0].invoices[0]['发票ID'] : '')
+              : ''
             _this.getMessageInfo([])
             _this.getErrorMessage(_this.invoiceId)
           }
@@ -890,7 +910,7 @@ export default {
             'sellerInfo-',
             'otherInfo-',
             'invoiceInfo-'
-          ].map((i) => `${i}${allInvoice[0]['发票ID']}`)
+          ].map((i) => `${i}${allInvoice.length > 0 ? allInvoice[0]['发票ID'] : '0'}`)
         )
       } else {
         const filterInvoices = allInvoice.filter((a) =>
@@ -906,7 +926,7 @@ export default {
             'sellerInfo-',
             'otherInfo-',
             'invoiceInfo-'
-          ].map((i) => `${i}${filterInvoices[0]['发票ID']}`)
+          ].map((i) => `${i}${filterInvoices.length > 0 ? filterInvoices[0]['发票ID'] : '0'}`)
         )
       }
     },
