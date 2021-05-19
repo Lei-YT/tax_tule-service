@@ -820,6 +820,9 @@ export default {
               const parr = JSON.parse(JSON.stringify(newArray))
               _this.resultFormData = clubArray(parr).map(x => removeEmptyOrNull(x)).filter(nn => Object.keys(nn).length !== 0)
               _this.showFormRet = true
+            } else {
+              delete _this.formColumns[0].children
+              _this.showFormRet = true
             }
 
             const tt = data.data.image.map((fc, i) => {
@@ -834,6 +837,9 @@ export default {
               const newArray2 = tt[0].map((col, i) => tt.map((row) => row[i]))
               const parr2 = JSON.parse(JSON.stringify(newArray2))
               _this.resultImageData = clubArray(parr2).map(x => removeEmptyOrNull(x)).filter(nn => Object.keys(nn).length !== 0)
+              _this.showImageRet = true
+            } else {
+              delete _this.imageColumns[0].children
               _this.showImageRet = true
             }
             _this.ruleRowtoggle = true
