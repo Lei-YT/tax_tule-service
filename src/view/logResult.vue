@@ -725,7 +725,7 @@ export default {
       _this.imageData = _this.allData.imageInfo
       _this.invoiceId = _this.imageData.length > 0
         ? (_this.imageData[0]['invoices'].length > 0 ? _this.imageData[0]['invoices'][0]['发票ID'] : '')
-        : []
+        : ''
       _this.imageId = _this.imageData.length > 0 ? _this.allData.imageInfo[0]['imageId'] : ''
       _this.getMessageInfo([])
       _this.getErrorMessage(_this.invoiceId)
@@ -735,7 +735,6 @@ export default {
     },
     // 右边小图点击事件
     handelImage (data) {
-      console.log('handelImage(data)', data)
       this.tabsInvoiceIndex = 0
       this.invoiceId = data['invoices'].length > 0 ? data['invoices'][0]['发票ID'] : ''
       this.imageId = data.imageId
@@ -774,15 +773,15 @@ export default {
     },
     rowClick (vo, i) {
       const _this = this
-      if (vo.hasOwnProperty('imageData') && vo.imageData.length > 0) {
+      if (vo.hasOwnProperty('imageData')) {
         let ids = vo.imageData.map((voi) => {
           return voi.imageId
         })
         this.setImageData(ids)
-        _this.getRuleInvoice(vo.ruleId, '')
       }
+      _this.getRuleInvoice(vo.ruleId)
     },
-    getRuleInvoice (ruleId, taskId) {
+    getRuleInvoice (ruleId) {
       const _this = this
       axios
         .post(`http://10.15.196.127/api/ql/rule/data`, {
@@ -875,7 +874,7 @@ export default {
             _this.imgSrc = _this.imageData.length > 0 ? data.data.imageInfo[0].imageURL : ''
             _this.imageId = _this.imageData.length > 0 ? data.data.imageInfo[0]['imageId'] : ''
             _this.invoiceId = _this.imageData.length > 0
-              ? (_this.imageData[0].invoices.length > 0 ? _this.imageData[0].invoices[0]['发票ID'] : '')
+              ? (_this.imageData[0].invoices.length > 0 ? _this.imageData[0].invoices[0]['invoiceId'] : '')
               : ''
             _this.getMessageInfo([])
             _this.getErrorMessage(_this.invoiceId)
@@ -950,7 +949,7 @@ export default {
           'sellerInfo-',
           'otherInfo-',
           'invoiceInfo-'
-        ].map((i) => `${i}${invoiceIdP}`)
+        ].map((i) => `${i}${invoiceIdP || '0'}`)
       )
     },
     handleTab (index, invoiceId) {
