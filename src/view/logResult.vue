@@ -605,7 +605,7 @@
             fontWeight: 'normal',
             fontSize: '12px',
           }"
-          fit
+          :cell-class-name="formTableCellClassName"
         >
           <el-table-column
             v-if="resultFormData.length>0"
@@ -638,6 +638,7 @@
             fontWeight: 'normal',
             fontSize: '12px',
           }"
+          :cell-class-name="imageTableCellClassName"
         >
           <el-table-column
             v-if="resultImageData.length>0"
@@ -721,7 +722,9 @@ export default {
         },
       ],
       imageColumnsChildren: [],
+      resultFormDataRaw: [],
       resultFormData: [],
+      resultImageDataRaw: [],
       resultImageData: [],
       allData: [],
       activeName: ["IMAGES1", "OTHERS1"], // "IMAGES1",
@@ -877,6 +880,39 @@ export default {
         _this.getRuleInvoice(vo.ruleId);
       }
     },
+    // mapper highlight
+    formTableCellClassName({row, column, rowIndex, columnIndex}) {
+      const _this = this;
+      const columnName = column.property;
+      if (columnName === undefined) {
+        return ''
+      }
+      const dataIndex = Number(columnName.replace(/\D/g, ""));
+      if ( ! _this.resultFormDataRaw[dataIndex].hasOwnProperty('valueData')) {
+        return ''
+      }
+      if ( ! row.hasOwnProperty(columnName)) {
+        return ''
+      }
+      const valueObj = _this.resultFormDataRaw[dataIndex].valueData.find(ele => ele.value===row[columnName]);
+      return valueObj.highLight === true ? "text-highlight" : ''
+    },
+    imageTableCellClassName({row, column, rowIndex, columnIndex}) {
+      const _this = this;
+      const columnName = column.property;
+      if (columnName === undefined) {
+        return ''
+      }
+      const dataIndex = Number(columnName.replace(/\D/g, ""));
+      if ( ! _this.resultImageDataRaw[dataIndex].hasOwnProperty('valueData')) {
+        return ''
+      }
+      if ( ! row.hasOwnProperty(columnName)) {
+        return ''
+      }
+      const valueObj = _this.resultImageDataRaw[dataIndex].valueData.find(ele => ele.value===row[columnName]);
+      return valueObj.highLight === true ? "text-highlight" : ''
+    },
     getRuleInvoice(ruleId) {
       const _this = this;
       axios
@@ -889,6 +925,8 @@ export default {
           let data = resp.data;
           if (data.status === 200) {
             // Modal
+            _this.resultFormDataRaw = data.data.form;
+            _this.resultImageDataRaw = data.data.image;
             const formColumnsChildren = data.data.form.map((fc, i) => ({
               title: fc.keyName,
               key: `data${i}`,
@@ -923,6 +961,7 @@ export default {
               _this.showFormRet = true;
             } else {
               _this.resultFormData = [];
+              _this.resultFormDataRaw = [];
               _this.showFormRet = true;
             }
 
@@ -943,6 +982,7 @@ export default {
               _this.showImageRet = true;
             } else {
               _this.resultImageData = [];
+              _this.resultImageDataRaw = [];
               _this.showImageRet = true;
             }
             _this.ruleRowtoggle = true;
@@ -1440,5 +1480,8 @@ export default {
   color: #ffffff;
   background: #1991dd;
   border-color: #1991dd;
+}
+/deep/.text-highlight{
+  background-color: #FFFA99;
 }
 </style>

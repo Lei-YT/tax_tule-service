@@ -1,0 +1,120 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "form": [
+      {
+        "keyName": "发票代码",
+        "data": [
+          "3300203130",
+          "040303309100",
+          ""
+        ],
+        "valueData": [
+          {
+            "highLight": true,
+            "value": "040303309100"
+          },
+          {
+            "highLight": false,
+            "value": "3300203130"
+          },
+          {
+            "highLight": false,
+            "value": ""
+          }
+        ]
+      }
+    ],
+    "image": [
+      {
+        "keyName": "发票代码",
+        "data": [
+          "3300203130",
+          "040303309100",
+          ""
+        ],
+        "valueData": [
+          {
+            "highLight": true,
+            "value": "040303309100"
+          },
+          {
+            "highLight": false,
+            "value": "3300203130"
+          },
+          {
+            "highLight": false,
+            "value": ""
+          }
+        ]
+      },
+      {
+        "keyName": "发票代码",
+        "data": [
+          "3300203130",
+          "3300203130",
+          ""
+        ],
+        "valueData": [
+          {
+            "highLight": false,
+            "value": "3300203130"
+          },
+          {
+            "highLight": false,
+            "value": "3300203130"
+          },
+          {
+            "highLight": false,
+            "value": ""
+          }
+        ]
+      },
+      {
+        "keyName": "发票号码",
+        "data": [
+          "19152293",
+          "19152294",
+          ""
+        ],
+        "valueData": [
+          {
+            "highLight": true,
+            "value": ""
+          },
+          {
+            "highLight": false,
+            "value": "19152293"
+          },
+          {
+            "highLight": false,
+            "value": "19152294"
+          }
+        ]
+      },
+      {
+        "keyName": "发票号码",
+        "data": [
+          "19152293",
+          "19152294",
+          "100000"
+        ],
+        "valueData": [
+          {
+            "highLight": true,
+            "value": "100000"
+          },
+          {
+            "highLight": false,
+            "value": "19152293"
+          },
+          {
+            "highLight": false,
+            "value": "19152294"
+          }
+        ]
+      }
+    ]
+  }
+}
