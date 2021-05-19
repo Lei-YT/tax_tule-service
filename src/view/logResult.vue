@@ -366,12 +366,16 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="地址电话">
-                          <Tooltip :content="vo['购买方信息-地址、电话']" :max-width="200" transfer>
-                            <Input
-                              v-model="vo['购买方信息-地址、电话']"
-                              readonly
-                            ></Input>
-                          </Tooltip>
+                            <Tooltip
+                              :content="vo['购买方信息-地址、电话']"
+                              :max-width="200"
+                              transfer
+                            >
+                              <Input
+                                v-model="vo['购买方信息-地址、电话']"
+                                readonly
+                              ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                       </Row>
@@ -386,11 +390,15 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="开户行及账号">
-                            <Tooltip :content="vo['购买方信息-开户行及账号']" :max-width="200" transfer>
-                            <Input
-                              v-model="vo['购买方信息-开户行及账号']"
-                              readonly
-                            ></Input>
+                            <Tooltip
+                              :content="vo['购买方信息-开户行及账号']"
+                              :max-width="200"
+                              transfer
+                            >
+                              <Input
+                                v-model="vo['购买方信息-开户行及账号']"
+                                readonly
+                              ></Input>
                             </Tooltip>
                           </FormItem>
                         </Col>
@@ -414,11 +422,15 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="地址电话">
-                            <Tooltip :content="vo['销售方信息-地址、电话']" :max-width="200" transfer>
-                            <Input
-                              v-model="vo['销售方信息-地址、电话']"
-                              readonly
-                            ></Input>
+                            <Tooltip
+                              :content="vo['销售方信息-地址、电话']"
+                              :max-width="200"
+                              transfer
+                            >
+                              <Input
+                                v-model="vo['销售方信息-地址、电话']"
+                                readonly
+                              ></Input>
                             </Tooltip>
                           </FormItem>
                         </Col>
@@ -434,11 +446,15 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="开户行及账号">
-                            <Tooltip :content="vo['销售方信息-开户行及账号']" :max-width="200" transfer>
-                            <Input
-                              v-model="vo['销售方信息-开户行及账号']"
-                              readonly
-                            ></Input>
+                            <Tooltip
+                              :content="vo['销售方信息-开户行及账号']"
+                              :max-width="200"
+                              transfer
+                            >
+                              <Input
+                                v-model="vo['销售方信息-开户行及账号']"
+                                readonly
+                              ></Input>
                             </Tooltip>
                           </FormItem>
                         </Col>
@@ -453,7 +469,11 @@
                     <Form label-position="left" :label-width="100">
                       <Row :gutter="16">
                         <Col span="24">
-                          <Tooltip :content="vo['备注']" :max-width="200" transfer>
+                          <Tooltip
+                            :content="vo['备注']"
+                            :max-width="200"
+                            transfer
+                          >
                             <FormItem label="备注">
                               <Input v-model="vo['备注']" readonly></Input>
                             </FormItem>
@@ -517,8 +537,10 @@
                             <td>{{ n["发票详情--税额"] }}</td>
                             <td>
                               {{
-                                Number(n["发票详情--金额"]) +
-                                Number(n["发票详情--税额"])
+                                (
+                                  Number(n["发票详情--金额"]) +
+                                  Number(n["发票详情--税额"])
+                                ).toFixed(2)
                               }}
                             </td>
                           </tr>
@@ -569,6 +591,13 @@ const clubArray = (arr) => {
     })
     return acc
   }, [])
+}
+const removeEmptyOrNull = (obj) => {
+  Object.keys(obj).forEach(k =>
+    ((obj[k] && typeof obj[k] === 'object') && removeEmptyOrNull(obj[k])) ||
+    ((obj[k] === '' || obj[k] === null) && delete obj[k])
+  )
+  return obj
 }
 export default {
   components: { ImagePreview },
@@ -775,7 +804,7 @@ export default {
             if (xx.length > 0) {
               const newArray = xx[0].map((col, i) => xx.map((row) => row[i]))
               const parr = JSON.parse(JSON.stringify(newArray))
-              _this.resultFormData = clubArray(parr)
+              _this.resultFormData = clubArray(parr).map(x => removeEmptyOrNull(x)).filter(nn => Object.keys(nn).length !== 0)
               _this.showFormRet = true
             }
 
@@ -790,7 +819,7 @@ export default {
             if (tt.length > 0) {
               const newArray2 = tt[0].map((col, i) => tt.map((row) => row[i]))
               const parr2 = JSON.parse(JSON.stringify(newArray2))
-              _this.resultImageData = clubArray(parr2)
+              _this.resultImageData = clubArray(parr2).map(x => removeEmptyOrNull(x)).filter(nn => Object.keys(nn).length !== 0)
               _this.showImageRet = true
             }
             _this.ruleRowtoggle = true
@@ -799,9 +828,6 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-    },
-    simpleNormalizeChildren (children) {
-      return Array.prototype.concat.apply([], children)
     },
     setImageData (arr) {
       let newArr = []
@@ -886,15 +912,15 @@ export default {
     },
     getErrorMessage (invoiceIdP) {
       const _this = this
-      _this.errorMessage = []
-      let error = this.allData.errors
-      let findErrorMsg = []
-      error.map((e) => {
-        findErrorMsg = findErrorMsg.concat(e.infos)
-        return true
-      })
-      let findMsg = findErrorMsg.filter((fi) => fi.invoiceId === invoiceIdP)
-      _this.errorMessage = findMsg.length > 0 ? findMsg[0].messages : []
+      // _this.errorMessage = []
+      // let error = this.allData.errors
+      // let findErrorMsg = []
+      // error.map((e) => {
+      //   findErrorMsg = findErrorMsg.concat(e.infos)
+      //   return true
+      // })
+      // let findMsg = findErrorMsg.filter((fi) => fi.invoiceId === invoiceIdP)
+      // _this.errorMessage = findMsg.length > 0 ? findMsg[0].messages : []
       _this.$set(
         _this,
         'dataPanelOpen',
@@ -1227,7 +1253,8 @@ export default {
 /deep/.result-data-modal .ivu-modal-body .ivu-table-wrapper {
   flex: 1;
 }
-/deep/.ivu-tooltip, /deep/.ivu-tooltip-rel{
+/deep/.ivu-tooltip,
+/deep/.ivu-tooltip-rel {
   display: inherit;
 }
 </style>
