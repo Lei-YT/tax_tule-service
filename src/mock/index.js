@@ -43,7 +43,7 @@ Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
   return Mock.mock(resultJson)
 })
 
-Mock.mock(/\/api\/ql\/result\/data/, 'post', (req, res) => {
+Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
   /**
     {
     "ruleId":"YQ4685271606",

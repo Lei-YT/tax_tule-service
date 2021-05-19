@@ -292,17 +292,22 @@
                               <Input v-model="vo['发票类型']" readonly></Input>
                             </FormItem>
                           </Col>
-                          <Col span="8">
+                          <!-- <Col span="8">
                             <FormItem label="发票ID">
                               <Input v-model="vo['发票ID']" readonly></Input>
                             </FormItem>
-                          </Col>
+                          </Col> -->
                           <Col span="8">
                             <FormItem label="发票联次">
                               <Input
                                 v-model="vo['发票联次名称']"
                                 readonly
                               ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="开票日期">
+                              <Input v-model="vo['开票日期']" readonly></Input>
                             </FormItem>
                           </Col>
                         </Row>
@@ -318,8 +323,26 @@
                             </FormItem>
                           </Col>
                           <Col span="8">
-                            <FormItem label="校验码?">
+                            <FormItem label="校验码">
                               <Input v-model="vo['校验码']" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="发票机打号码" :label-width="120">
+                              <Input
+                                v-model="vo['发票机打号码']"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="发票机打代码" :label-width="120">
+                              <Input
+                                v-model="vo['发票机打代码']"
+                                readonly
+                              ></Input>
                             </FormItem>
                           </Col>
                         </Row>
@@ -343,10 +366,12 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="地址电话">
+                          <Tooltip :content="vo['购买方信息-地址、电话']" :max-width="200" transfer>
                             <Input
                               v-model="vo['购买方信息-地址、电话']"
                               readonly
                             ></Input>
+                          </Tooltip>
                           </FormItem>
                         </Col>
                       </Row>
@@ -361,10 +386,12 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="开户行及账号">
+                            <Tooltip :content="vo['购买方信息-开户行及账号']" :max-width="200" transfer>
                             <Input
                               v-model="vo['购买方信息-开户行及账号']"
                               readonly
                             ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                       </Row>
@@ -387,10 +414,12 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="地址电话">
+                            <Tooltip :content="vo['销售方信息-地址、电话']" :max-width="200" transfer>
                             <Input
                               v-model="vo['销售方信息-地址、电话']"
                               readonly
                             ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                       </Row>
@@ -405,18 +434,30 @@
                         </Col>
                         <Col span="12">
                           <FormItem label="开户行及账号">
+                            <Tooltip :content="vo['销售方信息-开户行及账号']" :max-width="200" transfer>
                             <Input
                               v-model="vo['销售方信息-开户行及账号']"
                               readonly
                             ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                       </Row>
+                    </Form>
+                  </el-collapse-item>
+                  <el-collapse-item
+                    title="其他"
+                    v-bind:name="'otherInfo-' + vo['发票ID']"
+                    style="width: 100%"
+                  >
+                    <Form label-position="left" :label-width="100">
                       <Row :gutter="16">
                         <Col span="24">
-                          <FormItem label="备注">
-                            <Input v-model="vo['备注']" readonly></Input>
-                          </FormItem>
+                          <Tooltip :content="vo['备注']" :max-width="200" transfer>
+                            <FormItem label="备注">
+                              <Input v-model="vo['备注']" readonly></Input>
+                            </FormItem>
+                          </Tooltip>
                         </Col>
                       </Row>
                       <Row :gutter="16">
@@ -432,7 +473,7 @@
                         </Col>
                         <Col span="12">
                           <FormItem
-                            label="盖章单位与开票方是否一致?"
+                            label="盖章单位与开票方是否一致"
                             :label-width="180"
                           >
                             <Input readonly></Input>
@@ -486,31 +527,6 @@
                     </template>
                   </el-collapse-item>
                 </el-collapse>
-                <!--
-                  <div class="info-box-right">
-                    <div class="billnumber-bar">
-                      <b>影像报错</b>
-                    </div>
-                    <div class="invoice-scroll scroll-style">
-                      <div style="padding: 10px 0">
-                        <template v-if="errorMessage.length">
-                          <p
-                            style="padding: 5px 15px"
-                            flex
-                            v-for="(v, i) in errorMessage"
-                            :key="i"
-                          >
-                            <span flex-box="0">{{ i + 1 }}、</span>
-                            <span flex-box="1">{{ v }}</span>
-                          </p>
-                        </template>
-                        <p v-else style="color: #999; padding: 10px 20px">
-                          无影像报错信息
-                        </p>
-                      </div>
-                    </div>
-                  </div> -->
-                <!-- </div> -->
               </template>
             </div>
           </Card>
@@ -725,7 +741,7 @@ export default {
     getRuleInvoice (ruleId, taskId) {
       const _this = this
       axios
-        .post(`http://10.15.196.127/api/ql/result/data`, {
+        .post(`http://10.15.196.127/api/ql/rule/data`, {
           ruleId: ruleId,
           billNumber: this.billNumber,
           taskId: _this.allData.taskId
@@ -842,9 +858,13 @@ export default {
         this.$set(
           this,
           'dataPanelOpen',
-          ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(
-            (i) => `${i}${allInvoice[0]['发票ID']}`
-          )
+          [
+            'baseInfo-',
+            'buyerInfo-',
+            'sellerInfo-',
+            'otherInfo-',
+            'invoiceInfo-'
+          ].map((i) => `${i}${allInvoice[0]['发票ID']}`)
         )
       } else {
         const filterInvoices = allInvoice.filter((a) =>
@@ -854,9 +874,13 @@ export default {
         this.$set(
           this,
           'dataPanelOpen',
-          ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(
-            (i) => `${i}${filterInvoices[0]['发票ID']}`
-          )
+          [
+            'baseInfo-',
+            'buyerInfo-',
+            'sellerInfo-',
+            'otherInfo-',
+            'invoiceInfo-'
+          ].map((i) => `${i}${filterInvoices[0]['发票ID']}`)
         )
       }
     },
@@ -874,9 +898,13 @@ export default {
       _this.$set(
         _this,
         'dataPanelOpen',
-        ['baseInfo-', 'buyerInfo-', 'sellerInfo-', 'invoiceInfo-'].map(
-          (i) => `${i}${invoiceIdP}`
-        )
+        [
+          'baseInfo-',
+          'buyerInfo-',
+          'sellerInfo-',
+          'otherInfo-',
+          'invoiceInfo-'
+        ].map((i) => `${i}${invoiceIdP}`)
       )
     },
     handleTab (index, invoiceId) {
@@ -1198,5 +1226,8 @@ export default {
 }
 /deep/.result-data-modal .ivu-modal-body .ivu-table-wrapper {
   flex: 1;
+}
+/deep/.ivu-tooltip, /deep/.ivu-tooltip-rel{
+  display: inherit;
 }
 </style>
