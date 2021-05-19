@@ -2,8 +2,9 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import processJson from '@/dataJson/process.json'
-import resultJson from '@/dataJson/result3.json'
-import resultDataJson from '@/dataJson/result-data3.json'
+import resultJson from '@/dataJson/result2.json'
+import resultDataJson from '@/dataJson/result-data.json'
+import resultDataJson2 from '@/dataJson/result-data2.json'
 import userJson from '@/dataJson/user.json'
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
@@ -51,8 +52,10 @@ Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
     "taskId":"1387829612651159553"
     }
    */
-  console.log('mock res', req, resultDataJson)
-  return Mock.mock(resultDataJson)
+  console.log('if rule', JSON.parse(req.body).hasOwnProperty('ruleId'))
+  const ifR = JSON.parse(req.body).hasOwnProperty('ruleId');
+  console.log('mock res', req, ifR ? resultDataJson2 : resultDataJson)
+  return Mock.mock((ifR ? resultDataJson2 : resultDataJson))
 })
 
 Mock.mock(/\/api\/user\/list/, 'get', (req, res) => {

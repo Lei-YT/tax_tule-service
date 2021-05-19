@@ -3,7 +3,14 @@
     <div id="list">
       <!-- 头部 -->
       <Card style="width: 100%" class="ticketType">
-        <el-button type="primary" plain @click="$router.back()" icon="el-icon-arrow-left" size="small">返回</el-button>
+        <el-button
+          type="primary"
+          plain
+          @click="$router.back()"
+          icon="el-icon-arrow-left"
+          size="small"
+          >返回</el-button
+        >
 
         <p>单据类型：{{ allData.billType }}</p>
         <p>单据编号：{{ allData.billNo }}</p>
@@ -57,8 +64,7 @@
                   title="未通过规则"
                   v-bind:name="item.ruleType + '1'"
                 >
-                  <template
-                  >
+                  <template>
                     <table style="width: 100%" class="rule-table">
                       <thead>
                         <tr>
@@ -70,13 +76,15 @@
                       </thead>
                       <tbody>
                         <tr
-                            v-if="
-                              item.result.filter((obj) => {
-                                return obj.correct == false;
-                              }).length===0
-                            " >
-                          <td
-                            colspan="4" style="text-align: center">暂无数据</td>
+                          v-if="
+                            item.result.filter((obj) => {
+                              return obj.correct == false;
+                            }).length === 0
+                          "
+                        >
+                          <td colspan="4" style="text-align: center">
+                            暂无数据
+                          </td>
                         </tr>
                         <tr
                           v-for="(n, i) in item.result.filter((obj) => {
@@ -104,8 +112,7 @@
                   title="通过规则"
                   v-bind:name="item.ruleType + '2'"
                 >
-                  <template
-                  >
+                  <template>
                     <table style="width: 100%" class="rule-table">
                       <thead>
                         <tr>
@@ -117,13 +124,15 @@
                       </thead>
                       <tbody>
                         <tr
-                            v-if="
-                              item.result.filter((obj) => {
-                                return obj.correct == true;
-                              }).length===0
-                            " >
-                          <td
-                            colspan="4" style="text-align: center">暂无数据</td>
+                          v-if="
+                            item.result.filter((obj) => {
+                              return obj.correct == true;
+                            }).length === 0
+                          "
+                        >
+                          <td colspan="4" style="text-align: center">
+                            暂无数据
+                          </td>
                         </tr>
                         <tr
                           v-for="(n, i) in item.result.filter((obj) => {
@@ -250,7 +259,13 @@
                 </div>
               </div>
             </div>
-            <div v-if="emptyImageInfo" class="empty-text" style="text-align: center">暂无数据</div>
+            <div
+              v-if="emptyImageInfo"
+              class="empty-text"
+              style="text-align: center"
+            >
+              暂无数据
+            </div>
             <div class="imgBox" v-if="!emptyImageInfo">
               <div class="leftImg">
                 <img :src="imgSrc" class="bigImg" @click="showImgbox()" />
@@ -571,376 +586,487 @@
       v-model="ruleRowtoggle"
       :closable="true"
       :footer-hide="true"
-      width="800"
+      width="1000"
       class-name="result-data-modal"
     >
-      <Table
-        v-if="showFormRet"
-        border
-        :columns="formColumns"
-        :data="resultFormData"
-      ></Table>
-      <Table
-        v-if="showImageRet"
-        border
-        :columns="imageColumns"
-        :data="resultImageData"
-      ></Table>
+      <Row :gutter="10" style="margin-left: 0;margin-right:0;">
+        <Col span="12" class="thead-name" style="padding-left: 0;padding-right: 0;">表单</Col>
+        <Col span="12" class="thead-name" style="padding-left: 0;padding-right: 0;">影像</Col>
+      </Row>
+      <div class="table-row">
+        <el-table
+          :data="resultFormData"
+          style="width: 100%"
+          border
+          empty-text="暂无数据"
+          :header-cell-style="{
+            background: '#eef1f6',
+            color: '#606266',
+            fontWeight: 'normal',
+            fontSize: '12px',
+          }"
+          fit
+        >
+          <el-table-column
+            v-if="resultFormData.length>0"
+            type="index"
+            label="序号"
+            align="center"
+            width="60"/>
+          <template v-for="(col, i) in formColumnsChildren">
+            <el-table-column
+              :prop="col.key"
+              :label="col.title"
+              v-bind:key="col.key"
+              align="center"
+            >
+              <template slot-scope="scope">
+                {{ scope.row[col.key] }}
+              </template>
+            </el-table-column>
+          </template>
+        </el-table>
+
+        <el-table
+          :data="resultImageData"
+          style="width: 100%"
+          border
+          empty-text="暂无数据"
+          :header-cell-style="{
+            background: '#eef1f6',
+            color: '#606266',
+            fontWeight: 'normal',
+            fontSize: '12px',
+          }"
+        >
+          <el-table-column
+            v-if="resultImageData.length>0"
+            type="index"
+            label="序号"
+            align="center"
+            width="60"/>
+          <template v-for="(col, i) in imageColumnsChildren">
+            <el-table-column
+              :prop="col.key"
+              :label="col.title"
+              v-bind:key="col.key"
+              align="center"
+            >
+              <template slot-scope="scope">
+                {{ scope.row[col.key] }}
+              </template>
+            </el-table-column>
+          </template>
+        </el-table>
+      </div>
     </Modal>
   </div>
 </template>
 <script>
-import ImagePreview from '@/components/image-preview'
-import { matchCNkeys } from '@/libs/invoice'
-import axios from 'axios'
+import ImagePreview from "@/components/image-preview";
+import { matchCNkeys } from "@/libs/invoice";
+import { Notification, Loading } from 'element-ui'
+import axios from "axios";
 const clubArray = (arr) => {
   return arr.reduce((acc, val, ind) => {
-    acc[ind] = acc[ind] ? acc[ind] : {}
+    acc[ind] = acc[ind] ? acc[ind] : {};
     val.map((v) => {
-      const key = Object.keys(v)[0]
-      acc[ind][key] = v[key]
-    })
-    return acc
-  }, [])
-}
+      const key = Object.keys(v)[0];
+      acc[ind][key] = v[key];
+    });
+    return acc;
+  }, []);
+};
 const removeEmptyOrNull = (obj) => {
-  Object.keys(obj).forEach(k =>
-    ((obj[k] && typeof obj[k] === 'object') && removeEmptyOrNull(obj[k])) ||
-    ((obj[k] === '' || obj[k] === null) && delete obj[k])
-  )
-  return obj
-}
+  Object.keys(obj).forEach(
+    (k) =>
+      (obj[k] && typeof obj[k] === "object" && removeEmptyOrNull(obj[k])) ||
+      ((obj[k] === "" || obj[k] === null) && delete obj[k])
+  );
+  return obj;
+};
 export default {
   components: { ImagePreview },
-  data () {
+  data() {
     return {
       showFormRet: false,
       showImageRet: false,
-      formColumns: [
+      formColumnsB: [
         {
-          title: '表单',
-          align: 'center',
-          children: [],
+          title: "表单",
+          align: "center",
+          // children: [],
           childrenBak: [
             {
-              title: '序号',
-              type: 'index',
-              width: 65
-            }
-          ]
-        }
+              title: "序号",
+              type: "index",
+              width: 65,
+            },
+          ],
+        },
       ],
+      formColumnsChildren: [],
       imageColumns: [
         {
-          title: '影像',
-          align: 'center',
-          children: [],
+          title: "影像",
+          align: "center",
+          // children: [],
           childrenBak: [
             {
-              title: '序号',
-              type: 'index',
-              width: 65
-            }
-          ]
-        }
+              title: "序号",
+              type: "index",
+              width: 65,
+            },
+          ],
+        },
       ],
+      imageColumnsChildren: [],
       resultFormData: [],
       resultImageData: [],
       allData: [],
-      activeName: ['IMAGES1', 'OTHERS1'], // "IMAGES1",
-      ruleCollapseActive: 'IMAGES',
-      imagesCollapseAction: '展开',
-      othersCollapseAction: '展开',
+      activeName: ["IMAGES1", "OTHERS1"], // "IMAGES1",
+      ruleCollapseActive: "IMAGES",
+      imagesCollapseAction: "展开",
+      othersCollapseAction: "展开",
       dataPanelOpen: [],
       imageData: [],
-      imgSrc: '',
+      imgSrc: "",
       messageInfo: {},
-      imageId: '',
-      invoiceId: '',
+      imageId: "",
+      invoiceId: "",
       cur: 0,
       errorFieldCode: [],
       errorMessage: [],
-      billNumber: '',
+      billNumber: "",
       columns: [
         {
-          title: '序号',
-          type: 'index',
-          width: 65
+          title: "序号",
+          type: "index",
+          width: 65,
         },
         {
-          title: '规则',
-          slot: 'ruleName'
+          title: "规则",
+          slot: "ruleName",
         },
         {
-          title: ' ',
-          slot: 'icon',
-          width: 65
+          title: " ",
+          slot: "icon",
+          width: 65,
         },
         {
-          title: '审核结果',
-          slot: 'message'
-        }
+          title: "审核结果",
+          slot: "message",
+        },
       ],
       columns1: [
         {
-          title: '序号',
-          type: 'index',
-          width: 65
+          title: "序号",
+          type: "index",
+          width: 65,
         },
         {
-          title: '预警等级',
-          slot: 'grade',
-          width: 90
+          title: "预警等级",
+          slot: "grade",
+          width: 90,
         },
         {
-          title: '规则',
-          slot: 'ruleName'
+          title: "规则",
+          slot: "ruleName",
         },
         {
-          title: '审核结果',
-          slot: 'message'
-        }
+          title: "审核结果",
+          slot: "message",
+        },
       ],
       tabsInvoiceIndex: 0,
       showbigimg: false,
       imgIndex: 0,
       showImgData: [],
-      ruleRowtoggle: false
-    }
+      ruleRowtoggle: false,
+    };
   },
+  mounted() {
+    this.billNumber = this.$route.query.billNumber;
+    this.query();
 
-  mounted () {
-    this.billNumber = this.$route.query.billNumber
-    this.query()
-
-    this.handelAllImage()
+    this.handelAllImage();
   },
   computed: {
     emptyImageInfo: function () {
-      return this.imageData.length === 0
-    }
+      return this.imageData.length === 0;
+    },
+    formColumns: function () {
+      let formColumns = this.formColumnsB;
+      let formColumnsChildren = this.formColumnsChildren;
+      const _this = this;
+      this.$delete(formColumns[0], "children");
+      if (formColumnsChildren.length > 0) {
+        formColumns[0].children = formColumns[0].childrenBak.concat(
+          formColumnsChildren
+        );
+      }
+      return formColumns;
+    },
   },
   methods: {
-    handelAllImage (type) {
-      // return false;
-      const _this = this
-      _this.imageData = _this.allData.imageInfo
-      _this.invoiceId = _this.imageData.length > 0
-        ? (_this.imageData[0]['invoices'].length > 0 ? _this.imageData[0]['invoices'][0]['发票ID'] : '')
-        : ''
-      _this.imageId = _this.imageData.length > 0 ? _this.allData.imageInfo[0]['imageId'] : ''
-      _this.getMessageInfo([])
-      _this.getErrorMessage(_this.invoiceId)
-      _this.tabsInvoiceIndex = 0
-      if (type === 'Refresh') {
+    handelAllImage(type) {
+      const _this = this;
+      _this.imageData = _this.allData.imageInfo;
+      _this.invoiceId =
+        _this.imageData.length > 0
+          ? _this.imageData[0]["invoices"].length > 0
+            ? _this.imageData[0]["invoices"][0]["发票ID"]
+            : ""
+          : "";
+      _this.imageId =
+        _this.imageData.length > 0 ? _this.allData.imageInfo[0]["imageId"] : "";
+      _this.getMessageInfo([]);
+      _this.getErrorMessage(_this.invoiceId);
+      _this.tabsInvoiceIndex = 0;
+      if (type === "Refresh") {
       }
     },
     // 右边小图点击事件
-    handelImage (data) {
-      this.tabsInvoiceIndex = 0
-      this.invoiceId = data['invoices'].length > 0 ? data['invoices'][0]['发票ID'] : ''
-      this.imageId = data.imageId
-      this.getMessageInfo([data.imageId])
-      this.getErrorMessage(this.invoiceId)
+    handelImage(data) {
+      this.tabsInvoiceIndex = 0;
+      this.invoiceId =
+        data["invoices"].length > 0 ? data["invoices"][0]["发票ID"] : "";
+      this.imageId = data.imageId;
+      this.getMessageInfo([data.imageId]);
+      this.getErrorMessage(this.invoiceId);
     },
-    toggleRuleCollapse (collapseTab) {
-      const _this = this
-      let activeTxt = ''
+    toggleRuleCollapse(collapseTab) {
+      const _this = this;
+      let activeTxt = "";
       if (
         this.activeName.includes(`${collapseTab}1`) &&
         this.activeName.includes(`${collapseTab}2`)
       ) {
         _this.activeName = _this.activeName.filter(
           (i) => i.includes(collapseTab) === false
-        )
-        activeTxt = '展开'
+        );
+        activeTxt = "展开";
       } else {
         _this.activeName = [
           ...new Set([
-            ...this.activeName.concat([`${collapseTab}1`, `${collapseTab}2`])
-          ])
-        ]
-        activeTxt = '收起'
+            ...this.activeName.concat([`${collapseTab}1`, `${collapseTab}2`]),
+          ]),
+        ];
+        activeTxt = "收起";
       }
       switch (collapseTab) {
-        case 'IMAGES':
-          this.imagesCollapseAction = activeTxt
-          break
-        case 'OTHERS':
-          this.othersCollapseAction = activeTxt
-          break
+        case "IMAGES":
+          this.imagesCollapseAction = activeTxt;
+          break;
+        case "OTHERS":
+          this.othersCollapseAction = activeTxt;
+          break;
         default:
-          break
+          break;
       }
     },
-    rowClick (ruleType, vo, i) {
-      const _this = this
-      if (vo.hasOwnProperty('imageData')) {
+    rowClick(ruleType, vo, i) {
+      const _this = this;
+      if (vo.hasOwnProperty("imageData")) {
         let ids = vo.imageData.map((voi) => {
-          return voi.imageId
-        })
-        this.setImageData(ids)
+          return voi.imageId;
+        });
+        this.setImageData(ids);
       }
-      if (ruleType === 'IMAGES') {
-        _this.getRuleInvoice(vo.ruleId)
+      if (ruleType === "IMAGES") {
+        _this.getRuleInvoice(vo.ruleId);
       }
     },
-    getRuleInvoice (ruleId) {
-      const _this = this
+    getRuleInvoice(ruleId) {
+      const _this = this;
       axios
         .post(`http://10.15.196.127/api/ql/rule/data`, {
           ruleId: ruleId,
           billNumber: this.billNumber,
-          taskId: _this.allData.taskId
+          taskId: _this.allData.taskId,
         })
         .then((resp) => {
-          let data = resp.data
+          let data = resp.data;
           if (data.status === 200) {
             // Modal
             const formColumnsChildren = data.data.form.map((fc, i) => ({
               title: fc.keyName,
-              key: `data${i}`
-            }))
-            _this.formColumns[0].children = _this.formColumns[0].childrenBak.concat(
-              formColumnsChildren
-            )
+              key: `data${i}`,
+            }));
+            _this.formColumnsChildren = formColumnsChildren;
+            // _this.formColumns[0].children = _this.formColumns[0].childrenBak.concat(
+            // formColumnsChildren
+            // )
             const imageColumnsChildren = data.data.image.map((fc, i) => ({
               title: fc.keyName,
-              key: `data${i}`
-            }))
-            _this.imageColumns[0].children = _this.imageColumns[0].childrenBak.concat(
-              imageColumnsChildren
-            )
+              key: `data${i}`,
+            }));
+            _this.imageColumnsChildren = imageColumnsChildren;
+            // _this.imageColumns[0].children = _this.imageColumns[0].childrenBak.concat(
+            //   imageColumnsChildren
+            // )
+
             const xx = data.data.form.map((fc, i) => {
-              const keyn = `data${i}`
+              const keyn = `data${i}`;
               return fc.data.map((d) => {
-                const newd = {}
-                newd[keyn] = d
-                return newd
-              })
-            })
+                const newd = {};
+                newd[keyn] = d;
+                return newd;
+              });
+            });
             if (xx.length > 0) {
-              const newArray = xx[0].map((col, i) => xx.map((row) => row[i]))
-              const parr = JSON.parse(JSON.stringify(newArray))
-              _this.resultFormData = clubArray(parr).map(x => removeEmptyOrNull(x)).filter(nn => Object.keys(nn).length !== 0)
-              _this.showFormRet = true
+              const newArray = xx[0].map((col, i) => xx.map((row) => row[i]));
+              const parr = JSON.parse(JSON.stringify(newArray));
+              _this.resultFormData = clubArray(parr)
+                .map((x) => removeEmptyOrNull(x))
+                .filter((nn) => Object.keys(nn).length !== 0);
+              _this.showFormRet = true;
             } else {
-              delete _this.formColumns[0].children
-              _this.showFormRet = true
+              _this.resultFormData = [];
+              _this.showFormRet = true;
             }
 
             const tt = data.data.image.map((fc, i) => {
-              const keyn = `data${i}`
+              const keyn = `data${i}`;
               return fc.data.map((d) => {
-                const newd = {}
-                newd[keyn] = d
-                return newd
-              })
-            })
+                const newd = {};
+                newd[keyn] = d;
+                return newd;
+              });
+            });
             if (tt.length > 0) {
-              const newArray2 = tt[0].map((col, i) => tt.map((row) => row[i]))
-              const parr2 = JSON.parse(JSON.stringify(newArray2))
-              _this.resultImageData = clubArray(parr2).map(x => removeEmptyOrNull(x)).filter(nn => Object.keys(nn).length !== 0)
-              _this.showImageRet = true
+              const newArray2 = tt[0].map((col, i) => tt.map((row) => row[i]));
+              const parr2 = JSON.parse(JSON.stringify(newArray2));
+              _this.resultImageData = clubArray(parr2)
+                .map((x) => removeEmptyOrNull(x))
+                .filter((nn) => Object.keys(nn).length !== 0);
+              _this.showImageRet = true;
             } else {
-              delete _this.imageColumns[0].children
-              _this.showImageRet = true
+              _this.resultImageData = [];
+              _this.showImageRet = true;
             }
-            _this.ruleRowtoggle = true
+            _this.ruleRowtoggle = true;
+          } else {
+            Notification.closeAll()
+            Notification({
+              message: data.msg || data.message,
+              type: 'warning',
+              duration: 2000
+            })
           }
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    setImageData (arr) {
-      let newArr = []
-      let data = this.allData.imageInfo
+    setImageData(arr) {
+      let newArr = [];
+      let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
-        if (arr.indexOf(data[i]['imageId']) !== -1) {
-          newArr.push(data[i])
+        if (arr.indexOf(data[i]["imageId"]) !== -1) {
+          newArr.push(data[i]);
         }
       }
-      this.imageData = newArr
-      this.invoiceId = this.imageData.length > 0
-        ? (this.imageData[0]['invoices'].length > 0 ? this.imageData[0]['invoices'][0]['发票ID'] : '')
-        : ''
-      this.imageId = this.imageData.length > 0 ? this.imageData[0]['imageId'] : ''
-      this.getMessageInfo(newArr.map((a) => a.imageId))
-      this.getErrorMessage(this.invoiceId)
-      const imageURL0 = this.imageData.length > 0 ? this.imageData[0]['imageURL'] : ''
-      this.handleClick(imageURL0, 0)
-      this.tabsInvoiceIndex = 0
+      this.imageData = newArr;
+      this.invoiceId =
+        this.imageData.length > 0
+          ? this.imageData[0]["invoices"].length > 0
+            ? this.imageData[0]["invoices"][0]["发票ID"]
+            : ""
+          : "";
+      this.imageId =
+        this.imageData.length > 0 ? this.imageData[0]["imageId"] : "";
+      this.getMessageInfo(newArr.map((a) => a.imageId));
+      this.getErrorMessage(this.invoiceId);
+      const imageURL0 =
+        this.imageData.length > 0 ? this.imageData[0]["imageURL"] : "";
+      this.handleClick(imageURL0, 0);
+      this.tabsInvoiceIndex = 0;
     },
-    query () {
-      const _this = this
+    query() {
+      const _this = this;
       axios
         .get(`http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`)
         .then((resp) => {
-          let data = resp.data
+          let data = resp.data;
           if (data.status == 200) {
-            _this.allData = data.data
-            _this.imageData = data.data.imageInfo
-            _this.imgSrc = _this.imageData.length > 0 ? data.data.imageInfo[0].imageURL : ''
-            _this.imageId = _this.imageData.length > 0 ? data.data.imageInfo[0]['imageId'] : ''
-            _this.invoiceId = _this.imageData.length > 0
-              ? (_this.imageData[0].invoices.length > 0 ? _this.imageData[0].invoices[0]['invoiceId'] : '')
-              : ''
-            _this.getMessageInfo([])
-            _this.getErrorMessage(_this.invoiceId)
+            _this.allData = data.data;
+            _this.imageData = data.data.imageInfo;
+            _this.imgSrc =
+              _this.imageData.length > 0 ? data.data.imageInfo[0].imageURL : "";
+            _this.imageId =
+              _this.imageData.length > 0
+                ? data.data.imageInfo[0]["imageId"]
+                : "";
+            _this.invoiceId =
+              _this.imageData.length > 0
+                ? _this.imageData[0].invoices.length > 0
+                  ? _this.imageData[0].invoices[0]["invoiceId"]
+                  : ""
+                : "";
+            _this.getMessageInfo([]);
+            _this.getErrorMessage(_this.invoiceId);
           }
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
-    getMessageInfo (imageIds) {
-      let data = this.allData.imageInfo
-      let allInvoice = []
+    getMessageInfo(imageIds) {
+      let data = this.allData.imageInfo;
+      let allInvoice = [];
       for (let i = 0; i < data.length; i++) {
         const _dataI = {
           ...data[i],
           invoices: data[i].invoices.map((io) => {
-            return matchCNkeys(io.invoiceType, io)
-          })
-        }
-        data[i] = _dataI
-        allInvoice = allInvoice.concat(_dataI.invoices)
+            return matchCNkeys(io.invoiceType, io);
+          }),
+        };
+        data[i] = _dataI;
+        allInvoice = allInvoice.concat(_dataI.invoices);
       }
       if (imageIds.length === 0) {
-        this.$set(this, 'messageInfo', { invoices: allInvoice })
+        this.$set(this, "messageInfo", { invoices: allInvoice });
         this.$set(
           this,
-          'dataPanelOpen',
+          "dataPanelOpen",
           [
-            'baseInfo-',
-            'buyerInfo-',
-            'sellerInfo-',
-            'otherInfo-',
-            'invoiceInfo-'
-          ].map((i) => `${i}${allInvoice.length > 0 ? allInvoice[0]['发票ID'] : '0'}`)
-        )
+            "baseInfo-",
+            "buyerInfo-",
+            "sellerInfo-",
+            "otherInfo-",
+            "invoiceInfo-",
+          ].map(
+            (i) =>
+              `${i}${allInvoice.length > 0 ? allInvoice[0]["发票ID"] : "0"}`
+          )
+        );
       } else {
         const filterInvoices = allInvoice.filter((a) =>
           imageIds.includes(a.imageId)
-        )
-        this.$set(this, 'messageInfo', { invoices: filterInvoices })
+        );
+        this.$set(this, "messageInfo", { invoices: filterInvoices });
         this.$set(
           this,
-          'dataPanelOpen',
+          "dataPanelOpen",
           [
-            'baseInfo-',
-            'buyerInfo-',
-            'sellerInfo-',
-            'otherInfo-',
-            'invoiceInfo-'
-          ].map((i) => `${i}${filterInvoices.length > 0 ? filterInvoices[0]['发票ID'] : '0'}`)
-        )
+            "baseInfo-",
+            "buyerInfo-",
+            "sellerInfo-",
+            "otherInfo-",
+            "invoiceInfo-",
+          ].map(
+            (i) =>
+              `${i}${
+                filterInvoices.length > 0 ? filterInvoices[0]["发票ID"] : "0"
+              }`
+          )
+        );
       }
     },
-    getErrorMessage (invoiceIdP) {
-      const _this = this
+    getErrorMessage(invoiceIdP) {
+      const _this = this;
       // _this.errorMessage = []
       // let error = this.allData.errors
       // let findErrorMsg = []
@@ -952,43 +1078,43 @@ export default {
       // _this.errorMessage = findMsg.length > 0 ? findMsg[0].messages : []
       _this.$set(
         _this,
-        'dataPanelOpen',
+        "dataPanelOpen",
         [
-          'baseInfo-',
-          'buyerInfo-',
-          'sellerInfo-',
-          'otherInfo-',
-          'invoiceInfo-'
-        ].map((i) => `${i}${invoiceIdP || '0'}`)
-      )
+          "baseInfo-",
+          "buyerInfo-",
+          "sellerInfo-",
+          "otherInfo-",
+          "invoiceInfo-",
+        ].map((i) => `${i}${invoiceIdP || "0"}`)
+      );
     },
-    handleTab (index, invoiceId) {
-      const _this = this
-      this.tabsInvoiceIndex = index
-      this.invoiceId = invoiceId
-      this.getErrorMessage(invoiceId)
+    handleTab(index, invoiceId) {
+      const _this = this;
+      this.tabsInvoiceIndex = index;
+      this.invoiceId = invoiceId;
+      this.getErrorMessage(invoiceId);
       const fi = this.imageData.map((id) =>
-        id.invoices.filter((ii) => ii['发票ID'] === invoiceId)
-      )
-      const findImg = fi.filter((fii) => fii.length > 0)[0][0].imageId
+        id.invoices.filter((ii) => ii["发票ID"] === invoiceId)
+      );
+      const findImg = fi.filter((fii) => fii.length > 0)[0][0].imageId;
       _this.allData.imageInfo.map((iid, i) => {
         if (iid.imageId == findImg) {
-          _this.handleClick(iid.imageURL, i)
-          return false
+          _this.handleClick(iid.imageURL, i);
+          return false;
         }
-      })
+      });
     },
-    handleClick (url, index) {
-      this.imgSrc = url
-      this.imgIndex = index
+    handleClick(url, index) {
+      this.imgSrc = url;
+      this.imgIndex = index;
     },
-    showImgbox () {
-      this.showbigimg = !this.showbigimg
-      this.showImgData = []
-      this.showImgData.push(this.imageData[this.imgIndex])
-    }
-  }
-}
+    showImgbox() {
+      this.showbigimg = !this.showbigimg;
+      this.showImgData = [];
+      this.showImgData.push(this.imageData[this.imgIndex]);
+    },
+  },
+};
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
 .item {
@@ -1277,11 +1403,27 @@ export default {
   padding-left: 0.5rem;
   border-left: 2px solid #1991dd;
 }
-/deep/.result-data-modal .ivu-modal-body {
+/deep/.result-data-modal .ivu-modal-body .ivu-row{
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+/deep/.result-data-modal .ivu-modal-body .ivu-row .thead-name{
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #606266;
+  padding: 10px 0 12px 0;
+  background: #eef1f6;
+  border-bottom: 1px solid #fff;
+}
+/deep/.result-data-modal .ivu-modal-body .ivu-row,
+/deep/.result-data-modal .ivu-modal-body .table-row{
   display: flex;
 }
-/deep/.result-data-modal .ivu-modal-body .ivu-table-wrapper {
-  flex: 1;
+/deep/.el-table__append-wrapper {
+  overflow: visible;
 }
 /deep/.ivu-tooltip,
 /deep/.ivu-tooltip-rel {
@@ -1289,13 +1431,14 @@ export default {
 }
 
 /deep/.el-button--primary.is-plain {
-  color: #1991DD;
+  color: #1991dd;
   background: #ffffff;
-  border-color: #1991DD;
+  border-color: #1991dd;
 }
-/deep/.el-button--primary.is-plain:focus,/deep/.el-button--primary.is-plain:hover {
+/deep/.el-button--primary.is-plain:focus,
+/deep/.el-button--primary.is-plain:hover {
   color: #ffffff;
-  background: #1991DD;
-  border-color: #1991DD;
+  background: #1991dd;
+  border-color: #1991dd;
 }
 </style>
