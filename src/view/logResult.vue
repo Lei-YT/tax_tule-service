@@ -894,7 +894,7 @@ export default {
         return true
       })
       let findMsg = findErrorMsg.filter((fi) => fi.invoiceId === invoiceIdP)
-      _this.errorMessage = findMsg[0].messages
+      _this.errorMessage = findMsg.length > 0 ? findMsg[0].messages : []
       _this.$set(
         _this,
         'dataPanelOpen',
