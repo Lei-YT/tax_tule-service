@@ -10,11 +10,10 @@
               class="demo-form-inline"
               ref="formInline"
             >
+              
               <FormItem label="表单名称：" prop="name">
-                <Select ref="checkResult" clearable style="width: 200px;">
-                  <Option value="1">劳务结算单</Option>
-                  <Option value="2">机械租赁单</Option>
-                  <Option value="3">全部</Option>
+                <Select style="width: 200px;" v-model="selected" @on-change="getTypeSelected">
+                    <Option :value="item.name" v-for="item in options" v-bind:key="item.id">{{item.name}}</Option>
                 </Select>
               </FormItem>
               <FormItem label="审核日期:" prop="checkBeginDate">
@@ -61,35 +60,35 @@
             <img src="@/assets/images/icon1.png" class="icon" />
             <div class="counts">
               <p>单据总数（单）</p>
-              <p>123,456</p>
+              <p>{{successnum+failnum+timeoutnum}}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon2.png" class="icon" />
             <div class="counts">
               <p>审核通过单量（单）</p>
-              <p>123,456</p>
+              <p>{{successnum}}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon3.png" class="icon" />
             <div class="counts">
               <p>审核不通过单量（单）</p>
-              <p>123,456</p>
+              <p>{{failnum}}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon4.png" class="icon" />
             <div class="counts">
               <p>超时单量（单）</p>
-              <p>123,456</p>
+              <p>{{timeoutnum}}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon5.png" class="icon" />
             <div class="counts">
               <p>审核时效（min）</p>
-              <p>12</p>
+              <p>{{avgBillDatenum}}</p>
             </div>
           </div>
         </div>
@@ -109,58 +108,7 @@
             <div id="charts"></div>
           </div>
       </Card>
-      <!-- 中 -->
-     <!--  <div class="cenCon">
-
-        <Card style="width: 40%" class="leftCon">
-
-          <div class="titleTop" slot="title">
-            <p>审核统计结果</p>
-            <div class="dataOption">
-              <DatePicker
-                type="daterange"
-                placement="bottom-end"
-                placeholder="请选择"
-                style="width: 200px"
-              />
-            </div>
-          </div>
-         
-          
-        </Card>
-        <Card style="width: 58%" class="rightCon">
-          <div class="titleTop" slot="title">
-            <p>预警情况总览</p>
-            <div class="dataOption">
-              <DatePicker
-                type="daterange"
-                placement="bottom-end"
-                placeholder="请选择"
-                style="width: 200px"
-              />
-            </div>
-          </div>
-          
-          <div class="charsBox">
-            <div id="secgram"></div>
-          </div>
-        </Card>
-      </div> -->
-      <!-- 下 -->
-      <!-- <div class="bottomBox">
-        <Card style="width: 100%" class="rightCon">
-          <div class="titleTop" slot="title">
-            <p>审单时长趋势</p>
-            <div class="btnBox">
-              <Button type="primary">上一周</Button>
-              <Button type="primary" style="margin-left: 20px">下一周</Button>
-            </div>
-          </div>
-          <div class="charsBox">
-            <div id="thirdgram"></div>
-          </div>
-        </Card>
-      </div> -->
+    
     </div>
   </div>
 </template>
@@ -174,18 +122,112 @@ export default {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
+        
       },
+      options: [
+          {
+              "id":1,
+              "name":"CRTG_项目其他经费报销（非会签）"
+          },
+          {
+              "id":2,
+              "name":"CRTG_项目其他经费报销（会签）"
+          },
+          {
+              "id":3,
+              "name":"CRTG_其他业务收入表"
+          },
+          {
+              "id":4,
+              "name":"CRTG_验工计价单"
+          },
+          {
+              "id":5,
+              "name":"CRTG_其他业务支出单（公司）新"
+          },
+          {
+              "id":6,
+              "name":"CRTG_其他费用报销单(公司)"
+          },
+          {
+              "id":7,
+              "name":"CRTG_差旅费报销单"
+          },
+          {
+              "id":8,
+              "name":"CRTG_会议费报销"
+          },
+          {
+              "id":9,
+              "name":"CRTG_差旅费报销单（公司）"
+          },
+          {
+              "id":10,
+              "name":"CRTG_材料结算单（公司）新"
+          },
+          {
+              "id":11,
+              "name":"劳务结算单（成本推送）"
+          },
+          {
+              "id":12,
+              "name":"材料结算单（成本推送）"
+          },
+          {
+              "id":13,
+              "name":"机械租赁结算单"
+          },
+          {
+              "id":14,
+              "name":"劳务结算单"
+          },
+          {
+              "id":15,
+              "name":"材料结算单"
+          },
+          {
+              "id":16,
+              "name":"CRTG＿财务费用收入及支出"
+          },
+          {
+              "id":17,
+              "name":"CRTG＿税费结转单"
+          },
+          {
+              "id":18,
+              "name":"机械租赁结算单（成本推送）"
+          },
+          {
+              "id":19,
+              "name":"现金管理及银行调户单"
+          },
+          {
+              "id":20,
+              "name":"其他直接费用结算单"
+          }
+      ],
+      selected:"",
+      failnum: 20,           //审核不通过单量
+      avgBillDatenum: 90.7778/60,     //平均每单审核时长  单位秒(s)
+      successnum: 34,         // 审核通过单量
+      timeoutnum: 1         // 超时单量
+      
     };
   },
   mounted() {
     this.initChart();
-    // this.histogram();
-    // this.thirdChart();
+    this.getSelectlist();
+   
   },
   created() {
     // this.query();
   },
   methods: {
+    getTypeSelected(val) {
+        // console.log(val)
+        const _this = this;
+        _this.selected=val;
+    },
     initChart() {
       let myChart = echarts.init(document.getElementById("charts"));
       let option = {
@@ -250,70 +292,39 @@ export default {
 
       myChart.setOption(option);
     },
-    // histogram() {
-    //   let secGram = echarts.init(document.getElementById("secgram"));
-    //   let option = {
-    //     title: {
-    //       text: "预警单量",
-    //     },
-    //     color: ["#73c0de"],
-    //     xAxis: {
-    //       type: "category",
-    //       data: [
-    //         "一级预警",
-    //         "二级预警",
-    //         "三级预警",
-    //         "四级预警",
-    //         "五级预警",
-    //         "六级预警",
-    //       ],
-    //     },
-    //     yAxis: {
-    //       type: "value",
-    //     },
-    //     series: [
-    //       {
-    //         data: [120, 200, 150, 80, 70, 110, 130],
-    //         type: "bar",
-    //         barWidth: 25,
-    //       },
-    //     ],
-    //   };
-    //   secGram.setOption(option);
-    // },
-    // thirdChart() {
-    //   let thirdGrams = echarts.init(document.getElementById("thirdgram"));
-    //   let option = {
-    //     title: {
-    //       text: "平均时长",
-    //     },
-    //     legend: {},
-    //     tooltip: {},
-    //     dataset: {
-    //       dimensions: ["product", "2015", "2016", "2017"],
-    //       source: [
-    //         { product: "Matcha Latte", 2015: 43.3, 2016: 85.8, 2017: 93.7 },
-    //         { product: "Milk Tea", 2015: 83.1, 2016: 73.4, 2017: 55.1 },
-    //         { product: "Cheese Cocoa", 2015: 86.4, 2016: 65.2, 2017: 82.5 },
-    //         { product: "Walnut Brownie", 2015: 72.4, 2016: 53.9, 2017: 39.1 },
-    //       ],
-    //     },
-    //     xAxis: { type: "category" },
-    //     yAxis: {},
-    //     // Declare several bar series, each will be mapped
-    //     // to a column of dataset.source by default.
-    //     series: [
-    //       { type: "bar", barWidth: 15 },
-    //       { type: "bar", barWidth: 15 },
-    //       { type: "bar", barWidth: 15 },
-    //     ],
-    //     color: ["#73c0de", "#91cc75", "#fac858"],
-    //     yAxis: {
-    //       type: "value",
-    //     },
-    //   };
-    //   thirdGrams.setOption(option);
-    // },
+    getSelectlist() {
+      const _this = this;
+      axios
+        .get(`http://10.15.196.127:7070/billType/findAll`, {
+          
+        })
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 20000) {
+            _this.options = data.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getCheckdate() {
+      const _this = this;
+      axios
+        .get(`http://10.15.196.127:7070/bill/checkDateChart`, {
+          
+        })
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 20000) {
+           
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    
 
   },
 };
