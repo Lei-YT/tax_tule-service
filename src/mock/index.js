@@ -3,7 +3,7 @@ import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import processJson from '@/dataJson/process.json'
 import resultJson from '@/dataJson/result5.json'
-import resultDataJson from '@/dataJson/result-data2.json'
+import resultDataJson from '@/dataJson/result-data3.json'
 import userJson from '@/dataJson/user.json'
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
