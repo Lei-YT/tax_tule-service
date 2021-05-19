@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import processJson from '@/dataJson/process.json'
-import resultJson from '@/dataJson/result5.json'
+import resultJson from '@/dataJson/result3.json'
 import resultDataJson from '@/dataJson/result-data3.json'
 import userJson from '@/dataJson/user.json'
 Mock.setup({

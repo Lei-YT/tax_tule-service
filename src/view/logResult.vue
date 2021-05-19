@@ -83,7 +83,7 @@
                             return obj.correct == false;
                           })"
                           v-bind:key="i"
-                          @click="rowClick(n)"
+                          @click="rowClick(item.ruleType, n, i)"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
                           <td>{{ n.ruleName }}</td>
@@ -773,7 +773,7 @@ export default {
           break
       }
     },
-    rowClick (vo, i) {
+    rowClick (ruleType, vo, i) {
       const _this = this
       if (vo.hasOwnProperty('imageData')) {
         let ids = vo.imageData.map((voi) => {
@@ -781,7 +781,9 @@ export default {
         })
         this.setImageData(ids)
       }
-      _this.getRuleInvoice(vo.ruleId)
+      if (ruleType === 'IMAGES') {
+        _this.getRuleInvoice(vo.ruleId)
+      }
     },
     getRuleInvoice (ruleId) {
       const _this = this
