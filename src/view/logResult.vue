@@ -300,6 +300,9 @@
                   {{ index + 1 }}
                 </Button>
               </div>
+              <div>
+              <p class="data-header" v-if="!emptyImageInfo">结构化数据</p>
+
               <template v-for="(vo, index) in messageInfo.invoices">
                 <el-collapse
                   :key="vo.invoiceId + index"
@@ -320,26 +323,6 @@
                               <Input v-model="vo['发票类型']" readonly></Input>
                             </FormItem>
                           </Col>
-                          <!-- <Col span="8">
-                            <FormItem label="发票ID">
-                              <Input v-model="vo['发票ID']" readonly></Input>
-                            </FormItem>
-                          </Col> -->
-                          <Col span="8">
-                            <FormItem label="发票联次">
-                              <Input
-                                v-model="vo['发票联次名称']"
-                                readonly
-                              ></Input>
-                            </FormItem>
-                          </Col>
-                          <Col span="8">
-                            <FormItem label="开票日期">
-                              <Input v-model="vo['开票日期']" readonly></Input>
-                            </FormItem>
-                          </Col>
-                        </Row>
-                        <Row :gutter="16">
                           <Col span="8">
                             <FormItem label="发票号码">
                               <Input v-model="vo['发票号码']" readonly></Input>
@@ -350,14 +333,38 @@
                               <Input v-model="vo['发票代码']" readonly></Input>
                             </FormItem>
                           </Col>
+                          <!-- <Col span="8">
+                            <FormItem label="发票ID">
+                              <Input v-model="vo['发票ID']" readonly></Input>
+                            </FormItem>
+                          </Col> -->
+                          <!-- <Col span="8">
+                            <FormItem label="发票联次">
+                              <Input
+                                v-model="vo['发票联次名称']"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col> -->
+                          <!--  -->
+                        </Row>
+                        <Row :gutter="16">
                           <Col span="8">
-                            <FormItem label="校验码">
-                              <Input v-model="vo['校验码']" readonly></Input>
+                            <FormItem label="开票日期">
+                              <Input v-model="vo['开票日期']" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="16">
+                            <FormItem label="发票机打代码" :label-width="120">
+                              <Input
+                                v-model="vo['发票机打代码']"
+                                readonly
+                              ></Input>
                             </FormItem>
                           </Col>
                         </Row>
                         <Row :gutter="16">
-                          <Col span="12">
+                          <Col span="16">
                             <FormItem label="发票机打号码" :label-width="120">
                               <Input
                                 v-model="vo['发票机打号码']"
@@ -365,12 +372,9 @@
                               ></Input>
                             </FormItem>
                           </Col>
-                          <Col span="12">
-                            <FormItem label="发票机打代码" :label-width="120">
-                              <Input
-                                v-model="vo['发票机打代码']"
-                                readonly
-                              ></Input>
+                          <Col span="8">
+                            <FormItem label="校验码">
+                              <Input v-model="vo['校验码']" readonly></Input>
                             </FormItem>
                           </Col>
                         </Row>
@@ -384,7 +388,7 @@
                   >
                     <Form label-position="left" :label-width="100">
                       <Row :gutter="16">
-                        <Col span="12">
+                        <Col span="10">
                           <FormItem label="名称">
                             <Input
                               v-model="vo['购买方信息-名称']"
@@ -392,7 +396,7 @@
                             ></Input>
                           </FormItem>
                         </Col>
-                        <Col span="12">
+                        <Col span="14">
                           <FormItem label="地址电话">
                             <Tooltip
                               :content="vo['购买方信息-地址、电话']"
@@ -408,7 +412,7 @@
                         </Col>
                       </Row>
                       <Row :gutter="16">
-                        <Col span="12">
+                        <Col span="10">
                           <FormItem label="纳税人识别号">
                             <Input
                               v-model="vo['购买方信息-纳税人识别号']"
@@ -416,7 +420,7 @@
                             ></Input>
                           </FormItem>
                         </Col>
-                        <Col span="12">
+                        <Col span="14">
                           <FormItem label="开户行及账号">
                             <Tooltip
                               :content="vo['购买方信息-开户行及账号']"
@@ -440,7 +444,7 @@
                   >
                     <Form label-position="left" :label-width="100">
                       <Row :gutter="16">
-                        <Col span="12">
+                        <Col span="10">
                           <FormItem label="名称">
                             <Input
                               v-model="vo['销售方信息-名称']"
@@ -448,7 +452,7 @@
                             ></Input>
                           </FormItem>
                         </Col>
-                        <Col span="12">
+                        <Col span="14">
                           <FormItem label="地址电话">
                             <Tooltip
                               :content="vo['销售方信息-地址、电话']"
@@ -464,7 +468,7 @@
                         </Col>
                       </Row>
                       <Row :gutter="16">
-                        <Col span="12">
+                        <Col span="10">
                           <FormItem label="纳税人识别号">
                             <Input
                               v-model="vo['销售方信息-纳税人识别号']"
@@ -472,7 +476,7 @@
                             ></Input>
                           </FormItem>
                         </Col>
-                        <Col span="12">
+                        <Col span="14">
                           <FormItem label="开户行及账号">
                             <Tooltip
                               :content="vo['销售方信息-开户行及账号']"
@@ -484,47 +488,6 @@
                                 readonly
                               ></Input>
                             </Tooltip>
-                          </FormItem>
-                        </Col>
-                      </Row>
-                    </Form>
-                  </el-collapse-item>
-                  <el-collapse-item
-                    title="其他"
-                    v-bind:name="'otherInfo-' + vo['发票ID']"
-                    style="width: 100%"
-                  >
-                    <Form label-position="left" :label-width="100">
-                      <Row :gutter="16">
-                        <Col span="24">
-                          <Tooltip
-                            :content="vo['备注']"
-                            :max-width="200"
-                            transfer
-                          >
-                            <FormItem label="备注">
-                              <Input v-model="vo['备注']" readonly></Input>
-                            </FormItem>
-                          </Tooltip>
-                        </Col>
-                      </Row>
-                      <Row :gutter="16">
-                        <Col span="12">
-                          <FormItem label="是否有发票专用章" :label-width="120">
-                            <Input
-                              :value="
-                                vo['销售方（章）'] == '发票专用章' ? '是' : '否'
-                              "
-                              readonly
-                            ></Input>
-                          </FormItem>
-                        </Col>
-                        <Col span="12">
-                          <FormItem
-                            label="盖章单位与开票方是否一致"
-                            :label-width="180"
-                          >
-                            <Input readonly></Input>
                           </FormItem>
                         </Col>
                       </Row>
@@ -543,26 +506,19 @@
                         <thead>
                           <tr style="text-align: center">
                             <th width="60">序号</th>
+                            <th width="60">价税合计</th>
                             <th width="80">发票项目</th>
+                            <th width="80">发票总金额(合计)</th>
+                            <th width="60">税率(合计)</th>
                             <th width="60">单位</th>
                             <th width="60">数量</th>
                             <th width="60">单价</th>
-                            <th width="80">发票总金额</th>
-                            <th width="60">税率</th>
-                            <th width="60">税额</th>
-                            <th width="60">价税合计</th>
+                            <!-- <th width="60">税额</th> -->
                           </tr>
                         </thead>
                         <tbody>
                           <tr v-for="(n, i) in vo['发票详情']" v-bind:key="i">
                             <td style="text-align: center">{{ i + 1 }}</td>
-                            <td>{{ n["发票详情--项目名称"] }}</td>
-                            <td>{{ n["发票详情--单位"] }}</td>
-                            <td>{{ n["发票详情--数量"] }}</td>
-                            <td>{{ n["发票详情--单价"] }}</td>
-                            <td>{{ n["发票详情--金额"] }}</td>
-                            <td>{{ n["发票详情--税率"] }}</td>
-                            <td>{{ n["发票详情--税额"] }}</td>
                             <td>
                               {{
                                 (
@@ -571,13 +527,62 @@
                                 ).toFixed(2)
                               }}
                             </td>
+                            <td>{{ n["发票详情--项目名称"] }}</td>
+                            <td>{{ n["发票详情--金额"] }}</td>
+                            <td>{{ n["发票详情--税率"] }}</td>
+                            <td>{{ n["发票详情--单位"] }}</td>
+                            <td>{{ n["发票详情--数量"] }}</td>
+                            <td>{{ n["发票详情--单价"] }}</td>
+                            <!-- <td>{{ n["发票详情--税额"] }}</td> -->
                           </tr>
                         </tbody>
                       </table>
                     </template>
                   </el-collapse-item>
+                  <el-collapse-item
+                    title="其他"
+                    v-bind:name="'otherInfo-' + vo['发票ID']"
+                    style="width: 100%"
+                  >
+                    <Form label-position="left" :label-width="100">
+                      <!-- <Row :gutter="16">
+                      </Row> -->
+                      <Row :gutter="16">
+                        <Col span="10">
+                          <FormItem label="是否有发票专用章" :label-width="120">
+                            <Input
+                              :value="
+                                vo['销售方（章）'] == '发票专用章' ? '是' : '否'
+                              "
+                              readonly
+                            ></Input>
+                          </FormItem>
+                        </Col>
+                        <Col span="14">
+                          <Tooltip
+                            :content="vo['备注']"
+                            :max-width="200"
+                            transfer
+                          >
+                            <FormItem label="备注">
+                              <Input v-model="vo['备注']" readonly></Input>
+                            </FormItem>
+                          </Tooltip>
+                        </Col>
+                        <!-- <Col span="12">
+                          <FormItem
+                            label="盖章单位与开票方是否一致"
+                            :label-width="180"
+                          >
+                            <Input readonly></Input>
+                          </FormItem>
+                        </Col> -->
+                      </Row>
+                    </Form>
+                  </el-collapse-item>
                 </el-collapse>
               </template>
+              </div>
             </div>
           </Card>
         </div>
@@ -1516,5 +1521,12 @@ export default {
   cursor: pointer;
   background-color: #ecf5ff;
   // #b3d8ff
+}
+/deep/.data-header{
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #EEEEEE;
+  background: #FAFAFA;
+  position: relative;
 }
 </style>
