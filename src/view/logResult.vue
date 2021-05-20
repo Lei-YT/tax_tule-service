@@ -91,18 +91,20 @@
                             return obj.correct == false;
                           })"
                           v-bind:key="i"
-                          @click="rowClick(item.ruleType, n, i)"
+                          class="hover-primary"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
-                          <td>{{ n.ruleName }}</td>
-                          <td style="text-align: center">
+                          <td @click="ruleClick(item.ruleType, n, i)">{{ n.ruleName }}</td>
+                          <td style="text-align: center"
+                            @click="ruleResultClick(item.ruleType, n, i)"
+                          >
                             <Icon
                               type="md-close-circle"
                               size="25"
                               color="#E02020"
                             />
                           </td>
-                          <td>{{ n.message ? n.message : "——" }}</td>
+                          <td @click="ruleResultClick(item.ruleType, n, i)">{{ n.message ? n.message : "——" }}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -868,17 +870,32 @@ export default {
           break;
       }
     },
-    rowClick(ruleType, vo, i) {
+    ruleClick(ruleType, vo, i) {
       const _this = this;
+      if (ruleType !== "IMAGES") {
+        return false;
+      }
       if (vo.hasOwnProperty("imageData")) {
         let ids = vo.imageData.map((voi) => {
           return voi.imageId;
         });
         this.setImageData(ids);
+      } else {
+        Notification.closeAll()
+        Notification({
+          message: '无影像数据',
+          type: 'warning',
+          duration: 2000
+        })
       }
-      if (ruleType === "IMAGES") {
-        _this.getRuleInvoice(vo.ruleId);
+    },
+    ruleResultClick(ruleType, vo, i) {
+      const _this = this;
+      if (ruleType !== "IMAGES") {
+        return false;
       }
+      _this.getRuleInvoice(vo.ruleId);
+
     },
     // mapper highlight
     formTableCellClassName({row, column, rowIndex, columnIndex}) {
@@ -915,6 +932,11 @@ export default {
     },
     getRuleInvoice(ruleId) {
       const _this = this;
+      const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+        // setTimeout(() => {
+        //   loadingInstance.close();
+        // }, 2000);
+      // loadingInstance.close()
       axios
         .post(`http://10.15.196.127/api/ql/rule/data`, {
           ruleId: ruleId,
@@ -922,6 +944,7 @@ export default {
           taskId: _this.allData.taskId,
         })
         .then((resp) => {
+          loadingInstance.close()
           let data = resp.data;
           if (data.status === 200) {
             // Modal
@@ -997,6 +1020,8 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+        }).finally(() => {
+          loadingInstance.close()
         });
     },
     setImageData(arr) {
@@ -1056,6 +1081,8 @@ export default {
     getMessageInfo(imageIds) {
       let data = this.allData.imageInfo;
       let allInvoice = [];
+      let filterInvoices = [];
+      let filterImages = data.filter(img => imageIds.includes(img.imageId));
       for (let i = 0; i < data.length; i++) {
         const _dataI = {
           ...data[i],
@@ -1083,9 +1110,10 @@ export default {
           )
         );
       } else {
-        const filterInvoices = allInvoice.filter((a) =>
-          imageIds.includes(a.imageId)
-        );
+        filterImages.map((a) => {
+          filterInvoices = filterInvoices.concat(a.invoices)
+          return true;
+        });
         this.$set(this, "messageInfo", { invoices: filterInvoices });
         this.$set(
           this,
@@ -1483,5 +1511,10 @@ export default {
 }
 /deep/.text-highlight{
   background-color: #FFFA99;
+}
+/deep/.hover-primary:hover{
+  cursor: pointer;
+  background-color: #ecf5ff;
+  // #b3d8ff
 }
 </style>
