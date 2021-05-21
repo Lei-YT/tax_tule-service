@@ -945,8 +945,8 @@ export default {
       axios
         .post(`http://10.15.196.127/api/ql/rule/data`, {
           ruleId: ruleId,
-          billNumber: this.billNumber,
-          taskId: _this.allData.taskId,
+          billNumber: _this.allData.billNo, // this.billNumber,
+          taskId: _this.allData.taskId
         })
         .then((resp) => {
           loadingInstance.close()
@@ -1056,7 +1056,7 @@ export default {
     query() {
       const _this = this;
       axios
-        .get(`http://10.15.196.127/api/ql/result?billNumber=${this.billNumber}`)
+        .get(`http://10.15.196.127/api/ql/result?taskId=${this.billNumber}`)
         .then((resp) => {
           let data = resp.data;
           if (data.status == 200) {

@@ -689,7 +689,7 @@ export default {
     },
     handleClick (row) {
       this.$router.push({
-        path: `/logResult/logResult?billNumber=${row.code}`
+        path: `/logResult/logResult?billNumber=${row.taskId}`
       })
     },
     searchData () {
@@ -786,9 +786,9 @@ export default {
           )
           return
         }
-        sums[index] = "";
+        sums[index] = '';
         return;
-      });
+      })
 
       return sums
     },
