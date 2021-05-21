@@ -12,7 +12,7 @@ Mock.setup({
 const Random = Mock.Random
 
 Mock.mock(/\/api\/login\/login/, 'get', (req, res) => {
-  console.log('mock res', req, loginJson)
+  // console.log('mock res', req, loginJson)
   return Mock.mock(loginJson)
 })
 Mock.mock(/\/api\/login\/logout/, 'get', (req, res) => {
@@ -22,10 +22,10 @@ Mock.mock(/\/api\/login\/logout/, 'get', (req, res) => {
   })
 })
 
-Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
-  console.log('mock res', req, processJson)
-  return Mock.mock(processJson)
-})
+// Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
+//   // console.log('mock res', req, processJson)
+//   return Mock.mock(processJson)
+// })
 
 Mock.mock(/\/api\/scene\/infostatus/, 'get', (req, res) => {
   return Mock.mock({
@@ -35,12 +35,12 @@ Mock.mock(/\/api\/scene\/infostatus/, 'get', (req, res) => {
 })
 
 Mock.mock(/\/bill\/page\/\d\/\d/, 'post', (req, res) => {
-  console.log('mock res', req, logJson)
+  // console.log('mock res', req, logJson)
   return Mock.mock(logJson)
 })
 
 Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
-  console.log('mock res', req, resultJson)
+  // console.log('mock res', req, resultJson)
   return Mock.mock(resultJson)
 })
 
@@ -54,12 +54,12 @@ Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
    */
   console.log('if rule', JSON.parse(req.body).hasOwnProperty('ruleId'))
   const ifR = JSON.parse(req.body).hasOwnProperty('ruleId');
-  console.log('mock res', req, ifR ? resultDataJson2 : resultDataJson)
+  // console.log('mock res', req, ifR ? resultDataJson2 : resultDataJson)
   return Mock.mock((ifR ? resultDataJson2 : resultDataJson))
 })
 
 Mock.mock(/\/api\/user\/list/, 'get', (req, res) => {
-  console.log('mock res', req, userJson)
+  // console.log('mock res', req, userJson)
   return Mock.mock(userJson)
 })
 Mock.mock(/\/api\/user\/add/, 'get', (req, res) => {

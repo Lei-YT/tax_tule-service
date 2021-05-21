@@ -15,9 +15,9 @@ export const logout = () => {
   })
 }
 // 机器人流程监控列表接口
-export const homelist = ({ secneName }) => {
+export const homelist = ({ secneName, id }) => {
   return axios.request({
-    url: `/api/scene/homelist?secneName=${secneName}`,
+    url: `/api/scene/homelist?secneName=${secneName}&id=${id}`,
     method: 'GET'
   })
 }

@@ -56,20 +56,19 @@
               align="center"
               width="50"
             />
-            <el-table-column prop="stationName" label="名称" align="center" />
-            <el-table-column prop="name" label="标签" align="center" />
             <el-table-column
-              prop="adminNo"
-              label="字段描述"
+              prop="name"
+              label="名称"
               align="center"
-              width="250"
+              width="150"
             />
-            <!-- <el-table-column prop="isEnable" label="启用/禁用" align="center">
-              <template slot-scope="scope">
-                <span v-if="scope.row.isEnable === 1">禁用</span>
-                <span v-if="scope.row.isEnable === 0">启用</span>
-              </template>
-            </el-table-column> -->
+            <el-table-column
+              prop="label"
+              label="标签"
+              align="center"
+              width="220"
+            />
+            <el-table-column prop="describe" label="字段描述" align="center" />
             <el-table-column label="操作" width="250" align="center">
               <template slot-scope="scope">
                 <el-button
@@ -86,40 +85,56 @@
                   >编辑</el-button
                 >
                 <el-button
-                  @click="handleClick('edit', scope.row)"
+                  @click="handleClick('sets', scope.row)"
                   type="text"
                   size="small"
                   >单量设置</el-button
                 >
                 <el-button
-                  @click="handleClick('edit', scope.row)"
+                  @click="handleOperat(2, scope.row.id)"
                   type="text"
                   size="small"
+                  v-if="scope.row.scene_info.status == 1"
                   >启动</el-button
                 >
                 <el-button
-                  @click="handleClick('edit', scope.row)"
+                  @click="handleOperat(2, scope.row.id)"
                   type="text"
                   size="small"
+                  v-if="scope.row.scene_info.status == 3"
                   >继续</el-button
                 >
                 <el-button
-                  @click="handleClick('edit', scope.row)"
+                  @click="handleOperat(4, scope.row.id)"
                   type="text"
                   size="small"
+                  v-if="
+                    scope.row.scene_info.status == 4 ||
+                    scope.row.scene_info.status == 3
+                  "
                   >结束</el-button
                 >
-                <el-button
-                  @click="handleClick('edit', scope.row)"
+                <!-- <el-button
+                  @click="handleOperat(scope.row.id)"
                   type="text"
                   size="small"
                   >重启</el-button
-                >
+                > -->
                 <el-button
-                  @click="handleClick('edit', scope.row)"
+                  @click="handleOperat(3, scope.row.id)"
                   type="text"
                   size="small"
+                  v-if="scope.row.scene_info.status == 2"
                   >暂停</el-button
+                >
+                <el-button
+                  type="text"
+                  size="small"
+                  v-if="scope.row.scene_info.status == 5"
+                  @click="
+                    handleOperat(scope.row.scene_info.status, scope.row.id)
+                  "
+                  >需人工处理</el-button
                 >
               </template>
             </el-table-column>
@@ -142,16 +157,55 @@
         </el-row>
       </Card>
     </div>
+    <!-- 弹框 -->
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+      <el-form
+        :model="ruleForm"
+        label-width="100px"
+        center
+        :rules="rules"
+        ref="ruleForm"
+      >
+        <el-form-item label="名称：" prop="name">
+          <Input v-model="ruleForm.name" placeholder="请输入名称" />
+        </el-form-item>
+        <el-form-item label="标签：" prop="label">
+          <Select v-model="ruleForm.label" placeholder="请选择标签">
+            <Option label="取单回传机器人" value="取单回传机器人"></Option>
+            <Option label="自定义" value="自定义"></Option>
+          </Select>
+          <Input
+            v-model="ruleForm.value"
+            v-if="ruleForm.label == '自定义'"
+            placeholder="请输入标签"
+          />
+        </el-form-item>
+        <el-form-item label="字段描述：" prop="describe">
+          <Input
+            type="textarea"
+            :rows="2"
+            placeholder="请输入字段描述"
+            v-model="ruleForm.describe"
+          />
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import user from "@/dataJson/user.json";
+import infoMange from "@/dataJson/infoMange.json";
 import {
-  getUserList, // 列表
-  addUser, // 新增
-  editUser, // 编辑
-  delUser, // 删除
-} from "@/api/user";
+  getScenelist, // 列表
+  addscene, // 新增
+  editscene, // 编辑
+  deletescene, // 删除
+} from "@/api/processMonitor";
+import { changeStatus } from "@/api/user";
 export default {
   data() {
     return {
@@ -159,9 +213,17 @@ export default {
       type: "",
       dialogFormVisible: false,
       ruleForm: {
+        describe: "",
         name: "",
-        adminNo: "",
-        password: "",
+        label: "",
+        value: "",
+      },
+      rules: {
+        label: [{ required: true, message: "请选择标签", trigger: "blur" }],
+        name: [{ required: true, message: "请填写姓名" }],
+        describe: [
+          { required: true, message: "请输入字段描述", trigger: "blur" },
+        ],
       },
       id: "",
       page: {
@@ -171,26 +233,23 @@ export default {
       },
       formInline: {
         name: "",
-        stationName: "",
       },
       tableData: [],
     };
   },
   created() {
     this.query();
+    // this.tableData = infoMange.data;
   },
   methods: {
     query() {
-      // if (user.code == 0) {
-      //   this.tableData = user.data;
-      // }
       let params = {
-        name: this.formInline.name.replace(/\s*/g, "") || "",
-        stationName: this.formInline.stationName.replace(/\s*/g, "") || "",
+        name: this.formInline.name || "",
         pageindex: this.page.currentPage,
         pagesize: this.page.size,
       };
-      getUserList(params).then((res) => {
+      getScenelist(params).then((res) => {
+        console.log(res, "信息列表数据");
         if (res.data.code == 0) {
           this.tableData = res.data.data;
           this.page.totalElement = res.data.totalcount;
@@ -199,7 +258,8 @@ export default {
     },
     handleClick(type, row) {
       this.type = type;
-      this.title = type == "edit" ? "编辑账号" : "添加账号";
+      this.title =
+        type == "edit" ? "编辑" : type == "add" ? "添加机器人" : "单量设置";
       if (type == "edit") {
         this.ruleForm = row;
       } else {
@@ -207,6 +267,19 @@ export default {
       }
       this.id = row.id;
       this.dialogFormVisible = true;
+    },
+    handleOperat(status, id) {
+      changeStatus({ status, id }).then((res) => {
+        console.log(res, "改变返回的");
+        if (res.data.code == 0) {
+          this.$message({
+            message: res.data.msg,
+            type: "success",
+            duration: 1200,
+          });
+          this.query();
+        }
+      });
     },
     searchData() {
       this.page.currentPage = 1;
@@ -231,7 +304,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          delUser(row.id).then((res) => {
+          deletescene(row.id).then((res) => {
             if (res.data.code == 0) {
               this.$message({
                 message: res.data.msg,
@@ -249,18 +322,19 @@ export default {
           });
         });
     },
-    submit(formName) {
+    submit(name) {
       let params = {
         id: this.type == "edit" ? this.id : "",
-        name: this.ruleForm.name.replace(/\s*/g, "") || "",
-        stationName: this.ruleForm.stationName.replace(/\s*/g, "") || "",
-        adminNo: this.ruleForm.adminNo.replace(/\s*/g, "") || "",
-        password: this.ruleForm.password.replace(/\s*/g, "") || "",
+        name: this.ruleForm.name || "",
+        label: this.ruleForm.label || this.ruleForm.value || "",
+        describe: this.ruleForm.describe || "",
       };
-      this.$refs[formName].validate((valid) => {
+      this.$refs[name].validate((valid) => {
+        console.log(valid, "pppppp");
+        return;
         if (valid) {
           if (this.type == "add") {
-            addUser(params).then((res) => {
+            addscene(params).then((res) => {
               if (res.data.code == 0) {
                 this.$message({
                   message: res.data.msg,
@@ -271,7 +345,7 @@ export default {
               }
             });
           } else if (this.type == "edit") {
-            editUser(params).then((res) => {
+            editscene(params).then((res) => {
               if (res.data.code == 0) {
                 this.$message({
                   message: res.data.msg,
@@ -300,6 +374,9 @@ export default {
 }
 .paginationStyle > .el-button {
   margin-right: 1rem;
+}
+/deep/.el-dialog {
+  width: 38%;
 }
 /deep/.ivu-page-prev,
 /deep/.ivu-page-next {

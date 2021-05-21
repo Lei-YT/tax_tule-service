@@ -1,0 +1,27 @@
+{
+    "code": 0,
+    "msg": "查询成功",
+    "data": [
+        {
+            "id": 2644,
+            "sceneId": 336,
+            "username": "小李",
+            "stationName": "管理员",
+            "record": "机器人初始化操作",
+            "created_at": "2021-05-19 23:02:05",
+            "updated_at": "2021-05-19 23:02:05",
+            "deleted_at": null,
+            "scene": {
+                "id": 336,
+                "machineId": 1,
+                "sceneNo": 3,
+                "name": "小铁2号",
+                "ip": "10.15.196.134",
+                "created_at": "2021-04-23 10:50:22",
+                "updated_at": "2021-04-23 10:50:22",
+                "deleted_at": null
+            }
+        }
+    ],
+    "totalcount": 1
+}

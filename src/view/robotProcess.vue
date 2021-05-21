@@ -21,24 +21,18 @@
       <div class="conOne" v-if="cur == 0">
         <!-- 左边内容 -->
         <div class="leftCon">
-          <Card style="height: 200px">
-            <p slot="title">取单回传机器人</p>
-            <Poptip content="提示内容" placement="right" slot="extra">
+          <Card
+            style="height: 200px"
+            v-for="(item, index) in dataList"
+            :key="index"
+          >
+            <p slot="title">{{ item.label }}</p>
+            <Poptip :content="item.describe" placement="right" slot="extra">
               <a>描述</a>
             </Poptip>
-            <div class="imgCon">
+            <div class="imgCon" @click="showRightInfo(item)">
               <img src="@/assets/images/trians.png" class="trians" />
-              <span>小铁1号</span>
-            </div>
-          </Card>
-          <Card>
-            <p slot="title">取单回传机器人</p>
-            <Poptip content="提示内容" placement="right" slot="extra">
-              <a>描述</a>
-            </Poptip>
-            <div class="imgCon">
-              <img src="@/assets/images/trians.png" class="trians" />
-              <span>小铁1号</span>
+              <span>{{ item.name }}</span>
             </div>
           </Card>
         </div>
@@ -46,10 +40,113 @@
         <div class="rigthCon">
           <div class="topCon">
             <Card>
-              <p slot="title">Hi,小铁1号为您服务</p>
+              <p slot="title">Hi,{{ rightData.name }}为您服务</p>
               <div slot="title" class="titBtn">
-                <Button type="primary" style="margin-right: 10px">暂停</Button>
-                <Button type="primary">启动</Button>
+                <Button
+                  type="primary"
+                  style="margin-right: 10px"
+                  v-if="rightData.status == 1"
+                  @click="handleChange(2, item.sceneId)"
+                  >启动</Button
+                >
+                <Button
+                  type="primary"
+                  style="margin-right: 10px"
+                  v-if="rightData.status == 2"
+                  @click="handleChange(3, item.sceneId)"
+                  >暂停</Button
+                >
+                <Button
+                  type="primary"
+                  style="margin-right: 10px"
+                  v-if="rightData.status == 3"
+                  @click="handleChange(2, item.sceneId)"
+                  >继续</Button
+                >
+                <Button
+                  type="primary"
+                  style="margin-right: 10px"
+                  v-if="rightData.status == 3"
+                  @click="handleChange(4, item.sceneId)"
+                  >结束</Button
+                >
+                <Button
+                  type="primary"
+                  style="margin-right: 10px"
+                  v-if="rightData.status == 5"
+                  >需人工处理</Button
+                >
+                <Button
+                  type="primary"
+                  style="margin-right: 10px"
+                  v-if="rightData.status == 4"
+                  @click="handleChange(1, item.sceneId)"
+                  >重启</Button
+                >
+              </div>
+              <div class="chartOne">
+                <p>单据量统计</p>
+                <!-- 审核完成/总数，审核超时/总数，审核未完成/总数，总数=三者的和。 -->
+                <div class="lineBox">
+                  <li
+                    :style="{
+                      width: `${rightData.auditCompletedNum}` + '%',
+                    }"
+                  >
+                    {{
+                      (
+                        rightData.auditCompletedNum /
+                        (rightData.auditCompletedNum +
+                          rightData.auditFailNum +
+                          rightData.auditUncompletedNum)
+                      ).toFixed(2) + "%"
+                    }}
+                  </li>
+                  <li
+                    :style="{
+                      width: `${rightData.auditFailNum}` + '%',
+                    }"
+                  >
+                    {{
+                      (
+                        rightData.auditFailNum /
+                        (rightData.auditCompletedNum +
+                          rightData.auditFailNum +
+                          rightData.auditUncompletedNum)
+                      ).toFixed(2) + "%"
+                    }}
+                  </li>
+                  <li
+                    :style="{
+                      width: `${rightData.auditUncompletedNum}` + '%',
+                    }"
+                  >
+                    {{
+                      (
+                        rightData.auditUncompletedNum /
+                        (rightData.auditCompletedNum +
+                          rightData.auditFailNum +
+                          rightData.auditUncompletedNum)
+                      ).toFixed(2) + "%"
+                    }}
+                  </li>
+                </div>
+                <div class="colorBox">
+                  <div class="itemCor">
+                    <p class="corBlock"></p>
+                    <p>审核完成单据（{{ rightData.auditCompletedNum }}单）</p>
+                  </div>
+                  <div class="itemCor">
+                    <p class="corBlock"></p>
+                    <p>审核超时单据（{{ rightData.auditFailNum }}单）</p>
+                  </div>
+                  <div class="itemCor">
+                    <p class="corBlock"></p>
+                    <p>
+                      审核未完成单据（{{ rightData.auditUncompletedNum }}单）量
+                    </p>
+                  </div>
+                </div>
               </div>
             </Card>
           </div>
@@ -207,22 +304,27 @@
 </template>
 
 <script>
+import process from "@/dataJson/process.json";
 import echarts from "echarts";
 import {
   homelist, // 列表
   changeStatus, // 改变状态
 } from "@/api/user";
-import InfoManage from './components/InfoManage'
-import OperationLog from './components/OperationLog'
+import InfoManage from "./components/InfoManage";
+import OperationLog from "./components/OperationLog";
 export default {
   components: {
     InfoManage,
-    OperationLog
+    OperationLog,
   },
   data() {
     return {
       secneName: "",
+      id: "",
       dataList: [],
+      rightData: [],
+      leftData: [],
+      rightItem: [],
       cur: 0,
       timer: null, // 定时器
       tabList: [
@@ -239,6 +341,9 @@ export default {
     };
   },
   created() {
+    // this.dataList = process.data;
+    // this.rightData = process.data[0];
+    // this.getData(process.data[0]);
     this.query();
     this.timer = setInterval(() => {
       this.query();
@@ -254,6 +359,10 @@ export default {
     });
   },
   methods: {
+    showRightInfo(item) {
+      this.rightData = item;
+      this.getData(item);
+    },
     getChartTwo() {
       let myChartTwo = echarts.init(document.getElementById("myChartTwo"));
       myChartTwo.clear();
@@ -265,7 +374,7 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#73c0de", "#fac858"],
+        color: ["#47A7E4", "#F7B500"],
         legend: {
           orient: "vertical",
           bottom: "bottom",
@@ -276,10 +385,7 @@ export default {
             name: "统计结果",
             type: "pie",
             radius: "50%",
-            data: [
-              { value: 1048, name: "已完成单据" },
-              { value: 735, name: "超时单据" },
-            ],
+            data: [...this.leftData],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -302,7 +408,7 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#73c0de", "#fac858", "#91cc75"],
+        color: ["#47A7E4", "#F7B500", "#70B822"],
         legend: {
           orient: "vertical",
           bottom: "bottom",
@@ -318,11 +424,7 @@ export default {
               show: false,
               position: "center",
             },
-            data: [
-              { value: 1048, name: "机器人审核" },
-              { value: 735, name: "人工" },
-              { value: 355, name: "其他" },
-            ],
+            data: [...this.rightItem],
             emphasis: {
               label: {
                 show: true,
@@ -341,46 +443,13 @@ export default {
       this.cur = index;
     },
     query() {
-      homelist({ secneName: this.secneName }).then((res) => {
+      homelist({ secneName: this.secneName, id: this.id }).then((res) => {
         if (res.data.code == 0) {
           this.dataList = res.data.data;
+          this.rightData = res.data.data[0];
+          this.getData(res.data.data[0]);
         }
       });
-
-      // this.dataList = [
-      //   {
-      //       "id": 334,
-      //       "sceneId": "334",
-      //       "completedNum": 6,
-      //       "uncompletedNum": 2,
-      //       "failNum": 9,
-      //       "status": 1,
-      //       "created_at": "2020-11-07 17:18:01",
-      //       "updated_at": "2020-11-07 17:18:01",
-      //       "deleted_at": null,
-      //       "machineId": 1,
-      //       "sceneNo": 2,
-      //       "name": "小铁-1",
-      //       "ip": "10.15.196.130",
-      //       "isEnable": 0
-      //   },
-      //   {
-      //       "id": 330,
-      //       "sceneId": "330",
-      //       "completedNum": 1,
-      //       "uncompletedNum": 0,
-      //       "failNum": 1,
-      //       "status": 4,
-      //       "created_at": "2020-10-30 08:37:18",
-      //       "updated_at": "2020-11-07 17:18:01",
-      //       "deleted_at": null,
-      //       "machineId": 1,
-      //       "sceneNo": 1,
-      //       "name": "小铁-2",
-      //       "ip": "10.15.196.130",
-      //       "isEnable": 0
-      //   }
-      // ]
     },
     handleChange(status, sceneId) {
       changeStatus({ status, sceneId }).then((res) => {
@@ -397,6 +466,28 @@ export default {
     getCharts() {
       this.getChartTwo();
       this.getChartThr();
+    },
+    getData(data) {
+      this.leftData = [];
+      this.rightItem = [];
+      let obj1 = {};
+      obj1.value = data.completedNum;
+      obj1.name = "已完成单据";
+      let obj2 = {};
+      obj2.value = data.failNum;
+      obj2.name = "超时单据";
+      this.leftData.push(obj1, obj2);
+      let obj3 = {};
+      obj3.value = data.auditCompletedNum;
+      obj3.name = "机器人审核";
+      let obj4 = {};
+      obj4.value = data.manmade;
+      obj4.name = "人工";
+      let obj5 = {};
+      obj5.value = data.auditFailNum;
+      obj5.name = "其他";
+      this.rightItem.push(obj3, obj4, obj5);
+      this.getCharts();
     },
   },
 };
@@ -441,6 +532,7 @@ export default {
   justify-content: space-between;
   .leftCon {
     width: 18%;
+    cursor: pointer;
   }
   .rigthCon {
     width: 81%;
@@ -458,6 +550,68 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+.chartOne {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  font-weight: 500;
+  > p {
+    width: 100%;
+    text-align: left;
+  }
+  .lineBox {
+    width: 100%;
+    height: 35px;
+    margin: 22px 0 63px 0;
+    display: flex;
+    li {
+      list-style: none;
+      height: 100%;
+      opacity: 0.8;
+      text-align: center;
+      line-height: 35px;
+      color: #fff;
+      font-size: 24px;
+    }
+    li:nth-child(1) {
+      background: #47a7e4;
+    }
+    li:nth-child(2) {
+      background: #f7b500;
+    }
+    li:nth-child(3) {
+      background: #70b822;
+    }
+  }
+  .colorBox {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    .itemCor {
+      display: flex;
+      align-items: center;
+      margin: 0 10px;
+      .corBlock {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        margin-right: 10px;
+        opacity: 0.8;
+      }
+    }
+    .itemCor:nth-child(1) .corBlock {
+      background: #47a7e4;
+    }
+    .itemCor:nth-child(2) .corBlock {
+      background: #f7b500;
+    }
+    .itemCor:nth-child(3) .corBlock {
+      background: #70b822;
+    }
+  }
 }
 
 .imgCon {

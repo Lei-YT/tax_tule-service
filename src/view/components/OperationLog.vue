@@ -10,12 +10,36 @@
             class="demo-form-inline"
             ref="formInline"
           >
-            <FormItem label="机器人名称：" prop="name">
-              <Input v-model="formInline.name" placeholder="请输入" />
+            <FormItem label="机器人名称：" prop="sceneName">
+              <Input v-model="formInline.sceneName" placeholder="请输入" />
             </FormItem>
-            <FormItem label="操作人：" prop="name">
-              <Input v-model="formInline.name" placeholder="请输入" />
+            <FormItem label="操作人：" prop="operate">
+              <Input v-model="formInline.operate" placeholder="请输入" />
             </FormItem>
+            <FormItem label="起始时间：" prop="beginTime">
+              <div class="numCount">
+                <Date-picker
+                  placeholder="选择日期"
+                  style="width:160px"
+                  type="date"
+                  :value="formInline.beginTime"
+                  format="yyyy-MM-dd"
+                  @on-change="formInline.beginTime = $event"
+                >
+                </Date-picker>
+                <span style="margin: 0 10px">——</span>
+                <Date-picker
+                  placeholder="选择日期"
+                  style="width:160px"
+                  type="date"
+                  :value="formInline.endTime"
+                  format="yyyy-MM-dd"
+                  @on-change="formInline.endTime = $event"
+                >
+                </Date-picker>
+              </div>
+            </FormItem>
+
             <FormItem>
               <el-button
                 type="primary"
@@ -50,17 +74,21 @@
               align="center"
               width="50"
             />
-            <el-table-column prop="stationName" label="机器人名称" align="center" />
-            <el-table-column prop="name" label="操作事件" align="center" />
             <el-table-column
-              prop="adminNo"
+              prop="sceneName"
+              label="机器人名称"
+              align="center"
+            />
+            <el-table-column prop="record" label="操作事件" align="center" />
+            <el-table-column
+              prop="created_at"
               label="操作时间"
               align="center"
               sortable="custom"
             />
-            <el-table-column prop="name" label="操作事件" align="center" />
-            <el-table-column prop="name" label="操作人" align="center" />
-            </el-table>
+            <el-table-column prop="username" label="操作人" align="center" />
+            <el-table-column prop="stationName" label="身份" align="center" />
+          </el-table>
         </div>
         <el-row class="paginationStyle">
           <el-button @click="currentChange(1)" type="text" size="small"
@@ -82,8 +110,8 @@
   </div>
 </template>
 <script>
-import user from "@/dataJson/user.json";
-import { getUserList } from "@/api/user";
+import logslist from "@/dataJson/logslist.json";
+import { getLogslist } from "@/api/processMonitor";
 export default {
   data() {
     return {
@@ -93,8 +121,10 @@ export default {
         size: 10, // 每页显示多少条
       },
       formInline: {
-        name: "",
-        stationName: "",
+        sceneName: "",
+        operate: "",
+        beginTime: "",
+        endTime: "",
       },
       tableData: [],
     };
@@ -104,16 +134,17 @@ export default {
   },
   methods: {
     query() {
-      // if (user.code == 0) {
-      //   this.tableData = user.data;
-      // }
       let params = {
-        name: this.formInline.name.replace(/\s*/g, "") || "",
-        stationName: this.formInline.stationName.replace(/\s*/g, "") || "",
+        sceneId: "",
+        sceneName: this.formInline.sceneName || "",
+        operate: this.formInline.operate || "",
+        beginTime: this.formInline.beginTime || "",
+        endTime: this.formInline.endTime || "",
         pageindex: this.page.currentPage,
         pagesize: this.page.size,
       };
-      getUserList(params).then((res) => {
+      getLogslist(params).then((res) => {
+        console.log(res, "列表数据++++++++++++++++");
         if (res.data.code == 0) {
           this.tableData = res.data.data;
           this.page.totalElement = res.data.totalcount;
@@ -142,6 +173,9 @@ export default {
 <style rel="stylesheet/scss" lang="less" scoped>
 .tableList {
   margin-top: 20px;
+}
+.numCount {
+  display: flex;
 }
 .paginationStyle {
   display: flex;
