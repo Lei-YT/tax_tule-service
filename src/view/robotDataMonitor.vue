@@ -96,9 +96,11 @@
         <div style="margin-top: 35px;margin-bottom: 25px;">
             维度名称：
             <Select ref="checkResult" clearable style="width: 200px;">
-              <Option value="1">劳务结算单</Option>
-              <Option value="2">机械租赁单</Option>
-              <Option value="3">全部</Option>
+              <Option value="1">规则数量</Option>
+              <Option value="2">机器人审单量</Option>
+              <Option value="3">预警量</Option>
+              <Option value="4">通过率</Option>
+              <Option value="0">全部</Option>
             </Select>
            
         </div>
@@ -238,7 +240,7 @@ export default {
               }
           },
           legend: {
-              data: ['规则数量', '机器人审单量', '预警量']
+              data: ['规则数量', '机器人审单量', '预警量', '通过率']
           },
           grid: {
               left: '3%',
@@ -249,13 +251,22 @@ export default {
           xAxis: [
               {
                   type: 'category',
-                  data: ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05', '2020-01-06', '2020-01-07']
+                  data: ['2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-14', '2021-05-17', '2021-05-18', '2021-05-19', '2021-05-20']
               }
           ],
           yAxis: [
               {
                   type: 'value'
-              }
+              },
+              {
+                type: 'value',
+                min: 0,
+                max: 100,
+                position: 'right',
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+              },
           ],
           series: [
               
@@ -266,7 +277,13 @@ export default {
                   emphasis: {
                       focus: 'series'
                   },
-                  data: [120, 132, 101, 134, 90, 230, 210]
+                  barWidth: 20,
+                  itemStyle:{  
+                    normal:{  
+                      color:'#1991DD',  
+                    }  
+                  },  
+                  data: [12, 13, 10, 13, 9, 230, 200, 100, 87]
               },
               {
                   name: '机器人审单量',
@@ -275,7 +292,13 @@ export default {
                   emphasis: {
                       focus: 'series'
                   },
-                  data: [220, 182, 191, 234, 290, 330, 310]
+                  barWidth: 20,
+                  itemStyle:{  
+                    normal:{  
+                      color:'#70B822',  
+                    }  
+                  },
+                  data: [4, 15, 47, 94, 88, 234, 209, 284, 97]
               },
               {
                   name: '预警量',
@@ -284,8 +307,37 @@ export default {
                   emphasis: {
                       focus: 'series'
                   },
-                  data: [150, 232, 201, 154, 190, 330, 410]
+                  barWidth: 20,
+                  itemStyle:{  
+                    normal:{  
+                      color:'#C5B5FF',  
+                    }  
+                  }, 
+                  data: [0, 0, 0, 0, 0, 0, 0, 10, 0]
               },
+              {
+                  name: '通过率',
+                  type: 'line',
+                  yAxisIndex: 1,
+                  showSymbol: false,
+                  areaStyle: {
+                    normal: {
+                      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: '#1991DD' },
+                        { offset: 1, color: '#FFFFFF' }
+                      ])
+                    }
+                  }, //填充区域样式
+                  lineStyle: {
+                    color: "#1991DD",
+                    width: 1
+                  }, //线条的样式
+                  itemStyle: {
+                    color: "#1991DD",
+                    opacity: 0 //为0不会绘制图形拐点消失
+                  }, //拐点的样式
+                  data: [(0/4)*100, (10/15)*100, (0/47)*100, (80/94)*100, (30/88)*100, (64/234)*100, (40/209)*100, (19/284)*100, (0/97)*100]
+              }
              
           ]
       };
