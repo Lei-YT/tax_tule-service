@@ -39,3 +39,11 @@ export const deletescene = (params) => {
         method: 'GET'
     })
 }
+
+// 单量设置
+export const setbill = (params) => {
+    return axios.request({
+        url: `/api/scene/setbill?id=${params.id}&getbill=${params.getbill}&backbill=${params.backbill}`,
+        method: 'GET'
+    })
+}

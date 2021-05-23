@@ -198,15 +198,9 @@
 
     <!-- 单量设置弹框 -->
     <el-dialog :title="title" :visible.sync="numFormVisible">
-      <el-form
-        :model="ruleForm"
-        label-width="100px"
-        center
-        :rules="rules"
-        ref="ruleForm"
-      >
-        <el-form-item label="取单量：" prop="label">
-          <Select v-model="ruleForm.label" placeholder="请选择取单量">
+      <el-form :model="ruleForm" label-width="100px" center>
+        <el-form-item label="取单量：" prop="getbill">
+          <Select v-model="ruleForm.getbill" placeholder="请选择取单量">
             <Option label="10" value="10"></Option>
             <Option label="20" value="20"></Option>
             <Option label="50" value="50"></Option>
@@ -214,8 +208,8 @@
             <Option label="100" value="100"></Option>
           </Select>
         </el-form-item>
-        <el-form-item label="回传量：" prop="label">
-          <Select v-model="ruleForm.label" placeholder="请选择回传量">
+        <el-form-item label="回传量：" prop="backbill">
+          <Select v-model="ruleForm.backbill" placeholder="请选择回传量">
             <Option label="10" value="10"></Option>
             <Option label="20" value="20"></Option>
             <Option label="50" value="50"></Option>
@@ -223,12 +217,11 @@
             <Option label="100" value="100"></Option>
           </Select>
         </el-form-item>
-        
       </el-form>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit('ruleForm')">确 定</el-button>
+        <el-button type="primary" @click="setSubmit()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -240,6 +233,7 @@ import {
   addscene, // 新增
   editscene, // 编辑
   deletescene, // 删除
+  setbill, // 单量设置
 } from "@/api/processMonitor";
 import { changeStatus } from "@/api/user";
 export default {
@@ -248,19 +242,19 @@ export default {
       title: "",
       type: "",
       dialogFormVisible: false,
-      numFormVisible:false,
+      numFormVisible: false,
       ruleForm: {
         describe: "",
         name: "",
         label: "",
         value: "",
+        getbill: "",
+        backbill: "",
       },
       rules: {
-        label: [{ required: true, message: "请选择标签", trigger: "blur" }],
+        label: [{ required: true, message: "请选择标签" }],
         name: [{ required: true, message: "请填写姓名" }],
-        describe: [
-          { required: true, message: "请输入字段描述", trigger: "blur" },
-        ],
+        describe: [{ required: true, message: "请输入字段描述" }],
       },
       id: "",
       page: {
@@ -297,7 +291,7 @@ export default {
       this.type = type;
       this.title =
         type == "edit" ? "编辑" : type == "add" ? "添加机器人" : "单量设置";
-        if (type == "sets") {
+      if (type == "sets") {
         this.numFormVisible = true;
       }
       if (type == "edit") {
@@ -362,6 +356,24 @@ export default {
           });
         });
     },
+    setSubmit() {
+      let params = {
+        id: this.id,
+        getbill: this.ruleForm.getbill || "",
+        backbill: this.ruleForm.backbill || "",
+      };
+      setbill(params).then((res) => {
+        console.log(res, "设置单量返回值");
+        if (res.data.code == 0) {
+          this.$message({
+            message: res.data.msg,
+            type: "success",
+            duration: 1500,
+          });
+          this.query();
+        }
+      });
+    },
     submit(name) {
       let params = {
         id: this.type == "edit" ? this.id : "",
@@ -373,7 +385,6 @@ export default {
         describe: this.ruleForm.describe || "",
       };
       this.$refs[name].validate((valid) => {
-        return;
         if (valid) {
           if (this.type == "add") {
             addscene(params).then((res) => {
