@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import processJson from '@/dataJson/process.json'
+import process from "@/dataJson/process.json";
 import resultJson from '@/dataJson/result6.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data5.json'
@@ -24,10 +25,10 @@ Mock.mock(/\/api\/login\/logout/, 'get', (req, res) => {
   })
 })
 
-// Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
-//   // console.log('mock res', req, processJson)
-//   return Mock.mock(processJson)
-// })
+Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
+  console.log('mock res', req, process)
+  return Mock.mock(process)
+})
 
 Mock.mock(/\/api\/scene\/infostatus/, 'get', (req, res) => {
   return Mock.mock({

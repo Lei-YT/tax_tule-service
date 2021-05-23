@@ -1187,33 +1187,13 @@ export default {
     },
     getErrorMessage(invoiceIdP) {
       const _this = this;
-      // _this.errorMessage = []
-      // let error = this.allData.errors
-      // let findErrorMsg = []
-      // error.map((e) => {
-      //   findErrorMsg = findErrorMsg.concat(e.infos)
-      //   return true
-      // })
-      // let findMsg = findErrorMsg.filter((fi) => fi.invoiceId === invoiceIdP)
-      // _this.errorMessage = findMsg.length > 0 ? findMsg[0].messages : []
       let dataImgIds = Object.keys(_this.allImageInvoiceIds);
       let findImgId = dataImgIds.find(k => {
-        return _this.allImageInvoiceIds[k].includes(invoiceIdP); //.filter((fi, key) => fi.invoiceId)
+        return _this.allImageInvoiceIds[k].includes(invoiceIdP);
       })
-      console.log('find', findImgId);
-      console.log('find c', _this.allImageInvoiceIds[findImgId]);
-      console.log('show img', findImgId)
-      console.log('show invoice', invoiceIdP)
       let fieldsImgs = this.allData.errors.find(ee => ee.imageId===findImgId);
       let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
       _this.currentInvoiceErrorFields = fieldsInvoice.fields;
-      // let imgRuleObj = this.allData.data.find(i => i.ruleType==='IMAGES');
-      // let errorFields = imgRuleObj.result.filter(e => e.ruleType==='FIELD' && e.hasOwnProperty('imageData'));
-      // console.log('rule img error', errorFields)
-      // let showImgData = errorFields.find(ie => ie.imageData.find(iee => iee.imageId!==findImgId))
-      // console.log('show error', showImgData.imageData)
-      // let showImgInvoice = showImgData.imageData.find(di => di.infos.filter(ii => ii.invoiceId=== invoiceIdP))
-      // console.log('show error infos ', showImgInvoice)
       _this.$set(
         _this,
         "dataPanelOpen",
