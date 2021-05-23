@@ -25,7 +25,7 @@ Mock.mock(/\/api\/login\/logout/, 'get', (req, res) => {
   })
 })
 
-Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
+Mock.mock(/\/api\/scene/, 'get', (req, res) => {
   console.log('mock res', req, process)
   return Mock.mock(process)
 })
@@ -87,7 +87,7 @@ Mock.mock(/\/billType\/findAll/, 'get', (req, res) => {
   return Mock.mock(selectDataJson)
 })
 
-Mock.mock(/\/bill\/checkDateChart/, 'get', (req, res) => {
+Mock.mock(/\/bill\/checkDateChart/, 'post', (req, res) => {
   // console.log('1212',req)
   return Mock.mock(checkdateJson)
 })

@@ -376,7 +376,7 @@ export default {
       const _this = this;
       // console.log(_this.selected,_this.checkBeginDate,_this.checkEndDate,_this.status)
       axios
-        .get(`http://10.15.196.127:7070/bill/checkDateChart`, {
+        .post(`http://10.15.196.127:7070/bill/checkDateChart`, {
             type:_this.selected,
             checkBeginDate:_this.checkBeginDate,
             checkEndDate:_this.checkEndDate,
