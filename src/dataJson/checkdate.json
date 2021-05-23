@@ -1,0 +1,27 @@
+{
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+        "fail": 51,									
+        "avgBillDate": 95,							
+        "data": [
+            {
+                "date": "2021-05-21 10",  			
+                "earlyWarning": 0,					
+                "successCount": 5,					
+                "rulesCount": 20,				
+                "totalCount": 44					
+            },
+            {
+                "date": "2021-05-21 11",
+                "earlyWarning": 5,
+                "successCount": 2,
+                "rulesCount": 65,
+                "totalCount": 14
+            }
+        ],
+        "success": 7,								
+        "timeout": 0								
+    }
+}

@@ -295,13 +295,15 @@
                   size="small"
                   v-for="(item, index) in messageInfo.invoices"
                   :key="index"
-                  @click="handleTab(index, item['发票ID'])"
+                  @click="handleTab(index, item['invoiceId'])"
                 >
                   {{ index + 1 }}
                 </Button>
               </div>
               <div>
-              <p class="data-header" v-if="!emptyImageInfo">结构化数据</p>
+              <p class="data-header" v-if="!emptyImageInfo">结构化数据
+                <span class="text-primary pr-1">报错信息: {{currentInvoiceErrorFields.length}}条</span>
+              </p>
 
               <template v-for="(vo, index) in messageInfo.invoices">
                 <el-collapse
@@ -312,7 +314,7 @@
                 >
                   <el-collapse-item
                     title="基本信息"
-                    v-bind:name="'baseInfo-' + vo['发票ID']"
+                    v-bind:name="'baseInfo-' + vo['invoiceId']"
                     style="width: 100%"
                   >
                     <template>
@@ -320,22 +322,35 @@
                         <Row :gutter="16">
                           <Col span="8">
                             <FormItem label="发票类型">
-                              <Input v-model="vo['发票类型']" readonly></Input>
+                              <Input v-model="vo['invoiceType']" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo['invoiceType']" readonly ></Input>
                             </FormItem>
                           </Col>
                           <Col span="8">
                             <FormItem label="发票号码">
-                              <Input v-model="vo['发票号码']" readonly></Input>
+                              <Input v-model="vo['invoiceNo']" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
+                              <Input v-else v-model="vo['invoiceNo']" readonly></Input>
                             </FormItem>
                           </Col>
                           <Col span="8">
                             <FormItem label="发票代码">
-                              <Input v-model="vo['发票代码']" readonly></Input>
+                              <Input v-model="vo['invoiceCode']" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
+                              <Input v-else v-model="vo['invoiceCode']" readonly></Input>
                             </FormItem>
                           </Col>
                           <!-- <Col span="8">
-                            <FormItem label="发票ID">
-                              <Input v-model="vo['发票ID']" readonly></Input>
+                            <FormItem label="invoiceId">
+                              <Input v-model="vo['invoiceId']" readonly></Input>
                             </FormItem>
                           </Col> -->
                           <!-- <Col span="8">
@@ -351,13 +366,17 @@
                         <Row :gutter="16">
                           <Col span="8">
                             <FormItem label="开票日期">
-                              <Input v-model="vo['开票日期']" readonly></Input>
+                              <Input v-model="vo['invoiceDate']" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"></Input>
+                              <Input v-else v-model="vo['invoiceDate']" readonly></Input>
                             </FormItem>
                           </Col>
                           <Col span="16">
                             <FormItem label="发票机打代码" :label-width="120">
                               <Input
-                                v-model="vo['发票机打代码']"
+                                v-model="vo['invoicePrintCode']"
                                 readonly
                               ></Input>
                             </FormItem>
@@ -367,7 +386,7 @@
                           <Col span="16">
                             <FormItem label="发票机打号码" :label-width="120">
                               <Input
-                                v-model="vo['发票机打号码']"
+                                v-model="vo['invoicePrintNo']"
                                 readonly
                               ></Input>
                             </FormItem>
@@ -383,7 +402,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="购买方"
-                    v-bind:name="'buyerInfo-' + vo['发票ID']"
+                    v-bind:name="'buyerInfo-' + vo['invoiceId']"
                     style="width: 100%"
                   >
                     <Form label-position="left" :label-width="100">
@@ -391,7 +410,14 @@
                         <Col span="10">
                           <FormItem label="名称">
                             <Input
-                              v-model="vo['购买方信息-名称']"
+                              v-model="vo['purchaserName']"
+                              readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('purchaserName')"
+                            ></Input>
+                            <Input v-else
+                              v-model="vo['purchaserName']"
                               readonly
                             ></Input>
                           </FormItem>
@@ -399,12 +425,12 @@
                         <Col span="14">
                           <FormItem label="地址电话">
                             <Tooltip
-                              :content="vo['购买方信息-地址、电话']"
+                              :content="vo['purchaserAddress']"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['购买方信息-地址、电话']"
+                                v-model="vo['purchaserAddress']"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -415,7 +441,7 @@
                         <Col span="10">
                           <FormItem label="纳税人识别号">
                             <Input
-                              v-model="vo['购买方信息-纳税人识别号']"
+                              v-model="vo['purchaserTaxNo']"
                               readonly
                             ></Input>
                           </FormItem>
@@ -423,12 +449,12 @@
                         <Col span="14">
                           <FormItem label="开户行及账号">
                             <Tooltip
-                              :content="vo['购买方信息-开户行及账号']"
+                              :content="vo['purchaserTaxNo']"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['购买方信息-开户行及账号']"
+                                v-model="vo['purchaserTaxNo']"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -439,7 +465,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="销售方信息"
-                    v-bind:name="'sellerInfo-' + vo['发票ID']"
+                    v-bind:name="'sellerInfo-' + vo['invoiceId']"
                     style="width: 100%"
                   >
                     <Form label-position="left" :label-width="100">
@@ -447,7 +473,14 @@
                         <Col span="10">
                           <FormItem label="名称">
                             <Input
-                              v-model="vo['销售方信息-名称']"
+                              v-model="vo['sellerName']"
+                              readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('sellerName')"
+                            ></Input>
+                            <Input v-else
+                              v-model="vo['sellerName']"
                               readonly
                             ></Input>
                           </FormItem>
@@ -455,12 +488,12 @@
                         <Col span="14">
                           <FormItem label="地址电话">
                             <Tooltip
-                              :content="vo['销售方信息-地址、电话']"
+                              :content="vo['sellerAddress']"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['销售方信息-地址、电话']"
+                                v-model="vo['sellerAddress']"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -471,7 +504,7 @@
                         <Col span="10">
                           <FormItem label="纳税人识别号">
                             <Input
-                              v-model="vo['销售方信息-纳税人识别号']"
+                              v-model="vo['sellerTaxNo']"
                               readonly
                             ></Input>
                           </FormItem>
@@ -479,12 +512,12 @@
                         <Col span="14">
                           <FormItem label="开户行及账号">
                             <Tooltip
-                              :content="vo['销售方信息-开户行及账号']"
+                              :content="vo['sellerBankAccount']"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['销售方信息-开户行及账号']"
+                                v-model="vo['sellerBankAccount']"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -495,7 +528,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="发票详情"
-                    v-bind:name="'invoiceInfo-' + vo['发票ID']"
+                    v-bind:name="'invoiceInfo-' + vo['invoiceId']"
                     style="width: 100%"
                   >
                     <template>
@@ -517,23 +550,23 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr v-for="(n, i) in vo['发票详情']" v-bind:key="i">
+                          <tr v-for="(n, i) in vo['invoiceItems']" v-bind:key="i">
                             <td style="text-align: center">{{ i + 1 }}</td>
                             <td>
                               {{
                                 (
-                                  Number(n["发票详情--金额"]) +
-                                  Number(n["发票详情--税额"])
+                                  Number(n["itemAmount"]) +
+                                  Number(n["itemTaxAmount"])
                                 ).toFixed(2)
                               }}
                             </td>
-                            <td>{{ n["发票详情--项目名称"] }}</td>
-                            <td>{{ n["发票详情--金额"] }}</td>
-                            <td>{{ n["发票详情--税率"] }}</td>
-                            <td>{{ n["发票详情--单位"] }}</td>
-                            <td>{{ n["发票详情--数量"] }}</td>
-                            <td>{{ n["发票详情--单价"] }}</td>
-                            <!-- <td>{{ n["发票详情--税额"] }}</td> -->
+                            <td>{{ n["itemName"] }}</td>
+                            <td>{{ n["itemAmount"] }}</td>
+                            <td>{{ n["itemTaxRate"] }}</td>
+                            <td>{{ n["itemUnit"] }}</td>
+                            <td>{{ n["itemQuantity"] }}</td>
+                            <td>{{ n["itemUnitPrice"] }}</td>
+                            <!-- <td>{{ n["itemTaxAmount"] }}</td> -->
                           </tr>
                         </tbody>
                       </table>
@@ -541,7 +574,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="其他"
-                    v-bind:name="'otherInfo-' + vo['发票ID']"
+                    v-bind:name="'otherInfo-' + vo['invoiceId']"
                     style="width: 100%"
                   >
                     <Form label-position="left" :label-width="100">
@@ -551,21 +584,19 @@
                         <Col span="10">
                           <FormItem label="是否有发票专用章" :label-width="120">
                             <Input
-                              :value="
-                                vo['销售方（章）'] == '发票专用章' ? '是' : '否'
-                              "
+                              :value="vo['specialSeal']"
                               readonly
                             ></Input>
                           </FormItem>
                         </Col>
                         <Col span="14">
                           <Tooltip
-                            :content="vo['备注']"
+                            :content="vo['remarks']"
                             :max-width="200"
                             transfer
                           >
                             <FormItem label="备注">
-                              <Input v-model="vo['备注']" readonly></Input>
+                              <Input v-model="vo['remarks']" readonly></Input>
                             </FormItem>
                           </Tooltip>
                         </Col>
@@ -747,6 +778,7 @@ export default {
       cur: 0,
       errorFieldCode: [],
       errorMessage: [],
+      errorFieldCnt: 0,
       billNumber: "",
       columns: [
         {
@@ -793,6 +825,8 @@ export default {
       imgIndex: 0,
       showImgData: [],
       ruleRowtoggle: false,
+      allImageInvoiceIds: {},
+      currentInvoiceErrorFields: []
     };
   },
   mounted() {
@@ -825,7 +859,7 @@ export default {
       _this.invoiceId =
         _this.imageData.length > 0
           ? _this.imageData[0]["invoices"].length > 0
-            ? _this.imageData[0]["invoices"][0]["发票ID"]
+            ? _this.imageData[0]["invoices"][0]["invoiceId"]
             : ""
           : "";
       _this.imageId =
@@ -840,7 +874,7 @@ export default {
     handelImage(data) {
       this.tabsInvoiceIndex = 0;
       this.invoiceId =
-        data["invoices"].length > 0 ? data["invoices"][0]["发票ID"] : "";
+        data["invoices"].length > 0 ? data["invoices"][0]["invoiceId"] : "";
       this.imageId = data.imageId;
       this.getMessageInfo([data.imageId]);
       this.getErrorMessage(this.invoiceId);
@@ -1041,7 +1075,7 @@ export default {
       this.invoiceId =
         this.imageData.length > 0
           ? this.imageData[0]["invoices"].length > 0
-            ? this.imageData[0]["invoices"][0]["发票ID"]
+            ? this.imageData[0]["invoices"][0]["invoiceId"]
             : ""
           : "";
       this.imageId =
@@ -1084,20 +1118,28 @@ export default {
     },
 
     getMessageInfo(imageIds) {
+      const _this = this;
       let data = this.allData.imageInfo;
       let allInvoice = [];
       let filterInvoices = [];
       let filterImages = data.filter(img => imageIds.includes(img.imageId));
-      for (let i = 0; i < data.length; i++) {
-        const _dataI = {
-          ...data[i],
-          invoices: data[i].invoices.map((io) => {
-            return matchCNkeys(io.invoiceType, io);
-          }),
-        };
-        data[i] = _dataI;
-        allInvoice = allInvoice.concat(_dataI.invoices);
-      }
+      data.map(dd => {
+        allInvoice = allInvoice.concat(dd.invoices);
+        _this.allImageInvoiceIds[dd.imageId] = dd.invoices.map(di => di.invoiceId);
+        return true;
+      })
+      // for (let i = 0; i < data.length; i++) {
+      //   const _dataI = {
+      //     ...data[i],
+      //     invoices: data[i].invoices.map((io) => {
+      //       return matchCNkeys(io.invoiceType, io);
+      //     }),
+      //   };
+      //   data[i] = _dataI;
+      //   allInvoice = allInvoice.concat(_dataI.invoices);
+      // }
+      console.log('all invoice: ' , allInvoice)
+      console.log('all invoiceI: ' , _this.allImageInvoiceIds)
       if (imageIds.length === 0) {
         this.$set(this, "messageInfo", { invoices: allInvoice });
         this.$set(
@@ -1111,7 +1153,7 @@ export default {
             "invoiceInfo-",
           ].map(
             (i) =>
-              `${i}${allInvoice.length > 0 ? allInvoice[0]["发票ID"] : "0"}`
+              `${i}${allInvoice.length > 0 ? allInvoice[0]["invoiceId"] : "0"}`
           )
         );
       } else {
@@ -1132,7 +1174,7 @@ export default {
           ].map(
             (i) =>
               `${i}${
-                filterInvoices.length > 0 ? filterInvoices[0]["发票ID"] : "0"
+                filterInvoices.length > 0 ? filterInvoices[0]["invoiceId"] : "0"
               }`
           )
         );
@@ -1149,6 +1191,24 @@ export default {
       // })
       // let findMsg = findErrorMsg.filter((fi) => fi.invoiceId === invoiceIdP)
       // _this.errorMessage = findMsg.length > 0 ? findMsg[0].messages : []
+      let dataImgIds = Object.keys(_this.allImageInvoiceIds);
+      let findImgId = dataImgIds.find(k => {
+        return _this.allImageInvoiceIds[k].includes(invoiceIdP); //.filter((fi, key) => fi.invoiceId)
+      })
+      console.log('find', findImgId);
+      console.log('find c', _this.allImageInvoiceIds[findImgId]);
+      console.log('show img', findImgId)
+      console.log('show invoice', invoiceIdP)
+      let fieldsImgs = this.allData.errors.find(ee => ee.imageId===findImgId);
+      let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
+      _this.currentInvoiceErrorFields = fieldsInvoice.fields;
+      // let imgRuleObj = this.allData.data.find(i => i.ruleType==='IMAGES');
+      // let errorFields = imgRuleObj.result.filter(e => e.ruleType==='FIELD' && e.hasOwnProperty('imageData'));
+      // console.log('rule img error', errorFields)
+      // let showImgData = errorFields.find(ie => ie.imageData.find(iee => iee.imageId!==findImgId))
+      // console.log('show error', showImgData.imageData)
+      // let showImgInvoice = showImgData.imageData.find(di => di.infos.filter(ii => ii.invoiceId=== invoiceIdP))
+      // console.log('show error infos ', showImgInvoice)
       _this.$set(
         _this,
         "dataPanelOpen",
@@ -1167,7 +1227,7 @@ export default {
       this.invoiceId = invoiceId;
       this.getErrorMessage(invoiceId);
       const fi = this.imageData.map((id) =>
-        id.invoices.filter((ii) => ii["发票ID"] === invoiceId)
+        id.invoices.filter((ii) => ii["invoiceId"] === invoiceId)
       );
       const findImg = fi.filter((fii) => fii.length > 0)[0][0].imageId;
       _this.allData.imageInfo.map((iid, i) => {
@@ -1528,5 +1588,16 @@ export default {
   border: 1px solid #EEEEEE;
   background: #FAFAFA;
   position: relative;
+}
+/deep/.text-primary{
+  color: #1991dd;
+}
+/deep/.pr-1{
+  position: absolute;
+  right: 1rem;
+}
+/deep/.ivu-input-icon{
+  color: #FE3D3D;
+  font-weight: 700;
 }
 </style>

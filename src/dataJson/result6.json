@@ -1,0 +1,336 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "billType": "CRTG_劳务结算单（成本推送）",
+    "billNumber": "20210416892203495004604362",
+    "versionName": "版本-1",
+    "imageInfo": [
+      {
+        "imageId": "111",
+        "imageURL": "https://i.zhimacaipt.com/xueersi/2021/04/30/ff210ab02ea273db56dbc37e4d5a4301.jpg",
+        "invoices": [
+          {
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行郑州市开发区支行4100150910059999999",
+            "sellerName": "衢州鸿珍商贸有限公司",
+            "isDaikai": "no",
+            "sellerAddress": "浙江省衢州市江山市虎山街道南市街55号18767025705",
+            "purchaserAddress": "郑州高新技术产业开发区科学大道99号0371-67283864",
+            "invoicePrintNo": "26118196",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "26118196",
+            "amountWithoutTax": "94500.00",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-03-12",
+            "invoiceCode": "3300203130",
+            "purchaserName": "中铁隧道股份有限公司",
+            "invoicePrintCode": "3300203130",
+            "sellerTaxNo": "91330881MA2DJLGQ81",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": "135",
+                "itemName": "*非金属矿石*人工砂",
+                "itemQuantity": "700",
+                "itemAmount": "94500",
+                "itemModel": "0-5mm",
+                "itemUnit": "立方米",
+                "itemTaxAmount": "2835",
+                "itemTaxRate": "3%"
+              }
+            ],
+            "purchaserTaxNo": "9141000017292850XF",
+            "sellerBankAccount": "浙江江山农村商业银行股份有限公司营业部201000258502462",
+            "invoiceId": "222",
+            "invoiceSubType": "",
+            "taxAmount": "2835",
+            "amountWithTax": "97335.00",
+            "fileType": "",
+            "remarks": "中隧股份滇中引水大理I段4标项目部&lt;br/&gt;地址：大理州  鹤庆县"
+          },
+          {
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行郑州市开发区支行4100150910059999999",
+            "sellerName": "衢州鸿珍商贸有限公司",
+            "isDaikai": "no",
+            "sellerAddress": "浙江省衢州市江山市虎山街道南市街55号18767025705",
+            "purchaserAddress": "郑州高新技术产业开发区科学大道99号0371-67283864",
+            "invoicePrintNo": "26118396",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "26118396",
+            "amountWithoutTax": "83928.15",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-03-15",
+            "invoiceCode": "3300203130",
+            "purchaserName": "中铁隧道股份有限公司",
+            "invoicePrintCode": "3300203130",
+            "sellerTaxNo": "91330881MA2DJLGQ81",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": "135",
+                "itemName": "*非金属矿石*人工砂",
+                "itemQuantity": "122.69",
+                "itemAmount": "16563.15",
+                "itemModel": "0-5mm",
+                "itemUnit": "立方米",
+                "itemTaxAmount": "496.89",
+                "itemTaxRate": "3%"
+              },
+              {
+                "itemUnitPrice": "125",
+                "itemName": "*非金属矿石*米石",
+                "itemQuantity": "538.92",
+                "itemAmount": "67365",
+                "itemModel": "5-10mm",
+                "itemUnit": "立方米",
+                "itemTaxAmount": "2020.95",
+                "itemTaxRate": "3%"
+              }
+            ],
+            "purchaserTaxNo": "9141000017292850XF",
+            "sellerBankAccount": "浙江江山农村商业银行股份有限公司营业部201000258502462",
+            "invoiceId": "333",
+            "invoiceSubType": "",
+            "taxAmount": "2517.84",
+            "amountWithTax": "86445.99",
+            "fileType": "",
+            "remarks": "中隧股份滇中引水大理I段4标项目部    地址：大理州 鹤庆县"
+          }
+        ]
+      },
+      {
+        "imageId": "444",
+        "imageURL": "https://i.zhimacaipt.com/xueersi/2021/04/30/ff210ab02ea273db56dbc37e4d5a4301.jpg",
+        "invoices": [
+          {
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行郑州市开发区支行4100150910059999999",
+            "sellerName": "衢州鸿珍商贸有限公司",
+            "isDaikai": "no",
+            "sellerAddress": "浙江省衢州市江山市虎山街道南市街55号18767025705",
+            "purchaserAddress": "郑州高新技术产业开发区科学大道99号0371-67283864",
+            "invoicePrintNo": "26118196",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "26118196",
+            "amountWithoutTax": "94500.00",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-03-12",
+            "invoiceCode": "3300203130",
+            "purchaserName": "中铁隧道股份有限公司",
+            "invoicePrintCode": "3300203130",
+            "sellerTaxNo": "91330881MA2DJLGQ81",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": "135",
+                "itemName": "*非金属矿石*人工砂",
+                "itemQuantity": "700",
+                "itemAmount": "94500",
+                "itemModel": "0-5mm",
+                "itemUnit": "立方米",
+                "itemTaxAmount": "2835",
+                "itemTaxRate": "3%"
+              }
+            ],
+            "purchaserTaxNo": "9141000017292850XF",
+            "sellerBankAccount": "浙江江山农村商业银行股份有限公司营业部201000258502462",
+            "invoiceId": "555",
+            "invoiceSubType": "",
+            "taxAmount": "2835",
+            "amountWithTax": "97335.00",
+            "fileType": "",
+            "remarks": "中隧股份滇中引水大理I段4标项目部&lt;br/&gt;地址：大理州  鹤庆县"
+          }
+        ]
+      }
+    ],
+    "errors": [
+      {
+        "imageId": "111",
+        "infos": [
+          {
+            "fields": [
+              "invoiceType"
+            ],
+            "invoiceId": "222",
+            "messages": [
+              "发票类型错误"
+            ]
+          },
+          {
+            "fields": [
+              "invoiceCode"
+            ],
+            "invoiceId": "333",
+            "messages": [
+              "发票代码不匹配"
+            ]
+          }
+        ]
+      },
+      {
+        "imageId": "444",
+        "infos": [
+          {
+            "fields": [
+              "purchaserName",
+              "invoiceDate"
+            ],
+            "invoiceId": "555",
+            "messages": [
+              "销售方错误",
+              "发票日期超过可报销日期"
+            ]
+          }
+        ]
+      }
+    ],
+    "data": [
+      {
+        "ruleCount": 6,
+        "errorCount": 5,
+        "ruleType": "IMAGES",
+        "result": [
+          {
+            "ruleName": "规则-1",
+            "correct": false,
+            "message": "发票类型错误",
+            "ruleType": "FIELD",
+            "imageData": [
+              {
+                "imageId": "111",
+                "infos": [
+                  {
+                    "fields": [
+                      "invoiceType"
+                    ],
+                    "invoiceId": "222"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "ruleName": "规则-2",
+            "correct": false,
+            "message": "发票代码不匹配",
+            "ruleType": "FIELD",
+            "imageData": [
+              {
+                "imageId": "111",
+                "infos": [
+                  {
+                    "fields": [
+                      "invoiceCode"
+                    ],
+                    "invoiceId": "333"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "ruleName": "规则-3",
+            "correct": false
+          },
+          {
+            "ruleName": "规则-4",
+            "correct": false,
+            "message": "发票日期超过可报销日期",
+            "ruleType": "FIELD",
+            "imageData": [
+              {
+                "imageId": "444",
+                "infos": [
+                  {
+                    "fields": [
+                      "invoiceDate"
+                    ],
+                    "invoiceId": "555"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "ruleName": "规则-5",
+            "correct": false,
+            "message": "销售方错误",
+            "ruleType": "IMAGE",
+            "imageData": [
+              {
+                "imageId": "444",
+                "infos": [
+                  {
+                    "invoiceId": "555",
+                    "fields": [
+                      "purchaserName"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "ruleName": "规则-6",
+            "correct": true
+          }
+        ]
+      },
+      {
+        "ruleCount": 2,
+        "errorCount": 1,
+        "ruleType": "OTHERS",
+        "result": [
+          {
+            "ruleName": "单据规则-1",
+            "correct": false,
+            "message": "单据报错",
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleName": "单据规则-2",
+            "correct": true,
+            "ruleType": "BILLS"
+          }
+        ]
+      },
+      {
+        "ruleCount": 2,
+        "color": "#5C2847",
+        "ruleType": "WARNING",
+        "result": [
+          {
+            "ruleName": "预警规则-1",
+            "correct": false,
+            "warnRank": {
+              "color": "#C13636",
+              "createTime": 1619839073000,
+              "enabled": true,
+              "grade": "九级预警",
+              "id": 12,
+              "projectId": 67,
+              "weight": 20.0
+            },
+            "message": "报销金额超过一万元,需要人工复核",
+            "ruleType": "WARNING"
+          },
+          {
+            "ruleName": "预警规则-2",
+            "correct": false,
+            "warnRank": {
+              "color": "#C13636",
+              "createTime": 1619839073000,
+              "enabled": true,
+              "grade": "九级预警",
+              "id": 12,
+              "projectId": 67,
+              "weight": 20.0
+            },
+            "message": "存在跨年发票报销",
+            "ruleType": "WARNING"
+          }
+        ]
+      }
+    ]
+  }
+}

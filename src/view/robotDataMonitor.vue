@@ -5,12 +5,12 @@
         <div style="display: flex;justify-content: space-between;">
             <Form
               :inline="true"
-              
+
               :label-width="80"
               class="demo-form-inline"
               ref="formInline"
             >
-              
+
               <FormItem label="表单名称：" prop="name">
                 <Select style="width: 200px;" v-model="selected" @on-change="getTypeSelected">
                     <Option :value="item.name" v-for="item in options" v-bind:key="item.id">{{item.name}}</Option>
@@ -18,10 +18,10 @@
               </FormItem>
               <FormItem label="审核日期:" prop="checkBeginDate">
                 <div class="numCount">
-                  <Date-picker placeholder="选择日期" type="date"  format="yyyy-MM-dd"  >
+                  <Date-picker placeholder="选择日期" type="date" :value="checkBeginDate" format="yyyy-MM-dd" @on-change="checkBeginDate=$event" >
                   </Date-picker>
                   <span style="margin: 0 5px">—</span>
-                  <Date-picker placeholder="选择日期" type="date" format="yyyy-MM-dd" >
+                  <Date-picker placeholder="选择日期" type="date" :value="checkEndDate" format="yyyy-MM-dd" @on-change="checkEndDate=$event" >
                   </Date-picker>
                   <!-- <Input
                     v-model="formInline.checkBeginDate"
@@ -31,26 +31,26 @@
                   <!-- <Input v-model="formInline.checkEndDate" placeholder="请输入" /> -->
                 </div>
               </FormItem>
-              
+
               <FormItem>
-                <el-button type="primary" @click="handleClick('add', '')" size="small"
+                <el-button type="primary" @click="checkyear()" size="small"
                   >本年</el-button>
-             
-                <el-button type="primary" @click="handleClick('add', '')" size="small"
+
+                <el-button type="primary" @click="checkmonth()" size="small"
                   >本月</el-button>
-              
-                <el-button type="primary" @click="handleClick('add', '')" size="small"
+
+                <el-button type="primary" @click="checktoday()" size="small"
                   >本日</el-button>
               </FormItem>
               <FormItem>
-                <el-button type="primary" @click="searchData()"  icon="el-icon-search" size="small">查询</el-button>
-                <el-button @click="handleReset('formInline')" style="margin-left: 15px" icon="el-icon-refresh-left" size="small"
+                <el-button type="primary" @click="getCheckdate()"  icon="el-icon-search" size="small">查询</el-button>
+                <el-button @click="handleReset()" style="margin-left: 15px" icon="el-icon-refresh-left" size="small"
                   >重置</el-button>
               </FormItem>
             </Form>
-            
+
         </div>
-       
+
       </Card>
       <!-- 上 -->
       <Card style="width: 100%" class="topCount">
@@ -87,7 +87,7 @@
           <div class="listItem">
             <img src="@/assets/images/icon5.png" class="icon" />
             <div class="counts">
-              <p>审核时效（min）</p>
+              <p>平均每单审核时常 (min)</p>
               <p>{{avgBillDatenum}}</p>
             </div>
           </div>
@@ -95,14 +95,14 @@
 
         <div style="margin-top: 35px;margin-bottom: 25px;">
             维度名称：
-            <Select ref="checkResult" clearable style="width: 200px;">
+            <Select ref="checkResult" clearable style="width: 200px;"  @on-change="getShowSelected">
               <Option value="1">规则数量</Option>
               <Option value="2">机器人审单量</Option>
               <Option value="3">预警量</Option>
               <Option value="4">通过率</Option>
               <Option value="0">全部</Option>
             </Select>
-           
+
         </div>
 
         <div class="title">机器人数据监控统计统计表</div>
@@ -110,13 +110,14 @@
             <div id="charts"></div>
           </div>
       </Card>
-    
+
     </div>
   </div>
 </template>
 <script>
 import * as echarts from "echarts";
 import store from "@/store";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -124,107 +125,108 @@ export default {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
-        
+
       },
-      options: [
-          {
-              "id":1,
-              "name":"CRTG_项目其他经费报销（非会签）"
-          },
-          {
-              "id":2,
-              "name":"CRTG_项目其他经费报销（会签）"
-          },
-          {
-              "id":3,
-              "name":"CRTG_其他业务收入表"
-          },
-          {
-              "id":4,
-              "name":"CRTG_验工计价单"
-          },
-          {
-              "id":5,
-              "name":"CRTG_其他业务支出单（公司）新"
-          },
-          {
-              "id":6,
-              "name":"CRTG_其他费用报销单(公司)"
-          },
-          {
-              "id":7,
-              "name":"CRTG_差旅费报销单"
-          },
-          {
-              "id":8,
-              "name":"CRTG_会议费报销"
-          },
-          {
-              "id":9,
-              "name":"CRTG_差旅费报销单（公司）"
-          },
-          {
-              "id":10,
-              "name":"CRTG_材料结算单（公司）新"
-          },
-          {
-              "id":11,
-              "name":"劳务结算单（成本推送）"
-          },
-          {
-              "id":12,
-              "name":"材料结算单（成本推送）"
-          },
-          {
-              "id":13,
-              "name":"机械租赁结算单"
-          },
-          {
-              "id":14,
-              "name":"劳务结算单"
-          },
-          {
-              "id":15,
-              "name":"材料结算单"
-          },
-          {
-              "id":16,
-              "name":"CRTG＿财务费用收入及支出"
-          },
-          {
-              "id":17,
-              "name":"CRTG＿税费结转单"
-          },
-          {
-              "id":18,
-              "name":"机械租赁结算单（成本推送）"
-          },
-          {
-              "id":19,
-              "name":"现金管理及银行调户单"
-          },
-          {
-              "id":20,
-              "name":"其他直接费用结算单"
-          }
-      ],
+      options:[],
       selected:"",
-      failnum: 20,           //审核不通过单量
-      avgBillDatenum: 90.7778/60,     //平均每单审核时长  单位秒(s)
-      successnum: 34,         // 审核通过单量
-      timeoutnum: 1         // 超时单量
-      
+      failnum: 0,           //审核不通过单量
+      avgBillDatenum: 0,     //平均每单审核时长  单位秒(s)
+      successnum: 0,         // 审核通过单量
+      timeoutnum: 0,        // 超时单量
+      checkBeginDate: "",
+      checkEndDate: "",
+      status:"",
+      showcheck:{},
+      dates:[],
+      rules:[],
+      totals:[],
+      warnings:[],
+      successarr:[]
+
     };
   },
   mounted() {
-    this.initChart();
+    // this.initChart();
     this.getSelectlist();
-   
+    this.getCheckdate();
   },
   created() {
     // this.query();
   },
   methods: {
+    getShowSelected(val){
+      console.log('1212',val)
+      const _this = this;
+
+      if(val==0){
+        _this.showcheck={'规则数量':true, '机器人审单量':true, '预警量':true, '通过率':true};
+      }
+      if(val==1){
+        _this.showcheck={'规则数量':true, '机器人审单量':false, '预警量':false, '通过率':false};
+      }
+      if(val==2){
+        _this.showcheck={'规则数量':false, '机器人审单量':true, '预警量':false, '通过率':false};
+      }
+      if(val==3){
+        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':true, '通过率':false};
+      }
+       if(val==4){
+        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':false, '通过率':true};
+      }
+      this.initChart()
+    },
+    handleReset(){
+      this.selected=''
+
+      this.checkBeginDate=''
+
+      this.checkEndDate=''
+    },
+    formatDate(date) {
+      var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+    },
+    checkyear(){
+      var now_year = new Date().getFullYear();
+      let begindate = new Date(now_year, 0, 1);
+
+      this.checkBeginDate=this.formatDate(begindate);
+
+
+      var YearEnd = new Date((new Date(now_year + 1, 0, 1)).getTime() - 1000 * 60 * 60* 24);
+      this.checkEndDate=this.formatDate(YearEnd);
+      this.status=1;
+    },
+    checkmonth(){
+      var date=new Date();
+      date.setDate(1);
+
+      this.checkBeginDate=this.formatDate(date);
+
+      date=new Date();
+      var currentMonth=date.getMonth();
+      var nextMonth=++currentMonth;
+      var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
+      var oneDay=1000*60*60*24;
+      let enddatestr =new Date(nextMonthFirstDay-oneDay);
+
+      this.checkEndDate=this.formatDate(enddatestr);
+      this.status=2;
+    },
+    checktoday(){
+      var now = new Date()
+
+      this.checkBeginDate=this.formatDate(now);
+      this.checkEndDate=this.formatDate(now);
+      this.status=3;
+    },
     getTypeSelected(val) {
         // console.log(val)
         const _this = this;
@@ -232,6 +234,12 @@ export default {
     },
     initChart() {
       let myChart = echarts.init(document.getElementById("charts"));
+      let showcheck= this.showcheck;
+      let dates= this.dates;
+      let rules= this.rules;
+      let totals= this.totals;
+      let warnings= this.warnings;
+      let successarr= this.successarr;
       let option = {
           tooltip: {
               trigger: 'axis',
@@ -240,7 +248,8 @@ export default {
               }
           },
           legend: {
-              data: ['规则数量', '机器人审单量', '预警量', '通过率']
+              data: ['规则数量', '机器人审单量', '预警量', '通过率'],
+              selected:showcheck,
           },
           grid: {
               left: '3%',
@@ -251,7 +260,7 @@ export default {
           xAxis: [
               {
                   type: 'category',
-                  data: ['2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-14', '2021-05-17', '2021-05-18', '2021-05-19', '2021-05-20']
+                  data: dates,//['2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-14', '2021-05-17', '2021-05-18', '2021-05-19', '2021-05-20']
               }
           ],
           yAxis: [
@@ -269,7 +278,7 @@ export default {
               },
           ],
           series: [
-              
+
               {
                   name: '规则数量',
                   type: 'bar',
@@ -278,12 +287,12 @@ export default {
                       focus: 'series'
                   },
                   barWidth: 20,
-                  itemStyle:{  
-                    normal:{  
-                      color:'#1991DD',  
-                    }  
-                  },  
-                  data: [12, 13, 10, 13, 9, 230, 200, 100, 87]
+                  itemStyle:{
+                    normal:{
+                      color:'#1991DD',
+                    }
+                  },
+                  data: rules,//[12, 13, 10, 13, 9, 230, 200, 100, 87]
               },
               {
                   name: '机器人审单量',
@@ -293,12 +302,12 @@ export default {
                       focus: 'series'
                   },
                   barWidth: 20,
-                  itemStyle:{  
-                    normal:{  
-                      color:'#70B822',  
-                    }  
+                  itemStyle:{
+                    normal:{
+                      color:'#70B822',
+                    }
                   },
-                  data: [4, 15, 47, 94, 88, 234, 209, 284, 97]
+                  data: totals,//[4, 15, 47, 94, 88, 234, 209, 284, 97]
               },
               {
                   name: '预警量',
@@ -308,12 +317,12 @@ export default {
                       focus: 'series'
                   },
                   barWidth: 20,
-                  itemStyle:{  
-                    normal:{  
-                      color:'#C5B5FF',  
-                    }  
-                  }, 
-                  data: [0, 0, 0, 0, 0, 0, 0, 10, 0]
+                  itemStyle:{
+                    normal:{
+                      color:'#F7B500',
+                    }
+                  },
+                  data: warnings,//[0, 0, 0, 0, 0, 0, 0, 10, 0]
               },
               {
                   name: '通过率',
@@ -336,21 +345,23 @@ export default {
                     color: "#1991DD",
                     opacity: 0 //为0不会绘制图形拐点消失
                   }, //拐点的样式
-                  data: [(0/4)*100, (10/15)*100, (0/47)*100, (80/94)*100, (30/88)*100, (64/234)*100, (40/209)*100, (19/284)*100, (0/97)*100]
+                  data: successarr,//[(0/4)*100, (10/15)*100, (0/47)*100, (80/94)*100, (30/88)*100, (64/234)*100, (40/209)*100, (19/284)*100, (0/97)*100]
               }
-             
+
           ]
       };
 
       myChart.setOption(option);
     },
     getSelectlist() {
+      console.log(121212)
       const _this = this;
       axios
         .get(`http://10.15.196.127:7070/billType/findAll`, {
-          
+
         })
         .then((resp) => {
+
           let data = resp.data;
           if (data.code === 20000) {
             _this.options = data.data.data;
@@ -361,22 +372,53 @@ export default {
         });
     },
     getCheckdate() {
+
       const _this = this;
+      // console.log(_this.selected,_this.checkBeginDate,_this.checkEndDate,_this.status)
       axios
         .get(`http://10.15.196.127:7070/bill/checkDateChart`, {
-          
+            type:_this.selected,
+            checkBeginDate:_this.checkBeginDate,
+            checkEndDate:_this.checkEndDate,
+            status:_this.status
         })
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
-           
+            _this.failnum=data.data.fail;
+            _this.avgBillDatenum=(data.data.avgBillDate/60).toFixed(2);
+            _this.successnum=data.data.success;
+            _this.timeoutnum=data.data.timeout;
+
+            let dates=[];
+            let rules=[];
+            let totals=[];
+            let warnings=[];
+            let successarr=[];
+
+            data.data.data.forEach(function(value, key, iterable) {
+              dates.push(value.date);
+              rules.push(value.rulesCount);
+              totals.push(value.totalCount);
+              warnings.push(value.earlyWarning);
+
+              let successdata = ((value.successCount/value.totalCount)*100).toFixed(2);
+              successarr.push(successdata);
+            });
+
+            this.dates=dates;
+            this.rules=rules;
+            this.totals=totals;
+            this.warnings=warnings;
+            this.successarr=successarr;
+            this.initChart()
           }
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    
+
 
   },
 };
