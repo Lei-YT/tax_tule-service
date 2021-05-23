@@ -18,10 +18,13 @@
               </FormItem>
               <FormItem label="审核日期:" prop="checkBeginDate">
                 <div class="numCount">
-                  <Date-picker placeholder="选择日期" type="date" :value="checkBeginDate" format="yyyy-MM-dd" @on-change="checkBeginDate=$event" >
+                  <Date-picker placeholder="选择日期" type="date" :options="disabledDate1" :value="checkBeginDate" format="yyyy-MM-dd" @on-change="handleDatepicker($event, 'checkBeginDate')" >
                   </Date-picker>
                   <span style="margin: 0 5px">—</span>
-                  <Date-picker placeholder="选择日期" type="date" :value="checkEndDate" format="yyyy-MM-dd" @on-change="checkEndDate=$event" >
+                  <Date-picker placeholder="选择日期" type="date" :options="disabledDate2"
+                    :value="checkEndDate"
+                    format="yyyy-MM-dd"
+                    @on-change="handleDatepicker($event, 'checkEndDate')" >
                   </Date-picker>
                   <!-- <Input
                     v-model="formInline.checkBeginDate"
@@ -117,6 +120,7 @@
 <script>
 import * as echarts from "echarts";
 import store from "@/store";
+import { Notification, Loading } from 'element-ui'
 import axios from "axios";
 export default {
   data() {
@@ -135,6 +139,8 @@ export default {
       timeoutnum: 0,        // 超时单量
       checkBeginDate: "",
       checkEndDate: "",
+      disabledDate1: {},
+      disabledDate2: {},
       status:"",
       showcheck:{},
       dates:[],
@@ -181,6 +187,7 @@ export default {
       this.checkBeginDate=''
 
       this.checkEndDate=''
+      this.status=''
     },
     formatDate(date) {
       var d = new Date(date),
@@ -226,6 +233,7 @@ export default {
       this.checkBeginDate=this.formatDate(now);
       this.checkEndDate=this.formatDate(now);
       this.status=3;
+      return Promise.resolve();
     },
     getTypeSelected(val) {
         // console.log(val)
@@ -371,10 +379,59 @@ export default {
           console.log(err);
         });
     },
+    handleDatepicker(dateValue, dataKey){
+      this.$set(this, dataKey, dateValue);
+      this.status = '';
+      if (dataKey==='checkBeginDate') {
+        let now_year = (new Date(this.checkBeginDate)).getFullYear();
+        let now_month = (new Date(this.checkBeginDate)).getMonth();
+        let now_day = (new Date(this.checkBeginDate)).getDate() ;
+        let now_time = (new Date(this.checkBeginDate)).getTime() ;
+        let disabledDate2 = new Date((new Date(now_year + 1, now_month, now_day)).getTime() );
+        this.disabledDate1 = {
+          disabledDate (date) {
+            return false;
+          }
+        }
+        this.disabledDate2 = {
+          disabledDate (date) {
+            return (date && date.valueOf() > disabledDate2.getTime())
+              || (date && date.valueOf()<now_time);
+          }
+        }
+      }
+      if (dataKey==='checkEndDate') {
+        let now_year = (new Date(this.checkEndDate)).getFullYear();
+        let now_month = (new Date(this.checkEndDate)).getMonth();
+        let now_day = (new Date(this.checkEndDate)).getDate() ;
+        let now_time = (new Date(this.checkEndDate)).getTime() ;
+        let disabledDate1 =new Date((new Date(now_year - 1, now_month, now_day)).getTime() );
+        this.disabledDate1 = {
+          disabledDate: function (date) {
+            return (date && date.valueOf() < disabledDate1.getTime())
+              || (date && date.valueOf()>now_time);
+          }
+        }
+        this.disabledDate2 = {
+          disabledDate: function (date) {
+            return false;
+          }
+        }
+      }
+    },
     getCheckdate() {
 
       const _this = this;
-      // console.log(_this.selected,_this.checkBeginDate,_this.checkEndDate,_this.status)
+      if (!_this.checkBeginDate && !_this.checkEndDate) {
+        _this.checktoday().then((resp) => {
+          _this.checkDateData()
+        })
+        return false;
+      }
+      _this.checkDateData()
+    },
+    checkDateData() {
+      const _this = this;
       axios
         .post(`http://10.15.196.127:7070/bill/checkDateChart`, {
             type:_this.selected,
@@ -412,6 +469,13 @@ export default {
             this.warnings=warnings;
             this.successarr=successarr;
             this.initChart()
+          } else {
+            Notification.closeAll()
+            Notification({
+              message: data.msg || data.message,
+              type: 'warning',
+              duration: 2000
+            })
           }
         })
         .catch((err) => {

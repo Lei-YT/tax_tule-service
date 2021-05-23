@@ -325,6 +325,7 @@
                               <Input v-model="vo['invoiceType']" readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
+                                @click.native="getFieldError(vo)"
                                 v-if="currentInvoiceErrorFields.includes('invoiceType')"
                               ></Input>
                               <Input v-else v-model="vo['invoiceType']" readonly ></Input>
@@ -334,6 +335,7 @@
                             <FormItem label="发票号码">
                               <Input v-model="vo['invoiceNo']" readonly
                                 icon="ios-alert-outline"
+                                @click.native="getFieldError(vo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
                               <Input v-else v-model="vo['invoiceNo']" readonly></Input>
@@ -343,6 +345,7 @@
                             <FormItem label="发票代码">
                               <Input v-model="vo['invoiceCode']" readonly
                                 icon="ios-alert-outline"
+                                @click.native="getFieldError(vo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
                               <Input v-else v-model="vo['invoiceCode']" readonly></Input>
@@ -368,6 +371,7 @@
                             <FormItem label="开票日期">
                               <Input v-model="vo['invoiceDate']" readonly
                                 icon="ios-alert-outline"
+                                @click.native="getFieldError(vo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceDate')"></Input>
                               <Input v-else v-model="vo['invoiceDate']" readonly></Input>
@@ -413,6 +417,7 @@
                               v-model="vo['purchaserName']"
                               readonly
                                 icon="ios-alert-outline"
+                                @click.native="getFieldError(vo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('purchaserName')"
                             ></Input>
@@ -1206,6 +1211,9 @@ export default {
         ].map((i) => `${i}${invoiceIdP || "0"}`)
       );
     },
+    getFieldError (vo) {
+      console.log('on-click', vo)
+    },
     handleTab(index, invoiceId) {
       const _this = this;
       this.tabsInvoiceIndex = index;
@@ -1584,5 +1592,6 @@ export default {
 /deep/.ivu-input-icon{
   color: #FE3D3D;
   font-weight: 700;
+  cursor: pointer;
 }
 </style>

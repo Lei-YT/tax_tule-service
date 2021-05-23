@@ -88,6 +88,6 @@ Mock.mock(/\/billType\/findAll/, 'get', (req, res) => {
 })
 
 Mock.mock(/\/bill\/checkDateChart/, 'post', (req, res) => {
-  // console.log('1212',req)
+  console.log('req',req)
   return Mock.mock(checkdateJson)
 })
