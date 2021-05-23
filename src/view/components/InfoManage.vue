@@ -157,7 +157,7 @@
         </el-row>
       </Card>
     </div>
-    <!-- 弹框 -->
+    <!-- 编辑列表资料弹框 -->
     <el-dialog :title="title" :visible.sync="dialogFormVisible">
       <el-form
         :model="ruleForm"
@@ -195,6 +195,42 @@
         <el-button type="primary" @click="submit('ruleForm')">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 单量设置弹框 -->
+    <el-dialog :title="title" :visible.sync="numFormVisible">
+      <el-form
+        :model="ruleForm"
+        label-width="100px"
+        center
+        :rules="rules"
+        ref="ruleForm"
+      >
+        <el-form-item label="取单量：" prop="label">
+          <Select v-model="ruleForm.label" placeholder="请选择取单量">
+            <Option label="10" value="10"></Option>
+            <Option label="20" value="20"></Option>
+            <Option label="50" value="50"></Option>
+            <Option label="70" value="70"></Option>
+            <Option label="100" value="100"></Option>
+          </Select>
+        </el-form-item>
+        <el-form-item label="回传量：" prop="label">
+          <Select v-model="ruleForm.label" placeholder="请选择回传量">
+            <Option label="10" value="10"></Option>
+            <Option label="20" value="20"></Option>
+            <Option label="50" value="50"></Option>
+            <Option label="70" value="70"></Option>
+            <Option label="100" value="100"></Option>
+          </Select>
+        </el-form-item>
+        
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -212,6 +248,7 @@ export default {
       title: "",
       type: "",
       dialogFormVisible: false,
+      numFormVisible:false,
       ruleForm: {
         describe: "",
         name: "",
@@ -260,6 +297,9 @@ export default {
       this.type = type;
       this.title =
         type == "edit" ? "编辑" : type == "add" ? "添加机器人" : "单量设置";
+        if (type == "sets") {
+        this.numFormVisible = true;
+      }
       if (type == "edit") {
         this.ruleForm = row;
       } else {
@@ -326,11 +366,13 @@ export default {
       let params = {
         id: this.type == "edit" ? this.id : "",
         name: this.ruleForm.name || "",
-        label: this.ruleForm.label || this.ruleForm.value || "",
+        label:
+          this.ruleForm.label == "自定义"
+            ? this.ruleForm.value
+            : this.ruleForm.label || "",
         describe: this.ruleForm.describe || "",
       };
       this.$refs[name].validate((valid) => {
-        console.log(valid, "pppppp");
         return;
         if (valid) {
           if (this.type == "add") {

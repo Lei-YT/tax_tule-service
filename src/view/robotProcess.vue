@@ -99,7 +99,9 @@
                         (rightData.auditCompletedNum +
                           rightData.auditFailNum +
                           rightData.auditUncompletedNum)
-                      ).toFixed(2) + "%"
+                      ).toFixed(2) *
+                        100 +
+                      "%"
                     }}
                   </li>
                   <li
@@ -113,7 +115,9 @@
                         (rightData.auditCompletedNum +
                           rightData.auditFailNum +
                           rightData.auditUncompletedNum)
-                      ).toFixed(2) + "%"
+                      ).toFixed(2) *
+                        100 +
+                      "%"
                     }}
                   </li>
                   <li
@@ -127,7 +131,9 @@
                         (rightData.auditCompletedNum +
                           rightData.auditFailNum +
                           rightData.auditUncompletedNum)
-                      ).toFixed(2) + "%"
+                      ).toFixed(2) *
+                        100 +
+                      "%"
                     }}
                   </li>
                 </div>
@@ -374,7 +380,7 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#47A7E4", "#F7B500"],
+        color: ["#1991DD", "#f7b500"],
         legend: {
           orient: "vertical",
           bottom: "bottom",
@@ -393,6 +399,18 @@ export default {
                 shadowColor: "rgba(0, 0, 0, 0.5)",
               },
             },
+            label: {
+              normal: {
+                show: true,
+                position: "inner", //标签的位置
+                textStyle: {
+                  fontWeight: 300,
+                  fontSize: 16, //文字的字体大小
+                },
+                formatter: "{d}%",
+                color: "#ffffff",
+              },
+            },
           },
         ],
       });
@@ -408,32 +426,32 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#47A7E4", "#F7B500", "#70B822"],
+        color: ["#1991DD", "#F7B500", "#70B822"],
         legend: {
           orient: "vertical",
           bottom: "bottom",
           right: "right",
+          selectedMode: false,
         },
         series: [
           {
             name: "人机协同统计",
             type: "pie",
-            radius: ["40%", "70%"],
+            radius: ["35%", "50%"],
             avoidLabelOverlap: false,
             label: {
-              show: false,
-              position: "center",
+              show: true,
+              position: "outer",
+              formatter: "{d}%\n\n",
+              borderWidth: 20,
+              borderRadius: 4,
+              padding: [50, -50],
             },
             data: [...this.rightItem],
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: "40",
-                fontWeight: "bold",
-              },
-            },
             labelLine: {
-              show: false,
+              show: true,
+              length: 30,
+              length2: 50,
             },
           },
         ],
@@ -524,7 +542,6 @@ export default {
 .conBox {
   width: 100%;
   height: 100%;
-  // color: #91cc75;
 }
 .conOne {
   width: 100%;
@@ -569,14 +586,13 @@ export default {
     li {
       list-style: none;
       height: 100%;
-      opacity: 0.8;
       text-align: center;
       line-height: 35px;
       color: #fff;
       font-size: 24px;
     }
     li:nth-child(1) {
-      background: #47a7e4;
+      background: #1991dd;
     }
     li:nth-child(2) {
       background: #f7b500;
@@ -599,11 +615,10 @@ export default {
         height: 14px;
         border-radius: 50%;
         margin-right: 10px;
-        opacity: 0.8;
       }
     }
     .itemCor:nth-child(1) .corBlock {
-      background: #47a7e4;
+      background: #1991dd;
     }
     .itemCor:nth-child(2) .corBlock {
       background: #f7b500;
