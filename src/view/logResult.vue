@@ -314,7 +314,7 @@
                 >
                   <el-collapse-item
                     title="基本信息"
-                    v-bind:name="'baseInfo-' + vo['invoiceId']"
+                    v-bind:name="'baseInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
                     <template>
@@ -322,65 +322,59 @@
                         <Row :gutter="16">
                           <Col span="8">
                             <FormItem label="发票类型">
-                              <Input v-model="vo['invoiceType']" readonly
+                              <Input v-model="vo.invoiceType" readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
                                 @click.native="getFieldError(vo)"
                                 v-if="currentInvoiceErrorFields.includes('invoiceType')"
                               ></Input>
-                              <Input v-else v-model="vo['invoiceType']" readonly ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
                             </FormItem>
                           </Col>
                           <Col span="8">
                             <FormItem label="发票号码">
-                              <Input v-model="vo['invoiceNo']" readonly
+                              <Input v-model="vo.invoiceNo" readonly
                                 icon="ios-alert-outline"
                                 @click.native="getFieldError(vo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
-                              <Input v-else v-model="vo['invoiceNo']" readonly></Input>
+                              <Input v-else v-model="vo.invoiceNo" readonly></Input>
                             </FormItem>
                           </Col>
                           <Col span="8">
                             <FormItem label="发票代码">
-                              <Input v-model="vo['invoiceCode']" readonly
+                              <Input v-model="vo.invoiceCode" readonly
                                 icon="ios-alert-outline"
                                 @click.native="getFieldError(vo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
-                              <Input v-else v-model="vo['invoiceCode']" readonly></Input>
+                              <Input v-else v-model="vo.invoiceCode" readonly></Input>
                             </FormItem>
                           </Col>
-                          <!-- <Col span="8">
-                            <FormItem label="invoiceId">
-                              <Input v-model="vo['invoiceId']" readonly></Input>
-                            </FormItem>
-                          </Col> -->
-                          <!-- <Col span="8">
-                            <FormItem label="发票联次">
-                              <Input
-                                v-model="vo['发票联次名称']"
-                                readonly
-                              ></Input>
-                            </FormItem>
-                          </Col> -->
-                          <!--  -->
                         </Row>
                         <Row :gutter="16">
                           <Col span="8">
                             <FormItem label="开票日期">
-                              <Input v-model="vo['invoiceDate']" readonly
+                              <Input v-model="vo.invoiceDate" readonly
                                 icon="ios-alert-outline"
                                 @click.native="getFieldError(vo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceDate')"></Input>
-                              <Input v-else v-model="vo['invoiceDate']" readonly></Input>
+                              <Input v-else v-model="vo.invoiceDate" readonly></Input>
                             </FormItem>
                           </Col>
                           <Col span="16">
                             <FormItem label="发票机打代码" :label-width="120">
                               <Input
-                                v-model="vo['invoicePrintCode']"
+                                v-model="vo.invoicePrintCode"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('invoicePrintCode')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoicePrintCode"
                                 readonly
                               ></Input>
                             </FormItem>
@@ -390,14 +384,27 @@
                           <Col span="16">
                             <FormItem label="发票机打号码" :label-width="120">
                               <Input
-                                v-model="vo['invoicePrintNo']"
+                                v-model="vo.invoicePrintNo"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('invoicePrintNo')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoicePrintNo"
                                 readonly
                               ></Input>
                             </FormItem>
                           </Col>
                           <Col span="8">
                             <FormItem label="校验码">
-                              <Input v-model="vo['校验码']" readonly></Input>
+                              <Input v-model="vo['校验码']" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('校验码')"></Input>
+                              <Input v-else v-model="vo['校验码']" readonly></Input>
                             </FormItem>
                           </Col>
                         </Row>
@@ -406,15 +413,20 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="购买方"
-                    v-bind:name="'buyerInfo-' + vo['invoiceId']"
+                    v-bind:name="'buyerInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
                     <Form label-position="left" :label-width="100">
                       <Row :gutter="16">
                         <Col span="10">
                           <FormItem label="名称">
+                            <Tooltip
+                              :content="vo.purchaserName"
+                              :max-width="200"
+                              transfer
+                            >
                             <Input
-                              v-model="vo['purchaserName']"
+                              v-model="vo.purchaserName"
                               readonly
                                 icon="ios-alert-outline"
                                 @click.native="getFieldError(vo)"
@@ -422,20 +434,29 @@
                                 v-if="currentInvoiceErrorFields.includes('purchaserName')"
                             ></Input>
                             <Input v-else
-                              v-model="vo['purchaserName']"
+                              v-model="vo.purchaserName"
                               readonly
                             ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                         <Col span="14">
                           <FormItem label="地址电话">
                             <Tooltip
-                              :content="vo['purchaserAddress']"
+                              :content="vo.purchaserAddress"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['purchaserAddress']"
+                                v-model="vo.purchaserAddress"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('purchaserAddress')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.purchaserAddress"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -446,7 +467,15 @@
                         <Col span="10">
                           <FormItem label="纳税人识别号">
                             <Input
-                              v-model="vo['purchaserTaxNo']"
+                              v-model="vo.purchaserTaxNo"
+                              readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('purchaserTaxNo')"
+                            ></Input>
+                            <Input v-else
+                              v-model="vo.purchaserTaxNo"
                               readonly
                             ></Input>
                           </FormItem>
@@ -454,12 +483,20 @@
                         <Col span="14">
                           <FormItem label="开户行及账号">
                             <Tooltip
-                              :content="vo['purchaserTaxNo']"
+                              :content="vo.purchaserTaxNo"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['purchaserTaxNo']"
+                                v-model="vo.purchaserTaxNo"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('purchaserTaxNo')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.purchaserTaxNo"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -470,35 +507,49 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="销售方信息"
-                    v-bind:name="'sellerInfo-' + vo['invoiceId']"
+                    v-bind:name="'sellerInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
                     <Form label-position="left" :label-width="100">
                       <Row :gutter="16">
                         <Col span="10">
                           <FormItem label="名称">
+                            <Tooltip
+                              :content="vo.purchaserAddress"
+                              :max-width="200"
+                              transfer
+                            >
                             <Input
-                              v-model="vo['sellerName']"
+                              v-model="vo.sellerName"
                               readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('sellerName')"
                             ></Input>
                             <Input v-else
-                              v-model="vo['sellerName']"
+                              v-model="vo.sellerName"
                               readonly
                             ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                         <Col span="14">
                           <FormItem label="地址电话">
                             <Tooltip
-                              :content="vo['sellerAddress']"
+                              :content="vo.sellerAddress"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['sellerAddress']"
+                                v-model="vo.sellerAddress"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('sellerAddress')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.sellerAddress"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -509,7 +560,15 @@
                         <Col span="10">
                           <FormItem label="纳税人识别号">
                             <Input
-                              v-model="vo['sellerTaxNo']"
+                              v-model="vo.sellerTaxNo"
+                              readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('sellerTaxNo')"
+                            ></Input>
+                            <Input v-else
+                              v-model="vo.sellerTaxNo"
                               readonly
                             ></Input>
                           </FormItem>
@@ -517,12 +576,20 @@
                         <Col span="14">
                           <FormItem label="开户行及账号">
                             <Tooltip
-                              :content="vo['sellerBankAccount']"
+                              :content="vo.sellerBankAccount"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo['sellerBankAccount']"
+                                v-model="vo.sellerBankAccount"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo)"
+                                v-if="currentInvoiceErrorFields.includes('sellerBankAccount')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.sellerBankAccount"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -533,7 +600,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="发票详情"
-                    v-bind:name="'invoiceInfo-' + vo['invoiceId']"
+                    v-bind:name="'invoiceInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
                     <template>
@@ -555,23 +622,23 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr v-for="(n, i) in vo['invoiceItems']" v-bind:key="i">
+                          <tr v-for="(n, i) in vo.invoiceItems" v-bind:key="i">
                             <td style="text-align: center">{{ i + 1 }}</td>
                             <td>
                               {{
                                 (
-                                  Number(n["itemAmount"]) +
-                                  Number(n["itemTaxAmount"])
+                                  Number(n.itemAmount) +
+                                  Number(n.itemTaxAmount)
                                 ).toFixed(2)
                               }}
                             </td>
-                            <td>{{ n["itemName"] }}</td>
-                            <td>{{ n["itemAmount"] }}</td>
-                            <td>{{ n["itemTaxRate"] }}</td>
-                            <td>{{ n["itemUnit"] }}</td>
-                            <td>{{ n["itemQuantity"] }}</td>
-                            <td>{{ n["itemUnitPrice"] }}</td>
-                            <!-- <td>{{ n["itemTaxAmount"] }}</td> -->
+                            <td>{{ n.itemName }}</td>
+                            <td>{{ n.itemAmount }}</td>
+                            <td>{{ n.itemTaxRate }}</td>
+                            <td>{{ n.itemUnit }}</td>
+                            <td>{{ n.itemQuantity }}</td>
+                            <td>{{ Number(n.itemUnitPrice).toFixed(2) }}</td>
+                            <!-- <td>{{ n.itemTaxAmount }}</td> -->
                           </tr>
                         </tbody>
                       </table>
@@ -579,7 +646,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="其他"
-                    v-bind:name="'otherInfo-' + vo['invoiceId']"
+                    v-bind:name="'otherInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
                     <Form label-position="left" :label-width="100">
@@ -589,19 +656,19 @@
                         <Col span="10">
                           <FormItem label="是否有发票专用章" :label-width="120">
                             <Input
-                              :value="vo['specialSeal']"
+                              :value="vo.specialSeal"
                               readonly
                             ></Input>
                           </FormItem>
                         </Col>
                         <Col span="14">
                           <Tooltip
-                            :content="vo['remarks']"
+                            :content="vo.remarks"
                             :max-width="200"
                             transfer
                           >
                             <FormItem label="备注">
-                              <Input v-model="vo['remarks']" readonly></Input>
+                              <Input v-model="vo.remarks" readonly></Input>
                             </FormItem>
                           </Tooltip>
                         </Col>
@@ -1183,9 +1250,6 @@ export default {
       let findImgId = dataImgIds.find(k => {
         return _this.allImageInvoiceIds[k].includes(invoiceIdP);
       })
-      let fieldsImgs = this.allData.errors.find(ee => ee.imageId===findImgId);
-      let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
-      _this.currentInvoiceErrorFields = fieldsInvoice.fields;
       _this.$set(
         _this,
         "dataPanelOpen",
@@ -1197,6 +1261,11 @@ export default {
           "invoiceInfo-",
         ].map((i) => `${i}${invoiceIdP || "0"}`)
       );
+      if (this.allData.errors.length > 0) {
+        let fieldsImgs = this.allData.errors.find(ee => ee.imageId===findImgId);
+        let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
+        _this.currentInvoiceErrorFields = fieldsInvoice.fields;
+      }
     },
     getFieldError (vo) {
       console.log('on-click', vo)
