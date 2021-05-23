@@ -918,7 +918,8 @@ export default {
         let ids = vo.imageData.map((voi) => {
           return voi.imageId;
         });
-        this.setImageData(ids);
+        this.setImageData(ids, vo.imageData[0].infos[0].invoiceId);
+        // _this.invoiceId = vo.imageData[0].infos[0].invoiceId;
       } else {
         Notification.closeAll()
         Notification({
@@ -1063,7 +1064,7 @@ export default {
           loadingInstance.close()
         });
     },
-    setImageData(arr) {
+    setImageData(arr, invoiceIdP) {
       let newArr = [];
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
@@ -1072,12 +1073,13 @@ export default {
         }
       }
       this.imageData = newArr;
-      this.invoiceId =
+      let targetInvoice = invoiceIdP ? invoiceIdP : (
         this.imageData.length > 0
           ? this.imageData[0]["invoices"].length > 0
             ? this.imageData[0]["invoices"][0]["invoiceId"]
             : ""
-          : "";
+          : "" );
+      this.invoiceId = targetInvoice;
       this.imageId =
         this.imageData.length > 0 ? this.imageData[0]["imageId"] : "";
       this.getMessageInfo(newArr.map((a) => a.imageId));
@@ -1085,7 +1087,7 @@ export default {
       const imageURL0 =
         this.imageData.length > 0 ? this.imageData[0]["imageURL"] : "";
       this.handleClick(imageURL0, 0);
-      this.tabsInvoiceIndex = 0;
+      // this.tabsInvoiceIndex = 0;
     },
     query() {
       const _this = this;
@@ -1140,6 +1142,8 @@ export default {
       // }
       console.log('all invoice: ' , allInvoice)
       console.log('all invoiceI: ' , _this.allImageInvoiceIds)
+      // this.tabsInvoiceIndex = 0;
+      this.tabsInvoiceIndex = allInvoice.findIndex(i => i.invoiceId===_this.invoiceId);
       if (imageIds.length === 0) {
         this.$set(this, "messageInfo", { invoices: allInvoice });
         this.$set(
@@ -1161,6 +1165,7 @@ export default {
           filterInvoices = filterInvoices.concat(a.invoices)
           return true;
         });
+        this.tabsInvoiceIndex = filterInvoices.findIndex(i => i.invoiceId===_this.invoiceId);
         this.$set(this, "messageInfo", { invoices: filterInvoices });
         this.$set(
           this,
