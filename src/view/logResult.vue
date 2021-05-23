@@ -1135,19 +1135,6 @@ export default {
         _this.allImageInvoiceIds[dd.imageId] = dd.invoices.map(di => di.invoiceId);
         return true;
       })
-      // for (let i = 0; i < data.length; i++) {
-      //   const _dataI = {
-      //     ...data[i],
-      //     invoices: data[i].invoices.map((io) => {
-      //       return matchCNkeys(io.invoiceType, io);
-      //     }),
-      //   };
-      //   data[i] = _dataI;
-      //   allInvoice = allInvoice.concat(_dataI.invoices);
-      // }
-      console.log('all invoice: ' , allInvoice)
-      console.log('all invoiceI: ' , _this.allImageInvoiceIds)
-      // this.tabsInvoiceIndex = 0;
       this.tabsInvoiceIndex = allInvoice.findIndex(i => i.invoiceId===_this.invoiceId);
       if (imageIds.length === 0) {
         this.$set(this, "messageInfo", { invoices: allInvoice });
