@@ -1,0 +1,299 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "billType": "CRTG_机械租赁结算单(成本)",
+    "taskId": "2f7312c470ab4cab88399ed7b8e45e89",
+    "billNo": "20210521729745207004750014",
+    "versionName": "正式版-1.4",
+    "imageInfo": [
+      {
+        "imageId": "1396386941368623105",
+        "billId": "1396386831444303874",
+        "attachmentId": "1396386831448498178",
+        "imageURL": "",
+        "invoices": [
+          {
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国银行股份有限公司南宁市高新区支行613257485175",
+            "sellerName": "国家税务总局昆明市官渡区税务局代开专票特殊纳税人四(",
+            "isDaikai": "yes",
+            "isTurnoverMaterial": "no",
+            "purchaserAddress": "南宁市高新区科园大道29号0771-2315319",
+            "isVerify": "no",
+            "isFixedAssets": "no",
+            "invoicePrintNo": "00286965",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "00286965",
+            "amountWithoutTax": "16504.85",
+            "imageId": "1396386941368623105",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-05-14",
+            "invoiceCode": "5300203160",
+            "purchaserName": "中铁隧道局集团建设有限公司",
+            "invoicePrintCode": "5300203160",
+            "sellerTaxNo": "53011100DK00301",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 0.0,
+                "itemName": "机械租赁费",
+                "itemQuantity": "",
+                "itemAmount": "16504.85",
+                "itemModel": "",
+                "itemUnit": "",
+                "itemTaxAmount": "495.15",
+                "itemTaxRate": "3%"
+              }
+            ],
+            "invoiceId": "2b769eb3bbac4c6db8162f3649aca8f6",
+            "purchaserTaxNo": "91450100729745883P",
+            "sellerBankAccount": "353016210500139010",
+            "invoiceSubType": "",
+            "taxAmount": "495.15",
+            "amountWithTax": "17000.00",
+            "fileType": "",
+            "remarks": "代开企业税号:92530111MA6M2L41XH代开企业名称:昆明市官渡区兴达机械设备经营部"
+          }
+        ]
+      }
+    ],
+    "errors": [
+      {
+        "imageId": "1396386941368623105",
+        "infos": [
+          {
+            "invoiceId": "2b769eb3bbac4c6db8162f3649aca8f6",
+            "messages": [
+              "发票验真失败"
+            ]
+          }
+        ]
+      }
+    ],
+    "data": [
+      {
+        "ruleCount": 28,
+        "errorCount": 1,
+        "ruleType": "IMAGES",
+        "color": null,
+        "result": [
+          {
+            "ruleId": "LN7875067299",
+            "ruleName": "当影像.发票=专票时，则影像.发票.购买方.地址、电话、开户行及账户≠空",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "WH8078723350",
+            "ruleName": "影像.发票票面有代开字样时，且发票为专票时，需加盖发票专用章（新版电子发票除外）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "ET1202155477",
+            "ruleName": "当影像.发票=专票、普票、机动车销售统一发票、通用机打发票、通用手工发票时，则影像.发票.联次=发票联",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "CN6256375462",
+            "ruleName": "影像.发票≠定额发票",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "QT2306654241",
+            "ruleName": "表单.财务信息.制证日期-影像.发票.发票日期＜2个自然年",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "AD8552438601",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，需真伪查验（影像识别结果与查验结果比对，是否套票）",
+            "correct": false,
+            "message": "发票验真失败",
+            "ruleType": "IMAGE",
+            "imageData": [
+              {
+                "imageId": "1396386941368623105",
+                "infos": [
+                  {
+                    "invoiceId": "2b769eb3bbac4c6db8162f3649aca8f6"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "ruleId": "QM9292468671",
+            "ruleName": "发票≠专票、普票、电子普票且发票单张金额＞5000元时，影像包含发票查验单",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "QT7113092883",
+            "ruleName": "当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，且为进项发票时，则增值税发票：影像.发票.购买方名称=表单.单据信息.所属法人",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "SB9534877427",
+            "ruleName": "当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，则影像.发票.纳税人识别号=表单.单据信息.所属法人的纳税人识别号（字段库）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "BE2892375784",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.税额合计=影像.发票.税额合计（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "MC3875947344",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "YP6187416841",
+            "ruleName": "表单.发票信息.价税合计=影像.发票.价税合计（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "ZX3929105592",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.税率=影像.发票.税率（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "TC7536949005",
+            "ruleName": "表单.发票信息.开票日期=影像.发票.开票日期（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "AH5230918848",
+            "ruleName": "当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票代码=影像.发票.发票代码（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "HU4736181854",
+            "ruleName": "当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票号=影像.发票.发票号（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "RG6983910982",
+            "ruleName": "当影像.发票=专票、普票、机动车销售统一发票(卷票除外)时，则影像.发票.发票代码=机打发票代码且发票号码=机打发票号码",
+            "correct": true,
+            "ruleType": "FIELD"
+          },
+          {
+            "ruleId": "PS9059552988",
+            "ruleName": "当影像.发票有代开字样，影像.发票.备注中企业名称=表单.业务信息.机械供应商",
+            "correct": true,
+            "ruleType": "FIELD"
+          },
+          {
+            "ruleId": "JX1502116711",
+            "ruleName": "表单.业务信息.本次结算金额=表单.发票信息.价税合计",
+            "correct": true,
+            "ruleType": "FIELD"
+          },
+          {
+            "ruleId": "UU1418808748",
+            "ruleName": "当单据类型为机械租赁结算单/或(成本)时，影像.发票.货物或应税劳务、服务名称包含“*建筑服务*”或“*经营租赁*”或“*吊装服务*”或“*物流辅助服务*”或“*运输服务*”",
+            "correct": true,
+            "ruleType": "FIELD"
+          },
+          {
+            "ruleId": "HB9621476680",
+            "ruleName": "当表单≠“CRTG_验工计价单”、“CRTG_其他业务收入表”时，则表单.发票信息.发票类别=“进项发票”",
+            "correct": true,
+            "ruleType": "FIELD"
+          },
+          {
+            "ruleId": "GV2736833033",
+            "ruleName": "表单.明细表.业务结转类型含有“收到”关键字，表单.发票信息.税率=影像.发票.税率",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "TA2745405143",
+            "ruleName": "表单.发票信息.开票日期=影像.发票.开票日期（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "FM3224765211",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.税率=影像.发票.税率（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "RE5772302185",
+            "ruleName": "表单.发票信息.价税合计=影像.发票.价税合计（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "NS7504867019",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "KG2440748608",
+            "ruleName": "当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票代码=影像.发票.发票代码（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "ND8229647022",
+            "ruleName": "当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票号=影像.发票.发票号（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "LINES"
+          }
+        ]
+      },
+      {
+        "ruleCount": 3,
+        "errorCount": 1,
+        "ruleType": "OTHERS",
+        "color": null,
+        "result": [
+          {
+            "ruleId": "CS4881459818",
+            "ruleName": "系统当前日期月数-表单.财务信息.制证日期月数≤3个月",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "WY4234248803",
+            "ruleName": "表单.发票信息.发票类型=影像.发票.发票类型（除CRTG_税费结转单）",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "AQ1914483672",
+            "ruleName": "影像.结算单.设备租赁结算单不为空",
+            "correct": false,
+            "message": "无设备租赁结算单",
+            "ruleType": "BILLS"
+          }
+        ]
+      },
+      {
+        "ruleCount": 0,
+        "errorCount": null,
+        "ruleType": "WARNING",
+        "color": null,
+        "result": []
+      }
+    ]
+  }
+}

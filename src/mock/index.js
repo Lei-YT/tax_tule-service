@@ -3,7 +3,7 @@ import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import processJson from '@/dataJson/process.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result6.json'
+import resultJson from '@/dataJson/result8.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data5.json'
 import userJson from '@/dataJson/user.json'

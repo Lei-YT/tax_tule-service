@@ -775,7 +775,7 @@
 </template>
 <script>
 import ImagePreview from "@/components/image-preview";
-import { matchCNkeys } from "@/libs/invoice";
+// import { matchCNkeys } from "@/libs/invoice";
 import { Notification, Loading } from 'element-ui'
 import axios from "axios";
 const clubArray = (arr) => {
@@ -905,27 +905,14 @@ export default {
     this.billNumber = this.$route.query.billNumber;
     this.query();
 
-    this.handelAllImage();
   },
   computed: {
     emptyImageInfo: function () {
       return this.imageData.length === 0;
     },
-    formColumns: function () {
-      let formColumns = this.formColumnsB;
-      let formColumnsChildren = this.formColumnsChildren;
-      const _this = this;
-      this.$delete(formColumns[0], "children");
-      if (formColumnsChildren.length > 0) {
-        formColumns[0].children = formColumns[0].childrenBak.concat(
-          formColumnsChildren
-        );
-      }
-      return formColumns;
-    },
   },
   methods: {
-    handelAllImage(type) {
+    handelAllImage() {
       const _this = this;
       _this.imageData = _this.allData.imageInfo;
       _this.invoiceId =
@@ -939,8 +926,9 @@ export default {
       _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
       _this.tabsInvoiceIndex = 0;
-      if (type === "Refresh") {
-      }
+      console.log(_this.invoiceId)
+      // if (type === "Refresh") {
+      // }
     },
     // 右边小图点击事件
     handelImage(data) {
@@ -1169,21 +1157,9 @@ export default {
           let data = resp.data;
           if (data.status == 200) {
             _this.allData = data.data;
-            _this.imageData = data.data.imageInfo;
             _this.imgSrc =
               _this.imageData.length > 0 ? data.data.imageInfo[0].imageURL : "";
-            _this.imageId =
-              _this.imageData.length > 0
-                ? data.data.imageInfo[0]["imageId"]
-                : "";
-            _this.invoiceId =
-              _this.imageData.length > 0
-                ? _this.imageData[0].invoices.length > 0
-                  ? _this.imageData[0].invoices[0]["invoiceId"]
-                  : ""
-                : "";
-            _this.getMessageInfo([]);
-            _this.getErrorMessage(_this.invoiceId);
+            _this.handelAllImage();
           }
         })
         .catch((err) => {
@@ -1246,10 +1222,6 @@ export default {
     },
     getErrorMessage(invoiceIdP) {
       const _this = this;
-      let dataImgIds = Object.keys(_this.allImageInvoiceIds);
-      let findImgId = dataImgIds.find(k => {
-        return _this.allImageInvoiceIds[k].includes(invoiceIdP);
-      })
       _this.$set(
         _this,
         "dataPanelOpen",
@@ -1262,9 +1234,13 @@ export default {
         ].map((i) => `${i}${invoiceIdP || "0"}`)
       );
       if (this.allData.errors.length > 0) {
+        let dataImgIds = Object.keys(_this.allImageInvoiceIds);
+        let findImgId = dataImgIds.find(k => {
+          return _this.allImageInvoiceIds[k].includes(invoiceIdP);
+        })
         let fieldsImgs = this.allData.errors.find(ee => ee.imageId===findImgId);
         let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
-        _this.currentInvoiceErrorFields = fieldsInvoice.fields;
+        _this.currentInvoiceErrorFields = fieldsInvoice.fields || [];
       }
     },
     getFieldError (vo) {
