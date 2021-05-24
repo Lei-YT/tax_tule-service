@@ -108,7 +108,7 @@
 
         </div>
 
-        <div class="title">机器人数据监控统计统计表</div>
+        <div class="title">机器人数据监控统计表</div>
        <div class="charsBox">
             <div id="charts"></div>
           </div>

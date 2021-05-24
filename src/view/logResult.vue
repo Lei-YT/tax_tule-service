@@ -325,7 +325,7 @@
                               <Input v-model="vo.invoiceType" readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
                                 v-if="currentInvoiceErrorFields.includes('invoiceType')"
                               ></Input>
                               <Input v-else v-model="vo.invoiceType" readonly ></Input>
@@ -335,7 +335,7 @@
                             <FormItem label="发票号码">
                               <Input v-model="vo.invoiceNo" readonly
                                 icon="ios-alert-outline"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'invoiceNo', vo.invoiceNo)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
                               <Input v-else v-model="vo.invoiceNo" readonly></Input>
@@ -345,7 +345,7 @@
                             <FormItem label="发票代码">
                               <Input v-model="vo.invoiceCode" readonly
                                 icon="ios-alert-outline"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
                               <Input v-else v-model="vo.invoiceCode" readonly></Input>
@@ -357,7 +357,7 @@
                             <FormItem label="开票日期">
                               <Input v-model="vo.invoiceDate" readonly
                                 icon="ios-alert-outline"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('invoiceDate')"></Input>
                               <Input v-else v-model="vo.invoiceDate" readonly></Input>
@@ -370,7 +370,7 @@
                                 readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'invoicePrintCode', vo.invoicePrintCode)"
                                 v-if="currentInvoiceErrorFields.includes('invoicePrintCode')"
                               ></Input>
                               <Input v-else
@@ -388,7 +388,7 @@
                                 readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'invoicePrintNo', vo.invoicePrintNo)"
                                 v-if="currentInvoiceErrorFields.includes('invoicePrintNo')"
                               ></Input>
                               <Input v-else
@@ -412,7 +412,7 @@
                     </template>
                   </el-collapse-item>
                   <el-collapse-item
-                    title="购买方"
+                    title="购买方信息"
                     v-bind:name="'buyerInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
@@ -429,7 +429,7 @@
                               v-model="vo.purchaserName"
                               readonly
                                 icon="ios-alert-outline"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'purchaserName', vo.purchaserName)"
                                 style="width: auto"
                                 v-if="currentInvoiceErrorFields.includes('purchaserName')"
                             ></Input>
@@ -452,7 +452,7 @@
                                 readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'purchaserAddress', vo.purchaserAddress)"
                                 v-if="currentInvoiceErrorFields.includes('purchaserAddress')"
                               ></Input>
                               <Input v-else
@@ -471,7 +471,7 @@
                               readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'purchaserTaxNo', vo.purchaserTaxNo)"
                                 v-if="currentInvoiceErrorFields.includes('purchaserTaxNo')"
                             ></Input>
                             <Input v-else
@@ -483,20 +483,20 @@
                         <Col span="14">
                           <FormItem label="开户行及账号">
                             <Tooltip
-                              :content="vo.purchaserTaxNo"
+                              :content="vo.purchaserBankAccount"
                               :max-width="200"
                               transfer
                             >
                               <Input
-                                v-model="vo.purchaserTaxNo"
+                                v-model="vo.purchaserBankAccount"
                                 readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
-                                v-if="currentInvoiceErrorFields.includes('purchaserTaxNo')"
+                                @click.native="getFieldError(vo, 'purchaserBankAccount', vo.purchaserBankAccount)"
+                                v-if="currentInvoiceErrorFields.includes('purchaserBankAccount')"
                               ></Input>
                               <Input v-else
-                                v-model="vo.purchaserTaxNo"
+                                v-model="vo.purchaserBankAccount"
                                 readonly
                               ></Input>
                             </Tooltip>
@@ -515,7 +515,7 @@
                         <Col span="10">
                           <FormItem label="名称">
                             <Tooltip
-                              :content="vo.purchaserAddress"
+                              :content="vo.sellerName"
                               :max-width="200"
                               transfer
                             >
@@ -524,6 +524,7 @@
                               readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
+                                @click.native="getFieldError(vo, 'sellerName', vo.sellerName)"
                                 v-if="currentInvoiceErrorFields.includes('sellerName')"
                             ></Input>
                             <Input v-else
@@ -545,7 +546,7 @@
                                 readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'sellerAddress', vo.sellerAddress)"
                                 v-if="currentInvoiceErrorFields.includes('sellerAddress')"
                               ></Input>
                               <Input v-else
@@ -564,7 +565,7 @@
                               readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'sellerTaxNo', vo.sellerTaxNo)"
                                 v-if="currentInvoiceErrorFields.includes('sellerTaxNo')"
                             ></Input>
                             <Input v-else
@@ -585,7 +586,7 @@
                                 readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
+                                @click.native="getFieldError(vo, 'sellerBankAccount', vo.sellerBankAccount)"
                                 v-if="currentInvoiceErrorFields.includes('sellerBankAccount')"
                               ></Input>
                               <Input v-else
@@ -700,12 +701,13 @@
       class-name="result-data-modal"
     >
       <Row :gutter="10" style="margin-left: 0;margin-right:0;">
-        <Col span="12" class="thead-name" style="padding-left: 0;padding-right: 0;">表单</Col>
-        <Col span="12" class="thead-name" style="padding-left: 0;padding-right: 0;">影像</Col>
+        <Col v-if="ruleFormToggle" :span="ruleImageToggle?12:24" class="thead-name" style="padding-left: 0;padding-right: 0;">表单</Col>
+        <Col v-if="ruleImageToggle" :span="ruleFormToggle?12:24" class="thead-name" style="padding-left: 0;padding-right: 0;">影像</Col>
       </Row>
       <div class="table-row">
         <el-table
           :data="resultFormData"
+          v-if="ruleFormToggle"
           style="width: 100%"
           border
           empty-text="暂无数据"
@@ -739,6 +741,7 @@
 
         <el-table
           :data="resultImageData"
+          v-if="ruleImageToggle"
           style="width: 100%"
           border
           empty-text="暂无数据"
@@ -897,8 +900,11 @@ export default {
       imgIndex: 0,
       showImgData: [],
       ruleRowtoggle: false,
+      ruleFormToggle: true,
+      ruleImageToggle: true,
       allImageInvoiceIds: {},
-      currentInvoiceErrorFields: []
+      currentInvoiceErrorFields: [],
+      currentInvoiceRuleId: ''
     };
   },
   mounted() {
@@ -923,6 +929,8 @@ export default {
           : "";
       _this.imageId =
         _this.imageData.length > 0 ? _this.allData.imageInfo[0]["imageId"] : "";
+      _this.imgSrc =
+        _this.imageData.length > 0 ? _this.allData.imageInfo[0].imageURL : "";
       _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
       _this.tabsInvoiceIndex = 0;
@@ -974,6 +982,7 @@ export default {
       if (ruleType !== "IMAGES") {
         return false;
       }
+      _this.currentInvoiceRuleId = vo.ruleId;
       if (vo.hasOwnProperty("imageData")) {
         let ids = vo.imageData.map((voi) => {
           return voi.imageId;
@@ -994,7 +1003,13 @@ export default {
       if (ruleType !== "IMAGES") {
         return false;
       }
-      _this.getRuleInvoice(vo.ruleId);
+      _this.currentInvoiceRuleId = vo.ruleId;
+      const ruleRequest = {
+        ruleId: vo.ruleId,
+        billNumber: _this.allData.billNo, // this.billNumber,
+        taskId: _this.allData.taskId
+      }
+      _this.getRuleInvoice(ruleRequest);
 
     },
     // mapper highlight
@@ -1030,23 +1045,21 @@ export default {
       const valueObj = _this.resultImageDataRaw[dataIndex].valueData.find(ele => ele.value===row[columnName]);
       return valueObj.highLight === true ? "text-highlight" : ''
     },
-    getRuleInvoice(ruleId) {
+    getRuleInvoice(request, showAllRules = true) {
       const _this = this;
       const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
-        // setTimeout(() => {
-        //   loadingInstance.close();
-        // }, 2000);
-      // loadingInstance.close()
       axios
-        .post(`http://10.15.196.127/api/ql/rule/data`, {
-          ruleId: ruleId,
-          billNumber: _this.allData.billNo, // this.billNumber,
-          taskId: _this.allData.taskId
-        })
+        .post(`http://10.15.196.127/api/ql/rule/data`, request)
         .then((resp) => {
           loadingInstance.close()
           let data = resp.data;
           if (data.status === 200) {
+            if (data.data.form.length ===0 && !showAllRules) {
+              _this.ruleFormToggle = false;
+            }
+            if (data.data.image.length ===0 && !showAllRules) {
+              _this.ruleImageToggle = false;
+            }
             // Modal
             _this.resultFormDataRaw = data.data.form;
             _this.resultImageDataRaw = data.data.image;
@@ -1069,7 +1082,8 @@ export default {
 
             const xx = data.data.form.map((fc, i) => {
               const keyn = `data${i}`;
-              return fc.data.map((d) => {
+              const formData = fc.valueData.map(hi => hi.value); // fc.data
+              return formData.map((d) => {
                 const newd = {};
                 newd[keyn] = d;
                 return newd;
@@ -1090,7 +1104,8 @@ export default {
 
             const tt = data.data.image.map((fc, i) => {
               const keyn = `data${i}`;
-              return fc.data.map((d) => {
+              const imageData = fc.valueData.map(hi => hi.value); // fc.data
+              return imageData.map((d) => {
                 const newd = {};
                 newd[keyn] = d;
                 return newd;
@@ -1157,8 +1172,6 @@ export default {
           let data = resp.data;
           if (data.status == 200) {
             _this.allData = data.data;
-            _this.imgSrc =
-              _this.imageData.length > 0 ? data.data.imageInfo[0].imageURL : "";
             _this.handelAllImage();
           }
         })
@@ -1222,6 +1235,7 @@ export default {
     },
     getErrorMessage(invoiceIdP) {
       const _this = this;
+      _this.currentInvoiceErrorFields = [];
       _this.$set(
         _this,
         "dataPanelOpen",
@@ -1233,18 +1247,29 @@ export default {
           "invoiceInfo-",
         ].map((i) => `${i}${invoiceIdP || "0"}`)
       );
-      if (this.allData.errors.length > 0) {
+      if (this.currentInvoiceRuleId !== '') {
+        const findRule = _this.allData.data.find(r => r.ruleType==="IMAGES");
+        const findRet = findRule.result.find(rr => rr.ruleId===_this.currentInvoiceRuleId);
+
         let dataImgIds = Object.keys(_this.allImageInvoiceIds);
         let findImgId = dataImgIds.find(k => {
           return _this.allImageInvoiceIds[k].includes(invoiceIdP);
         })
-        let fieldsImgs = this.allData.errors.find(ee => ee.imageId===findImgId);
+        let fieldsImgs = findRet.imageData.find(ee => ee.imageId===findImgId);
         let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
         _this.currentInvoiceErrorFields = fieldsInvoice.fields || [];
       }
     },
-    getFieldError (vo) {
-      console.log('on-click', vo)
+    getFieldError (vo, currentKey, currentVal) {
+      const _this = this
+      const ruleRequest = {
+        ruleId: _this.currentInvoiceRuleId,
+        billNumber: _this.allData.billNo, // this.billNumber,
+        taskId: _this.allData.taskId,
+        keyName:currentKey,
+        value:currentVal
+      }
+      this.getRuleInvoice(ruleRequest, false)
     },
     handleTab(index, invoiceId) {
       const _this = this;
