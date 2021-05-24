@@ -220,7 +220,7 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="numFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="setSubmit()">确 定</el-button>
       </div>
     </el-dialog>
@@ -269,8 +269,8 @@ export default {
     };
   },
   created() {
-    this.query();
-    // this.tableData = infoMange.data;
+    // this.query();
+    this.tableData = infoMange.data;
   },
   methods: {
     query() {
@@ -289,18 +289,19 @@ export default {
     },
     handleClick(type, row) {
       this.type = type;
+      this.id = row.id;
       this.title =
         type == "edit" ? "编辑" : type == "add" ? "添加机器人" : "单量设置";
       if (type == "sets") {
         this.numFormVisible = true;
+      } else {
+        this.dialogFormVisible = true;
       }
       if (type == "edit") {
         this.ruleForm = row;
       } else {
         this.ruleForm = {};
       }
-      this.id = row.id;
-      this.dialogFormVisible = true;
     },
     handleOperat(status, id) {
       changeStatus({ status, id }).then((res) => {
@@ -394,6 +395,7 @@ export default {
                   type: "success",
                   duration: 1500,
                 });
+                this.dialogFormVisible = false;
                 this.query();
               }
             });
@@ -405,6 +407,7 @@ export default {
                   type: "success",
                   duration: 1500,
                 });
+                this.dialogFormVisible = false;
                 this.query();
               }
             });
