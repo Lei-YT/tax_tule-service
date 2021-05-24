@@ -21,7 +21,8 @@
                   <Date-picker placeholder="选择日期" type="date" :options="disabledDate1" :value="checkBeginDate" format="yyyy-MM-dd" @on-change="handleDatepicker($event, 'checkBeginDate')" >
                   </Date-picker>
                   <span style="margin: 0 5px">—</span>
-                  <Date-picker placeholder="选择日期" type="date" :options="disabledDate2"
+                  <Date-picker placeholder="选择日期" type="date" 
+                    :options="disabledDate2"
                     :value="checkEndDate"
                     format="yyyy-MM-dd"
                     @on-change="handleDatepicker($event, 'checkEndDate')" >
@@ -155,6 +156,7 @@ export default {
     // this.initChart();
     this.getSelectlist();
     this.getCheckdate();
+    this.handleDatepicker();
   },
   created() {
     // this.query();
@@ -207,8 +209,8 @@ export default {
       this.checkBeginDate=this.formatDate(begindate);
 
 
-      var YearEnd = new Date((new Date(now_year + 1, 0, 1)).getTime() - 1000 * 60 * 60* 24);
-      this.checkEndDate=this.formatDate(YearEnd);
+      // var YearEnd = new Date((new Date(now_year + 1, 0, 1)).getTime() - 1000 * 60 * 60* 24);
+      this.checkEndDate=this.formatDate(new Date());
       this.status=1;
     },
     checkmonth(){
@@ -217,14 +219,14 @@ export default {
 
       this.checkBeginDate=this.formatDate(date);
 
-      date=new Date();
-      var currentMonth=date.getMonth();
-      var nextMonth=++currentMonth;
-      var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
-      var oneDay=1000*60*60*24;
-      let enddatestr =new Date(nextMonthFirstDay-oneDay);
+      // date=new Date();
+      // var currentMonth=date.getMonth();
+      // var nextMonth=++currentMonth;
+      // var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
+      // var oneDay=1000*60*60*24;
+      // let enddatestr =new Date(nextMonthFirstDay-oneDay);
 
-      this.checkEndDate=this.formatDate(enddatestr);
+      this.checkEndDate=this.formatDate(new Date());
       this.status=2;
     },
     checktoday(){
@@ -253,7 +255,8 @@ export default {
               trigger: 'axis',
               axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                   type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-              }
+              },
+              formatter:'{b}<br/>{a0}:{c0}百<br/>{a1}:{c1}<br/>{a2}:{c2}<br/>{a3}:{c3}<br/>'
           },
           legend: {
               data: ['规则数量', '机器人审单量', '预警量', '通过率'],
@@ -379,46 +382,6 @@ export default {
           console.log(err);
         });
     },
-    handleDatepicker(dateValue, dataKey){
-      this.$set(this, dataKey, dateValue);
-      this.status = '';
-      if (dataKey==='checkBeginDate') {
-        let now_year = (new Date(this.checkBeginDate)).getFullYear();
-        let now_month = (new Date(this.checkBeginDate)).getMonth();
-        let now_day = (new Date(this.checkBeginDate)).getDate() ;
-        let now_time = (new Date(this.checkBeginDate)).getTime() ;
-        let disabledDate2 = new Date((new Date(now_year + 1, now_month, now_day)).getTime() );
-        this.disabledDate1 = {
-          disabledDate (date) {
-            return false;
-          }
-        }
-        this.disabledDate2 = {
-          disabledDate (date) {
-            return (date && date.valueOf() > disabledDate2.getTime())
-              || (date && date.valueOf()<now_time);
-          }
-        }
-      }
-      if (dataKey==='checkEndDate') {
-        let now_year = (new Date(this.checkEndDate)).getFullYear();
-        let now_month = (new Date(this.checkEndDate)).getMonth();
-        let now_day = (new Date(this.checkEndDate)).getDate() ;
-        let now_time = (new Date(this.checkEndDate)).getTime() ;
-        let disabledDate1 =new Date((new Date(now_year - 1, now_month, now_day)).getTime() );
-        this.disabledDate1 = {
-          disabledDate: function (date) {
-            return (date && date.valueOf() < disabledDate1.getTime())
-              || (date && date.valueOf()>now_time);
-          }
-        }
-        this.disabledDate2 = {
-          disabledDate: function (date) {
-            return false;
-          }
-        }
-      }
-    },
     getCheckdate() {
 
       const _this = this;
@@ -454,8 +417,10 @@ export default {
             let successarr=[];
 
             data.data.data.forEach(function(value, key, iterable) {
+
               dates.push(value.date);
-              rules.push(value.rulesCount);
+              let rulesCount = value.rulesCount/100;
+              rules.push(rulesCount);
               totals.push(value.totalCount);
               warnings.push(value.earlyWarning);
 
@@ -481,6 +446,46 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    handleDatepicker(dateValue, dataKey){
+      // console.log(dateValue, dataKey)
+      this.$set(this, dataKey, dateValue);
+      this.status = '';
+      // if (dataKey==='checkBeginDate') {
+        
+        const bb = new Date()
+        bb.setFullYear(bb.getFullYear() - 1)
+        let lastyear=bb;
+        let today = new Date();
+        this.disabledDate1 = {
+          disabledDate (date) {
+            return (date && date.valueOf()<=lastyear) || (date && date.valueOf()>=today);
+          }
+        }
+        this.disabledDate2 = {
+          disabledDate (date) {
+            return (date && date.valueOf()<=lastyear) || (date && date.valueOf()>=today);
+          }
+        }
+      // }
+      // if (dataKey==='checkEndDate') {
+      //   let now_year = (new Date(this.checkEndDate)).getFullYear();
+      //   let now_month = (new Date(this.checkEndDate)).getMonth();
+      //   let now_day = (new Date(this.checkEndDate)).getDate() ;
+      //   let now_time = (new Date(this.checkEndDate)).getTime() ;
+      //   let disabledDate1 =new Date((new Date(now_year - 1, now_month, now_day)).getTime() );
+      //   this.disabledDate1 = {
+      //     disabledDate: function (date) {
+      //       return (date && date.valueOf() < disabledDate1.getTime())
+      //         || (date && date.valueOf()>now_time);
+      //     }
+      //   }
+      //   this.disabledDate2 = {
+      //     disabledDate: function (date) {
+      //       return false;
+      //     }
+      //   }
+      // }
     },
 
 
