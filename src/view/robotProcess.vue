@@ -46,28 +46,28 @@
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 1"
-                  @click="handleChange(2, item.sceneId)"
+                  @click="handleChange(2, rightData.sceneId)"
                   >启动</Button
                 >
                 <Button
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 2"
-                  @click="handleChange(3, item.sceneId)"
+                  @click="handleChange(3, rightData.sceneId)"
                   >暂停</Button
                 >
                 <Button
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 3"
-                  @click="handleChange(2, item.sceneId)"
+                  @click="handleChange(2, rightData.sceneId)"
                   >继续</Button
                 >
                 <Button
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 3"
-                  @click="handleChange(4, item.sceneId)"
+                  @click="handleChange(4, rightData.sceneId)"
                   >结束</Button
                 >
                 <Button
@@ -80,7 +80,7 @@
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 4"
-                  @click="handleChange(1, item.sceneId)"
+                  @click="handleChange(1, rightData.sceneId)"
                   >重启</Button
                 >
               </div>
@@ -174,137 +174,6 @@
       <div class="conThr" v-if="cur == 2">
         <OperationLog></OperationLog>
       </div>
-    </div>
-
-    <div class="logProcess">
-      <Card style="width: 49%" v-for="(item, index) in dataList" :key="index">
-        <div class="top">
-          <img src="@/assets/images/trian.png" class="trian" />
-          <span>{{ item.name }}</span>
-        </div>
-        <div class="statusBox">
-          <div class="status">
-            当前状态：<span class="result">{{
-              item.status == 1
-                ? "未开始"
-                : item.status == 2
-                ? "正常运行"
-                : item.status == 3
-                ? "已暂停"
-                : item.status == 4
-                ? "已完成"
-                : "异常停止"
-            }}</span>
-          </div>
-          <div class="service">
-            启停服务：
-            <el-button
-              size="small"
-              type="primary"
-              v-if="item.status == 1"
-              @click="handleChange(2, item.sceneId)"
-              >开始</el-button
-            >
-            <el-button
-              size="small"
-              style="margin-left: 20px"
-              v-if="item.status == 2"
-              @click="handleChange(3, item.sceneId)"
-              >暂停</el-button
-            >
-            <el-button
-              size="small"
-              style="margin-left: 20px"
-              type="primary"
-              v-if="item.status == 3"
-              @click="handleChange(2, item.sceneId)"
-              >继续</el-button
-            >
-            <el-button
-              size="small"
-              style="margin-left: 20px"
-              v-if="item.status == 3"
-              @click="handleChange(4, item.sceneId)"
-              >结束</el-button
-            >
-            <el-button size="small" type="info" v-if="item.status == 4"
-              >结束</el-button
-            >
-            <el-button
-              size="small"
-              type="warning"
-              v-if="item.status == 5"
-              @click="handleChange(item.status, item.sceneId)"
-              >需人工处理</el-button
-            >
-          </div>
-        </div>
-        <div class="situation">
-          <p>统计完成情况：</p>
-          <div class="list">
-            <div class="left">
-              <div class="itemCon">
-                <p>已完成：</p>
-                <el-progress
-                  :percentage="
-                    (item.completedNum + item.uncompletedNum + item.failNum == 0
-                      ? 0
-                      : (item.completedNum /
-                          (item.completedNum +
-                            item.uncompletedNum +
-                            item.failNum)) *
-                        100
-                    ).toFixed(2) - 0
-                  "
-                ></el-progress>
-              </div>
-              <div class="itemCon">
-                <p>未完成：</p>
-                <el-progress
-                  :percentage="
-                    (item.completedNum + item.uncompletedNum + item.failNum == 0
-                      ? 0
-                      : (item.uncompletedNum /
-                          (item.completedNum +
-                            item.uncompletedNum +
-                            item.failNum)) *
-                        100
-                    ).toFixed(2) - 0
-                  "
-                ></el-progress>
-              </div>
-              <div class="itemCon">
-                <p>失效：</p>
-                <el-progress
-                  :percentage="
-                    (item.completedNum + item.uncompletedNum + item.failNum == 0
-                      ? 0
-                      : (item.failNum /
-                          (item.completedNum +
-                            item.uncompletedNum +
-                            item.failNum)) *
-                        100
-                    ).toFixed(2) - 0
-                  "
-                ></el-progress>
-              </div>
-            </div>
-            <div class="right">
-              <p>成功率</p>
-              <el-progress
-                type="circle"
-                :percentage="
-                  (item.completedNum + item.failNum == 0
-                    ? 0
-                    : (item.completedNum / (item.completedNum + item.failNum)) *
-                      100
-                  ).toFixed(2) - 0
-                "
-              />
-            </div>
-          </div>
-        </div>
-      </Card>
     </div>
   </div>
 </template>
