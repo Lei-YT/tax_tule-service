@@ -466,6 +466,11 @@
                       <Row :gutter="16">
                         <Col span="10">
                           <FormItem label="纳税人识别号">
+                            <Tooltip
+                              :content="vo.purchaserTaxNo"
+                              :max-width="200"
+                              transfer
+                            >
                             <Input
                               v-model="vo.purchaserTaxNo"
                               readonly
@@ -478,6 +483,7 @@
                               v-model="vo.purchaserTaxNo"
                               readonly
                             ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                         <Col span="14">
@@ -560,6 +566,11 @@
                       <Row :gutter="16">
                         <Col span="10">
                           <FormItem label="纳税人识别号">
+                            <Tooltip
+                              :content="vo.sellerTaxNo"
+                              :max-width="200"
+                              transfer
+                            >
                             <Input
                               v-model="vo.sellerTaxNo"
                               readonly
@@ -572,6 +583,7 @@
                               v-model="vo.sellerTaxNo"
                               readonly
                             ></Input>
+                            </Tooltip>
                           </FormItem>
                         </Col>
                         <Col span="14">
@@ -613,12 +625,53 @@
                           <tr style="text-align: center">
                             <th width="60">序号</th>
                             <th width="60">价税合计</th>
-                            <th width="80">发票项目</th>
-                            <th width="80">发票总金额(合计)</th>
-                            <th width="60">税率(合计)</th>
-                            <th width="60">单位</th>
-                            <th width="60">数量</th>
-                            <th width="60">单价</th>
+                            <th width="120">发票项目
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemName', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemName')"
+                              />
+                              </th>
+                            <th width="120">
+                            <Tooltip
+                              placement="top-start"
+                              content="发票总金额(合计)"
+                              :max-width="200"
+                              transfer
+                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: auto;white-space: nowrap;text-overflow:ellipsis;"
+                            >发票总金额(合计)
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemAmount', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemAmount')"
+                              />
+                            </Tooltip></th>
+                            <th width="80">
+                            <Tooltip
+                              placement="top-start"
+                              content="税率(合计)"
+                              :max-width="200"
+                              transfer
+                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: auto;white-space: nowrap;text-overflow:ellipsis;"
+                            >税率(合计)
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemTaxRate', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemTaxRate')"
+                              />
+                            </Tooltip></th>
+                            <th width="60">单位
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemUnit', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemUnit')"
+                              /></th>
+                            <th width="60">数量
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemQuantity', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemQuantity')"
+                              /></th>
+                            <th width="60">单价
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemUnitPrice', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemUnitPrice')"
+                              /></th>
                             <!-- <th width="60">税额</th> -->
                           </tr>
                         </thead>
@@ -633,8 +686,22 @@
                                 ).toFixed(2)
                               }}
                             </td>
-                            <td>{{ n.itemName }}</td>
-                            <td>{{ n.itemAmount }}</td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemName"
+                              :max-width="200"
+                              transfer
+                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: auto;white-space: nowrap;text-overflow:ellipsis;"
+                            >{{ n.itemName }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemAmount"
+                              :max-width="200"
+                              transfer
+                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: hidden;white-space: nowrap;text-overflow:ellipsis;"
+                            >{{ n.itemAmount }}</Tooltip></td>
                             <td>{{ n.itemTaxRate }}</td>
                             <td>{{ n.itemUnit }}</td>
                             <td>{{ n.itemQuantity }}</td>
@@ -695,6 +762,7 @@
     <Modal
       title=" "
       v-model="ruleRowtoggle"
+      draggable scrollable
       :closable="true"
       :footer-hide="true"
       width="1000"
@@ -934,9 +1002,6 @@ export default {
       _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
       _this.tabsInvoiceIndex = 0;
-      console.log(_this.invoiceId)
-      // if (type === "Refresh") {
-      // }
     },
     // 右边小图点击事件
     handelImage(data) {
@@ -1646,9 +1711,17 @@ export default {
   position: absolute;
   right: 1rem;
 }
-/deep/.ivu-input-icon{
+/deep/.ivu-input-icon, /deep/.icon-danger{
   color: #FE3D3D;
   font-weight: 700;
   cursor: pointer;
+  font-size: 18px;
+  vertical-align: text-bottom;
+}
+/deep/.el-table--enable-row-hover .el-table__body tr:hover>td.text-highlight{
+  background-color: #FFFA99;
+}
+/deep/.rule-table .ivu-tooltip-rel{
+  max-width: 130px;
 }
 </style>
