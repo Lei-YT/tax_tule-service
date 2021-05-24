@@ -1,0 +1,116 @@
+1.悬浮窗接口
+http://10.15.196.127/api/ql/rule/data
+传输格式(json)
+{
+    "ruleId":"YQ4685271606",
+    "billNumber":"20210421171075168004623522",
+    "taskId":"1387829612651159553"
+}
+返回结果:
+{
+	"status": 200,
+	"message": "成功",
+	"data": {
+		"form": [{
+			"keyName": "发票代码",
+			"data": ["3300203130", "040303309100", ""],
+			"valueData": [{  //使用这个数据
+				"highLight": true, //是否高亮 true高亮
+				"value": "040303309100"
+			}, {
+				"highLight": false,
+				"value": "3300203130"
+			}, {
+				"highLight": false,
+				"value": ""
+			}]
+		}],
+		"image": [{
+			"keyName": "发票代码",
+			"data": ["3300203130", "040303309100", ""],
+			"valueData": [{
+				"highLight": true, //是否高亮
+				"value": "040303309100"
+			}, {
+				"highLight": false,
+				"value": "3300203130"
+			}, {
+				"highLight": false,
+				"value": ""
+			}]
+		}, {
+			"keyName": "发票代码",
+			"data": ["3300203130", "3300203130", ""],
+			"valueData": [{
+				"highLight": false,
+				"value": "3300203130"
+			}, {
+				"highLight": false,
+				"value": "3300203130"
+			}, {
+				"highLight": false,
+				"value": ""
+			}]
+		}, {
+			"keyName": "发票号码",
+			"data": ["19152293", "19152294", ""],
+			"valueData": [{
+				"highLight": true,
+				"value": ""
+			}, {
+				"highLight": false,
+				"value": "19152293"
+			}, {
+				"highLight": false,
+				"value": "19152294"
+			}]
+		}, {
+			"keyName": "发票号码",
+			"data": ["19152293", "19152294", "100000"],
+			"valueData": [{
+				"highLight": true,
+				"value": "100000"
+			}, {
+				"highLight": false,
+				"value": "19152293"
+			}, {
+				"highLight": false,
+				"value": "19152294"
+			}]
+		}]
+	}
+}
+
+2.字段报错悬浮窗接口
+http://10.15.196.127/api/ql/rule/data
+传输格式(json)
+{
+    "ruleId":"YQ4685271606",
+    "billNumber":"20210421171075168004623522",
+    "taskId":"1387829612651159553",
+    "keyName":"invoiceType",
+    "value":"3300203130"
+}
+返回结果:
+{
+	"status": 200,
+	"message": "成功",
+	"data": {
+		"form": [{
+			"keyName": "发票代码",
+			"jsonPath":"$.images.invoices[*].invoiceType"
+			"data": ["3300203130", "040303309100", ""],
+			"valueData": [{
+				"highLight": true,
+				"value": "040303309100"
+			}, {
+				"highLight": false,
+				"value": "3300203130"
+			}, {
+				"highLight": false,
+				"value": ""
+			}]
+		}],
+		"image": []
+	}
+}
