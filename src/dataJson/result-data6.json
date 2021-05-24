@@ -1,0 +1,22 @@
+{
+	"status": 200,
+	"message": "成功",
+	"data": {
+		"form": [{
+			"keyName": "发票代码",
+			"jsonPath":"$.images.invoices[*].invoiceType",
+			"data": ["3300203130", "040303309100", ""],
+			"valueData": [{
+				"highLight": true,
+				"value": "040303309100"
+			}, {
+				"highLight": false,
+				"value": "3300203130"
+			}, {
+				"highLight": false,
+				"value": ""
+			}]
+		}],
+		"image": []
+	}
+}

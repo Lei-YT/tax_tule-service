@@ -3,9 +3,9 @@ import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import processJson from '@/dataJson/process.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result8.json'
+import resultJson from '@/dataJson/result10.json'
 import resultDataJson from '@/dataJson/result-data.json'
-import resultDataJson2 from '@/dataJson/result-data5.json'
+import resultDataJson2 from '@/dataJson/result-data6.json'
 import userJson from '@/dataJson/user.json'
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
@@ -58,7 +58,8 @@ Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
   console.log('if rule', JSON.parse(req.body).hasOwnProperty('ruleId'))
   const ifR = JSON.parse(req.body).hasOwnProperty('ruleId');
   console.log('mock res', req, ifR ? resultDataJson2 : resultDataJson)
-  return Mock.mock((!ifR ? resultDataJson2 : resultDataJson))
+  // return Mock.mock((!ifR ? resultDataJson2 : resultDataJson))
+  return Mock.mock(( resultDataJson2 ))
 })
 
 Mock.mock(/\/api\/user\/list/, 'get', (req, res) => {
