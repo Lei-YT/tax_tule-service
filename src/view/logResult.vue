@@ -283,7 +283,7 @@
                   "
                 >
                   <img :src="item.imageURL" class="smallImg" />
-                  <span class="index-icon">{{ index + 1 }}</span>
+                  <span :class="imgHasError.includes(item.imageId) ? 'index-icon red-index' : 'index-icon '">{{ index + 1 }}</span>
                 </div>
               </div>
             </div>
@@ -1003,6 +1003,7 @@ export default {
       showbigimg: false,
       imgIndex: 0,
       showImgData: [],
+      imgHasError: [],
       ruleRowtoggle: false,
       ruleFormToggle: true,
       ruleImageToggle: true,
@@ -1038,6 +1039,13 @@ export default {
       _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
       _this.tabsInvoiceIndex = 0;
+      // 有字段的报错图片
+      const errorFields = _this.allData.errors.filter(e => {
+        const hasfield = e.infos.filter(ei => ei.hasOwnProperty('fields'))
+        return hasfield.length > 0;
+      })
+      // 所有报错图片
+      _this.imgHasError = _this.allData.errors.map(i => i.imageId);
     },
     // 右边小图点击事件
     handelImage(data) {
@@ -1779,5 +1787,8 @@ export default {
 }
 /deep/.rule-table .ivu-tooltip-rel{
   max-width: 130px;
+}
+/deep/.imgBox .rightImg .index-icon.red-index{
+  background-color: rgba(254,61,61, .6);
 }
 </style>

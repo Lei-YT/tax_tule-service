@@ -186,7 +186,7 @@
 <script>
 import axios from "axios";
 import process from "@/dataJson/process.json";
-import echarts from "echarts";
+import * as echarts from "echarts";
 import {
   homelist, // 列表
   changeStatus, // 改变状态
