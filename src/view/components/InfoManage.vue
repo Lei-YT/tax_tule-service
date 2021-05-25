@@ -308,6 +308,12 @@ export default {
             duration: 1200,
           });
           this.query();
+        } else {
+          _this.$message({
+            message: res.data.msg,
+            type: "error",
+            duration: 1300,
+          });
         }
       });
     },
@@ -368,6 +374,12 @@ export default {
           });
           _this.numFormVisible = false;
           _this.query();
+        } else {
+          _this.$message({
+            message: res.data.msg,
+            type: "error",
+            duration: 1300,
+          });
         }
       });
     },
@@ -396,7 +408,7 @@ export default {
               } else {
                 this.$message({
                   message: res.data.msg,
-                  type: "success",
+                  type: "error",
                   duration: 1500,
                 });
               }
@@ -414,7 +426,7 @@ export default {
               } else {
                 this.$message({
                   message: res.data.msg,
-                  type: "success",
+                  type: "error",
                   duration: 1500,
                 });
               }
