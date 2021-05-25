@@ -637,7 +637,6 @@
                               content="发票总金额(合计)"
                               :max-width="200"
                               transfer
-                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: auto;white-space: nowrap;text-overflow:ellipsis;"
                             >发票总金额(合计)
                               <Icon type="ios-alert-outline" class="icon-danger"
                                 @click.native="getFieldError(vo, 'itemAmount', '')"
@@ -650,7 +649,6 @@
                               content="税率(合计)"
                               :max-width="200"
                               transfer
-                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: auto;white-space: nowrap;text-overflow:ellipsis;"
                             >税率(合计)
                               <Icon type="ios-alert-outline" class="icon-danger"
                                 @click.native="getFieldError(vo, 'itemTaxRate', '')"
@@ -679,12 +677,23 @@
                           <tr v-for="(n, i) in vo.invoiceItems" v-bind:key="i">
                             <td style="text-align: center">{{ i + 1 }}</td>
                             <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="
+                                (
+                                  Number(n.itemAmount) +
+                                  Number(n.itemTaxAmount)
+                                ).toFixed(2)"
+                              :max-width="200"
+                              transfer
+                            >
                               {{
                                 (
                                   Number(n.itemAmount) +
                                   Number(n.itemTaxAmount)
                                 ).toFixed(2)
                               }}
+                              </Tooltip>
                             </td>
                             <td>
                             <Tooltip
@@ -692,7 +701,6 @@
                               :content="n.itemName"
                               :max-width="200"
                               transfer
-                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: auto;white-space: nowrap;text-overflow:ellipsis;"
                             >{{ n.itemName }}</Tooltip></td>
                             <td>
                             <Tooltip
@@ -700,12 +708,35 @@
                               :content="n.itemAmount"
                               :max-width="200"
                               transfer
-                              style="max-width:130px; display:inline-block; text-align: center; overflow-x: hidden;white-space: nowrap;text-overflow:ellipsis;"
                             >{{ n.itemAmount }}</Tooltip></td>
-                            <td>{{ n.itemTaxRate }}</td>
-                            <td>{{ n.itemUnit }}</td>
-                            <td>{{ n.itemQuantity }}</td>
-                            <td>{{ Number(n.itemUnitPrice).toFixed(2) }}</td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemTaxRate"
+                              :max-width="200"
+                              transfer
+                            >{{ n.itemTaxRate }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemUnit"
+                              :max-width="200"
+                              transfer
+                            >{{ n.itemUnit }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemQuantity"
+                              :max-width="200"
+                              transfer
+                            >{{ n.itemQuantity }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="Number(n.itemUnitPrice).toFixed(2)"
+                              :max-width="200"
+                              transfer
+                            >{{ Number(n.itemUnitPrice).toFixed(2) }}</Tooltip></td>
                             <!-- <td>{{ n.itemTaxAmount }}</td> -->
                           </tr>
                         </tbody>
@@ -1606,10 +1637,30 @@ export default {
     border: 1px solid #eeeeee;
   }
   td {
+    max-width: 130px;
     padding: 10px 0;
+    text-align: center;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   th {
+    max-width: 130px;
     padding: 10px 0;
+    text-align: center;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .ivu-tooltip{
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+  }
+  .ivu-tooltip-rel{
+    // max-width: 130px;
+    width: 100%;
+    text-align: center;
   }
 }
 /deep/.el-collapse-item__content {
