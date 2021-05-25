@@ -206,8 +206,8 @@ export default {
       rightData: [],
       leftData: [],
       rightItem: [],
+      chartsDate: {},
       robotId: null,
-      chartsDate: null,
       cur: 0,
       timer: null, // 定时器
       tabList: [
@@ -228,9 +228,9 @@ export default {
     // this.rightData = process.data[0];
     // this.getData(process.data[0]);
     this.query();
-    this.timer = setInterval(() => {
-      this.query();
-    }, 10000);
+    // this.timer = setInterval(() => {
+    //   this.query();
+    // }, 10000);
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -245,8 +245,7 @@ export default {
     showRightInfo(item) {
       this.rightData = item;
       this.robotId = item.id;
-      this.getdown(item.id);
-      this.getLast(item);
+      this.getData(item);
     },
     getChartTwo() {
       let myChartTwo = echarts.init(document.getElementById("myChartTwo"));
@@ -342,16 +341,45 @@ export default {
     query() {
       homelist({ secneName: this.secneName, id: this.id }).then((res) => {
         if (res.data.code == 0) {
-          console.log(res.data, "左侧数据");
           this.dataList = res.data.data;
-          this.rightData = res.data.data[0];
-          this.getLast(res.data.data[0]);
           this.robotId = res.data.data[0].id;
-          this.getdown(res.data.data[0].id);
+          this.rightData = res.data.data[0];
+          this.getChartsData(res.data.data[0].id);
+          this.getData(res.data.data[0]);
         }
       });
     },
-    getLast(data) {
+    getChartsData(id) {
+      let _this = this;
+      axios
+        .get(`http://10.15.196.127:7070/bill/robot?robotId=${id}`, {})
+        .then((resp) => {
+          console.log(resp, "下面数据");
+          let data = resp.data;
+          if (data.code === 20000) {
+            _this.chartsDate = data.data.data;
+            _this.getLeftData(data.data.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getLeftData() {
+      this.leftData = [];
+      let obj1 = {};
+      obj1.value = data.success;
+      obj1.name = "通过";
+      let obj2 = {};
+      obj2.value = data.fail;
+      obj2.name = "不通过";
+      let obj6 = {};
+      obj6.value = data.timeout;
+      obj6.name = "超时";
+      this.leftData.push(obj1, obj2, obj6);
+      this.getChartTwo();
+    },
+    getData(data) {
       this.rightItem = [];
       let obj3 = {};
       obj3.value = data.auditCompletedNum;
@@ -363,23 +391,7 @@ export default {
       obj5.value = data.auditFailNum;
       obj5.name = "超时";
       this.rightItem.push(obj3, obj4, obj5);
-      this.getCharts();
-    },
-    getdown(id) {
-      const _this = this;
-      axios
-        .get(`http://10.15.196.127:7070/bill/robot?robotId=${id}`)
-        .then(function (response) {
-          console.log(response, "下面数据");
-          let data = response.data;
-          if (data.code == 20000) {
-            _this.chartsDate = data.data.data;
-            _this.getData(data.data.data);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.getChartThr();
     },
     handleChange(status, sceneId) {
       changeStatus({ status, sceneId }).then((res) => {
@@ -396,20 +408,6 @@ export default {
     getCharts() {
       this.getChartTwo();
       this.getChartThr();
-    },
-    getData(data) {
-      this.leftData = [];
-      let obj1 = {};
-      obj1.value = data.success;
-      obj1.name = "通过";
-      let obj2 = {};
-      obj2.value = data.fail;
-      obj2.name = "不通过";
-      let obj6 = {};
-      obj6.value = data.timeout;
-      obj6.name = "超时";
-      this.leftData.push(obj1, obj2, obj6);
-      this.getCharts();
     },
   },
 };
@@ -478,7 +476,6 @@ export default {
   flex-direction: column;
   color: #333;
   font-weight: 500;
-  // display: none;
   > p {
     width: 100%;
     text-align: left;
