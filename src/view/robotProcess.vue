@@ -90,15 +90,16 @@
                 <div class="lineBox">
                   <li
                     :style="{
-                      width: `${rightData.auditCompletedNum}` + '%',
+                      width: `${chartsDate.success}` + '%',
                     }"
                   >
                     {{
                       (
-                        rightData.auditCompletedNum /
-                        (rightData.auditCompletedNum +
-                          rightData.auditFailNum +
-                          rightData.auditUncompletedNum)
+                        chartsDate.success /
+                        (chartsDate.success +
+                          chartsDate.fail +
+                          chartsDate.timeout +
+                          chartsDate.checking)
                       ).toFixed(2) *
                         100 +
                       "%"
@@ -106,15 +107,16 @@
                   </li>
                   <li
                     :style="{
-                      width: `${rightData.auditFailNum}` + '%',
+                      width: `${chartsDate.fail}` + '%',
                     }"
                   >
                     {{
                       (
-                        rightData.auditFailNum /
-                        (rightData.auditCompletedNum +
-                          rightData.auditFailNum +
-                          rightData.auditUncompletedNum)
+                        chartsDate.fail /
+                        (chartsDate.success +
+                          chartsDate.fail +
+                          chartsDate.timeout +
+                          chartsDate.checking)
                       ).toFixed(2) *
                         100 +
                       "%"
@@ -122,15 +124,16 @@
                   </li>
                   <li
                     :style="{
-                      width: `${rightData.auditUncompletedNum}` + '%',
+                      width: `${chartsDate.checking}` + '%',
                     }"
                   >
                     {{
                       (
-                        rightData.auditUncompletedNum /
-                        (rightData.auditCompletedNum +
-                          rightData.auditFailNum +
-                          rightData.auditUncompletedNum)
+                        chartsDate.checking /
+                        (chartsDate.success +
+                          chartsDate.fail +
+                          chartsDate.timeout +
+                          chartsDate.checking)
                       ).toFixed(2) *
                         100 +
                       "%"
@@ -140,17 +143,19 @@
                 <div class="colorBox">
                   <div class="itemCor">
                     <p class="corBlock"></p>
-                    <p>审核完成单据（{{ rightData.auditCompletedNum }}单）</p>
-                  </div>
-                  <div class="itemCor">
-                    <p class="corBlock"></p>
-                    <p>审核超时单据（{{ rightData.auditFailNum }}单）</p>
-                  </div>
-                  <div class="itemCor">
-                    <p class="corBlock"></p>
                     <p>
-                      审核未完成单据（{{ rightData.auditUncompletedNum }}单）量
+                      审核完成单据（{{
+                        chartsDate.success + chartsDate.fail
+                      }}单）
                     </p>
+                  </div>
+                  <div class="itemCor">
+                    <p class="corBlock"></p>
+                    <p>审核超时单据（{{ chartsDate.timeout }}单）</p>
+                  </div>
+                  <div class="itemCor">
+                    <p class="corBlock"></p>
+                    <p>审核未完成单据（{{ chartsDate.checking }}单）量</p>
                   </div>
                 </div>
               </div>
@@ -179,6 +184,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import process from "@/dataJson/process.json";
 import echarts from "echarts";
 import {
@@ -200,6 +206,8 @@ export default {
       rightData: [],
       leftData: [],
       rightItem: [],
+      robotId: null,
+      chartsDate: null,
       cur: 0,
       timer: null, // 定时器
       tabList: [
@@ -236,7 +244,9 @@ export default {
   methods: {
     showRightInfo(item) {
       this.rightData = item;
-      this.getData(item);
+      this.robotId = item.id;
+      this.getdown(item.id);
+      this.getLast(item);
     },
     getChartTwo() {
       let myChartTwo = echarts.init(document.getElementById("myChartTwo"));
@@ -249,7 +259,7 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#1991DD", "#f7b500"],
+        color: ["#1991DD", "#f7b500", "#70B822"],
         legend: {
           orient: "vertical",
           bottom: "bottom",
@@ -332,11 +342,44 @@ export default {
     query() {
       homelist({ secneName: this.secneName, id: this.id }).then((res) => {
         if (res.data.code == 0) {
+          console.log(res.data, "左侧数据");
           this.dataList = res.data.data;
           this.rightData = res.data.data[0];
-          this.getData(res.data.data[0]);
+          this.getLast(res.data.data[0]);
+          this.robotId = res.data.data[0].id;
+          this.getdown(res.data.data[0].id);
         }
       });
+    },
+    getLast(data) {
+      this.rightItem = [];
+      let obj3 = {};
+      obj3.value = data.auditCompletedNum;
+      obj3.name = "机器人审核";
+      let obj4 = {};
+      obj4.value = data.manmade;
+      obj4.name = "人工";
+      let obj5 = {};
+      obj5.value = data.auditFailNum;
+      obj5.name = "超时";
+      this.rightItem.push(obj3, obj4, obj5);
+      this.getCharts();
+    },
+    getdown(id) {
+      const _this = this;
+      axios
+        .get(`http://10.15.196.127:7070/bill/robot?robotId=${id}`)
+        .then(function (response) {
+          console.log(response, "下面数据");
+          let data = response.data;
+          if (data.code == 20000) {
+            _this.chartsDate = data.data.data;
+            _this.getData(data.data.data);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     handleChange(status, sceneId) {
       changeStatus({ status, sceneId }).then((res) => {
@@ -356,24 +399,16 @@ export default {
     },
     getData(data) {
       this.leftData = [];
-      this.rightItem = [];
       let obj1 = {};
-      obj1.value = data.completedNum;
-      obj1.name = "已完成单据";
+      obj1.value = data.success;
+      obj1.name = "通过";
       let obj2 = {};
-      obj2.value = data.failNum;
-      obj2.name = "超时单据";
-      this.leftData.push(obj1, obj2);
-      let obj3 = {};
-      obj3.value = data.auditCompletedNum;
-      obj3.name = "机器人审核";
-      let obj4 = {};
-      obj4.value = data.manmade;
-      obj4.name = "人工";
-      let obj5 = {};
-      obj5.value = data.auditFailNum;
-      obj5.name = "其他";
-      this.rightItem.push(obj3, obj4, obj5);
+      obj2.value = data.fail;
+      obj2.name = "不通过";
+      let obj6 = {};
+      obj6.value = data.timeout;
+      obj6.name = "超时";
+      this.leftData.push(obj1, obj2, obj6);
       this.getCharts();
     },
   },
@@ -443,6 +478,7 @@ export default {
   flex-direction: column;
   color: #333;
   font-weight: 500;
+  // display: none;
   > p {
     width: 100%;
     text-align: left;

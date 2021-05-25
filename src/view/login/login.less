@@ -35,36 +35,49 @@
         color:#666;
       }
     }
-    .logBox{
-        display: flex;
-        flex-direction: column;
-        .logImg{
-            width: 274px;
-            height: 217px;
-        }
-        p{
-            color: #fff;
-            font-size: 24px;
-            font-weight: 500;
-            margin-top: 30px;
+    .leftImg{
+        width: 50%;
+        height: 600px;
+        position: fixed;
+        z-index: 99;
+        bottom: 0;
+        left: 0;
+        .shouImg{
+            width: 100%;
+            height: 100%;
         }
     }
+    .rightCon{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        .topLogo{
+            display: flex;
+            align-items: center;
+            margin-bottom: 46px;
+            .logImg{
+                width: 41px;
+                height: 33px;
+                margin-right: 16px;
+            }
+            >p{
+                color: #fff;
+                font-size: 25px;
+                letter-spacing: 7px;
+            }
+        }
+        
+    }
     &-con{
-        width: 300px;
-        height: 181px;
-        background: #Fff;
-        &-header{
-            font-size: 16px;
-            font-weight: 300;
-            text-align: center;
-        }
-        .form-con{
-            padding: 10px 0 0;
-        }
-        .login-tip{
-            font-size: 10px;
-            text-align: center;
-            color: #c3c3c3;
-        }
+        width: 329px;
+        height: 273px;
+        background: url('../../assets/images/logBj.png');
+        background-size: cover;
+        background-position: center;
+        padding: 67px 30px 41px 30px;
+        box-sizing: border-box;
     }
 }
