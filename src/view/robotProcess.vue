@@ -203,7 +203,7 @@ export default {
       secneName: "",
       id: "",
       dataList: [],
-      rightData: [],
+      rightData: {},
       leftData: [],
       rightItem: [],
       chartsDate: {},
@@ -228,9 +228,9 @@ export default {
     // this.rightData = process.data[0];
     // this.getData(process.data[0]);
     this.query();
-    // this.timer = setInterval(() => {
-    //   this.query();
-    // }, 10000);
+    this.timer = setInterval(() => {
+      this.query();
+    }, 10000);
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -365,7 +365,7 @@ export default {
           console.log(err);
         });
     },
-    getLeftData() {
+    getLeftData(data) {
       this.leftData = [];
       let obj1 = {};
       obj1.value = data.success;
