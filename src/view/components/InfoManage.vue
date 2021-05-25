@@ -94,24 +94,21 @@
                   @click="handleOperat(2, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info.status == 1"
+                  v-if="scope.row.scene_info && scope.row.scene_info.status == 1"
                   >启动</el-button
                 >
                 <el-button
                   @click="handleOperat(2, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info.status == 3"
+                  v-if="scope.row.scene_info && scope.row.scene_info.status == 3"
                   >继续</el-button
                 >
                 <el-button
                   @click="handleOperat(4, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="
-                    scope.row.scene_info.status == 4 ||
-                    scope.row.scene_info.status == 3
-                  "
+                  v-if="scope.row.scene_info && [3,4].includes(scope.row.scene_info.status)"
                   >结束</el-button
                 >
                 <!-- <el-button
@@ -124,15 +121,15 @@
                   @click="handleOperat(3, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info.status == 2"
+                  v-if="scope.row.scene_info && scope.row.scene_info.status == 2"
                   >暂停</el-button
                 >
                 <el-button
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info.status == 5"
+                  v-if="scope.row.scene_info && scope.row.scene_info.status == 5"
                   @click="
-                    handleOperat(scope.row.scene_info.status, scope.row.id)
+                    handleOperat(scope.row.scene_info.status || null, scope.row.id)
                   "
                   >需人工处理</el-button
                 >
