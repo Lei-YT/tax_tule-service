@@ -246,6 +246,7 @@ export default {
       this.rightData = item;
       this.robotId = item.id;
       this.getData(item);
+      this.getChartsData(item.id);
     },
     getChartTwo() {
       let myChartTwo = echarts.init(document.getElementById("myChartTwo"));
@@ -354,11 +355,10 @@ export default {
       axios
         .get(`http://10.15.196.127:7070/bill/robot?robotId=${id}`, {})
         .then((resp) => {
-          console.log(resp, "下面数据");
           let data = resp.data;
           if (data.code === 20000) {
-            _this.chartsDate = data.data.data;
-            _this.getLeftData(data.data.data);
+            _this.chartsDate = data.data;
+            _this.getLeftData(data.data);
           }
         })
         .catch((err) => {
@@ -366,7 +366,8 @@ export default {
         });
     },
     getLeftData(data) {
-      this.leftData = [];
+      let _this = this;
+      _this.leftData = [];
       let obj1 = {};
       obj1.value = data.success;
       obj1.name = "通过";
@@ -376,8 +377,8 @@ export default {
       let obj6 = {};
       obj6.value = data.timeout;
       obj6.name = "超时";
-      this.leftData.push(obj1, obj2, obj6);
-      this.getChartTwo();
+      _this.leftData.push(obj1, obj2, obj6);
+      _this.getChartTwo();
     },
     getData(data) {
       this.rightItem = [];

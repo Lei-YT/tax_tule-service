@@ -239,6 +239,7 @@ import { changeStatus } from "@/api/user";
 export default {
   data() {
     return {
+      tableData: [],
       title: "",
       type: "",
       dialogFormVisible: false,
@@ -265,25 +266,24 @@ export default {
       formInline: {
         name: "",
       },
-      tableData: [],
     };
   },
   created() {
     this.query();
-    // this.tableData = infoMange.data;
   },
   methods: {
     query() {
+      let _this=this
       let params = {
-        name: this.formInline.name || "",
-        pageindex: this.page.currentPage,
-        pagesize: this.page.size,
+        name: _this.formInline.name || "",
+        pageindex: _this.page.currentPage,
+        pagesize: _this.page.size,
       };
       getScenelist(params).then((res) => {
-        console.log(res, "信息列表数据");
         if (res.data.code == 0) {
-          this.tableData = res.data.data;
-          this.page.totalElement = res.data.totalcount;
+          _this.tableData = res.data.data;
+          console.log(_this.tableData, "............");
+          _this.page.totalElement = res.data.totalcount;
         }
       });
     },
@@ -305,7 +305,6 @@ export default {
     },
     handleOperat(status, id) {
       changeStatus({ status, id }).then((res) => {
-        console.log(res, "改变返回的");
         if (res.data.code == 0) {
           this.$message({
             message: res.data.msg,
@@ -364,7 +363,6 @@ export default {
         backbill: this.ruleForm.backbill || "",
       };
       setbill(params).then((res) => {
-        console.log(res, "设置单量返回值");
         if (res.data.code == 0) {
           this.$message({
             message: res.data.msg,

@@ -144,7 +144,6 @@ export default {
         pagesize: this.page.size,
       };
       getLogslist(params).then((res) => {
-        console.log(res, "列表数据++++++++++++++++");
         if (res.data.code == 0) {
           this.tableData = res.data.data;
           this.page.totalElement = res.data.totalcount;
