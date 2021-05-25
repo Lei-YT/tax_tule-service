@@ -767,7 +767,12 @@
                             transfer
                           >
                             <FormItem label="备注">
-                              <Input v-model="vo.remarks" readonly></Input>
+                              <Input v-model="vo.remarks" readonly
+                                icon="ios-alert-outline"
+                                style="width: 100%"
+                                @click.native="getFieldError(vo, 'remarks', vo.remarks)"
+                                v-if="currentInvoiceErrorFields.includes('remarks')"></Input>
+                              <Input v-else v-model="vo.remarks" readonly></Input>
                             </FormItem>
                           </Tooltip>
                         </Col>
