@@ -13,6 +13,7 @@
 
               <FormItem label="表单名称：" prop="name">
                 <Select style="width: 200px;" v-model="selected" @on-change="getTypeSelected">
+                    <Option value="全部" >全部</Option>
                     <Option :value="item.name" v-for="item in options" v-bind:key="item.id">{{item.name}}</Option>
                 </Select>
               </FormItem>
@@ -133,7 +134,7 @@ export default {
 
       },
       options:[],
-      selected:"",
+      selected:"全部",
       failnum: 0,           //审核不通过单量
       avgBillDatenum: 0,     //平均每单审核时长  单位秒(s)
       successnum: 0,         // 审核通过单量
@@ -272,6 +273,10 @@ export default {
               {
                   type: 'category',
                   data: dates,//['2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-14', '2021-05-17', '2021-05-18', '2021-05-19', '2021-05-20']
+                  axisLabel: {  
+                    interval:0,  
+                    rotate:40  
+                  } 
               }
           ],
           yAxis: [
@@ -359,7 +364,7 @@ export default {
                   data: successarr,//[(0/4)*100, (10/15)*100, (0/47)*100, (80/94)*100, (30/88)*100, (64/234)*100, (40/209)*100, (19/284)*100, (0/97)*100]
               }
 
-          ]
+          ] 
       };
 
       myChart.setOption(option);
@@ -395,9 +400,15 @@ export default {
     },
     checkDateData() {
       const _this = this;
+      let selected='';
+      if(_this.selected=='全部'){
+        selected='';
+      }else{
+        selected=_this.selected;
+      }
       axios
         .post(`http://10.15.196.127:7070/bill/checkDateChart`, {
-            type:_this.selected,
+            type:selected,
             checkBeginDate:_this.checkBeginDate,
             checkEndDate:_this.checkEndDate,
             status:_this.status
