@@ -94,21 +94,28 @@
                   @click="handleOperat(2, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info && scope.row.scene_info.status == 1"
+                  v-if="
+                    scope.row.scene_info && scope.row.scene_info.status == 1
+                  "
                   >启动</el-button
                 >
                 <el-button
                   @click="handleOperat(2, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info && scope.row.scene_info.status == 3"
+                  v-if="
+                    scope.row.scene_info && scope.row.scene_info.status == 3
+                  "
                   >继续</el-button
                 >
                 <el-button
                   @click="handleOperat(4, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info && [3,4].includes(scope.row.scene_info.status)"
+                  v-if="
+                    scope.row.scene_info &&
+                    [3, 4].includes(scope.row.scene_info.status)
+                  "
                   >结束</el-button
                 >
                 <!-- <el-button
@@ -121,15 +128,22 @@
                   @click="handleOperat(3, scope.row.id)"
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info && scope.row.scene_info.status == 2"
+                  v-if="
+                    scope.row.scene_info && scope.row.scene_info.status == 2
+                  "
                   >暂停</el-button
                 >
                 <el-button
                   type="text"
                   size="small"
-                  v-if="scope.row.scene_info && scope.row.scene_info.status == 5"
+                  v-if="
+                    scope.row.scene_info && scope.row.scene_info.status == 5
+                  "
                   @click="
-                    handleOperat(scope.row.scene_info.status || null, scope.row.id)
+                    handleOperat(
+                      scope.row.scene_info.status || null,
+                      scope.row.id
+                    )
                   "
                   >需人工处理</el-button
                 >
@@ -279,10 +293,8 @@ export default {
         pagesize: _this.page.size,
       };
       getScenelist(params).then((res) => {
-        console.log(res.data, "111111111111111");
         if (res.data.code == 0) {
           _this.tableData = res.data.data;
-          console.log(_this.tableData, "............");
           _this.page.totalElement = res.data.totalcount;
         }
       });
@@ -367,8 +379,9 @@ export default {
           this.$message({
             message: res.data.msg,
             type: "success",
-            duration: 1300,
+            duration: 1000,
           });
+          this.numFormVisible = false;
           this.query();
         }
       });

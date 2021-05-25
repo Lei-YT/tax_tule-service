@@ -387,7 +387,7 @@ export default {
       obj3.name = "机器人审核";
       let obj4 = {};
       obj4.value = data.manmade;
-      obj4.name = "人工";
+      obj4.name = "转人工";
       let obj5 = {};
       obj5.value = data.failNum;
       obj5.name = "超时";
