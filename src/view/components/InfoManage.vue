@@ -269,17 +269,20 @@ export default {
     };
   },
   created() {
+    // this.tableData=infoMange.data
+    // return
     this.query();
   },
   methods: {
     query() {
-      let _this=this
+      let _this = this;
       let params = {
         name: _this.formInline.name || "",
         pageindex: _this.page.currentPage,
         pagesize: _this.page.size,
       };
       getScenelist(params).then((res) => {
+        console.log(res.data, "111111111111111");
         if (res.data.code == 0) {
           _this.tableData = res.data.data;
           console.log(_this.tableData, "............");
