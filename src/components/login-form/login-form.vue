@@ -80,7 +80,7 @@ export default {
 <style rel="stylesheet/scss" lang="less" scoped>
 .inpBox {
   width: 100%;
-  height: 35px;
+  height: 46px;
   display: flex;
   align-items: center;
   border: 1px solid #20a3f5;
@@ -115,6 +115,6 @@ export default {
   background: #20a3f5;
   color: #fff;
   letter-spacing: 3px;
-  margin-top: 18px;
+  margin-top: 45px;
 }
 </style>

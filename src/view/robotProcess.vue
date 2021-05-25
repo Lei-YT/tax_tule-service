@@ -155,7 +155,7 @@
                   </div>
                   <div class="itemCor">
                     <p class="corBlock"></p>
-                    <p>审核未完成单据（{{ chartsDate.checking }}单）量</p>
+                    <p>审核未完成单据（{{ chartsDate.checking }}单）</p>
                   </div>
                 </div>
               </div>
@@ -382,13 +382,13 @@ export default {
     getData(data) {
       this.rightItem = [];
       let obj3 = {};
-      obj3.value = data.auditCompletedNum;
+      obj3.value = data.completedNum;
       obj3.name = "机器人审核";
       let obj4 = {};
       obj4.value = data.manmade;
       obj4.name = "人工";
       let obj5 = {};
-      obj5.value = data.auditFailNum;
+      obj5.value = data.failNum;
       obj5.name = "超时";
       this.rightItem.push(obj3, obj4, obj5);
       this.getChartThr();

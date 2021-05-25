@@ -269,8 +269,8 @@ export default {
     };
   },
   created() {
-    // this.query();
-    this.tableData = infoMange.data;
+    this.query();
+    // this.tableData = infoMange.data;
   },
   methods: {
     query() {
@@ -369,7 +369,7 @@ export default {
           this.$message({
             message: res.data.msg,
             type: "success",
-            duration: 1500,
+            duration: 1300,
           });
           this.query();
         }
@@ -397,6 +397,12 @@ export default {
                 });
                 this.dialogFormVisible = false;
                 this.query();
+              } else {
+                this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1500,
+                });
               }
             });
           } else if (this.type == "edit") {
@@ -409,6 +415,12 @@ export default {
                 });
                 this.dialogFormVisible = false;
                 this.query();
+              } else {
+                this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1500,
+                });
               }
             });
           }
