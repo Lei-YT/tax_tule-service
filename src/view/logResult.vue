@@ -998,7 +998,16 @@ export default {
   methods: {
     handelAllImage() {
       const _this = this;
-      _this.imageData = _this.allData.imageInfo;
+      // 有字段的报错图片
+      const errorFields = _this.allData.errors.filter(e => {
+        const hasfield = e.infos.filter(ei => ei.hasOwnProperty('fields'))
+        return hasfield.length > 0;
+      })
+      // 所有报错图片
+      _this.imgHasError = _this.allData.errors.map(i => i.imageId);
+      let newSortImageInfo = _this.allData.imageInfo.filter(img => _this.imgHasError.includes(img.imageId));
+      const noErrImage = _this.allData.imageInfo.filter(img => !_this.imgHasError.includes(img.imageId));
+      _this.imageData = newSortImageInfo.concat(noErrImage);
       _this.invoiceId =
         _this.imageData.length > 0
           ? _this.imageData[0]["invoices"].length > 0
@@ -1012,13 +1021,6 @@ export default {
       _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
       _this.tabsInvoiceIndex = 0;
-      // 有字段的报错图片
-      const errorFields = _this.allData.errors.filter(e => {
-        const hasfield = e.infos.filter(ei => ei.hasOwnProperty('fields'))
-        return hasfield.length > 0;
-      })
-      // 所有报错图片
-      _this.imgHasError = _this.allData.errors.map(i => i.imageId);
     },
     // 右边小图点击事件
     handelImage(data) {
@@ -1231,6 +1233,9 @@ export default {
           newArr.push(data[i]);
         }
       }
+      let newSortImageInfo = data.filter(img => arr.includes(img.imageId));
+      const noErrImage = data.filter(img => !arr.includes(img.imageId));
+      _this.imageData = newSortImageInfo.concat(noErrImage);
       // this.imageData = newArr;
       let targetInvoice = invoiceIdP ? invoiceIdP : (
         newArr.length > 0
