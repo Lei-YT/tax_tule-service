@@ -90,54 +90,24 @@
                 <div class="lineBox">
                   <li
                     :style="{
-                      width: `${chartsDate.success}` + '%',
+                      width: `${(chartsDate.completedP)}` + '%',
                     }"
                   >
-                    {{
-                      (
-                        chartsDate.success /
-                        (chartsDate.success +
-                          chartsDate.fail +
-                          chartsDate.timeout +
-                          chartsDate.checking)
-                      ).toFixed(2) *
-                        100 +
-                      "%"
-                    }}
+                    {{ chartsDate.completedP}}%
                   </li>
                   <li
                     :style="{
-                      width: `${chartsDate.fail}` + '%',
+                      width: `${chartsDate.timeoutP}` + '%',
                     }"
                   >
-                    {{
-                      (
-                        chartsDate.fail /
-                        (chartsDate.success +
-                          chartsDate.fail +
-                          chartsDate.timeout +
-                          chartsDate.checking)
-                      ).toFixed(2) *
-                        100 +
-                      "%"
-                    }}
+                    {{chartsDate.timeoutP}}%
                   </li>
                   <li
                     :style="{
-                      width: `${chartsDate.checking}` + '%',
+                      width: `${chartsDate.checkingP}` + '%',
                     }"
                   >
-                    {{
-                      (
-                        chartsDate.checking /
-                        (chartsDate.success +
-                          chartsDate.fail +
-                          chartsDate.timeout +
-                          chartsDate.checking)
-                      ).toFixed(2) *
-                        100 +
-                      "%"
-                    }}
+                    {{chartsDate.checkingP}}%
                   </li>
                 </div>
                 <div class="colorBox">
@@ -185,7 +155,6 @@
 
 <script>
 import axios from "axios";
-import process from "@/dataJson/process.json";
 import * as echarts from "echarts";
 import {
   homelist, // 列表
@@ -340,13 +309,14 @@ export default {
       this.cur = index;
     },
     query() {
-      homelist({ secneName: this.secneName, id: this.id }).then((res) => {
+      const _this = this;
+      homelist({ secneName: _this.secneName, id: _this.id }).then((res) => {
         if (res.data.code == 0) {
-          this.dataList = res.data.data;
-          this.robotId = res.data.data[0].id;
-          this.rightData = res.data.data[0];
-          this.getChartsData(res.data.data[0].id);
-          this.getData(res.data.data[0]);
+          _this.dataList = res.data.data;
+          _this.robotId = res.data.data[0].id;
+          _this.rightData = res.data.data[0];
+          _this.getChartsData(res.data.data[0].id);
+          _this.getData(res.data.data[0]);
         }
       });
     },
@@ -357,7 +327,14 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
-            _this.chartsDate = data.data;
+            // _this.chartsDate = data.data;
+            const sum = (Object.values(data.data)).reduce((acc, val) => (acc + val))
+            const percent = {};
+            Object.keys(data.data).map(key => {
+              percent[`${key}P`] = (data.data[key]/sum * 100).toFixed(2)
+            })
+            percent.completedP = ((data.data.success+data.data.fail)/sum*100).toFixed(2)
+            _this.chartsDate = Object.assign(data.data, percent)
             _this.getLeftData(data.data);
           }
         })
@@ -395,14 +372,15 @@ export default {
       this.getChartThr();
     },
     handleChange(status, sceneId) {
+      let _this = this;
       changeStatus({ status, sceneId }).then((res) => {
         if (res.data.code == 0) {
-          this.$message({
+          _this.$message({
             message: res.data.msg,
             type: "success",
             duration: 1500,
           });
-          this.query();
+          _this.query();
         }
       });
     },

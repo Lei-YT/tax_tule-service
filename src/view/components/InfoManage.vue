@@ -341,7 +341,7 @@ export default {
     },
     sizeChange(size) {
       this.page.size = size;
-      this.query();
+      this.currentChange(1);
     },
     handleDel(row) {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
@@ -369,6 +369,7 @@ export default {
         });
     },
     setSubmit() {
+      const _this = this;
       let params = {
         id: this.id,
         getbill: this.ruleForm.getbill || "",
@@ -376,13 +377,20 @@ export default {
       };
       setbill(params).then((res) => {
         if (res.data.code == 0) {
-          this.$message({
+          _this.$message({
             message: res.data.msg,
             type: "success",
             duration: 1000,
           });
-          this.numFormVisible = false;
-          this.query();
+          _this.numFormVisible = false;
+          _this.query();
+        } else {
+          _this.$message({
+            message: res.data.msg,
+            type: "error",
+            duration: 1000,
+          });
+          _this.numFormVisible = false;
         }
       });
     },

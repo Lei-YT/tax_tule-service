@@ -38,13 +38,13 @@
               </FormItem>
 
               <FormItem>
-                <el-button type="primary" @click="checkyear()" size="small"
+                <el-button type="primary" @click="checkyear()" size="small" :class="status==1?'btn-show':'btn-none'"
                   >本年</el-button>
 
-                <el-button type="primary" @click="checkmonth()" size="small"
+                <el-button type="primary" @click="checkmonth()" size="small" :class="status==2?'btn-show':'btn-none'"
                   >本月</el-button>
 
-                <el-button type="primary" @click="checktoday()" size="small"
+                <el-button type="primary" @click="checktoday()" size="small" :class="status==3?'btn-show':'btn-none'"
                   >本日</el-button>
               </FormItem>
               <FormItem>
@@ -204,39 +204,39 @@ export default {
       return [year, month, day].join('-');
     },
     checkyear(){
-      var now_year = new Date().getFullYear();
-      let begindate = new Date(now_year, 0, 1);
+      // var now_year = new Date().getFullYear();
+      // let begindate = new Date(now_year, 0, 1);
 
-      this.checkBeginDate=this.formatDate(begindate);
+      // this.checkBeginDate=this.formatDate(begindate);
 
 
-      // var YearEnd = new Date((new Date(now_year + 1, 0, 1)).getTime() - 1000 * 60 * 60* 24);
-      this.checkEndDate=this.formatDate(new Date());
+      // // var YearEnd = new Date((new Date(now_year + 1, 0, 1)).getTime() - 1000 * 60 * 60* 24);
+      // this.checkEndDate=this.formatDate(new Date());
       this.status=1;
     },
     checkmonth(){
-      var date=new Date();
-      date.setDate(1);
+      // var date=new Date();
+      // date.setDate(1);
 
-      this.checkBeginDate=this.formatDate(date);
+      // this.checkBeginDate=this.formatDate(date);
 
-      // date=new Date();
-      // var currentMonth=date.getMonth();
-      // var nextMonth=++currentMonth;
-      // var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
-      // var oneDay=1000*60*60*24;
-      // let enddatestr =new Date(nextMonthFirstDay-oneDay);
+      // // date=new Date();
+      // // var currentMonth=date.getMonth();
+      // // var nextMonth=++currentMonth;
+      // // var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
+      // // var oneDay=1000*60*60*24;
+      // // let enddatestr =new Date(nextMonthFirstDay-oneDay);
 
-      this.checkEndDate=this.formatDate(new Date());
+      // this.checkEndDate=this.formatDate(new Date());
       this.status=2;
     },
     checktoday(){
-      var now = new Date()
+      // var now = new Date()
 
-      this.checkBeginDate=this.formatDate(now);
-      this.checkEndDate=this.formatDate(now);
+      // this.checkBeginDate=this.formatDate(now);
+      // this.checkEndDate=this.formatDate(now);
       this.status=3;
-      return Promise.resolve();
+      // return Promise.resolve();
     },
     getTypeSelected(val) {
         // console.log(val)
@@ -391,9 +391,14 @@ export default {
 
       const _this = this;
       if (!_this.checkBeginDate && !_this.checkEndDate) {
-        _this.checktoday().then((resp) => {
-          _this.checkDateData()
-        })
+        // _this.checktoday().then((resp) => {
+        //   _this.checkDateData()
+        // })
+        var now = new Date()
+
+        _this.checkBeginDate=_this.formatDate(now);
+        _this.checkEndDate=_this.formatDate(now);
+        _this.checkDateData();
         return false;
       }
       _this.checkDateData()
@@ -504,6 +509,13 @@ export default {
 };
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
+.btn-show{
+  background-color: #1991DD;
+  opacity:1;
+}
+.btn-none{
+  opacity:0.6;
+}
 .ivu-card {
   margin-bottom: 20px;
 }
