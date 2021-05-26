@@ -280,8 +280,8 @@ export default {
     };
   },
   created() {
-    // this.tableData=infoMange.data
-    // return
+    // this.tableData = infoMange.data;
+    // return;
     this.query();
   },
   methods: {
@@ -315,8 +315,8 @@ export default {
         this.ruleForm = {};
       }
     },
-    handleOperat(status, id) {
-      changeStatus({ status, id }).then((res) => {
+    handleOperat(status, sceneId) {
+      changeStatus({ status, sceneId }).then((res) => {
         if (res.data.code == 0) {
           this.$message({
             message: res.data.msg,
@@ -324,6 +324,12 @@ export default {
             duration: 1200,
           });
           this.query();
+        } else {
+          _this.$message({
+            message: res.data.msg,
+            type: "error",
+            duration: 1300,
+          });
         }
       });
     },
@@ -383,14 +389,15 @@ export default {
             duration: 1000,
           });
           _this.numFormVisible = false;
+          this.numFormVisible = false;
           _this.query();
+          this.query()
         } else {
           _this.$message({
             message: res.data.msg,
             type: "error",
-            duration: 1000,
+            duration: 1300,
           });
-          _this.numFormVisible = false;
         }
       });
     },
@@ -419,7 +426,7 @@ export default {
               } else {
                 this.$message({
                   message: res.data.msg,
-                  type: "success",
+                  type: "error",
                   duration: 1500,
                 });
               }
@@ -437,7 +444,7 @@ export default {
               } else {
                 this.$message({
                   message: res.data.msg,
-                  type: "success",
+                  type: "error",
                   duration: 1500,
                 });
               }

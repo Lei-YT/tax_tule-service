@@ -35,7 +35,7 @@ export const editscene = (params) => {
 // 删除机器人接口
 export const deletescene = (params) => {
     return axios.request({
-        url: `/api/scene/deletescene?id=${params.id}`,
+        url: `/api/scene/deletescene?id=${params}`,
         method: 'GET'
     })
 }
