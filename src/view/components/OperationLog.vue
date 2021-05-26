@@ -20,7 +20,7 @@
               <div class="numCount">
                 <Date-picker
                   placeholder="选择日期"
-                  style="width:160px"
+                  style="width: 160px"
                   type="date"
                   :value="formInline.beginTime"
                   format="yyyy-MM-dd"
@@ -30,7 +30,7 @@
                 <span style="margin: 0 10px">——</span>
                 <Date-picker
                   placeholder="选择日期"
-                  style="width:160px"
+                  style="width: 160px"
                   type="date"
                   :value="formInline.endTime"
                   format="yyyy-MM-dd"
@@ -75,7 +75,7 @@
               width="50"
             />
             <el-table-column
-              prop="sceneName"
+              prop="scene.name"
               label="机器人名称"
               align="center"
             />
