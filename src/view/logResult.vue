@@ -200,39 +200,15 @@
               </div>
             </div>
 
-            <div
-              class="bigimgbox"
-              v-if="showbigimg"
-              style="
-                position: fixed;
-                z-index: 9999;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.3);
-                left: 0;
-                top: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              <div
-                class="showbigimgbox"
-                style="width: 1400px; height: 757px; background-color: #fff"
-              >
-                <div
-                  class="showimg-title"
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 100%;
-                    height: 46px;
-                    border-bottom: 1px solid #999999;
-                    padding: 0 20px;
-                  "
-                >
-                  <div
+    <Modal
+      v-model="showbigimg"
+      draggable scrollable
+      :closable="true"
+      :footer-hide="true"
+      @on-cancel="showbigimg=false"
+      width="1400"
+    >
+                  <div slot="header"
                     style="
                       color: #1991dd;
                       font-size: 16px;
@@ -245,14 +221,11 @@
                       style="width: 22px; height: 19px; margin-right: 8px"
                     />查看图片
                   </div>
-                  <div @click="showImgbox()">
-                    <img
-                      src="@/assets/images/closebox.png"
-                      style="width: 19px; height: 19px"
-                    />
-                  </div>
-                </div>
-                <div class="showimg-content" style="padding: 22px 20px">
+              <div
+                class="showbigimgbox"
+                style="height: 677px; background-color: #fff"
+              >
+                <div class="showimg-content" >
                   <ImagePreview
                     :items="showImgData"
                     height="667px"
@@ -260,7 +233,7 @@
                   />
                 </div>
               </div>
-            </div>
+    </Modal>
             <div
               v-if="emptyImageInfo"
               class="empty-text"
