@@ -1096,6 +1096,7 @@ export default {
         let ids = vo.imageData.map((voi) => {
           return voi.imageId;
         });
+        this.imgHasError = ids;
         this.setImageData(ids, vo.imageData[0].infos[0].invoiceId);
         // _this.invoiceId = vo.imageData[0].infos[0].invoiceId;
       } else {
@@ -1249,6 +1250,7 @@ export default {
         });
     },
     setImageData(arr, invoiceIdP) {
+      const _this = this;
       let newArr = [];
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
@@ -1256,20 +1258,20 @@ export default {
           newArr.push(data[i]);
         }
       }
-      this.imageData = newArr;
+      // this.imageData = newArr;
       let targetInvoice = invoiceIdP ? invoiceIdP : (
-        this.imageData.length > 0
-          ? this.imageData[0]["invoices"].length > 0
-            ? this.imageData[0]["invoices"][0]["invoiceId"]
+        newArr.length > 0
+          ? newArr[0]["invoices"].length > 0
+            ? newArr[0]["invoices"][0]["invoiceId"]
             : ""
           : "" );
       this.invoiceId = targetInvoice;
       this.imageId =
-        this.imageData.length > 0 ? this.imageData[0]["imageId"] : "";
+        newArr.length > 0 ? newArr[0]["imageId"] : "";
       this.getMessageInfo(newArr.map((a) => a.imageId));
       this.getErrorMessage(this.invoiceId);
       const imageURL0 =
-        this.imageData.length > 0 ? this.imageData[0]["imageURL"] : "";
+        newArr.length > 0 ? newArr[0]["imageURL"] : "";
       this.handleClick(imageURL0, 0);
       // this.tabsInvoiceIndex = 0;
     },
