@@ -78,9 +78,9 @@ export default [
         name: 'auditLogIndex',
         meta: {
           icon: 'ios-create-outline',
-          title: '机器人审单日志'
-          ,keepAlive: true
-          ,isBack: false
+          title: '机器人审单日志',
+          keepAlive: true,
+          isBack: false
         },
         component: () => import('@/view/auditLog.vue')
       }
@@ -91,7 +91,7 @@ export default [
     name: 'logResult',
     meta: {
       hideInBread: true,
-      hideInMenu:true
+      hideInMenu: true
     },
     component: Main,
     children: [
@@ -101,6 +101,16 @@ export default [
         meta: {
           icon: 'ios-create-outline',
           title: '机器人审单日志 / 机器人审核结果页'
+        },
+        component: () => import('@/view/logResult.vue')
+      },
+      {
+        path: 'shareResult',
+        name: 'shareResult',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '机器人审单日志 / 机器人审核结果页',
+          needLogin: false
         },
         component: () => import('@/view/logResult.vue')
       }

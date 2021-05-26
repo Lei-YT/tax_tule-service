@@ -33,7 +33,7 @@
           :collapsed="collapsed"
           @on-coll-change="handleCollapsedChange"
         >
-          <user
+          <user v-if="userToken"
             :message-unread-count="unreadCount"
             :user-avatar="userAvatar"
             :userName="userName"
@@ -70,8 +70,8 @@ export default {
   data() {
     return {
       collapsed: false,
-      minLogo,
-      maxLogo,
+      minLogo: '',
+      maxLogo: '',
       isFullscreen: false,
     };
   },
@@ -109,6 +109,9 @@ export default {
     userName() {
       return this.$store.state.user.userName;
     },
+    userToken() {
+      return this.$store.state.user.token;
+    }
   },
   methods: {
     ...mapMutations([

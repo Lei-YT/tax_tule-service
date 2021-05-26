@@ -15,6 +15,15 @@ export const getToken = () => {
   if (token) return token
   else return false
 }
+export const setUserName = (name) => {
+  localStorage.setItem('userName', name)
+}
+
+export const getUserName = () => {
+  const name = localStorage.getItem('userName')
+  if (name) return name
+  else return ''
+}
 
 export const hasChild = (item) => {
   return item.children && item.children.length !== 0
