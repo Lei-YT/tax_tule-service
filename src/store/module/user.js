@@ -2,12 +2,12 @@ import {
   login,
   logout,
 } from '@/api/user'
-import { setToken, getToken } from '@/libs/util'
+import { setToken, getToken, setUserName, getUserName } from '@/libs/util'
 import { Notification } from 'element-ui'
 
 export default {
   state: {
-    userName: '',
+    userName: getUserName(),
     id: '',
     avatarImgPath: '',
     token: getToken(),
@@ -30,6 +30,7 @@ export default {
     },
     setUserName(state, name) {
       state.userName = name
+      setUserName(name)
     },
     setAdminNo(state, adminNo) {
       state.adminNo = adminNo

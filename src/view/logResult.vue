@@ -200,39 +200,15 @@
               </div>
             </div>
 
-            <div
-              class="bigimgbox"
-              v-if="showbigimg"
-              style="
-                position: fixed;
-                z-index: 9999;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.3);
-                left: 0;
-                top: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              <div
-                class="showbigimgbox"
-                style="width: 1400px; height: 757px; background-color: #fff"
-              >
-                <div
-                  class="showimg-title"
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 100%;
-                    height: 46px;
-                    border-bottom: 1px solid #999999;
-                    padding: 0 20px;
-                  "
-                >
-                  <div
+    <Modal
+      v-model="showbigimg"
+      draggable scrollable
+      :closable="true"
+      :footer-hide="true"
+      @on-cancel="showbigimg=false"
+      width="1400"
+    >
+                  <div slot="header"
                     style="
                       color: #1991dd;
                       font-size: 16px;
@@ -245,14 +221,11 @@
                       style="width: 22px; height: 19px; margin-right: 8px"
                     />查看图片
                   </div>
-                  <div @click="showImgbox()">
-                    <img
-                      src="@/assets/images/closebox.png"
-                      style="width: 19px; height: 19px"
-                    />
-                  </div>
-                </div>
-                <div class="showimg-content" style="padding: 22px 20px">
+              <div
+                class="showbigimgbox"
+                style="height: 677px; background-color: #fff"
+              >
+                <div class="showimg-content" >
                   <ImagePreview
                     :items="showImgData"
                     height="667px"
@@ -260,7 +233,7 @@
                   />
                 </div>
               </div>
-            </div>
+    </Modal>
             <div
               v-if="emptyImageInfo"
               class="empty-text"
@@ -1025,7 +998,16 @@ export default {
   methods: {
     handelAllImage() {
       const _this = this;
-      _this.imageData = _this.allData.imageInfo;
+      // 有字段的报错图片
+      const errorFields = _this.allData.errors.filter(e => {
+        const hasfield = e.infos.filter(ei => ei.hasOwnProperty('fields'))
+        return hasfield.length > 0;
+      })
+      // 所有报错图片
+      _this.imgHasError = _this.allData.errors.map(i => i.imageId);
+      let newSortImageInfo = _this.allData.imageInfo.filter(img => _this.imgHasError.includes(img.imageId));
+      const noErrImage = _this.allData.imageInfo.filter(img => !_this.imgHasError.includes(img.imageId));
+      _this.imageData = newSortImageInfo.concat(noErrImage);
       _this.invoiceId =
         _this.imageData.length > 0
           ? _this.imageData[0]["invoices"].length > 0
@@ -1039,13 +1021,6 @@ export default {
       _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
       _this.tabsInvoiceIndex = 0;
-      // 有字段的报错图片
-      const errorFields = _this.allData.errors.filter(e => {
-        const hasfield = e.infos.filter(ei => ei.hasOwnProperty('fields'))
-        return hasfield.length > 0;
-      })
-      // 所有报错图片
-      _this.imgHasError = _this.allData.errors.map(i => i.imageId);
     },
     // 右边小图点击事件
     handelImage(data) {
@@ -1096,6 +1071,7 @@ export default {
         let ids = vo.imageData.map((voi) => {
           return voi.imageId;
         });
+        this.imgHasError = ids;
         this.setImageData(ids, vo.imageData[0].infos[0].invoiceId);
         // _this.invoiceId = vo.imageData[0].infos[0].invoiceId;
       } else {
@@ -1249,6 +1225,7 @@ export default {
         });
     },
     setImageData(arr, invoiceIdP) {
+      const _this = this;
       let newArr = [];
       let data = this.allData.imageInfo;
       for (let i = 0; i < data.length; i++) {
@@ -1256,20 +1233,23 @@ export default {
           newArr.push(data[i]);
         }
       }
-      this.imageData = newArr;
+      let newSortImageInfo = data.filter(img => arr.includes(img.imageId));
+      const noErrImage = data.filter(img => !arr.includes(img.imageId));
+      _this.imageData = newSortImageInfo.concat(noErrImage);
+      // this.imageData = newArr;
       let targetInvoice = invoiceIdP ? invoiceIdP : (
-        this.imageData.length > 0
-          ? this.imageData[0]["invoices"].length > 0
-            ? this.imageData[0]["invoices"][0]["invoiceId"]
+        newArr.length > 0
+          ? newArr[0]["invoices"].length > 0
+            ? newArr[0]["invoices"][0]["invoiceId"]
             : ""
           : "" );
       this.invoiceId = targetInvoice;
       this.imageId =
-        this.imageData.length > 0 ? this.imageData[0]["imageId"] : "";
+        newArr.length > 0 ? newArr[0]["imageId"] : "";
       this.getMessageInfo(newArr.map((a) => a.imageId));
       this.getErrorMessage(this.invoiceId);
       const imageURL0 =
-        this.imageData.length > 0 ? this.imageData[0]["imageURL"] : "";
+        newArr.length > 0 ? newArr[0]["imageURL"] : "";
       this.handleClick(imageURL0, 0);
       // this.tabsInvoiceIndex = 0;
     },

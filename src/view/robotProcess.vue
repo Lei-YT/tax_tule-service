@@ -90,24 +90,24 @@
                 <div class="lineBox">
                   <li
                     :style="{
-                      width: `${(chartsDate.completedP)}` + '%',
+                      width: `${chartsDate.completedP}` + '%',
                     }"
                   >
-                    {{ chartsDate.completedP}}%
+                    {{ chartsDate.completedP }}%
                   </li>
                   <li
                     :style="{
                       width: `${chartsDate.timeoutP}` + '%',
                     }"
                   >
-                    {{chartsDate.timeoutP}}%
+                    {{ chartsDate.timeoutP }}%
                   </li>
                   <li
                     :style="{
                       width: `${chartsDate.checkingP}` + '%',
                     }"
                   >
-                    {{chartsDate.checkingP}}%
+                    {{ chartsDate.checkingP }}%
                   </li>
                 </div>
                 <div class="colorBox">
@@ -199,7 +199,7 @@ export default {
     this.query();
     this.timer = setInterval(() => {
       this.query();
-    }, 10000);
+    }, 1800000);
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -207,6 +207,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      this.query();
       this.getCharts();
     });
   },
@@ -328,13 +329,18 @@ export default {
           let data = resp.data;
           if (data.code === 20000) {
             // _this.chartsDate = data.data;
-            const sum = (Object.values(data.data)).reduce((acc, val) => (acc + val))
+            const sum = Object.values(data.data).reduce(
+              (acc, val) => acc + val
+            );
             const percent = {};
-            Object.keys(data.data).map(key => {
-              percent[`${key}P`] = (data.data[key]/sum * 100).toFixed(2)
-            })
-            percent.completedP = ((data.data.success+data.data.fail)/sum*100).toFixed(2)
-            _this.chartsDate = Object.assign(data.data, percent)
+            Object.keys(data.data).map((key) => {
+              percent[`${key}P`] = ((data.data[key] / sum) * 100).toFixed(2);
+            });
+            percent.completedP = (
+              ((data.data.success + data.data.fail) / sum) *
+              100
+            ).toFixed(2);
+            _this.chartsDate = Object.assign(data.data, percent);
             _this.getLeftData(data.data);
           }
         })

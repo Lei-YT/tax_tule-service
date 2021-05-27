@@ -26,7 +26,10 @@ const turnTo = (to, access, next) => {
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start()
     const token = getToken()
-
+    if (to.meta.needLogin === false) {
+      next();
+      return false;
+    }
     // next()
     if (!token && to.name !== LOGIN_PAGE_NAME) {
         // 未登录且要跳转的页面不是登录页

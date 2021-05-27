@@ -19,7 +19,7 @@ export const getScenelist = (params) => {
 // 添加机器人接口
 export const addscene = (params) => {
     return axios.request({
-        url: `/api/scene/addscene?name=${params.name}&label=${params.label}&describe=${params.describe}`,
+        url: `/api/scene/addscene?name=${params.name}&label=${params.label}&describe=${params.describe}&ip=${params.ip}`,
         method: 'GET'
     })
 }
@@ -27,7 +27,7 @@ export const addscene = (params) => {
 // 编辑机器人接口
 export const editscene = (params) => {
     return axios.request({
-        url: `/api/scene/editscene?name=${params.name}&id=${params.id}&label=${params.label}&describe=${params.describe}`,
+        url: `/api/scene/editscene?name=${params.name}&id=${params.id}&label=${params.label}&describe=${params.describe}&ip=${params.ip}`,
         method: 'GET'
     })
 }
@@ -35,7 +35,7 @@ export const editscene = (params) => {
 // 删除机器人接口
 export const deletescene = (params) => {
     return axios.request({
-        url: `/api/scene/deletescene?id=${params.id}`,
+        url: `/api/scene/deletescene?id=${params}`,
         method: 'GET'
     })
 }
