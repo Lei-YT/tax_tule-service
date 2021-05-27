@@ -180,6 +180,9 @@
         <el-form-item label="名称：" prop="name">
           <Input v-model="ruleForm.name" placeholder="请输入名称" />
         </el-form-item>
+        <el-form-item label="ip：" prop="ip">
+          <Input v-model="ruleForm.ip" placeholder="请输入ip" />
+        </el-form-item>
         <el-form-item label="标签：" prop="label">
           <Select v-model="ruleForm.label" placeholder="请选择标签">
             <Option label="取单回传机器人" value="取单回传机器人"></Option>
@@ -262,10 +265,12 @@ export default {
         value: "",
         getbill: "",
         backbill: "",
+        ip: "",
       },
       rules: {
         label: [{ required: true, message: "请选择标签" }],
-        name: [{ required: true, message: "请填写姓名" }],
+        name: [{ required: true, message: "请输入姓名" }],
+        ip: [{ required: true, message: "请输入ip" }],
         describe: [{ required: true, message: "请输入字段描述" }],
       },
       id: "",
@@ -391,7 +396,7 @@ export default {
           _this.numFormVisible = false;
           this.numFormVisible = false;
           _this.query();
-          this.query()
+          this.query();
         } else {
           _this.$message({
             message: res.data.msg,
@@ -410,6 +415,7 @@ export default {
             ? this.ruleForm.value
             : this.ruleForm.label || "",
         describe: this.ruleForm.describe || "",
+        ip: this.ruleForm.ip || "",
       };
       this.$refs[name].validate((valid) => {
         if (valid) {

@@ -207,6 +207,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      this.query();
       this.getCharts();
     });
   },

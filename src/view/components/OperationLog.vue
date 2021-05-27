@@ -84,7 +84,7 @@
               prop="created_at"
               label="操作时间"
               align="center"
-              sortable="custom"
+              sortable
             />
             <el-table-column prop="username" label="操作人" align="center" />
             <el-table-column prop="stationName" label="身份" align="center" />
@@ -125,6 +125,7 @@ export default {
         operate: "",
         beginTime: "",
         endTime: "",
+        sort: null,
       },
       tableData: [],
     };
@@ -140,6 +141,7 @@ export default {
         operate: this.formInline.operate || "",
         beginTime: this.formInline.beginTime || "",
         endTime: this.formInline.endTime || "",
+        sort: this.formInline.sort || "",
         pageindex: this.page.currentPage,
         pagesize: this.page.size,
       };
@@ -149,6 +151,19 @@ export default {
           this.page.totalElement = res.data.totalcount;
         }
       });
+    },
+    sortChange(val) {
+      var order = "";
+      if (val.order == "ascending") {
+        order = 1;
+      } else if (val.order == "descending") {
+        order = 2;
+      }
+      // this.formInline.sort = "";
+      if (val.prop == "created_at") {
+        this.formInline.sort = order;
+      }
+      this.query();
     },
     searchData() {
       this.page.currentPage = 1;
