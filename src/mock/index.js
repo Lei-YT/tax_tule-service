@@ -1,14 +1,15 @@
 import Mock from 'mockjs'
 import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
-import processJson from '@/dataJson/process.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result10.json'
+import resultJson from '@/dataJson/result8.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data6.json'
 import userJson from '@/dataJson/user.json'
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
+import infoMange from "@/dataJson/infoMange2.json";
+import logslist from "@/dataJson/logslist.json";
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
 })
@@ -25,9 +26,43 @@ Mock.mock(/\/api\/login\/logout/, 'get', (req, res) => {
   })
 })
 
-Mock.mock(/\/api\/scene/, 'get', (req, res) => {
-  console.log('mock res', req, process)
+// Mock.mock(/\/api\/scene/, 'get', (req, res) => {
+//   console.log('mock res', req, process)
+//   return Mock.mock(process)
+// })
+Mock.mock(/\/bill\/robot/, 'get', (req, res) => {
+  // console.log('mock res', req, process)
+  console.log('mock res robot', req)
+  return Mock.mock(	{
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+        "checking": 0,
+        "fail": 4,
+        "success": 2,
+        "timeout": 2
+	    }
+	})
+})
+Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
+  console.log('mock res homelist', req, process)
   return Mock.mock(process)
+})
+Mock.mock(/\/api\/scene\/scenelist/, 'get', (req, res) => {
+  console.log('mock res scenelist', req, infoMange)
+  return Mock.mock(infoMange)
+})
+Mock.mock(/\/api\/scene\/logslist/, 'get', (req, res) => {
+  console.log('mock res logslist', req, logslist)
+  return Mock.mock(logslist)
+})
+Mock.mock(/\/api\/scene\/setbill/, 'get', (req, res) => {
+  console.log('mock res setbill', req)
+  return Mock.mock({
+    'code': 1,
+    'msg': '操作成功.'
+  })
 })
 
 Mock.mock(/\/api\/scene\/infostatus/, 'get', (req, res) => {
@@ -89,6 +124,6 @@ Mock.mock(/\/billType\/findAll/, 'get', (req, res) => {
 })
 
 Mock.mock(/\/bill\/checkDateChart/, 'post', (req, res) => {
-  console.log('req',req)
+  console.log('req',req, checkdateJson)
   return Mock.mock(checkdateJson)
 })
