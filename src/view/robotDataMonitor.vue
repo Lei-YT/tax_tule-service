@@ -149,7 +149,8 @@ export default {
       rules:[],
       totals:[],
       warnings:[],
-      successarr:[]
+      successarr:[],
+      formatter:'{b}<br/>{a0}:{c0}百<br/>{a1}:{c1}<br/>{a2}:{c2}<br/>{a3}:{c3}%<br/>'
 
     };
   },
@@ -169,18 +170,23 @@ export default {
 
       if(val==0){
         _this.showcheck={'规则数量':true, '机器人审单量':true, '预警量':true, '通过率':true};
+        _this.formatter='{b}<br/>{a0}:{c0}百<br/>{a1}:{c1}<br/>{a2}:{c2}<br/>{a3}:{c3}%<br/>';
       }
       if(val==1){
         _this.showcheck={'规则数量':true, '机器人审单量':false, '预警量':false, '通过率':false};
+        _this.formatter='{b}<br/>{a0}:{c0}百<br/>';
       }
       if(val==2){
         _this.showcheck={'规则数量':false, '机器人审单量':true, '预警量':false, '通过率':false};
+        _this.formatter='{b}<br/>{a0}:{c0}<br/>';
       }
       if(val==3){
         _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':true, '通过率':false};
+         _this.formatter='{b}<br/>{a0}:{c0}<br/>';
       }
        if(val==4){
-        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':false, '通过率':true};
+        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':false, '通过率':true}; 
+        _this.formatter='{b}<br/>{a0}:{c0}%<br/>';
       }
       this.initChart()
     },
@@ -251,17 +257,20 @@ export default {
       let totals= this.totals;
       let warnings= this.warnings;
       let successarr= this.successarr;
+
+      let formatter= this.formatter;
       let option = {
           tooltip: {
               trigger: 'axis',
               axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                   type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
               },
-              formatter:'{b}<br/>{a0}:{c0}百<br/>{a1}:{c1}<br/>{a2}:{c2}<br/>{a3}:{c3}<br/>'
+              formatter:formatter
           },
           legend: {
               data: ['规则数量', '机器人审单量', '预警量', '通过率'],
               selected:showcheck,
+              selectedMode:false,
           },
           grid: {
               left: '3%',
