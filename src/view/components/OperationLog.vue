@@ -90,21 +90,24 @@
             <el-table-column prop="stationName" label="身份" align="center" />
           </el-table>
         </div>
-        <el-row class="paginationStyle">
-          <el-button @click="currentChange(1)" type="text" size="small"
-            >首页</el-button
-          >
-          <Page
-            @on-change="currentChange"
-            @on-page-size-change="sizeChange"
-            :current="page.currentPage"
-            :total="page.totalElement"
-            prev-text="< 上一页"
-            next-text="下一页 >"
-            show-elevator
-            show-sizer
-          />
-        </el-row>
+        <div class="footBox">
+          <div class="totalBox">合计：{{ tableData.length }}条</div>
+          <el-row class="paginationStyle">
+            <el-button @click="currentChange(1)" type="text" size="small"
+              >首页</el-button
+            >
+            <Page
+              @on-change="currentChange"
+              @on-page-size-change="sizeChange"
+              :current="page.currentPage"
+              :total="page.totalElement"
+              prev-text="< 上一页"
+              next-text="下一页 >"
+              show-elevator
+              show-sizer
+            />
+          </el-row>
+        </div>
       </Card>
     </div>
   </div>
@@ -188,11 +191,22 @@ export default {
 .tableList {
   margin-top: 20px;
 }
+.footBox {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .totalBox {
+    font-weight: 550;
+  }
+}
 .numCount {
   display: flex;
 }
 .paginationStyle {
   display: flex;
+  margin-top: 0;
   justify-content: flex-end;
 }
 .paginationStyle > .el-button {

@@ -22,7 +22,7 @@
         <!-- 左边内容 -->
         <div class="leftCon">
           <Card
-            style="height: 200px"
+            :class="cardIdx == index ? 'curCard' : ''"
             v-for="(item, index) in dataList"
             :key="index"
           >
@@ -30,58 +30,72 @@
             <Poptip :content="item.describe" placement="right" slot="extra">
               <a>描述</a>
             </Poptip>
-            <div class="imgCon" @click="showRightInfo(item)">
+            <div class="imgCon" @click="showRightInfo(item, index)">
               <img src="@/assets/images/trians.png" class="trians" />
-              <span>{{ item.name }}</span>
+              <p class="nameText" v-if="item.status == 1">
+                {{ item.name }}<span>（未启动）</span>
+              </p>
+              <p class="nameText" v-if="item.status == 2">
+                {{ item.name }}<span>（进行中）</span>
+              </p>
+              <p class="nameText" v-if="item.status == 3">
+                {{ item.name }}<span>（暂停）</span>
+              </p>
+              <p class="nameText" v-if="item.status == 4">
+                {{ item.name }}<span>（结束）</span>
+              </p>
+              <p class="nameText" v-if="item.status == 5">
+                {{ item.name }}<span>（异常停止）</span>
+              </p>
             </div>
           </Card>
         </div>
         <!-- 右边图表 -->
         <div class="rigthCon">
           <div class="topCon">
-            <Card>
+            <Card style="width: 100%">
               <p slot="title">Hi,{{ rightData.name }}为您服务</p>
               <div slot="title" class="titBtn">
-                <Button
+                <el-button
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 1"
                   @click="handleChange(2, rightData.sceneId)"
-                  >启动</Button
+                  >启动</el-button
                 >
-                <Button
-                  type="primary"
+                <el-button
+                  type="warning"
                   style="margin-right: 10px"
                   v-if="rightData.status == 2"
                   @click="handleChange(3, rightData.sceneId)"
-                  >暂停</Button
+                  >暂停</el-button
                 >
-                <Button
-                  type="primary"
+                <el-button
+                  type="success"
                   style="margin-right: 10px"
                   v-if="rightData.status == 3"
                   @click="handleChange(2, rightData.sceneId)"
-                  >继续</Button
+                  >继续</el-button
                 >
-                <Button
-                  type="primary"
+                <el-button
+                  type="info"
                   style="margin-right: 10px"
                   v-if="rightData.status == 3"
                   @click="handleChange(4, rightData.sceneId)"
-                  >结束</Button
+                  >结束</el-button
                 >
-                <Button
-                  type="primary"
+                <el-button
+                  type="info"
                   style="margin-right: 10px"
                   v-if="rightData.status == 5"
-                  >需人工处理</Button
+                  >需人工处理</el-button
                 >
-                <Button
+                <el-button
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 4"
                   @click="handleChange(1, rightData.sceneId)"
-                  >重启</Button
+                  >重启</el-button
                 >
               </div>
               <div class="chartOne">
@@ -103,6 +117,7 @@
                     {{ chartsDate.timeoutP }}%
                   </li>
                   <li
+                    v-if="chartsDate.checkingP > 0"
                     :style="{
                       width: `${chartsDate.checkingP}` + '%',
                     }"
@@ -178,6 +193,7 @@ export default {
       chartsDate: {},
       robotId: null,
       cur: 0,
+      cardIdx: 0,
       timer: null, // 定时器
       tabList: [
         {
@@ -212,7 +228,8 @@ export default {
     });
   },
   methods: {
-    showRightInfo(item) {
+    showRightInfo(item, index) {
+      this.cardIdx = index;
       this.rightData = item;
       this.robotId = item.id;
       this.getData(item);
@@ -419,6 +436,9 @@ export default {
   color: #1991dd;
   border-bottom: 2px solid #1991dd;
 }
+.curCard {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
 .logProcess {
   width: 100%;
   display: flex;
@@ -442,6 +462,9 @@ export default {
     width: 81%;
     display: flex;
     flex-direction: column;
+    .topCon {
+      width: 100%;
+    }
   }
 }
 /deep/.ivu-card-head {
@@ -469,6 +492,7 @@ export default {
     width: 100%;
     height: 35px;
     margin: 22px 0 63px 0;
+    box-sizing: border-box;
     display: flex;
     li {
       list-style: none;
@@ -526,7 +550,7 @@ export default {
   .trians {
     width: 63px;
     height: 76px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 }
 .ivu-card {
