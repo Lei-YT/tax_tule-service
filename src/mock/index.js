@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result6.json'
+import resultJson from '@/dataJson/result8.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data6.json'
 import userJson from '@/dataJson/user.json'
@@ -46,16 +46,23 @@ Mock.mock(/\/bill\/robot/, 'get', (req, res) => {
 	})
 })
 Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
-  console.log('mock res', req, process)
+  console.log('mock res homelist', req, process)
   return Mock.mock(process)
 })
 Mock.mock(/\/api\/scene\/scenelist/, 'get', (req, res) => {
-  console.log('mock res', req, infoMange)
+  console.log('mock res scenelist', req, infoMange)
   return Mock.mock(infoMange)
 })
 Mock.mock(/\/api\/scene\/logslist/, 'get', (req, res) => {
-  console.log('mock res', req, logslist)
+  console.log('mock res logslist', req, logslist)
   return Mock.mock(logslist)
+})
+Mock.mock(/\/api\/scene\/setbill/, 'get', (req, res) => {
+  console.log('mock res setbill', req)
+  return Mock.mock({
+    'code': 1,
+    'msg': '操作成功.'
+  })
 })
 
 Mock.mock(/\/api\/scene\/infostatus/, 'get', (req, res) => {
@@ -117,6 +124,6 @@ Mock.mock(/\/billType\/findAll/, 'get', (req, res) => {
 })
 
 Mock.mock(/\/bill\/checkDateChart/, 'post', (req, res) => {
-  console.log('req',req)
+  console.log('req',req, checkdateJson)
   return Mock.mock(checkdateJson)
 })
