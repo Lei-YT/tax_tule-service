@@ -482,14 +482,18 @@ export default {
         bb.setFullYear(bb.getFullYear() - 1)
         let lastyear=bb;
         let today = new Date();
+
+        let begindate = new Date(this.checkBeginDate);
+        let enddate = new Date(this.checkEndDate);
+        // console.log(lastyear,begindate)
         this.disabledDate1 = {
           disabledDate (date) {
-            return (date && date.valueOf()<=lastyear) || (date && date.valueOf()>=today);
+            return (date && date.valueOf()<=lastyear) || (date && date.valueOf()>=enddate);
           }
         }
         this.disabledDate2 = {
           disabledDate (date) {
-            return (date && date.valueOf()<=lastyear) || (date && date.valueOf()>=today);
+            return (date && date.valueOf()<=begindate) || (date && date.valueOf()>=today);
           }
         }
       // }
