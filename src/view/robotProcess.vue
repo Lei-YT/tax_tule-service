@@ -32,21 +32,21 @@
             </Poptip>
             <div class="imgCon" @click="showRightInfo(item, index)">
               <img src="@/assets/images/trians.png" class="trians" />
-              <p class="nameText" v-if="item.status == 1">
-                {{ item.name }}<span>（未启动）</span>
-              </p>
-              <p class="nameText" v-if="item.status == 2">
-                {{ item.name }}<span>（进行中）</span>
-              </p>
-              <p class="nameText" v-if="item.status == 3">
-                {{ item.name }}<span>（暂停）</span>
-              </p>
-              <p class="nameText" v-if="item.status == 4">
-                {{ item.name }}<span>（结束）</span>
-              </p>
-              <p class="nameText" v-if="item.status == 5">
-                {{ item.name }}<span>（异常停止）</span>
-              </p>
+              <div class="nameText" v-if="item.status == 1">
+                {{ item.name }}<span style="color:#1991dd">（未启动）</span>
+              </div>
+              <div class="nameText" v-if="item.status == 2">
+                {{ item.name }}<span style="color:#f7b500">（进行中）</span>
+              </div>
+              <div class="nameText" v-if="item.status == 3">
+                {{ item.name }}<span style="color:#f7b500">（暂停）</span>
+              </div>
+              <div class="nameText" v-if="item.status == 4">
+                {{ item.name }}<span style="color:#1991dd">（结束）</span>
+              </div>
+              <div class="nameText" v-if="item.status == 5">
+                {{ item.name }}<span style="color:#999">（异常停止）</span>
+              </div>
             </div>
           </Card>
         </div>
@@ -437,7 +437,7 @@ export default {
   border-bottom: 2px solid #1991dd;
 }
 .curCard {
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(6, 116, 243, 0.856);
 }
 .logProcess {
   width: 100%;

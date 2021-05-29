@@ -64,6 +64,7 @@ export default {
   },
   methods: {
     handleSubmit() {
+      window.sessionStorage.setItem("password", this.form.password);
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.$emit("on-success-valid", {
@@ -98,7 +99,7 @@ export default {
   border: 0;
   color: #fff;
 }
-/deep/.ivu-input::-webkit-input-placeholder{
+/deep/.ivu-input::-webkit-input-placeholder {
   color: #fff;
 }
 /deep/.ivu-input-default {

@@ -189,10 +189,12 @@ export default {
       });
     },
     handleClick(type, row) {
+      console.log(row,'44444444');
       this.type = type;
       this.title = type == "edit" ? "编辑账号" : "添加账号";
       if (type == "edit") {
         this.ruleForm = row;
+        this.ruleForm.password=window.sessionStorage.getItem("password");
       }else{
         this.ruleForm = {};
       }
