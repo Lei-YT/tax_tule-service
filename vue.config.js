@@ -13,7 +13,7 @@ const resolve = dir => {
 // 需要将它改为'/my-app/'
 // iview-admin线上演示打包路径： https://file.iviewui.com/admin-dist/
 const BASE_URL = process.env.NODE_ENV === 'production'
-  ? './'
+  ? '/dist/'
   : '/'
 
 module.exports = {
@@ -32,8 +32,28 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
-      .set('_c', resolve('src/components'))
+      .set('_c', resolve('src/components'));
+      config.module.rule('compile')
+        .test(/\.js$/)
+        .include
+        .add(resolve('src'))
+        .add(resolve('test'))
+        .add(resolve('static'))
+        .add(resolve('node_modules/webpack-dev-server/client'))
+        .add(resolve('node_modules'))
+        .end()
+        .use('babel')
+        .loader('babel-loader')
+        .options({
+          presets: [
+            ['@babel/preset-env', {
+              modules: false
+            }]
+          ]
+        });
   },
+  transpileDependencies:
+  [/node_modules[/\\\\](element-ui|vuex|iview|axios|echarts|)[/\\\\]/],
   // 设为false打包时不生成.map文件
   productionSourceMap: false,
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串

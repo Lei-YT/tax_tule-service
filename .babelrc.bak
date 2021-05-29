@@ -1,0 +1,14 @@
+{
+  "presets": [
+    "@vue/app",
+                polyfills: [
+                    'es6.promise',
+                    'es6.array.find-index',
+                    'es6.symbol',
+                    'es7.array.includes',
+                    'es6.array.iterator',
+                    'es6.string.includes',
+                    'es6.object.assign',
+                ]
+  ]
+}
