@@ -22,7 +22,7 @@
         <!-- 左边内容 -->
         <div class="leftCon">
           <Card
-            :class="cardIdx == index ? 'curCard' : ''"
+            :class="item.status == 2 ? 'curCard' : ''"
             v-for="(item, index) in dataList"
             :key="index"
           >
@@ -101,30 +101,53 @@
               <div class="chartOne">
                 <p>单据量统计</p>
                 <!-- 审核完成/总数，审核超时/总数，审核未完成/总数，总数=三者的和。 -->
+                <div style="width: 100%;position: relative;bottom: -20px;display: flex;">
+                  <div style="color:#1991dd;font-size: 24px;text-align: center;" :style="{
+                      width: `${chartsDate.completedP}` + '%',
+                    }">
+                    {{ chartsDate.completedP }}%
+                  </div>
+                  <div v-if="chartsDate.timeoutP >= 8" style="color:#f7b500;font-size: 24px;text-align: center;" :style="{
+                      width: `${chartsDate.timeoutP}` + '%',
+                    }">
+                    {{ chartsDate.timeoutP }}%
+                  </div>
+                  <div v-if="chartsDate.timeoutP < 8" style="color:#f7b500;font-size: 24px;width: 5%;margin-right: 5px;text-align: center;">
+                    {{ chartsDate.timeoutP }}%
+                  </div>
+                  <div v-if="chartsDate.checkingP > 0" style="color:#70B822;font-size: 24px;width: 5%;text-align: center;">
+                    {{ chartsDate.checkingP }}%
+                  </div>
+                </div>
+                
                 <div class="lineBox">
+
                   <li
                     :style="{
                       width: `${chartsDate.completedP}` + '%',
                     }"
                   >
-                    {{ chartsDate.completedP }}%
+                    <!-- {{ chartsDate.completedP }}% -->
                   </li>
                   <li
                     :style="{
                       width: `${chartsDate.timeoutP}` + '%',
                     }"
                   >
-                    {{ chartsDate.timeoutP }}%
+                    <!-- <span  v-if="chartsDate.timeoutP >= 8">{{ chartsDate.timeoutP }}%</span> -->
                   </li>
+                  
                   <li
                     v-if="chartsDate.checkingP > 0"
                     :style="{
                       width: `${chartsDate.checkingP}` + '%',
                     }"
                   >
-                    {{ chartsDate.checkingP }}%
+                    <!-- {{ chartsDate.checkingP }}% -->
                   </li>
+                  
                 </div>
+                
                 <div class="colorBox">
                   <div class="itemCor">
                     <p class="corBlock"></p>
@@ -186,7 +209,7 @@ export default {
     return {
       secneName: "",
       id: "",
-      dataList: [],
+      sort: [],
       rightData: {},
       leftData: [],
       rightItem: [],
@@ -268,13 +291,13 @@ export default {
             label: {
               normal: {
                 show: true,
-                position: "inner", //标签的位置
+                // position: "inner", //标签的位置
                 textStyle: {
                   fontWeight: 300,
                   fontSize: 16, //文字的字体大小
                 },
                 formatter: "{d}%",
-                color: "#ffffff",
+                // color: "#ffffff",
               },
             },
           },
