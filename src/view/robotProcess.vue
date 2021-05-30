@@ -99,73 +99,7 @@
                 >
               </div>
               <div class="chartOne">
-                <p>单据量统计</p>
-                <!-- 审核完成/总数，审核超时/总数，审核未完成/总数，总数=三者的和。 -->
-                <div style="width: 100%;position: relative;bottom: -20px;display: flex;">
-                  <div style="color:#1991dd;font-size: 24px;text-align: center;" :style="{
-                      width: `${chartsDate.completedP}` + '%',
-                    }">
-                    {{ chartsDate.completedP }}%
-                  </div>
-                  <div v-if="chartsDate.timeoutP >= 8" style="color:#f7b500;font-size: 24px;text-align: center;" :style="{
-                      width: `${chartsDate.timeoutP}` + '%',
-                    }">
-                    {{ chartsDate.timeoutP }}%
-                  </div>
-                  <div v-if="chartsDate.timeoutP < 8" style="color:#f7b500;font-size: 24px;width: 5%;margin-right: 5px;text-align: center;">
-                    {{ chartsDate.timeoutP }}%
-                  </div>
-                  <div v-if="chartsDate.checkingP > 0" style="color:#70B822;font-size: 24px;width: 5%;text-align: center;">
-                    {{ chartsDate.checkingP }}%
-                  </div>
-                </div>
-                
-                <div class="lineBox">
-
-                  <li
-                    :style="{
-                      width: `${chartsDate.completedP}` + '%',
-                    }"
-                  >
-                    <!-- {{ chartsDate.completedP }}% -->
-                  </li>
-                  <li
-                    :style="{
-                      width: `${chartsDate.timeoutP}` + '%',
-                    }"
-                  >
-                    <!-- <span  v-if="chartsDate.timeoutP >= 8">{{ chartsDate.timeoutP }}%</span> -->
-                  </li>
-                  
-                  <li
-                    v-if="chartsDate.checkingP > 0"
-                    :style="{
-                      width: `${chartsDate.checkingP}` + '%',
-                    }"
-                  >
-                    <!-- {{ chartsDate.checkingP }}% -->
-                  </li>
-                  
-                </div>
-                
-                <div class="colorBox">
-                  <div class="itemCor">
-                    <p class="corBlock"></p>
-                    <p>
-                      审核完成单据（{{
-                        chartsDate.success + chartsDate.fail
-                      }}单）
-                    </p>
-                  </div>
-                  <div class="itemCor">
-                    <p class="corBlock"></p>
-                    <p>审核超时单据（{{ chartsDate.timeout }}单）</p>
-                  </div>
-                  <div class="itemCor">
-                    <p class="corBlock"></p>
-                    <p>审核未完成单据（{{ chartsDate.checking }}单）</p>
-                  </div>
-                </div>
+                <div id="countChart" style="width: 100%;height:260px;"></div>
               </div>
             </Card>
           </div>
@@ -209,6 +143,7 @@ export default {
     return {
       secneName: "",
       id: "",
+      dataList: [],
       sort: [],
       rightData: {},
       leftData: [],
@@ -381,12 +316,121 @@ export default {
               100
             ).toFixed(2);
             _this.chartsDate = Object.assign(data.data, percent);
+            _this.renderCountChart();
             _this.getLeftData(data.data);
           }
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    renderCountChart() {
+      const _this = this;
+      let countChart = echarts.init(document.getElementById("countChart"));
+      countChart.clear();
+      countChart.setOption({
+        grid: {
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0
+        },
+        title: {
+          text: "单据量统计",
+          left: "left",
+        },
+        tooltip: {
+          trigger: "item",
+        },
+        color: ["#1991DD", "#F7B500", "#70B822"],
+        legend: {
+          orient: "vertical",
+          bottom: "bottom",
+          right: "right",
+          selectedMode: false,
+          borderRadius: 50
+        },
+        xAxis: {
+          show:false,
+          type : 'value',
+          boundaryGap : [0, 0]
+        },
+        yAxis: [
+          {
+            type : 'category',
+            data : [''],
+            axisLine:{show:false},
+            axisTick:[{
+                show:false
+            }]
+          }
+        ],
+        series: [
+          {
+            name: "",
+            type: "bar",
+            name: `审核完成单据（${_this.chartsDate.success + _this.chartsDate.fail}单）`,
+            stack: '总量',
+            // barMaxWidth: 20,
+            barWidth: 35,
+            label: {
+                show: ((_this.chartsDate.success + _this.chartsDate.fail)>0),
+                position: Number(_this.chartsDate.completedP)>5?'inside':'top',
+                offset: [20,0],
+                formatter: "{c}%"
+            },
+            itemStyle: {
+                barBorderRadius: [0, 0, 0, 0]
+            },
+            data: [_this.chartsDate.completedP],
+            tooltip: {
+              formatter: '{a}<br>{c}%'
+            }
+          },
+          {
+            name: "",
+            type: "bar",
+            name: `审核超时单据（${_this.chartsDate.timeout}单）`,
+            stack: '总量',
+            // barMaxWidth: 20,
+            barWidth: 35,
+            label: {
+                show: (_this.chartsDate.timeout>0),
+                position: Number(_this.chartsDate.timeoutP)>5?'inside':'top',
+                offset: [-15,0],
+                formatter: "{c}%"
+            },
+            itemStyle: {
+                barBorderRadius: [0, 0, 0, 0]
+            },
+            data: [_this.chartsDate.timeoutP],
+            tooltip: {
+              formatter: '{a}<br>{c}%'
+            }
+          },
+          {
+            name: "",
+            type: "bar",
+            name: `审核未完成单据（${_this.chartsDate.checking}单）`,
+            stack: '总量',
+            // barMaxWidth: 20,
+            barWidth: 35,
+            label: {
+                show: (_this.chartsDate.checking>0),
+                position: Number(_this.chartsDate.checkingP)>5?'inside':'bottom',
+                offset: [-15,0],
+                formatter: "{c}%"
+            },
+            itemStyle: {
+                barBorderRadius: [0, 0, 0, 0]
+            },
+            data: [_this.chartsDate.checkingP],
+            tooltip: {
+              formatter: '{a}<br>{c}%'
+            }
+          },
+        ],
+      });
     },
     getLeftData(data) {
       let _this = this;
