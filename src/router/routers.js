@@ -104,16 +104,6 @@ export default [
         },
         component: () => import('@/view/logResult.vue')
       },
-      {
-        path: 'shareResult',
-        name: 'shareResult',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '机器人审单日志 / 机器人审核结果页',
-          needLogin: false
-        },
-        component: () => import('@/view/logResult.vue')
-      }
     ]
   },
   {
@@ -134,6 +124,18 @@ export default [
         component: () => import('@/view/user.vue')
       }
     ]
+  },
+  {
+    path: '/logResult/shareResult',
+    name: 'shareResult',
+    meta: {
+      hideInMenu: true,
+      hideInBread: true,
+      needLogin: false,
+      forbidExternal: true,
+      title: '机器人审单日志 / 机器人审核结果页',
+    },
+    component: () => import('@/view/logResult.vue')
   },
   {
     path: '/401',

@@ -3,7 +3,7 @@
     <div id="list">
       <!-- 头部 -->
       <Card style="width: 100%" class="ticketType">
-        <el-button
+        <el-button v-if="!forbidExternal"
           type="primary"
           plain
           @click="$router.back()"
@@ -982,13 +982,13 @@ export default {
       ruleImageToggle: true,
       allImageInvoiceIds: {},
       currentInvoiceErrorFields: [],
-      currentInvoiceRuleId: ''
+      currentInvoiceRuleId: '',
+      forbidExternal: this.$route.meta.forbidExternal
     };
   },
   mounted() {
     this.billNumber = this.$route.query.billNumber;
     this.query();
-
   },
   computed: {
     emptyImageInfo: function () {
