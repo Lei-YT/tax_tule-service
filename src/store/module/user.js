@@ -2,13 +2,13 @@ import {
   login,
   logout,
 } from '@/api/user'
-import { setToken, getToken, setUserName, getUserName } from '@/libs/util'
+import { setId, getId, setToken, getToken, setUserName, getUserName } from '@/libs/util'
 import { Notification } from 'element-ui'
 
 export default {
   state: {
     userName: getUserName(),
-    id: '',
+    id: getId(),
     avatarImgPath: '',
     token: getToken(),
     adminNo: '',
@@ -27,6 +27,7 @@ export default {
     },
     setId(state, id) {
       state.id = id
+      setId(id)
     },
     setUserName(state, name) {
       state.userName = name
@@ -115,6 +116,7 @@ export default {
               message: res.data.msg,
               type: 'success',
             })
+            commit('setId', '')
             commit('setToken', '')
             commit('setUserName', '')
             commit('setAvatar', '')

@@ -115,16 +115,16 @@
         ref="ruleForm"
       >
         <el-form-item label="岗位名称：" prop="stationName">
-          <el-input v-model="ruleForm.stationName" />
+          <el-input v-model="ruleForm.stationName"  />
         </el-form-item>
         <el-form-item label="姓名：" prop="name">
-          <el-input v-model="ruleForm.name" />
+          <el-input v-model="ruleForm.name"  />
         </el-form-item>
         <el-form-item label="账号：" prop="adminNo">
-          <el-input v-model="ruleForm.adminNo" />
+          <el-input v-model="ruleForm.adminNo"  />
         </el-form-item>
         <el-form-item label="密码：" prop="password">
-          <el-input v-model="ruleForm.password" show-password clearable />
+          <el-input v-model="ruleForm.password"  show-password />
         </el-form-item>
       </el-form>
 
@@ -136,7 +136,6 @@
   </div>
 </template>
 <script>
-import user from "@/dataJson/user.json";
 import {
   getUserList, // 列表
   addUser, // 新增
@@ -144,6 +143,7 @@ import {
   delUser, // 删除
   enableUser
 } from "@/api/user";
+import { getId } from '@/libs/util';
 export default {
   data() {
     return {
@@ -223,11 +223,13 @@ export default {
         });
     },
     handleClick(type, row) {
+      const isMineP = getId()==row.id ? window.sessionStorage.getItem("password") : '';
       this.type = type;
       this.title = type == "edit" ? "编辑账号" : "添加账号";
       if (type == "edit") {
-        this.ruleForm = row;
-        this.ruleForm.password=window.sessionStorage.getItem("password");
+        const tmpR = JSON.parse(JSON.stringify(row));
+        tmpR.password = row.password || isMineP;
+        this.$set(this, "ruleForm", tmpR);
       }else{
         this.ruleForm = {};
       }
@@ -276,6 +278,7 @@ export default {
         });
     },
     submit(formName) {
+      const _this = this;
       let params = {
         id: this.type == "edit" ? this.id : "",
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
@@ -304,10 +307,16 @@ export default {
                   type: "success",
                   duration: 1500,
                 });
-                this.query();
+                const findRi = _this.tableData.findIndex(r => r.id === params.id);
+                if (findRi !== -1) {
+                  const newRow = Object.assign(_this.tableData[findRi], params);
+                  _this.tableData.splice(findRi, 1, newRow);
+                }
+                // this.query();
               }
             });
           }
+          this.dialogFormVisible = false;
         } else {
           return false;
         }
