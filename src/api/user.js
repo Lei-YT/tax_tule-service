@@ -1,4 +1,5 @@
 import axios from '@/libs/api.request'
+import { getToken } from '@/libs/util'
 
 // 登录
 export const login = ({ adminNo, password }) => {
@@ -58,6 +59,14 @@ export const editUser = (params) => {
 export const delUser = (id) => {
   return axios.request({
     url: `/api/user/del?id=${id}`,
+    method: 'GET'
+  })
+}
+// 账号启用/禁用
+export const enableUser = (id, status) => {
+  const t = getToken();
+  return axios.request({
+    url: `/api/user/enable?id=${id}&token=${t}&isEnable=${status}`,
     method: 'GET'
   })
 }

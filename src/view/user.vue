@@ -27,11 +27,11 @@
                 >添加账号</el-button>
             </div>
         </div>
-       
+
       </Card>
 
       <Card style="width: 100%; margin-top: 20px">
-        
+
         <div class="tableList">
           <el-table
             :data="tableData"
@@ -55,8 +55,15 @@
             />
             <el-table-column prop="isEnable" label="启用/禁用" align="center">
               <template slot-scope="scope">
-                <span v-if="scope.row.isEnable === 1">禁用</span>
-                <span v-if="scope.row.isEnable === 0">启用</span>
+                <el-button
+                  @click="handleEnable(scope.row)"
+                  type="text"
+                  size="small"
+                  :style="scope.row.isEnable === 0 ? 'color: red' : ''"
+                  >
+                  {{scope.row.isEnable === 0 ? "禁用" : "启用"}}
+                  </el-button
+                >
               </template>
             </el-table-column>
             <el-table-column label="操作" width="120" align="center">
@@ -117,7 +124,7 @@
           <el-input v-model="ruleForm.adminNo" />
         </el-form-item>
         <el-form-item label="密码：" prop="password">
-          <el-input v-model="ruleForm.password" show-password />
+          <el-input v-model="ruleForm.password" show-password clearable />
         </el-form-item>
       </el-form>
 
@@ -135,6 +142,7 @@ import {
   addUser, // 新增
   editUser, // 编辑
   delUser, // 删除
+  enableUser
 } from "@/api/user";
 export default {
   data() {
@@ -188,8 +196,33 @@ export default {
         }
       });
     },
+    handleEnable(row){
+      const actionTxt = row.isEnable === 0 ? "禁用" : "启用";
+      const newStatus = row.isEnable === 0 ? 1 : 0;
+      this.$confirm(`确认${actionTxt}该账户?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          enableUser(row.id, newStatus).then((res) => {
+            if (res.data.code == 0) {
+              this.$message({
+                message: res.data.msg,
+                type: "success",
+                duration: 1200,
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消",
+          });
+        });
+    },
     handleClick(type, row) {
-      console.log(row,'44444444');
       this.type = type;
       this.title = type == "edit" ? "编辑账号" : "添加账号";
       if (type == "edit") {
