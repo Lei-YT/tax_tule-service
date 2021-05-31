@@ -170,20 +170,20 @@ export default {
     // this.dataList = process.data;
     // this.rightData = process.data[0];
     // this.getData(process.data[0]);
-    this.query();
-    this.timer = setInterval(() => {
-      this.query();
-    }, 1800000);
   },
   beforeDestroy() {
     clearInterval(this.timer);
     this.timer = null;
   },
   mounted() {
-    this.$nextTick(() => {
+    // this.$nextTick(() => {
       this.query();
-      this.getCharts();
-    });
+      // this.getCharts();
+    // });
+    // this.query();
+    this.timer = setInterval(() => {
+      this.query();
+    }, 1800000);
   },
   methods: {
     showRightInfo(item, index) {
