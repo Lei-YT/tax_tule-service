@@ -38,10 +38,10 @@ Mock.mock(/\/bill\/robot/, 'get', (req, res) => {
     "code": 20000,
     "message": "成功",
     "data": {
-        "checking": 0,
-        "fail": 4,
-        "success": 2,
-        "timeout": 2
+        "checking": 99,
+        "fail": 1,
+        "success": 9,
+        "timeout": 1
 	    }
 	})
 })
