@@ -21,7 +21,7 @@ export default {
 html,
 body {
   .size;
-  overflow: hidden;
+  overflow: auto;
   margin: 0;
   padding: 0;
 }
