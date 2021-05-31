@@ -1020,7 +1020,7 @@ export default {
         _this.imageData.length > 0 ? _this.allData.imageInfo[0].imageURL : "";
       _this.getMessageInfo([]);
       _this.getErrorMessage(_this.invoiceId);
-      _this.tabsInvoiceIndex = 0;
+      // _this.tabsInvoiceIndex = 0;
     },
     // 右边小图点击事件
     handelImage(data) {
