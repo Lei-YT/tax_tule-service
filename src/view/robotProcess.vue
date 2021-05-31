@@ -128,6 +128,7 @@
 <script>
 import axios from "axios";
 import * as echarts from "echarts";
+import { localSave, localRead } from '@/libs/util';
 import {
   homelist, // 列表
   changeStatus, // 改变状态
@@ -146,9 +147,9 @@ export default {
       dataList: [],
       sort: [],
       rightData: {},
-      leftData: [],
-      rightItem: [],
-      chartsDate: {},
+      leftData: localRead('leftPie') ? JSON.parse(localRead('leftPie')) : [],
+      rightItem: localRead('rightPie') ? JSON.parse(localRead('rightPie')) : [],
+      chartsDate: localRead('countChart') ? JSON.parse(localRead('countChart')) : {},
       robotId: null,
       cur: 0,
       cardIdx: 0,
@@ -167,20 +168,14 @@ export default {
     };
   },
   created() {
-    // this.dataList = process.data;
-    // this.rightData = process.data[0];
-    // this.getData(process.data[0]);
   },
   beforeDestroy() {
     clearInterval(this.timer);
     this.timer = null;
   },
   mounted() {
-    // this.$nextTick(() => {
-      this.query();
-      // this.getCharts();
-    // });
-    // this.query();
+    this.getCharts();
+    this.query();
     this.timer = setInterval(() => {
       this.query();
     }, 1800000);
@@ -197,6 +192,12 @@ export default {
       let myChartTwo = echarts.init(document.getElementById("myChartTwo"));
       myChartTwo.clear();
       myChartTwo.setOption({
+        grid: {
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0
+        },
         title: {
           text: "统计结果",
           left: "left",
@@ -243,6 +244,12 @@ export default {
       let myChartThr = echarts.init(document.getElementById("myChartThr"));
       myChartThr.clear();
       myChartThr.setOption({
+        grid: {
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0
+        },
         title: {
           text: "人机协同统计",
           left: "left",
@@ -316,6 +323,7 @@ export default {
               100
             ).toFixed(2);
             _this.chartsDate = Object.assign(data.data, percent);
+            localSave('countChart', JSON.stringify(_this.chartsDate));
             _this.renderCountChart();
             _this.getLeftData(data.data);
           }
@@ -445,6 +453,7 @@ export default {
       obj6.value = data.timeout;
       obj6.name = "超时";
       _this.leftData.push(obj1, obj2, obj6);
+      localSave('leftPie', JSON.stringify(_this.leftData));
       _this.getChartTwo();
     },
     getData(data) {
@@ -459,6 +468,7 @@ export default {
       obj5.value = data.failNum;
       obj5.name = "超时";
       this.rightItem.push(obj3, obj4, obj5);
+      localSave('rightPie', JSON.stringify(this.rightItem));
       this.getChartThr();
     },
     handleChange(status, sceneId) {
