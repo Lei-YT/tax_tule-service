@@ -65,7 +65,7 @@
                   v-bind:name="item.ruleType + '1'"
                 >
                   <template>
-                    <table style="width: 100%" class="rule-table">
+                    <table style="width: 100%" class="rule-table td-wrap">
                       <thead>
                         <tr>
                           <th width="60">序号</th>
@@ -82,7 +82,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: center">
+                          <td colspan="4" style="text-align: left">
                             暂无数据
                           </td>
                         </tr>
@@ -94,7 +94,7 @@
                           class="hover-primary"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
-                          <td @click="ruleClick(item.ruleType, n, i)">{{ n.ruleName }}</td>
+                          <td style="text-align: left" @click="ruleClick(item.ruleType, n, i)">{{ n.ruleName }}</td>
                           <td style="text-align: center"
                             @click="ruleResultClick(item.ruleType, n, i)"
                           >
@@ -104,7 +104,7 @@
                               color="#E02020"
                             />
                           </td>
-                          <td @click="ruleResultClick(item.ruleType, n, i)">{{ n.message ? n.message : "——" }}</td>
+                          <td style="text-align: left" @click="ruleResultClick(item.ruleType, n, i)">{{ n.message ? n.message : "——" }}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -115,7 +115,7 @@
                   v-bind:name="item.ruleType + '2'"
                 >
                   <template>
-                    <table style="width: 100%" class="rule-table">
+                    <table style="width: 100%" class="rule-table td-wrap">
                       <thead>
                         <tr>
                           <th width="60">序号</th>
@@ -132,7 +132,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: center">
+                          <td colspan="4" style="text-align: left">
                             暂无数据
                           </td>
                         </tr>
@@ -143,7 +143,7 @@
                           v-bind:key="i"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
-                          <td>{{ n.ruleName }}</td>
+                          <td style="text-align: left">{{ n.ruleName }}</td>
                           <td style="text-align: center">
                             <Icon
                               type="md-checkmark-circle"
@@ -151,7 +151,7 @@
                               color="#6DD400"
                             />
                           </td>
-                          <td>通过</td>
+                          <td style="text-align: left">通过</td>
                         </tr>
                       </tbody>
                     </table>
@@ -592,7 +592,7 @@
                     <template>
                       <table
                         style="width: 100%; text-align: center"
-                        class="rule-table"
+                        class="rule-table td-nowrap"
                       >
                         <thead>
                           <tr style="text-align: center">
@@ -1651,6 +1651,11 @@ export default {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #eeeeee;
+  &.td-nowrap{
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   thead {
     background-color: #eeeeee;
   }
@@ -1661,17 +1666,11 @@ export default {
     max-width: 130px;
     padding: 10px 0;
     text-align: center;
-    overflow-x: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
   th {
     max-width: 130px;
     padding: 10px 0;
     text-align: center;
-    overflow-x: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
   .ivu-tooltip{
     width: 100%;
