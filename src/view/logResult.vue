@@ -597,37 +597,20 @@
                         <thead>
                           <tr style="text-align: center">
                             <th width="60">序号</th>
-                            <th width="60">价税合计</th>
-                            <th width="120">发票项目
+                            <!-- <th width="60">价税合计</th> -->
+                            <th width="180">
+                            <Tooltip
+                              placement="top-start"
+                              content="货物或应税劳务、服务名称"
+                              :max-width="200"
+                              transfer
+                            >货物或应税劳务、服务名称
                               <Icon type="ios-alert-outline" class="icon-danger"
                                 @click.native="getFieldError(vo, 'itemName', '')"
                                 v-if="currentInvoiceErrorFields.includes('itemName')"
                               />
+                            </Tooltip>
                               </th>
-                            <th width="120">
-                            <Tooltip
-                              placement="top-start"
-                              content="发票总金额(合计)"
-                              :max-width="200"
-                              transfer
-                            >发票总金额(合计)
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemAmount', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemAmount')"
-                              />
-                            </Tooltip></th>
-                            <th width="80">
-                            <Tooltip
-                              placement="top-start"
-                              content="税率(合计)"
-                              :max-width="200"
-                              transfer
-                            >税率(合计)
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemTaxRate', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemTaxRate')"
-                              />
-                            </Tooltip></th>
                             <th width="60">单位
                               <Icon type="ios-alert-outline" class="icon-danger"
                                 @click.native="getFieldError(vo, 'itemUnit', '')"
@@ -643,13 +626,37 @@
                                 @click.native="getFieldError(vo, 'itemUnitPrice', '')"
                                 v-if="currentInvoiceErrorFields.includes('itemUnitPrice')"
                               /></th>
+                            <th width="120">
+                            <Tooltip
+                              placement="top-start"
+                              content="金额"
+                              :max-width="200"
+                              transfer
+                            >金额
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemAmount', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemAmount')"
+                              />
+                            </Tooltip></th>
+                            <th width="60">
+                            <Tooltip
+                              placement="top-start"
+                              content="税率"
+                              :max-width="200"
+                              transfer
+                            >税率
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemTaxRate', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemTaxRate')"
+                              />
+                            </Tooltip></th>
                             <!-- <th width="60">税额</th> -->
                           </tr>
                         </thead>
                         <tbody>
                           <tr v-for="(n, i) in vo.invoiceItems" v-bind:key="i">
                             <td style="text-align: center">{{ i + 1 }}</td>
-                            <td>
+                            <!-- <td>
                             <Tooltip
                               placement="top-start"
                               :content="
@@ -667,7 +674,7 @@
                                 ).toFixed(2)
                               }}
                               </Tooltip>
-                            </td>
+                            </td> -->
                             <td>
                             <Tooltip
                               placement="top-start"
@@ -675,20 +682,6 @@
                               :max-width="200"
                               transfer
                             >{{ n.itemName }}</Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemAmount"
-                              :max-width="200"
-                              transfer
-                            >{{ n.itemAmount }}</Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemTaxRate"
-                              :max-width="200"
-                              transfer
-                            >{{ n.itemTaxRate }}</Tooltip></td>
                             <td>
                             <Tooltip
                               placement="top-start"
@@ -710,7 +703,32 @@
                               :max-width="200"
                               transfer
                             >{{ Number(n.itemUnitPrice).toFixed(2) }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemAmount"
+                              :max-width="200"
+                              transfer
+                            >{{ n.itemAmount }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemTaxRate"
+                              :max-width="200"
+                              transfer
+                            >{{ n.itemTaxRate }}</Tooltip></td>
                             <!-- <td>{{ n.itemTaxAmount }}</td> -->
+                          </tr>
+                          <tr>
+                            <td style="font-weight: 700">合计</td>
+                            <td colspan="4"></td>
+                            <td>{{vo.amountWithoutTax}}</td>
+                            <td>{{vo.taxRate}}</td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: 700">价税合计</td>
+                            <td>{{vo.amountWithTax}}</td>
+                            <td colspan="5"></td>
                           </tr>
                         </tbody>
                       </table>
@@ -1261,6 +1279,16 @@ export default {
           let data = resp.data;
           if (data.status == 200) {
             _this.allData = data.data;
+            _this.allData.imageInfo.map(img => {
+              return img.invoices.map(invo => {
+                const taxRate = Number(((invo.taxAmount/invo.amountWithoutTax)*100).toFixed(2));
+                invo.taxRate = `${taxRate}%`;
+                return invo;
+                // const sumR = invo.invoiceItems.reduce((acc, val) => {
+                //   return acc.itemAmount+val.itemAmount;
+                // });
+              });
+            })
             _this.handelAllImage();
           }
         })
