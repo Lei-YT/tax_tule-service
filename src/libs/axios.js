@@ -46,12 +46,12 @@ class HttpRequest {
       let errorInfo = error.response
       console.log(error, 'error')
       // const { data, status } = errorInfo
-      // Notification.closeAll()
-      // Notification({
-      //   message: data.msg || data.message,
-      //   type: 'warning',
-      //   duration: 2000
-      // })
+      Notification.closeAll()
+      Notification({
+        message: data.msg || data.message,
+        type: 'warning',
+        duration: 2000
+      })
       // loadingInstance.close()
       return Promise.reject(error)
     })
