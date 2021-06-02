@@ -481,6 +481,12 @@ export default {
             duration: 1500,
           });
           _this.query();
+        } else {
+          _this.$notify({
+            type: 'warning',
+            message: res.data.msg,
+            duration: 1500,
+          });
         }
       });
     },
