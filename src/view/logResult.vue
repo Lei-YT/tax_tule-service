@@ -650,7 +650,11 @@
                                 v-if="currentInvoiceErrorFields.includes('itemTaxRate')"
                               />
                             </Tooltip></th>
-                            <!-- <th width="60">税额</th> -->
+                            <th width="60">税额
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'itemTaxAmount', '')"
+                                v-if="currentInvoiceErrorFields.includes('itemTaxAmount')"
+                              /></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -717,18 +721,25 @@
                               :max-width="200"
                               transfer
                             >{{ n.itemTaxRate }}</Tooltip></td>
-                            <!-- <td>{{ n.itemTaxAmount }}</td> -->
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.itemTaxAmount"
+                              :max-width="200"
+                              transfer
+                            >{{ n.itemTaxAmount }}</Tooltip></td>
                           </tr>
                           <tr>
                             <td style="font-weight: 700">合计</td>
                             <td colspan="4"></td>
                             <td>{{vo.amountWithoutTax}}</td>
                             <td>{{vo.taxRate}}</td>
+                            <td>{{vo.taxAmount}}</td>
                           </tr>
                           <tr>
                             <td style="font-weight: 700">价税合计</td>
                             <td>{{vo.amountWithTax}}</td>
-                            <td colspan="5"></td>
+                            <td colspan="6"></td>
                           </tr>
                         </tbody>
                       </table>
