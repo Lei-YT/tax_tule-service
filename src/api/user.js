@@ -30,6 +30,13 @@ export const changeStatus = ({ sceneId, status }) => {
     method: 'GET'
   })
 }
+// 机器人流程监控页启停服务操作接口: 重启
+export const reboot = ({ sceneId }) => {
+  return axios.request({
+    url: `/api/scene/initiastatus?id=${sceneId}`,
+    method: 'GET'
+  })
+}
 
 // 帐号列表接口
 export const getUserList = (params) => {

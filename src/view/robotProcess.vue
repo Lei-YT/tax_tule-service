@@ -94,7 +94,7 @@
                   type="primary"
                   style="margin-right: 10px"
                   v-if="rightData.status == 4"
-                  @click="handleChange(1, rightData.sceneId)"
+                  @click="handleReboot(rightData.sceneId)"
                   >重启</el-button
                 >
               </div>
@@ -132,6 +132,7 @@ import { localSave, localRead } from '@/libs/util';
 import {
   homelist, // 列表
   changeStatus, // 改变状态
+  reboot
 } from "@/api/user";
 import InfoManage from "./components/InfoManage";
 import OperationLog from "./components/OperationLog";
@@ -474,6 +475,26 @@ export default {
     handleChange(status, sceneId) {
       let _this = this;
       changeStatus({ status, sceneId }).then((res) => {
+        if (res.data.code == 0) {
+          _this.$message({
+            message: res.data.msg,
+            type: "success",
+            duration: 1500,
+          });
+          _this.query();
+        } else {
+          _this.$notify({
+            type: 'warning',
+            title: '失败',
+            message: res.data.msg,
+            duration: 1500,
+          });
+        }
+      });
+    },
+    handleReboot(sceneId) {
+      let _this = this;
+      reboot({ sceneId }).then((res) => {
         if (res.data.code == 0) {
           _this.$message({
             message: res.data.msg,
