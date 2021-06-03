@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\LCRPA]
+@="lcrpa protocol"
+"URL Protocol"="D:\\workspace\\tax_tule-service\\RPA.exe"
+
+[HKEY_CLASSES_ROOT\LCRPA\DefaultIcon]
+@="\"D:\\workspace\\tax_tule-service\\RPA.exe\",0"
+[HKEY_CLASSES_ROOT\LCRPA\shell]
+[HKEY_CLASSES_ROOT\LCRPA\shell\open]
+[HKEY_CLASSES_ROOT\LCRPA\shell\open\command]
+@="\"D:\\workspace\\tax_tule-service\\RPA.exe\""
