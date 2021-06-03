@@ -22,7 +22,7 @@
                   <Date-picker placeholder="选择日期" type="date" :options="disabledDate1" :value="checkBeginDate" format="yyyy-MM-dd" @on-change="handleDatepicker($event, 'checkBeginDate')" >
                   </Date-picker>
                   <span style="margin: 0 5px">—</span>
-                  <Date-picker placeholder="选择日期" type="date" 
+                  <Date-picker placeholder="选择日期" type="date"
                     :options="disabledDate2"
                     :value="checkEndDate"
                     format="yyyy-MM-dd"
@@ -92,7 +92,7 @@
           <div class="listItem">
             <img src="@/assets/images/icon5.png" class="icon" />
             <div class="counts">
-              <p>平均每单审核时常 (min)</p>
+              <p>平均每单审核时长 (分钟)</p>
               <p>{{avgBillDatenum}}</p>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default {
          _this.formatter='{b}<br/>{a0}:{c0}<br/>';
       }
        if(val==4){
-        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':false, '通过率':true}; 
+        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':false, '通过率':true};
         _this.formatter='{b}<br/>{a0}:{c0}%<br/>';
       }
       this.initChart()
@@ -282,10 +282,10 @@ export default {
               {
                   type: 'category',
                   data: dates,//['2021-05-10', '2021-05-11', '2021-05-12', '2021-05-13', '2021-05-14', '2021-05-17', '2021-05-18', '2021-05-19', '2021-05-20']
-                  axisLabel: {  
-                    interval:0,  
-                    rotate:40  
-                  } 
+                  axisLabel: {
+                    interval:0,
+                    rotate:40
+                  }
               }
           ],
           yAxis: [
@@ -373,7 +373,7 @@ export default {
                   data: successarr,//[(0/4)*100, (10/15)*100, (0/47)*100, (80/94)*100, (30/88)*100, (64/234)*100, (40/209)*100, (19/284)*100, (0/97)*100]
               }
 
-          ] 
+          ]
       };
 
       myChart.setOption(option);
@@ -477,7 +477,7 @@ export default {
       this.$set(this, dataKey, dateValue);
       this.status = '';
       // if (dataKey==='checkBeginDate') {
-        
+
         const bb = new Date()
         bb.setFullYear(bb.getFullYear() - 1)
         let lastyear=bb;
