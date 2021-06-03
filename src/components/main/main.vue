@@ -21,7 +21,7 @@
         <div class="logo-con">
           <div class="logBox" v-show="!collapsed" key="max-logo">
             <!-- <img :src="logo" class="logo" /> -->
-            <p>中国中铁财务共享服务中心</p>
+            <p>中铁隧道局Human-AI协同平台</p>
           </div>
           <!-- <img v-show="collapsed" :src="logo" key="min-logo" class="logo" /> -->
         </div>

@@ -10,9 +10,9 @@
     <div class="rightCon">
       <div class="topLogo">
         <img src="@/assets/images/logo.png" class="logImg" />
-        <p>中铁隧道局AI-human协同平台</p>
+        <p>中铁隧道局Human-AI协同平台</p>
       </div>
-      
+
       <div class="login-con">
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit"></login-form>
