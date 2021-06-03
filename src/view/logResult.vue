@@ -825,12 +825,12 @@
           }"
           :cell-class-name="formTableCellClassName"
         >
-          <el-table-column
+          <!-- <el-table-column
             v-if="resultFormData.length>0"
             type="index"
             label="序号"
             align="center"
-            width="60"/>
+            width="60"/> -->
           <template v-for="(col, i) in formColumnsChildren">
             <el-table-column
               :prop="col.key"
@@ -859,12 +859,12 @@
           }"
           :cell-class-name="imageTableCellClassName"
         >
-          <el-table-column
+          <!-- <el-table-column
             v-if="resultImageData.length>0"
             type="index"
             label="序号"
             align="center"
-            width="60"/>
+            width="60"/> -->
           <template v-for="(col, i) in imageColumnsChildren">
             <el-table-column
               :prop="col.key"
@@ -1140,7 +1140,7 @@ export default {
       if ( ! row.hasOwnProperty(columnName)) {
         return ''
       }
-      const valueObj = _this.resultFormDataRaw[dataIndex].valueData.find(ele => ele.value===row[columnName]);
+      const valueObj = _this.resultFormDataRaw[dataIndex].valueData.find(ele => `${ele.index} | ${ele.value}`===row[columnName]);
       return valueObj.highLight === true ? "text-highlight" : ''
     },
     imageTableCellClassName({row, column, rowIndex, columnIndex}) {
@@ -1156,7 +1156,7 @@ export default {
       if ( ! row.hasOwnProperty(columnName)) {
         return ''
       }
-      const valueObj = _this.resultImageDataRaw[dataIndex].valueData.find(ele => ele.value===row[columnName]);
+      const valueObj = _this.resultImageDataRaw[dataIndex].valueData.find(ele => `${ele.index} | ${ele.value}`===row[columnName]);
       return valueObj.highLight === true ? "text-highlight" : ''
     },
     getRuleInvoice(request, showAllRules = true) {
@@ -1196,7 +1196,7 @@ export default {
 
             const xx = data.data.form.map((fc, i) => {
               const keyn = `data${i}`;
-              const formData = fc.valueData.map(hi => hi.value); // fc.data
+              const formData = fc.valueData.map(hi => `${hi.index} | ${hi.value}`); // fc.data
               return formData.map((d) => {
                 const newd = {};
                 newd[keyn] = d;
@@ -1218,7 +1218,7 @@ export default {
 
             const tt = data.data.image.map((fc, i) => {
               const keyn = `data${i}`;
-              const imageData = fc.valueData.map(hi => hi.value); // fc.data
+              const imageData = fc.valueData.map(hi => `${hi.index} | ${hi.value}`); // fc.data
               return imageData.map((d) => {
                 const newd = {};
                 newd[keyn] = d;
