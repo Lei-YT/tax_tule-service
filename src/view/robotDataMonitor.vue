@@ -185,8 +185,7 @@ export default {
          _this.formatter='{b}<br/>{a0}:{c0}<br/>';
       }
        if(val==4){
-        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':false, '通过率':true}; 
-        _this.formatter='{b}<br/>{a0}:{c0}%<br/>';
+        _this.showcheck={'规则数量':false, '机器人审单量':false, '预警量':false, '通过率':true};
         _this.formatter='{b}<br/>{a0}:{c0}%<br/>';
       }
       this.initChart()
