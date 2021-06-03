@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log.json'
 import loginJson from '@/dataJson/login.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result8.json'
+import resultJson from '@/dataJson/result6.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data6.json'
 import userJson from '@/dataJson/user.json'
@@ -32,33 +32,33 @@ Mock.mock(/\/api\/login\/logout/, 'get', (req, res) => {
 // })
 Mock.mock(/\/bill\/robot/, 'get', (req, res) => {
   // console.log('mock res', req, process)
-  console.log('mock res robot', req)
+  // console.log('mock res robot', req)
   return Mock.mock(	{
     "success": true,
     "code": 20000,
     "message": "成功",
     "data": {
-        "checking": 99,
-        "fail": 1,
+        "checking": 1,
+        "fail": 99,
         "success": 9,
         "timeout": 1
 	    }
 	})
 })
 Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
-  console.log('mock res homelist', req, process)
+  // console.log('mock res homelist', req, process)
   return Mock.mock(process)
 })
 Mock.mock(/\/api\/scene\/scenelist/, 'get', (req, res) => {
-  console.log('mock res scenelist', req, infoMange)
+  // console.log('mock res scenelist', req, infoMange)
   return Mock.mock(infoMange)
 })
 Mock.mock(/\/api\/scene\/logslist/, 'get', (req, res) => {
-  console.log('mock res logslist', req, logslist)
+  // console.log('mock res logslist', req, logslist)
   return Mock.mock(logslist)
 })
 Mock.mock(/\/api\/scene\/setbill/, 'get', (req, res) => {
-  console.log('mock res setbill', req)
+  // console.log('mock res setbill', req)
   return Mock.mock({
     'code': 1,
     'msg': '操作成功.'
@@ -66,8 +66,16 @@ Mock.mock(/\/api\/scene\/setbill/, 'get', (req, res) => {
 })
 
 Mock.mock(/\/api\/scene\/infostatus/, 'get', (req, res) => {
+  console.log('mock res infostatus', req)
   return Mock.mock({
-    'code': 0,
+    'code': 1,
+    'msg': '操作成功.'
+  })
+})
+Mock.mock(/\/api\/scene\/initiastatus/, 'get', (req, res) => {
+  console.log('mock res initiastatus', req)
+  return Mock.mock({
+    'code': 1,
     'msg': '操作成功.'
   })
 })
