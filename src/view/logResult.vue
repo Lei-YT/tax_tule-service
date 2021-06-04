@@ -1473,10 +1473,12 @@ export default {
   p {
     color: #fff;
     font-weight: 400;
+    display: inline-block;
+    width: auto;
   }
 }
 .countBox {
-  width: 50%;
+  // width: 50%;
   text-align: right;
   display: flex;
   align-items: center;
