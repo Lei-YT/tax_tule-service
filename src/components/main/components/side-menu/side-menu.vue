@@ -62,7 +62,7 @@
         <div flex="dir:top cross:center" class="external-link-box">
           <img src="@/assets/images/robot.svg" />
           <div>RPA编辑器</div>
-          <a href="LCRPA://" class="link-button_white">点击进入链接页面</a>
+          <a href="LCRPAProject://" class="link-button_white">点击进入链接页面</a>
         </div></Col
       >
     </Row>
@@ -123,7 +123,7 @@
           key="drop-menu-robot"
         >
           <a
-            href="LCRPA://"
+            href="LCRPAProject://"
             rel="nofollow"
             :style="{ textAlign: 'center' }"
             class="drop-menu-a"

@@ -32,7 +32,8 @@ export default [
     name: 'home',
     component: Main,
     meta: {
-      notCache: true
+      notCache: true,
+      hideInBread: true
     },
     children: [
       {
@@ -119,7 +120,7 @@ export default [
         name: 'userIndex',
         meta: {
           icon: 'ios-contacts-outline',
-          title: '账号管理'
+          title: '权限管理'
         },
         component: () => import('@/view/user.vue')
       }
