@@ -1,5 +1,6 @@
 import Main from '@/components/main'
-
+import uuidv4 from 'uuid/v4'
+// const NAMESPACE = uuidv4();
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
  * meta: {
@@ -15,10 +16,10 @@ import Main from '@/components/main'
  *  beforeCloseName: (-) 设置该字段，则在关闭当前tab页时会去'@/router/before-close.js'里寻找该字段名对应的方法，作为关闭前的钩子函数
  * }
  */
-
+const homePath = uuidv4()
 export default [
   {
-    path: '/login',
+    path: `/${uuidv4()}`,
     name: 'login',
     meta: {
       title: '登陆页面',
@@ -28,7 +29,7 @@ export default [
   },
   {
     path: '/',
-    redirect: '/robotDataMonitor',
+    redirect: `/${homePath}`,
     name: 'home',
     component: Main,
     meta: {
@@ -37,7 +38,7 @@ export default [
     },
     children: [
       {
-        path: 'robotDataMonitor',
+        path: homePath,
         name: 'robotDataMonitor',
         meta: {
           icon: 'ios-navigate',
@@ -48,7 +49,7 @@ export default [
     ]
   },
   {
-    path: '/robotProcess',
+    path: '/',
     name: 'robotProcess',
     meta: {
       hideInBread: true
@@ -56,7 +57,7 @@ export default [
     component: Main,
     children: [
       {
-        path: 'robotProcess',
+        path: uuidv4(),
         name: 'robotProcessIndex',
         meta: {
           icon: 'md-crop',
@@ -67,7 +68,7 @@ export default [
     ]
   },
   {
-    path: '/auditLog',
+    path: '/',
     name: 'auditLog',
     meta: {
       hideInBread: true
@@ -75,7 +76,7 @@ export default [
     component: Main,
     children: [
       {
-        path: 'auditLog',
+        path: uuidv4(),
         name: 'auditLogIndex',
         meta: {
           icon: 'ios-create-outline',
@@ -88,7 +89,7 @@ export default [
     ]
   },
   {
-    path: '/logResult',
+    path: '/',
     name: 'logResult',
     meta: {
       hideInBread: true,
@@ -97,7 +98,7 @@ export default [
     component: Main,
     children: [
       {
-        path: 'logResult',
+        path: uuidv4(),
         name: 'logResultIndex',
         meta: {
           icon: 'ios-create-outline',
@@ -108,7 +109,7 @@ export default [
     ]
   },
   {
-    path: '/user',
+    path: '/',
     name: 'user',
     meta: {
       hideInBread: true
@@ -116,7 +117,7 @@ export default [
     component: Main,
     children: [
       {
-        path: 'user',
+        path: uuidv4(),
         name: 'userIndex',
         meta: {
           icon: 'ios-contacts-outline',

@@ -689,7 +689,11 @@ export default {
     },
     handleClick (row) {
       this.$router.push({
-        path: `/logResult/logResult?billNumber=${row.taskId}`
+        // path: `/logResult/logResult?billNumber=${row.taskId}`
+        name: 'logResultIndex',
+        param: {
+          billNumber: row.taskId
+        }
       })
     },
     searchData () {
