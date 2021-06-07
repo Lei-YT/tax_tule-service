@@ -372,12 +372,12 @@
                           </Col>
                           <Col span="8">
                             <FormItem label="校验码">
-                              <Input v-model="vo['校验码']" readonly
+                              <Input v-model="vo.invoiceCRC" readonly
                                 icon="ios-alert-outline"
                                 style="width: auto"
-                                @click.native="getFieldError(vo)"
-                                v-if="currentInvoiceErrorFields.includes('校验码')"></Input>
-                              <Input v-else v-model="vo['校验码']" readonly></Input>
+                                @click.native="getFieldError(vo,'invoiceCRC', vo.invoiceCRC)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCRC')"></Input>
+                              <Input v-else v-model="vo.invoiceCRC" readonly></Input>
                             </FormItem>
                           </Col>
                         </Row>
