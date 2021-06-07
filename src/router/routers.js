@@ -19,7 +19,7 @@ import uuidv4 from 'uuid/v4'
 const homePath = uuidv4()
 export default [
   {
-    path: `/${uuidv4()}`,
+    path: `/`,
     name: 'login',
     meta: {
       title: '登陆页面',
@@ -57,7 +57,7 @@ export default [
     component: Main,
     children: [
       {
-        path: uuidv4(),
+        path: homePath,
         name: 'robotProcessIndex',
         meta: {
           icon: 'md-crop',
@@ -76,7 +76,7 @@ export default [
     component: Main,
     children: [
       {
-        path: uuidv4(),
+        path: homePath,
         name: 'auditLogIndex',
         meta: {
           icon: 'ios-create-outline',
@@ -98,7 +98,7 @@ export default [
     component: Main,
     children: [
       {
-        path: uuidv4(),
+        path: homePath,
         name: 'logResultIndex',
         meta: {
           icon: 'ios-create-outline',
@@ -117,7 +117,7 @@ export default [
     component: Main,
     children: [
       {
-        path: uuidv4(),
+        path: homePath,
         name: 'userIndex',
         meta: {
           icon: 'ios-contacts-outline',
