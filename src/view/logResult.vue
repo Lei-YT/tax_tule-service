@@ -6,7 +6,7 @@
         <el-button v-if="!forbidExternal"
           type="primary"
           plain
-          @click="$router.back()"
+          @click="$router.push({name: 'auditLogIndex'})"
           icon="el-icon-arrow-left"
           size="small"
           >返回</el-button
