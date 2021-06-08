@@ -379,7 +379,6 @@ export default {
       myChart.setOption(option);
     },
     getSelectlist() {
-      console.log(121212)
       const _this = this;
       axios
         .get(`http://10.15.196.127:7070/billType/findAll`, {

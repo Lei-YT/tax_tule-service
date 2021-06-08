@@ -57,7 +57,7 @@ import SideMenu from "./components/side-menu";
 import HeaderBar from "./components/header-bar";
 import User from "./components/user";
 import { mapMutations, mapActions, mapGetters } from "vuex";
-import { getNewTagList, routeEqual } from "@/libs/util";
+import { getNewTagList, routeEqual,localSave,localRead } from "@/libs/util";
 import routers from "@/router/routers";
 import "./main.less";
 export default {
@@ -143,6 +143,7 @@ export default {
     },
     handleCollapsedChange(state) {
       this.collapsed = state;
+      localSave('collapsed', state)
     },
     handleCloseTag(res, type, route) {
       if (type !== "others") {

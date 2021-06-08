@@ -105,10 +105,10 @@
           </div>
           <div class="downCon">
             <Card style="width: 49%">
-              <div id="myChartTwo" style="width: 100%; height: 500px"></div>
+              <div id="myChartTwo" style="width:100%; height: 500px"></div>
             </Card>
             <Card style="width: 49%">
-              <div id="myChartThr" style="width: 100%; height: 500px"></div>
+              <div id="myChartThr" style="width: 100% ; height: 500px"></div>
             </Card>
           </div>
         </div>
@@ -244,6 +244,7 @@ export default {
           },
         ],
       });
+      myChartTwo.resize();
     },
     getChartThr() {
       let myChartThr = echarts.init(document.getElementById("myChartThr"));
@@ -295,6 +296,7 @@ export default {
           },
         ],
       });
+      myChartThr.resize();
     },
     changeCur(index) {
       this.cur = index;
