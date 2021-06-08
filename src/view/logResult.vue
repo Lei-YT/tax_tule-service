@@ -1016,7 +1016,7 @@ export default {
     };
   },
   mounted() {
-    this.billNumber = this.$route.query.billNumber;
+    this.billNumber = this.$route.params.billNumber;
     this.query();
   },
   computed: {

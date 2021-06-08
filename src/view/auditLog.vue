@@ -688,10 +688,11 @@ export default {
       this.adjustWidth()
     },
     handleClick (row) {
+
       this.$router.push({
         // path: `/logResult/logResult?billNumber=${row.taskId}`
         name: 'logResultIndex',
-        param: {
+        params: {
           billNumber: row.taskId
         }
       })
