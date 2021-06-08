@@ -33,19 +33,19 @@
             <div class="imgCon" @click="showRightInfo(item, index)">
               <img src="@/assets/images/trians.png" class="trians" />
               <div class="nameText" v-if="item.status == 1">
-                {{ item.name }}<span style="color:#1991dd">（未启动）</span>
+                {{ item.name }}<span style="color: #1991dd">（未启动）</span>
               </div>
               <div class="nameText" v-if="item.status == 2">
-                {{ item.name }}<span style="color:#f7b500">（进行中）</span>
+                {{ item.name }}<span style="color: #f7b500">（进行中）</span>
               </div>
               <div class="nameText" v-if="item.status == 3">
-                {{ item.name }}<span style="color:#f7b500">（暂停）</span>
+                {{ item.name }}<span style="color: #f7b500">（暂停）</span>
               </div>
               <div class="nameText" v-if="item.status == 4">
-                {{ item.name }}<span style="color:#1991dd">（结束）</span>
+                {{ item.name }}<span style="color: #1991dd">（结束）</span>
               </div>
               <div class="nameText" v-if="item.status == 5">
-                {{ item.name }}<span style="color:#999">（异常停止）</span>
+                {{ item.name }}<span style="color: #999">（异常停止）</span>
               </div>
             </div>
           </Card>
@@ -99,16 +99,16 @@
                 >
               </div>
               <div class="chartOne">
-                <div id="countChart" style="width: 100%;height:260px;"></div>
+                <div id="countChart" style="width: 100%; height: 260px"></div>
               </div>
             </Card>
           </div>
           <div class="downCon">
             <Card style="width: 49%">
-              <div id="myChartTwo" style="height: 500px"></div>
+              <div id="myChartTwo" style="width: 100%; height: 500px"></div>
             </Card>
             <Card style="width: 49%">
-              <div id="myChartThr" style="height: 500px"></div>
+              <div id="myChartThr" style="width: 100%; height: 500px"></div>
             </Card>
           </div>
         </div>
@@ -128,11 +128,11 @@
 <script>
 import axios from "axios";
 import * as echarts from "echarts";
-import { localSave, localRead } from '@/libs/util';
+import { localSave, localRead } from "@/libs/util";
 import {
   homelist, // 列表
   changeStatus, // 改变状态
-  reboot
+  reboot,
 } from "@/api/user";
 import InfoManage from "./components/InfoManage";
 import OperationLog from "./components/OperationLog";
@@ -148,9 +148,11 @@ export default {
       dataList: [],
       sort: [],
       rightData: {},
-      leftData: localRead('leftPie') ? JSON.parse(localRead('leftPie')) : [],
-      rightItem: localRead('rightPie') ? JSON.parse(localRead('rightPie')) : [],
-      chartsDate: localRead('countChart') ? JSON.parse(localRead('countChart')) : {},
+      leftData: localRead("leftPie") ? JSON.parse(localRead("leftPie")) : [],
+      rightItem: localRead("rightPie") ? JSON.parse(localRead("rightPie")) : [],
+      chartsDate: localRead("countChart")
+        ? JSON.parse(localRead("countChart"))
+        : {},
       robotId: null,
       cur: 0,
       cardIdx: 0,
@@ -168,8 +170,7 @@ export default {
       ],
     };
   },
-  created() {
-  },
+  created() {},
   beforeDestroy() {
     clearInterval(this.timer);
     this.timer = null;
@@ -197,7 +198,9 @@ export default {
           top: 0,
           bottom: 0,
           left: 0,
-          right: 0
+          right: 0,
+          width: "auto",
+          height: "auto",
         },
         title: {
           text: "统计结果",
@@ -206,8 +209,9 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#1991DD", "#f7b500", "#70B822"],
+        color: ["#70B822", "#1991DD", "#F7B500"],
         legend: {
+          icon: "circle",
           orient: "vertical",
           bottom: "bottom",
           right: "right",
@@ -249,7 +253,9 @@ export default {
           top: 0,
           bottom: 0,
           left: 0,
-          right: 0
+          right: 0,
+          width: "auto",
+          height: "auto",
         },
         title: {
           text: "人机协同统计",
@@ -258,8 +264,9 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#1991DD", "#F7B500", "#70B822"],
+        color: ["#70B822", "#1991DD", "#F7B500"],
         legend: {
+          icon: "circle",
           orient: "vertical",
           bottom: "bottom",
           right: "right",
@@ -324,7 +331,7 @@ export default {
               100
             ).toFixed(2);
             _this.chartsDate = Object.assign(data.data, percent);
-            localSave('countChart', JSON.stringify(_this.chartsDate));
+            localSave("countChart", JSON.stringify(_this.chartsDate));
             _this.renderCountChart();
             _this.getLeftData(data.data);
           }
@@ -342,7 +349,7 @@ export default {
           top: 0,
           bottom: 0,
           left: 0,
-          right: 0
+          right: 0,
         },
         title: {
           text: "单据量统计",
@@ -351,92 +358,100 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#1991DD", "#F7B500", "#70B822"],
+        color: ["#70B822", "#1991DD", "#F7B500"],
         legend: {
+          icon: "circle",
           orient: "vertical",
           bottom: "bottom",
           right: "right",
           selectedMode: false,
-          borderRadius: 50
+          borderRadius: 50,
         },
         xAxis: {
-          show:false,
-          type : 'value',
-          boundaryGap : [0, 0]
+          show: false,
+          type: "value",
+          boundaryGap: [0, 0],
         },
         yAxis: [
           {
-            type : 'category',
-            data : [''],
-            axisLine:{show:false},
-            axisTick:[{
-                show:false
-            }]
-          }
+            type: "category",
+            data: [""],
+            axisLine: { show: false },
+            axisTick: [
+              {
+                show: false,
+              },
+            ],
+          },
         ],
         series: [
           {
             name: "",
             type: "bar",
-            name: `审核完成单据（${_this.chartsDate.success + _this.chartsDate.fail}单）`,
-            stack: '总量',
+            name: `审核完成单据（${
+              _this.chartsDate.success + _this.chartsDate.fail
+            }单）`,
+            stack: "总量",
             // barMaxWidth: 20,
             barWidth: 35,
             label: {
-                show: ((_this.chartsDate.success + _this.chartsDate.fail)>0),
-                position: Number(_this.chartsDate.completedP)>5?'inside':'top',
-                offset: [20,0],
-                formatter: "{c}%"
+              show: _this.chartsDate.success + _this.chartsDate.fail > 0,
+              position:
+                Number(_this.chartsDate.completedP) > 5 ? "inside" : "top",
+              offset: [20, 0],
+              formatter: "{c}%",
             },
             itemStyle: {
-                barBorderRadius: [0, 0, 0, 0]
+              barBorderRadius: [0, 0, 0, 0],
             },
             data: [_this.chartsDate.completedP],
             tooltip: {
-              formatter: '{a}<br>{c}%'
-            }
+              formatter: "{a}<br>{c}%",
+            },
           },
           {
             name: "",
             type: "bar",
             name: `审核超时单据（${_this.chartsDate.timeout}单）`,
-            stack: '总量',
+            stack: "总量",
             // barMaxWidth: 20,
             barWidth: 35,
             label: {
-                show: (_this.chartsDate.timeout>0),
-                position: Number(_this.chartsDate.timeoutP)>5?'inside':'top',
-                offset: [-15,0],
-                formatter: "{c}%"
+              show: _this.chartsDate.timeout > 0,
+              position:
+                Number(_this.chartsDate.timeoutP) > 5 ? "inside" : "top",
+              offset: [-15, 0],
+              formatter: "{c}%",
             },
             itemStyle: {
-                barBorderRadius: [0, 0, 0, 0]
+              barBorderRadius: [0, 0, 0, 0],
             },
             data: [_this.chartsDate.timeoutP],
             tooltip: {
-              formatter: '{a}<br>{c}%'
-            }
+              formatter: "{a}<br>{c}%",
+            },
           },
           {
             name: "",
             type: "bar",
             name: `审核未完成单据（${_this.chartsDate.checking}单）`,
-            stack: '总量',
+            stack: "总量",
             // barMaxWidth: 20,
             barWidth: 35,
             label: {
-                show: (_this.chartsDate.checking>0),
-                position: Number(_this.chartsDate.checkingP)>5?'inside':'bottom',
-                offset: [-15,0],
-                formatter: "{c}%"
+              show: _this.chartsDate.checking > 0,
+              position:
+                Number(_this.chartsDate.checkingP) > 5 ? "inside" : "bottom",
+              offset: [-15, 0],
+              formatter: "{c}%",
             },
             itemStyle: {
-                barBorderRadius: [0, 0, 0, 0]
+              barBorderRadius: [0, 0, 0, 0],
             },
             data: [_this.chartsDate.checkingP],
             tooltip: {
-              formatter: '{a}<br>{c}%'
-            }
+              formatter: "{a}<br>{c}%",
+            },
           },
         ],
       });
@@ -454,7 +469,7 @@ export default {
       obj6.value = data.timeout;
       obj6.name = "超时";
       _this.leftData.push(obj1, obj2, obj6);
-      localSave('leftPie', JSON.stringify(_this.leftData));
+      localSave("leftPie", JSON.stringify(_this.leftData));
       _this.getChartTwo();
     },
     getData(data) {
@@ -469,7 +484,7 @@ export default {
       obj5.value = data.failNum;
       obj5.name = "超时";
       this.rightItem.push(obj3, obj4, obj5);
-      localSave('rightPie', JSON.stringify(this.rightItem));
+      localSave("rightPie", JSON.stringify(this.rightItem));
       this.getChartThr();
     },
     handleChange(status, sceneId) {
@@ -484,8 +499,8 @@ export default {
           _this.query();
         } else {
           _this.$notify({
-            type: 'warning',
-            title: '失败',
+            type: "warning",
+            title: "失败",
             message: res.data.msg,
             duration: 1500,
           });
@@ -504,7 +519,7 @@ export default {
           _this.query();
         } else {
           _this.$notify({
-            type: 'warning',
+            type: "warning",
             message: res.data.msg,
             duration: 1500,
           });
