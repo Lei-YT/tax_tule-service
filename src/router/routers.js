@@ -161,6 +161,7 @@ export default [
     meta: {
       hideInMenu: true
     },
-    component: () => import('@/view/error-page/404.vue')
+    component: () => import('@/view/login/login.vue')
+    // component: () => import('@/view/error-page/404.vue')
   }
 ]
