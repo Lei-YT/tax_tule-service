@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
+import { Encrypt, Decrypt } from "@/libs/aes";
 import { Notification, Loading } from 'element-ui'
 
 let loadingInstance
@@ -28,6 +29,7 @@ class HttpRequest {
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
+      console.log('request', config)
       // 添加全局的loading...
       // loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       this.queue[url] = false
@@ -40,7 +42,10 @@ class HttpRequest {
       // loadingInstance.close()
       this.destroy(url)
       const { data, status } = res
-      return { data, status }
+      console.log('response', res)
+      const decryptData = JSON.parse(Decrypt(data));
+      console.log('after decrypt res', decryptData)
+      return { data: decryptData, status }
     }, error => {
       this.destroy(url)
       let errorInfo = error.response
@@ -57,6 +62,11 @@ class HttpRequest {
     })
   }
   request (options) {
+    const rawData = JSON.stringify(options.data);
+    console.log('before encrypt', rawData);
+    const encryptData = Encrypt(rawData);
+    console.log('after encrypt', encryptData);
+    options.data = encryptData;
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)

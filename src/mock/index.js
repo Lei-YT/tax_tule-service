@@ -1,3 +1,5 @@
+import { Encrypt, Decrypt } from "@/libs/aes";
+
 import Mock from 'mockjs'
 import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
@@ -15,22 +17,27 @@ Mock.setup({
 })
 const Random = Mock.Random
 
-Mock.mock(/\/api\/login\/login/, 'get', (req, res) => {
-  // console.log('mock res', req, loginJson)
-  return Mock.mock(loginJson)
+Mock.mock(/\/api\/login\/login/, 'post', (req, res) => {
+  console.log('mock res login', req, loginJson)
+  // const resS = 'eyJpdiI6IkhFUER3MnlybzNyVm9oZVZaZFV4cmc9PSIsInZhbHVlIjoiOGppaEZhMUFFa1NzcFV2UWRXUnEwQ2pYVlg5YlJMTW9cL3ZmeHh5TkZRSmtSeFFyOUo4UVJnbG5vUGQ1Wkl0dHBlYTJaRDZtS0thWjBSTzcrU1E4VGRBPT0iLCJtYWMiOiJmNjBmNDVmNWYxOThlZmQxZWE5NWVkZTc3YTk4MDU2MjQyMzdiNDQ3MGNjZTIwMzc1ZTQzMzMxMTY5MWEwZWZmIn0=';
+  // const resS = 'Kmr65Sb0TcQCd3UF1PkyyX7ZpnPGDImkzYbrFIcMAAkTUUjhfqC5Y7nGNjiZdWaS';
+  // const d = Decrypt(resS);
+  // console.log('Decrypt', d)
+
+  return Mock.mock(Encrypt(JSON.stringify(loginJson)))
 })
-Mock.mock(/\/api\/login\/logout/, 'get', (req, res) => {
+Mock.mock(/\/api\/login\/logout/, 'post', (req, res) => {
   return Mock.mock({
     'code': 0,
     'msg': '操作成功.'
   })
 })
 
-// Mock.mock(/\/api\/scene/, 'get', (req, res) => {
+// Mock.mock(/\/api\/scene/, 'post', (req, res) => {
 //   console.log('mock res', req, process)
 //   return Mock.mock(process)
 // })
-Mock.mock(/\/bill\/robot/, 'get', (req, res) => {
+Mock.mock(/\/bill\/robot/, 'post', (req, res) => {
   // console.log('mock res', req, process)
   // console.log('mock res robot', req)
   return Mock.mock(	{
@@ -45,19 +52,19 @@ Mock.mock(/\/bill\/robot/, 'get', (req, res) => {
 	    }
 	})
 })
-Mock.mock(/\/api\/scene\/homelist/, 'get', (req, res) => {
+Mock.mock(/\/api\/scene\/homelist/, 'post', (req, res) => {
   // console.log('mock res homelist', req, process)
   return Mock.mock(process)
 })
-Mock.mock(/\/api\/scene\/scenelist/, 'get', (req, res) => {
+Mock.mock(/\/api\/scene\/scenelist/, 'post', (req, res) => {
   // console.log('mock res scenelist', req, infoMange)
   return Mock.mock(infoMange)
 })
-Mock.mock(/\/api\/scene\/logslist/, 'get', (req, res) => {
+Mock.mock(/\/api\/scene\/logslist/, 'post', (req, res) => {
   // console.log('mock res logslist', req, logslist)
   return Mock.mock(logslist)
 })
-Mock.mock(/\/api\/scene\/setbill/, 'get', (req, res) => {
+Mock.mock(/\/api\/scene\/setbill/, 'post', (req, res) => {
   // console.log('mock res setbill', req)
   return Mock.mock({
     'code': 1,
@@ -65,14 +72,14 @@ Mock.mock(/\/api\/scene\/setbill/, 'get', (req, res) => {
   })
 })
 
-Mock.mock(/\/api\/scene\/infostatus/, 'get', (req, res) => {
+Mock.mock(/\/api\/scene\/infostatus/, 'post', (req, res) => {
   console.log('mock res infostatus', req)
   return Mock.mock({
     'code': 1,
     'msg': '操作成功.'
   })
 })
-Mock.mock(/\/api\/scene\/initiastatus/, 'get', (req, res) => {
+Mock.mock(/\/api\/scene\/initiastatus/, 'post', (req, res) => {
   console.log('mock res initiastatus', req)
   return Mock.mock({
     'code': 1,
@@ -85,7 +92,7 @@ Mock.mock(/\/bill\/page\/\d\/\d/, 'post', (req, res) => {
   return Mock.mock(logJson)
 })
 
-Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
+Mock.mock(/\/api\/ql\/result/, 'post', (req, res) => {
   console.log('mock res api/ql/result', req, resultJson)
   return Mock.mock(resultJson)
 })
@@ -105,29 +112,29 @@ Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
   return Mock.mock(( resultDataJson2 ))
 })
 
-Mock.mock(/\/api\/user\/list/, 'get', (req, res) => {
+Mock.mock(/\/api\/user\/list/, 'post', (req, res) => {
   // console.log('mock res', req, userJson)
   return Mock.mock(userJson)
 })
-Mock.mock(/\/api\/user\/add/, 'get', (req, res) => {
+Mock.mock(/\/api\/user\/add/, 'post', (req, res) => {
   return Mock.mock({
     'code': 0,
     'msg': '操作成功.'
   })
 })
-Mock.mock(/\/api\/user\/edit/, 'get', (req, res) => {
+Mock.mock(/\/api\/user\/edit/, 'post', (req, res) => {
   return Mock.mock({
     'code': 0,
     'msg': '操作成功.'
   })
 })
-Mock.mock(/\/api\/user\/del/, 'get', (req, res) => {
+Mock.mock(/\/api\/user\/del/, 'post', (req, res) => {
   return Mock.mock({
     'code': 0,
     'msg': '操作成功.'
   })
 })
-Mock.mock(/\/billType\/findAll/, 'get', (req, res) => {
+Mock.mock(/\/billType\/findAll/, 'post', (req, res) => {
   return Mock.mock(selectDataJson)
 })
 

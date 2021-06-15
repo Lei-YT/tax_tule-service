@@ -18,6 +18,7 @@
     "core-js": "^2.6.12",
     "countup": "^1.8.2",
     "cropperjs": "^1.2.2",
+    "crypto-js": "^4.0.0",
     "dayjs": "^1.7.7",
     "echarts": "^4.0.4",
     "element-ui": "^2.15.1",
