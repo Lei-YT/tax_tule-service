@@ -27,10 +27,16 @@ Mock.mock(/\/api\/login\/login/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify(loginJson)))
 })
 Mock.mock(/\/api\/login\/logout/, 'post', (req, res) => {
-  return Mock.mock({
+  return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,
     'msg': '操作成功.'
-  })
+  })))
+})
+Mock.mock(/\/api\/login\/passwordchange/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    'code': 0,
+    'msg': '操作成功.'
+  })))
 })
 
 // Mock.mock(/\/api\/scene/, 'post', (req, res) => {
@@ -40,7 +46,7 @@ Mock.mock(/\/api\/login\/logout/, 'post', (req, res) => {
 Mock.mock(/\/bill\/robot/, 'post', (req, res) => {
   // console.log('mock res', req, process)
   // console.log('mock res robot', req)
-  return Mock.mock(	{
+  return Mock.mock(Encrypt(JSON.stringify(	{
     "success": true,
     "code": 20000,
     "message": "成功",
@@ -50,51 +56,51 @@ Mock.mock(/\/bill\/robot/, 'post', (req, res) => {
         "success": 9,
         "timeout": 1
 	    }
-	})
+	})))
 })
 Mock.mock(/\/api\/scene\/homelist/, 'post', (req, res) => {
   // console.log('mock res homelist', req, process)
-  return Mock.mock(process)
+  return Mock.mock(Encrypt(JSON.stringify(process)))
 })
 Mock.mock(/\/api\/scene\/scenelist/, 'post', (req, res) => {
   // console.log('mock res scenelist', req, infoMange)
-  return Mock.mock(infoMange)
+  return Mock.mock(Encrypt(JSON.stringify(infoMange)))
 })
 Mock.mock(/\/api\/scene\/logslist/, 'post', (req, res) => {
   // console.log('mock res logslist', req, logslist)
-  return Mock.mock(logslist)
+  return Mock.mock(Encrypt(JSON.stringify(logslist)))
 })
 Mock.mock(/\/api\/scene\/setbill/, 'post', (req, res) => {
   // console.log('mock res setbill', req)
-  return Mock.mock({
+  return Mock.mock(Encrypt(JSON.stringify({
     'code': 1,
     'msg': '操作成功.'
-  })
+  })))
 })
 
 Mock.mock(/\/api\/scene\/infostatus/, 'post', (req, res) => {
   console.log('mock res infostatus', req)
-  return Mock.mock({
+  return Mock.mock(Encrypt(JSON.stringify({
     'code': 1,
     'msg': '操作成功.'
-  })
+  })))
 })
 Mock.mock(/\/api\/scene\/initiastatus/, 'post', (req, res) => {
   console.log('mock res initiastatus', req)
-  return Mock.mock({
+  return Mock.mock(Encrypt(JSON.stringify({
     'code': 1,
     'msg': '操作成功.'
-  })
+  })))
 })
 
 Mock.mock(/\/bill\/page\/\d\/\d/, 'post', (req, res) => {
   console.log('mock res', req, logJson)
-  return Mock.mock(logJson)
+  return Mock.mock(Encrypt(JSON.stringify(logJson)))
 })
 
 Mock.mock(/\/api\/ql\/result/, 'post', (req, res) => {
   console.log('mock res api/ql/result', req, resultJson)
-  return Mock.mock(resultJson)
+  return Mock.mock(Encrypt(JSON.stringify(resultJson)))
 })
 
 Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
@@ -109,36 +115,36 @@ Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
   const ifR = JSON.parse(req.body).hasOwnProperty('ruleId');
   console.log('mock res', req, ifR ? resultDataJson2 : resultDataJson)
   // return Mock.mock((!ifR ? resultDataJson2 : resultDataJson))
-  return Mock.mock(( resultDataJson2 ))
+  return Mock.mock(( Encrypt(JSON.stringify(resultDataJson2 ))))
 })
 
 Mock.mock(/\/api\/user\/list/, 'post', (req, res) => {
   // console.log('mock res', req, userJson)
-  return Mock.mock(userJson)
+  return Mock.mock(Encrypt(JSON.stringify(userJson)))
 })
 Mock.mock(/\/api\/user\/add/, 'post', (req, res) => {
-  return Mock.mock({
+  return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,
     'msg': '操作成功.'
-  })
+  })))
 })
 Mock.mock(/\/api\/user\/edit/, 'post', (req, res) => {
-  return Mock.mock({
+  return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,
     'msg': '操作成功.'
-  })
+  })))
 })
 Mock.mock(/\/api\/user\/del/, 'post', (req, res) => {
-  return Mock.mock({
+  return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,
     'msg': '操作成功.'
-  })
+  })))
 })
 Mock.mock(/\/billType\/findAll/, 'post', (req, res) => {
-  return Mock.mock(selectDataJson)
+  return Mock.mock(Encrypt(JSON.stringify(selectDataJson)))
 })
 
 Mock.mock(/\/bill\/checkDateChart/, 'post', (req, res) => {
   console.log('req',req, checkdateJson)
-  return Mock.mock(checkdateJson)
+  return Mock.mock(Encrypt(JSON.stringify(checkdateJson)))
 })

@@ -8,6 +8,8 @@ import { Notification } from 'element-ui'
 export default {
   state: {
     userName: getUserName(),
+    isNewUser: 0,
+    showPWModify: false,
     id: getId(),
     avatarImgPath: '',
     token: getToken(),
@@ -22,6 +24,12 @@ export default {
     messageContentStore: {}
   },
   mutations: {
+    setIsNewUser(state, isNew) {
+      state.isNewUser = isNew;
+    },
+    setShowPWModify(state, ifShow){
+      state.showPWModify =  ifShow;
+    },
     setAvatar(state, avatarPath) {
       state.avatarImgPath = avatarPath
     },
@@ -93,6 +101,8 @@ export default {
             })
             return false
           } else {
+            commit('setIsNewUser', res.data.data.is_new)
+            commit('setShowPWModify', res.data.data.is_new!==0)
             commit('setToken', res.data.data.token)
             commit('setId', res.data.data.id)
             commit('setUserName', res.data.data.name)
