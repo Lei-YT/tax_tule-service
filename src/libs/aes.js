@@ -1,8 +1,8 @@
 import CryptoJS from 'crypto-js'
 
 // 默认的 KEY 与 iv 如果没有给
-const KEY = CryptoJS.enc.Utf8.parse("SaKvl+2HxNuXs+0A");
-const IV = CryptoJS.enc.Utf8.parse("SaKvl+2HxNuXs+0A");
+const KEY = CryptoJS.enc.Utf8.parse("AQtShlYw3DiPDdaw");
+const IV = CryptoJS.enc.Utf8.parse("xwsdECjnaroVdZAq");
 
 /**
  * AES加密 ：字符串 key iv  返回base64
@@ -15,7 +15,7 @@ export function Encrypt(word, keyStr, ivStr) {
   var encrypted = CryptoJS.AES.encrypt(srcs, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.ZeroPadding
+    padding: CryptoJS.pad.Pkcs7
   });
   // console.log("-=-=-=-", encrypted.ciphertext)
   return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
@@ -35,7 +35,7 @@ export function Decrypt(word, keyStr, ivStr) {
   var decrypt = CryptoJS.AES.decrypt(src, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.ZeroPadding
+    padding: CryptoJS.pad.Pkcs7
   });
 
   var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
