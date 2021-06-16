@@ -95,9 +95,14 @@ Mock.mock(/\/api\/scene\/initiastatus/, 'post', (req, res) => {
 
 Mock.mock(/\/bill\/page\/\d\/\d/, 'post', (req, res) => {
   console.log('mock res', req, logJson)
-  return Mock.mock(Encrypt(JSON.stringify(logJson)))
+  return Mock.mock(((logJson)))
+  // return Mock.mock(Encrypt(JSON.stringify(logJson)))
 })
 
+Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
+  console.log('mock res api/ql/result', req, resultJson)
+  return Mock.mock(((resultJson)))
+})
 Mock.mock(/\/api\/ql\/result/, 'post', (req, res) => {
   console.log('mock res api/ql/result', req, resultJson)
   return Mock.mock(Encrypt(JSON.stringify(resultJson)))
