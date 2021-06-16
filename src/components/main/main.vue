@@ -55,6 +55,9 @@
     <el-dialog
       title="首次登录, 请修改密码"
       :visible="showPWModify"
+      :show-close="false"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
       @close="handleCloseModify"
     >
       <el-form
@@ -64,9 +67,6 @@
         :rules="pwRules"
         ref="pwModify"
       >
-        <el-form-item label="账号：" prop="adminNo">
-          <el-input v-model="pwModify.adminNo" />
-        </el-form-item>
         <el-form-item label="旧密码：" prop="oldpassword">
           <el-input v-model="pwModify.oldpassword" />
         </el-form-item>
@@ -75,7 +75,6 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <!-- <el-button @click="hideModal = true">取 消</el-button> -->
         <el-button type="primary" @click="submitModify('pwModify')"
           >确 定</el-button
         >
@@ -106,12 +105,12 @@ export default {
       maxLogo: "",
       isFullscreen: false,
       pwModify: {
-        adminNo: "",
+        // adminNo: "",
         password: "",
         oldpassword: "",
       },
       pwRules: {
-        adminNo: [{ required: true, message: "请填写账号" }],
+        // adminNo: [{ required: true, message: "请填写账号" }],
         password: [{ required: true, message: "请填写新密码" }],
         oldpassword: [{ required: true, message: "请填写旧密码" }],
       },
@@ -127,6 +126,9 @@ export default {
     },
     userAvatar() {
       return this.$store.state.user.avatarImgPath;
+    },
+    adminNo() {
+      return this.$store.state.user.adminNo;
     },
     showPWModify: {
       get() {
@@ -213,16 +215,13 @@ export default {
       this.turnToPage(item);
     },
     submitModify(formName) {
-      console.log("invoke submit");
       const _this = this;
       let params = {
-        adminNo: this.pwModify.adminNo.replace(/\s*/g, "") || "",
+        adminNo: this.adminNo,
         password: this.pwModify.password.replace(/\s*/g, "") || "",
         oldpassword: this.pwModify.oldpassword.replace(/\s*/g, "") || "",
       };
-      console.log(params);
       this.$refs[formName].validate((valid) => {
-        console.log(valid);
         if (valid) {
           passwordchange(params).then((res) => {
             if (res.data.code == 0) {
