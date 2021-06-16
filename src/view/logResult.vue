@@ -290,7 +290,803 @@
                     v-bind:name="'baseInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
-                    <template>
+                    <template v-if="vo.invoiceType==='航空运输电子客票行程单'">
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="证件号码">
+                              <Input v-model="vo.passengerID" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'passengerID', vo.passengerID)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('passengerID')"></Input>
+                              <Input v-else v-model="vo.passengerID" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="旅客姓名">
+                              <Input v-model="vo.passengerName" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'passengerName', vo.passengerName)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('passengerName')"></Input>
+                              <Input v-else v-model="vo.passengerName" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="印刷序号">
+                              <Input v-model="vo.serialNo" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'serialNo', vo.serialNo)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('serialNo')"></Input>
+                              <Input v-else v-model="vo.serialNo" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="16">
+                            <FormItem label="电子客票号码">
+                              <Input v-model="vo.invoiceCode" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
+                              <Input v-else v-model="vo.invoiceCode" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="票价">
+                              <Input v-model="vo.fare" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'fare', vo.fare)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('fare')"></Input>
+                              <Input v-else v-model="vo.fare" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="民航发展基金">
+                              <Input v-model="vo.CAACDF" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'CAACDF', vo.CAACDF)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('CAACDF')"></Input>
+                              <Input v-else v-model="vo.CAACDF" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="其他税费">
+                              <Input v-model="vo.otherTaxes" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'otherTaxes', vo.otherTaxes)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('otherTaxes')"></Input>
+                              <Input v-else v-model="vo.otherTaxes" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="合计">
+                              <Input v-model="vo.amountWithTax" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'amountWithTax', vo.amountWithTax)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('amountWithTax')"></Input>
+                              <Input v-else v-model="vo.amountWithTax" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="填开日期">
+                              <Input v-model="vo.issueDate" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'issueDate', vo.issueDate)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('issueDate')"></Input>
+                              <Input v-else v-model="vo.issueDate" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="16">
+                            <FormItem label="填开单位">
+                              <Input v-model="vo.sellerName" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'sellerName', vo.sellerName)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('sellerName')"></Input>
+                              <Input v-else v-model="vo.sellerName" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <!-- <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="航班信息-起点">
+                              <Input v-model="vo.origin" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'origin', vo.origin)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('origin')"></Input>
+                              <Input v-else v-model="vo.origin" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="航班信息-终点">
+                              <Input v-model="vo.destination" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'destination', vo.destination)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('destination')"></Input>
+                              <Input v-else v-model="vo.destination" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="航班信息-日期">
+                              <Input v-model="vo.invoiceDate" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"></Input>
+                              <Input v-else v-model="vo.invoiceDate" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row> -->
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='客运票'">
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票号码">
+                              <Input v-model="vo.invoiceNo" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceNo', vo.invoiceNo)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
+                              <Input v-else v-model="vo.invoiceNo" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票代码">
+                              <Input v-model="vo.invoiceCode" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
+                              <Input v-else v-model="vo.invoiceCode" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="发票抬头">
+                              <Input v-model="vo.invoiceTitle" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceTitle', vo.invoiceTitle)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceTitle')"></Input>
+                              <Input v-else v-model="vo.invoiceTitle" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="起始站">
+                              <Input v-model="vo.startCity" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'startCity', vo.startCity)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('startCity')"></Input>
+                              <Input v-else v-model="vo.startCity" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="终点站">
+                              <Input v-model="vo.terminus" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'terminus', vo.terminus)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('terminus')"></Input>
+                              <Input v-else v-model="vo.terminus" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="出行日期">
+                              <Input v-model="vo.invoiceDate" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"></Input>
+                              <Input v-else v-model="vo.invoiceDate" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="开车时间">
+                              <Input v-model="vo.invoiceTime" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceTime', vo.invoiceTime)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceTime')"></Input>
+                              <Input v-else v-model="vo.invoiceTime" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="旅客姓名">
+                              <Input v-model="vo.passengerName" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'passengerName', vo.passengerName)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('passengerName')"></Input>
+                              <Input v-else v-model="vo.passengerName" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="证件号码">
+                              <Input v-model="vo.passengerID" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'passengerID', vo.passengerID)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('passengerID')"></Input>
+                              <Input v-else v-model="vo.passengerID" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="价税合计（小写）">
+                              <Input v-model="vo.amountWithTax" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'amountWithTax', vo.amountWithTax)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('amountWithTax')"></Input>
+                              <Input v-else v-model="vo.amountWithTax" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='过路过桥票'">
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票号码">
+                              <Input v-model="vo.invoiceNo" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceNo', vo.invoiceNo)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
+                              <Input v-else v-model="vo.invoiceNo" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票代码">
+                              <Input v-model="vo.invoiceCode" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
+                              <Input v-else v-model="vo.invoiceCode" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="金额">
+                              <Input v-model="vo.invoiceAmount" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceAmount', vo.invoiceAmount)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceAmount')"></Input>
+                              <Input v-else v-model="vo.invoiceAmount" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="发票日期" :label-width="70">
+                              <Input
+                                v-model="vo.invoiceDate"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoiceDate"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='出租车票'">
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票号码">
+                              <Input v-model="vo.invoiceNo" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceNo', vo.invoiceNo)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
+                              <Input v-else v-model="vo.invoiceNo" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票代码">
+                              <Input v-model="vo.invoiceCode" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
+                              <Input v-else v-model="vo.invoiceCode" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="金额">
+                              <Input v-model="vo.invoiceAmount" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceAmount', vo.invoiceAmount)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceAmount')"></Input>
+                              <Input v-else v-model="vo.invoiceAmount" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票日期" :label-width="70">
+                              <Input
+                                v-model="vo.invoiceDate"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoiceDate"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="所属城市" :label-width="70">
+                              <Input
+                                v-model="vo.invoiceAddress"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceAddress', vo.invoiceAddress)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceAddress')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoiceAddress"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='定额发票'">
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票号码">
+                              <Input v-model="vo.invoiceNo" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceNo', vo.invoiceNo)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
+                              <Input v-else v-model="vo.invoiceNo" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票代码">
+                              <Input v-model="vo.invoiceCode" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
+                              <Input v-else v-model="vo.invoiceCode" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="金额">
+                              <Input v-model="vo.invoiceAmount" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceAmount', vo.invoiceAmount)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceAmount')"></Input>
+                              <Input v-else v-model="vo.invoiceAmount" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="16">
+                            <FormItem label="票据归属地" :label-width="120">
+                              <Input
+                                v-model="vo.invoiceAddress"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceAddress', vo.invoiceAddress)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceAddress')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoiceAddress"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='铁路车票'">
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="出发站">
+                              <Input v-model="vo.origin" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'origin', vo.origin)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('origin')"></Input>
+                              <Input v-else v-model="vo.origin" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="到达站">
+                              <Input v-model="vo.destination" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'destination', vo.destination)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('destination')"></Input>
+                              <Input v-else v-model="vo.destination" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="出行日期">
+                              <Input v-model="vo.invoiceDate" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceDate" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="座位等级">
+                              <Input v-model="vo.class" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'class', vo.class)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('class')"></Input>
+                              <Input v-else v-model="vo.class" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="金额合计（小写）">
+                              <Input v-model="vo.amountWithoutTax" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'amountWithoutTax', vo.amountWithoutTax)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('amountWithoutTax')"></Input>
+                              <Input v-else v-model="vo.amountWithoutTax" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="火车票编号(左上)" :label-width="120">
+                              <Input v-model="vo.invoiceNumber" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceNumber', vo.invoiceNumber)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNumber')"></Input>
+                              <Input v-else v-model="vo.invoiceNumber" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="火车票代码(左下)" :label-width="120">
+                              <Input
+                                v-model="vo.invoiceCode"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoiceCode"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='通用机打发票'">
+                      <Form label-position="left" :label-width="70">
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票号码">
+                              <Input v-model="vo.invoiceNo" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceNo', vo.invoiceNo)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
+                              <Input v-else v-model="vo.invoiceNo" readonly></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票代码">
+                              <Input v-model="vo.invoiceCode" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'invoiceCode', vo.invoiceCode)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('invoiceCode')"></Input>
+                              <Input v-else v-model="vo.invoiceCode" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
+                            <FormItem label="开票日期" :label-width="70">
+                              <Input
+                                v-model="vo.invoiceDate"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoiceDate"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="16">
+                            <FormItem label="合计金额（小写）">
+                              <Input v-model="vo.amountWithTax" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'amountWithTax', vo.amountWithTax)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('amountWithTax')"></Input>
+                              <Input v-else v-model="vo.amountWithTax" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="发票机打代码" :label-width="120">
+                              <Input
+                                v-model="vo.invoicePrintCode"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoicePrintCode', vo.invoicePrintCode)"
+                                v-if="currentInvoiceErrorFields.includes('invoicePrintCode')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoicePrintCode"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="发票机打号码" :label-width="120">
+                              <Input
+                                v-model="vo.invoicePrintNo"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoicePrintNo', vo.invoicePrintNo)"
+                                v-if="currentInvoiceErrorFields.includes('invoicePrintNo')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoicePrintNo"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="发票抬头" :label-width="70">
+                              <Input
+                                v-model="vo.invoiceTitle"
+                                readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceTitle', vo.invoiceTitle)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceTitle')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.invoiceTitle"
+                                readonly
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='委外工程验工结算表'">
+                      <Form label-position="left" :label-width="120">
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="乙方" >
+                              <Input v-model="vo.partyB" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'partyB', vo.partyB)"
+                                v-if="currentInvoiceErrorFields.includes('partyB')"
+                              ></Input>
+                              <Input v-else v-model="vo.partyB" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="本期计价金额" >
+                              <Input v-model="vo.currentValuationAmount" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'currentValuationAmount', vo.currentValuationAmount)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('currentValuationAmount')"></Input>
+                              <Input v-else v-model="vo.currentValuationAmount" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else-if="vo.invoiceType==='机械设备租赁费结算单'">
+                      <Form label-position="left" :label-width="120">
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="发票类型">
+                              <Input v-model="vo.invoiceType" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                              ></Input>
+                              <Input v-else v-model="vo.invoiceType" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="乙方">
+                              <Input v-model="vo.outsourcer" readonly
+                                icon="ios-alert-outline"
+                                style="width: auto"
+                                @click.native="getFieldError(vo, 'outsourcer', vo.outsourcer)"
+                                v-if="currentInvoiceErrorFields.includes('outsourcer')"
+                              ></Input>
+                              <Input v-else v-model="vo.outsourcer" readonly ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="24">
+                            <FormItem label="本期计价金额">
+                              <Input v-model="vo.currentValuationAmount" readonly
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'currentValuationAmount', vo.currentValuationAmount)"
+                                style="width: auto"
+                                v-if="currentInvoiceErrorFields.includes('currentValuationAmount')"></Input>
+                              <Input v-else v-model="vo.currentValuationAmount" readonly></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </template>
+                    <template v-else >
                       <Form label-position="left" :label-width="70">
                         <Row :gutter="16">
                           <Col span="8">
@@ -386,6 +1182,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="购买方信息"
+                    v-if="vo.purchaserName"
                     v-bind:name="'buyerInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
@@ -486,6 +1283,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="销售方信息"
+                    v-if="vo.sellerName "
                     v-bind:name="'sellerInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
@@ -586,6 +1384,7 @@
                   </el-collapse-item>
                   <el-collapse-item
                     title="发票详情"
+                    v-if="vo.invoiceItems && vo.invoiceItems.length>0"
                     v-bind:name="'invoiceInfo-' + vo.invoiceId"
                     style="width: 100%"
                   >
@@ -740,6 +1539,137 @@
                             <td style="font-weight: 700">价税合计</td>
                             <td>{{vo.amountWithTax}}</td>
                             <td colspan="6"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </template>
+                  </el-collapse-item>
+                  <el-collapse-item
+                    title="航班信息"
+                    v-if="vo.invoiceFlights && vo.invoiceFlights.length>0"
+                    v-bind:name="'invoiceInfo-' + vo.invoiceId"
+                    style="width: 100%"
+                  >
+                    <template>
+                      <table
+                        style="width: 100%; text-align: center"
+                        class="rule-table td-nowrap"
+                      >
+                        <thead>
+                          <tr style="text-align: center">
+                            <th width="60">序号</th>
+                            <!-- <th width="60">价税合计</th> -->
+                            <th width="180">
+                            <Tooltip
+                              placement="top-start"
+                              content="日期"
+                              :max-width="200"
+                              transfer
+                            >日期
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'fpDate', '')"
+                                v-if="currentInvoiceErrorFields.includes('fpDate')"
+                              />
+                            </Tooltip>
+                              </th>
+                            <th width="60">时间
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'fpTime', '')"
+                                v-if="currentInvoiceErrorFields.includes('fpTime')"
+                              /></th>
+                            <th width="60">航班号
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'fpFlightNumber', '')"
+                                v-if="currentInvoiceErrorFields.includes('fpFlightNumber')"
+                              /></th>
+                            <th width="60">起点
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'fpDeparture', '')"
+                                v-if="currentInvoiceErrorFields.includes('fpDeparture')"
+                              /></th>
+                            <th width="120">
+                            <Tooltip
+                              placement="top-start"
+                              content="终点"
+                              :max-width="200"
+                              transfer
+                            >终点
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'fpDestination', '')"
+                                v-if="currentInvoiceErrorFields.includes('fpDestination')"
+                              />
+                            </Tooltip></th>
+                            <th width="60">
+                            <Tooltip
+                              placement="top-start"
+                              content="承运"
+                              :max-width="200"
+                              transfer
+                            >承运
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'fpCarrier', '')"
+                                v-if="currentInvoiceErrorFields.includes('fpCarrier')"
+                              />
+                            </Tooltip></th>
+                            <th width="60">舱等
+                              <Icon type="ios-alert-outline" class="icon-danger"
+                                @click.native="getFieldError(vo, 'fpClass', '')"
+                                v-if="currentInvoiceErrorFields.includes('fpClass')"
+                              /></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(n, i) in vo.invoiceFlights" v-bind:key="i">
+                            <td style="text-align: center">{{ i + 1 }}</td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.fpDate"
+                              :max-width="200"
+                              transfer
+                            >{{ n.fpDate }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.fpTime"
+                              :max-width="200"
+                              transfer
+                            >{{ n.fpTime }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.fpFlightNumber"
+                              :max-width="200"
+                              transfer
+                            >{{ n.fpFlightNumber }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="(n.fpDeparture)"
+                              :max-width="200"
+                              transfer
+                            >{{ (n.fpDeparture) }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.fpDestination"
+                              :max-width="200"
+                              transfer
+                            >{{ n.fpDestination }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.fpCarrier"
+                              :max-width="200"
+                              transfer
+                            >{{ n.fpCarrier }}</Tooltip></td>
+                            <td>
+                            <Tooltip
+                              placement="top-start"
+                              :content="n.fpClass"
+                              :max-width="200"
+                              transfer
+                            >{{ n.fpClass }}</Tooltip></td>
                           </tr>
                         </tbody>
                       </table>
@@ -1293,7 +2223,7 @@ export default {
             _this.allData.imageInfo.map(img => {
               return img.invoices.map(invo => {
                 const taxRate = Number(((invo.taxAmount/invo.amountWithoutTax)*100).toFixed(2));
-                invo.taxRate = `${taxRate}%`;
+                invo.taxRate = invo.amountWithoutTax ? `${taxRate}%` : '';
                 return invo;
                 // const sumR = invo.invoiceItems.reduce((acc, val) => {
                 //   return acc.itemAmount+val.itemAmount;
