@@ -105,10 +105,10 @@
           </div>
           <div class="downCon">
             <Card style="width: 49%">
-              <div id="myChartTwo" style="width:100%; height: 500px"></div>
+              <div id="myChartTwo" style="width: 100%; height: 500px"></div>
             </Card>
             <Card style="width: 49%">
-              <div id="myChartThr" style="width: 100% ; height: 500px"></div>
+              <div id="myChartThr" style="width: 100%; height: 500px"></div>
             </Card>
           </div>
         </div>
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/libs/api.request";
 import * as echarts from "echarts";
 import { localSave, localRead } from "@/libs/util";
 import {
@@ -316,7 +316,10 @@ export default {
     getChartsData(id) {
       let _this = this;
       axios
-        .get(`http://10.15.196.127:7070/bill/robot?robotId=${id}`, {})
+        .request({
+          method: "post",
+          url: `http://10.15.196.127:7070/bill/robot?robotId=${id}`,
+        })
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {

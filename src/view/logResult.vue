@@ -886,7 +886,7 @@
 import ImagePreview from "@/components/image-preview";
 // import { matchCNkeys } from "@/libs/invoice";
 import { Notification, Loading } from 'element-ui'
-import axios from "axios";
+import axios from '@/libs/api.request'
 const clubArray = (arr) => {
   return arr.reduce((acc, val, ind) => {
     acc[ind] = acc[ind] ? acc[ind] : {};
@@ -1163,7 +1163,7 @@ export default {
       const _this = this;
       const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       axios
-        .post(`http://10.15.196.127/api/ql/rule/data`, request)
+        .request({method: 'post', url: `http://10.15.196.127/api/ql/rule/data`, data: request })
         .then((resp) => {
           loadingInstance.close()
           let data = resp.data;
@@ -1285,7 +1285,7 @@ export default {
     query() {
       const _this = this;
       axios
-        .get(`http://10.15.196.127/api/ql/result?taskId=${this.billNumber}`)
+        .request({method: 'post', url: `http://10.15.196.127/api/ql/result?taskId=${this.billNumber}`})
         .then((resp) => {
           let data = resp.data;
           if (data.status == 200) {
