@@ -2093,7 +2093,11 @@ export default {
       const _this = this;
       const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       axios
-        .request({method: 'post', url: `http://10.15.196.127/api/ql/rule/data`, data: request })
+        .request({
+          method: 'post',
+          url: `http://fs.crtg.com:6652/api/bill/qldata`,
+          data: request
+        })
         .then((resp) => {
           loadingInstance.close()
           let data = resp.data;
@@ -2215,7 +2219,13 @@ export default {
     query() {
       const _this = this;
       axios
-        .request({method: 'post', url: `http://10.15.196.127/api/ql/result?taskId=${this.billNumber}`})
+        .request({
+          method: 'post',
+          url: `http://fs.crtg.com:6652/api/bill/qlresult`,
+          data: {
+            taskId: this.billNumber
+          }
+        })
         .then((resp) => {
           let data = resp.data;
           if (data.status == 200) {

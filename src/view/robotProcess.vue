@@ -318,7 +318,10 @@ export default {
       axios
         .request({
           method: "post",
-          url: `http://10.15.196.127:7070/bill/robot?robotId=${id}`,
+          url: `http://fs.crtg.com:6652/api/bill/robot`,
+          data: {
+            robotId: id
+          }
         })
         .then((resp) => {
           let data = resp.data;

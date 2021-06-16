@@ -739,8 +739,10 @@ export default {
       axios
         .request({
           method: "POST",
-          url: `http://10.15.196.127:7070/bill/page/${_this.page.currentPage}/${_this.page.size}`,
+          url: `http://fs.crtg.com:6652/api/bill/page`,
           data: {
+            current: _this.page.currentPage,
+            size: _this.page.size,
             code: _this.formInline.code || "",
             type: _this.formInline.type || "",
             checkResult: _this.formInline.checkResult || "",
@@ -791,8 +793,9 @@ export default {
         });
       }
       // console.log('ids',idArr)
-      axios2
-        .post(`http://10.15.196.127:7070/bill/export`, idArr, {
+      axios
+        .request({
+          url: `http://fs.crtg.com:6652/api/bill/export`, data: idArr,
           responseType: "blob",
         })
         .then(function (response) {

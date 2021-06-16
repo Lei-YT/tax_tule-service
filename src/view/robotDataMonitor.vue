@@ -450,7 +450,7 @@ export default {
       axios
         .request({
           method: "post",
-          url: `http://10.15.196.127:7070/billType/findAll`,
+          url: `http://fs.crtg.com:6652/api/bill/findall`,
         })
         .then((resp) => {
           let data = resp.data;
@@ -488,7 +488,7 @@ export default {
       axios
         .request({
           method: "post",
-          url: `http://10.15.196.127:7070/bill/checkDateChart`,
+          url: `http://fs.crtg.com:6652/api/bill/checkdatechart`,
           data: {
             type: selected,
             checkBeginDate: _this.checkBeginDate,
