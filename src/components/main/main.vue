@@ -230,9 +230,14 @@ export default {
                 type: "success",
                 duration: 1500,
               });
+              _this.setShowPWModify(false);
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: res.data.msg,
+              });
             }
           });
-          _this.setShowPWModify(false);
         } else {
           return false;
         }
