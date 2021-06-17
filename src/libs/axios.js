@@ -103,6 +103,7 @@ class HttpRequest {
     })
   }
   request (options) {
+    console.log(options.data)
     const rawData = JSON.stringify(options.data);
     const encryptData = Encrypt(rawData);
     options.data = encryptData;

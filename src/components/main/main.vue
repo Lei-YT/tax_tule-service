@@ -232,9 +232,10 @@ export default {
               });
               _this.setShowPWModify(false);
             } else {
-              _this.$Notice.warning({
+              _this.$notify({
                 title: "温馨提示",
-                desc: res.data.msg,
+                type: "warning",
+                message: res.data.msg,
               });
             }
           });

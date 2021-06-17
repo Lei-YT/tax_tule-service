@@ -34,8 +34,8 @@ Mock.mock(/\/api\/login\/logout/, 'post', (req, res) => {
 })
 Mock.mock(/\/api\/login\/passwordchange/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify({
-    'code': 0,
-    'msg': '操作成功.'
+    'code': 1,
+    'msg': '操作失败.'
   })))
 })
 
