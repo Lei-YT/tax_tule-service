@@ -99,7 +99,7 @@ class HttpRequest {
         desc: err.message
       });
       this.destroy(url)
-      return Promise.reject(error)
+      return Promise.reject(err)
     })
   }
   request (options) {
