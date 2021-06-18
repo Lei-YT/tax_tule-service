@@ -318,7 +318,7 @@ export default {
       axios
         .request({
           method: "post",
-          url: `http://10.15.196.130:6652/api/bill/robot`,
+          url: `/api/bill/robot`,
           data: {
             robotId: id
           }

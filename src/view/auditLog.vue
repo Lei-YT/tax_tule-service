@@ -739,7 +739,7 @@ export default {
       axios
         .request({
           method: "POST",
-          url: `http://10.15.196.130:6652/api/bill/page`,
+          url: `/api/bill/page`,
           data: {
             current: _this.page.currentPage,
             size: _this.page.size,
@@ -795,7 +795,7 @@ export default {
       // console.log('ids',idArr)
       axios
         .request({
-          url: `http://10.15.196.130:6652/api/bill/export`, data: idArr,
+          url: `/api/bill/export`, data: idArr,
           responseType: "blob",
         })
         .then(function (response) {
