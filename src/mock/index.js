@@ -4,7 +4,7 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result6.json'
+import resultJson from '@/dataJson/result12.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data6.json'
 import userJson from '@/dataJson/user.json'
@@ -34,8 +34,8 @@ Mock.mock(/\/api\/login\/logout/, 'post', (req, res) => {
 })
 Mock.mock(/\/api\/login\/passwordchange/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify({
-    'code': 1,
-    'msg': '操作失败.'
+    'code': 0,
+    'msg': '操作成功.'
   })))
 })
 
@@ -93,10 +93,10 @@ Mock.mock(/\/api\/scene\/initiastatus/, 'post', (req, res) => {
   })))
 })
 
-Mock.mock(/\/bill\/page\/\d\/\d/, 'post', (req, res) => {
+Mock.mock(/\/api\/bill\/page/, 'post', (req, res) => {
   console.log('mock res', req, logJson)
-  return Mock.mock(((logJson)))
-  // return Mock.mock(Encrypt(JSON.stringify(logJson)))
+  // return Mock.mock(((logJson)))
+  return Mock.mock(Encrypt(JSON.stringify(logJson)))
 })
 
 Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
@@ -105,6 +105,10 @@ Mock.mock(/\/api\/ql\/result/, 'get', (req, res) => {
 })
 Mock.mock(/\/api\/ql\/result/, 'post', (req, res) => {
   console.log('mock res api/ql/result', req, resultJson)
+  return Mock.mock(Encrypt(JSON.stringify(resultJson)))
+})
+Mock.mock(/\/api\/server\/qlresult/, 'post', (req, res) => {
+  console.log('mock res api/server/result', req, resultJson)
   return Mock.mock(Encrypt(JSON.stringify(resultJson)))
 })
 Mock.mock(/\/api\/bill\/qlresult/, 'post', (req, res) => {

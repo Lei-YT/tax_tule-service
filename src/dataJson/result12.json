@@ -1,0 +1,326 @@
+{
+    "status": 200,
+    "message": "成功",
+    "data": {
+        "billType": "CRTG_机械租赁结算单",
+        "taskId": "90695ee4008843639a46bcee3edaa5fd",
+        "billNo": "20210528MA06WL001004775149",
+        "versionName": "正式版-2.9",
+        "imageInfo": [
+            {
+                "imageId": "1403256317661188097",
+                "billId": "1403256294517018626",
+                "attachmentId": "1403256294525407234",
+                "imageURL": "http:\/\/10.15.196.123:81\/2021\/06\/11\/0d6eef686b4335141025914d85ed9cb5.jpg",
+                "invoices": [
+                    {
+                        "amountWithoutTax": "",
+                        "date": "",
+                        "imageId": "1403256317661188097",
+                        "payeeNumber": "",
+                        "bankSeal": "",
+                        "repeat": "",
+                        "invoiceType": "银行回单",
+                        "payerName": "",
+                        "invoiceId": "51f5ab07bab04e24bc45912881e72d99",
+                        "accountNumber": "",
+                        "isVerify": ""
+                    }
+                ]
+            },
+            {
+                "imageId": "1403256342919286785",
+                "billId": "1403256294517018626",
+                "attachmentId": "1403256294533795841",
+                "imageURL": "http:\/\/10.15.196.123:81\/2021\/06\/11\/a73ce083ec31fed594bef7a0aade260a.jpg",
+                "invoices": [
+                    {
+                        "isLowValueConsumables": "no",
+                        "invoiceFormName": "发票联",
+                        "purchaserBankAccount": "中国建设银行股份有限公司天津和平支行 12050161530000005920",
+                        "sellerName": "国家税务总局祁门县税务局第一税务分局20",
+                        "isDaikai": "yes",
+                        "isTurnoverMaterial": "no",
+                        "sellerAddress": "祁门县综合大市场1幢2086号 13705591861",
+                        "purchaserAddress": "天津自贸试验区（空港经济区）中环西路86号汇盈产业园3号楼-1,3-201 022-84958752",
+                        "isVerify": "yes",
+                        "isFixedAssets": "no",
+                        "repeat": "no",
+                        "invoiceType": "增值税专用发票",
+                        "invoiceNo": "02027624",
+                        "amountWithoutTax": "2432.35",
+                        "imageId": "1403256342919286785",
+                        "specialSeal": "发票专用章",
+                        "invoiceDate": "2021-04-30",
+                        "invoiceCode": "3400163160",
+                        "purchaserName": "中铁隧道局集团有限公司路桥工程分公司",
+                        "sellerTaxNo": "34102415DKD0041",
+                        "invoiceItems": [
+                            {
+                                "itemUnitPrice": 2432.35,
+                                "itemName": "*经营租赁*洒水车租赁费",
+                                "itemQuantity": "1",
+                                "itemAmount": "2432.35",
+                                "itemModel": "",
+                                "itemUnit": "",
+                                "itemTaxAmount": "24.32",
+                                "itemTaxRate": "1%"
+                            }
+                        ],
+                        "purchaserTaxNo": "91120118MA06WLB394",
+                        "sellerBankAccount": "334106210400061939",
+                        "invoiceId": "03ffe48d28124b8aabcf76a4ed5c2e7e",
+                        "invoiceSubType": "",
+                        "taxAmount": "24.32",
+                        "amountWithTax": "2456.67",
+                        "fileType": "other",
+                        "remarks": "代开企业税号:92341024MA2UR4GT53 代开企业名称:祁门县志诚机械租赁部"
+                    }
+                ]
+            }
+        ],
+        "errors": [],
+        "data": [
+            {
+                "ruleCount": 30,
+                "errorCount": 0,
+                "ruleType": "IMAGES",
+                "color": null,
+                "result": [
+                    {
+                        "ruleId": "LN7875067299",
+                        "ruleName": "发票购买方信息完整性判断~当影像.发票=专票时，则影像.发票.购买方.地址、电话、开户行及账户≠空",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "JG1840972355",
+                        "ruleName": "发票销售方信息完整性判断~当影像.发票=专票、普票、电子普票、机动车销售统一发票时，则影像.发票.销售方.地址、电话、开户行及账户≠空",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "WH8078723350",
+                        "ruleName": "发票专用章判断2~影像.发票票面有代开字样时，且发票为专票时，需加盖发票专用章（新版电子发票除外）",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "CN6256375462",
+                        "ruleName": "定额发票判断~影像.发票≠定额发票",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "QT2306654241",
+                        "ruleName": "跨期发票判断~表单.财务信息.制证日期-影像.发票.发票日期＜2个自然年",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "AD8552438601",
+                        "ruleName": "发票套票判断~当影像.发票=专票、普票、电子普票时，需真伪查验（影像识别结果与查验结果比对，是否套票）",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "ET1202155477",
+                        "ruleName": "发票联次判断~当影像.发票=专票、普票、机动车销售统一发票、通用机打发票、通用手工发票时，且当发票类别=进项发票时，则影像.发票.联次=发票联",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "QT7113092883",
+                        "ruleName": "发票抬头审核~当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，且为进项发票时，则增值税发票：影像.发票.购买方名称=表单.单据信息.所属法人",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "SB9534877427",
+                        "ruleName": "纳税人识别号审核~当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，且为进项发票时，则影像.发票.纳税人识别号=表单.单据信息.所属法人的纳税人识别号（字段库）",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "BE2892375784",
+                        "ruleName": "税额审核~当影像.发票=专票、普票、电子普票时，则表单.发票信息.税额合计=影像.发票.税额合计",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "MC3875947344",
+                        "ruleName": "发票金额审核~当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "YP6187416841",
+                        "ruleName": "价税合计审核~表单.发票信息.价税合计=影像.发票.价税合计",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "TC7536949005",
+                        "ruleName": "开票日期审核~表单.发票信息.开票日期=影像.发票.开票日期",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "JA3512031611",
+                        "ruleName": "发票信息审核~发票信息应与影像一一对应",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "QH5427867540",
+                        "ruleName": "发票号码审核~当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票号=影像.发票.发票号",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "GP2438494329",
+                        "ruleName": "发票代码审核~当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票代码=影像.发票.发票代码",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "ZR4763275728",
+                        "ruleName": "当表单.业务信息.计税方式=“计税方式-简易”或“简易计税”时，且当影像.发票≠火车票、机票、财政票据时，表单.发票信息.开票日期=影像.发票.开票日期",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "AJ9003479674",
+                        "ruleName": "当表单.业务信息.计税方式=“计税方式-简易”或“简易计税”时，且当影像.发票≠火车票、机票、财政票据时，表单.发票信息.价税合计=影像.发票.价税合计",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "HX5616086198",
+                        "ruleName": "影像.发票.货物或应税劳务、服务名称=“*经营租赁*”时，影像.发票.税率=13%、3%、1%、0%",
+                        "correct": true,
+                        "ruleType": "FIELD"
+                    },
+                    {
+                        "ruleId": "PS9059552988",
+                        "ruleName": "当影像.发票有代开字样，影像.发票.备注中企业名称=表单.业务信息.机械供应商",
+                        "correct": true,
+                        "ruleType": "FIELD"
+                    },
+                    {
+                        "ruleId": "UU1418808748",
+                        "ruleName": "当单据类型为机械租赁结算单\/或(成本)时，影像.发票.货物或应税劳务、服务名称包含“*建筑服务*”或“*经营租赁*”或“*吊装服务*”或“*物流辅助服务*”或“*运输服务*”",
+                        "correct": true,
+                        "ruleType": "FIELD"
+                    },
+                    {
+                        "ruleId": "HB9621476680",
+                        "ruleName": "发票类别判断1~当表单≠“CRTG_验工计价单”、“CRTG_其他业务收入表”、“CRTG_税费结转单”时，则表单.发票信息.发票类别=“进项发票”",
+                        "correct": true,
+                        "ruleType": "FIELD"
+                    },
+                    {
+                        "ruleId": "TA2745405143",
+                        "ruleName": "表单.发票信息.开票日期=影像.发票.开票日期",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "NS7504867019",
+                        "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "MJ6991989011",
+                        "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.税额合计=影像.发票.税额合计",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "KG2440748608",
+                        "ruleName": "当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票代码=影像.发票.发票代码",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "ND8229647022",
+                        "ruleName": "当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票号=影像.发票.发票号",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "RX8524085078",
+                        "ruleName": "当表单.业务信息.计税方式=“计税方式-简易”或“简易计税”时，且当影像.发票≠火车票、机票、财政票据时，则表单.发票信息.发票类型=影像.发票.发票类型   ",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "GU3695501814",
+                        "ruleName": "当表单.业务信息.计税方式=“计税方式-简易”或“简易计税”时，且当影像.发票≠火车票、机票、财政票据时，表单.发票信息.开票日期=影像.发票.开票日期",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "NK6004378036",
+                        "ruleName": "当表单.业务信息.计税方式=“计税方式-简易”或“简易计税”时，且当影像.发票≠火车票、机票、财政票据时，表单.发票信息.价税合计=影像.发票.价税合计",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    }
+                ]
+            },
+            {
+                "ruleCount": 6,
+                "errorCount": 1,
+                "ruleType": "OTHERS",
+                "color": null,
+                "result": [
+                    {
+                        "ruleId": "DC3336909421",
+                        "ruleName": "发票信息审核~影像应与发票信息一一对应",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "CS4881459818",
+                        "ruleName": "列账及时性判断~系统当前日期月数-表单.财务信息.制证日期月数≤3个月",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "RG4668662727",
+                        "ruleName": "当发票表长度不为0时，则发票行长度为0",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "WY4234248803",
+                        "ruleName": "表单.发票信息.发票类型=影像.发票.发票类型",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "RE5772302185",
+                        "ruleName": "表单.发票信息.价税合计=影像.发票.价税合计",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "AQ1914483672",
+                        "ruleName": "影像.结算单.设备租赁结算单不为空",
+                        "correct": false,
+                        "message": "无设备租赁结算单",
+                        "ruleType": "BILLS"
+                    }
+                ]
+            },
+            {
+                "ruleCount": 0,
+                "errorCount": null,
+                "ruleType": "WARNING",
+                "color": null,
+                "result": []
+            }
+        ]
+    }
+}

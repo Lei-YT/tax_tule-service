@@ -82,7 +82,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: left">
+                          <td colspan="4" style="text-align: center">
                             暂无数据
                           </td>
                         </tr>
@@ -132,7 +132,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: left">
+                          <td colspan="4" style="text-align: true">
                             暂无数据
                           </td>
                         </tr>
@@ -273,7 +273,7 @@
                   {{ index + 1 }}
                 </Button>
               </div>
-              <div>
+              <div class="tabData">
               <p class="data-header" v-if="!emptyImageInfo">结构化数据
                 <span class="text-primary pr-1">报错信息: {{currentInvoiceErrorFields.length}}条</span>
               </p>
@@ -413,38 +413,6 @@
                             </FormItem>
                           </Col>
                         </Row>
-                        <!-- <Row :gutter="16">
-                          <Col span="8">
-                            <FormItem label="航班信息-起点">
-                              <Input v-model="vo.origin" readonly
-                                icon="ios-alert-outline"
-                                @click.native="getFieldError(vo, 'origin', vo.origin)"
-                                style="width: auto"
-                                v-if="currentInvoiceErrorFields.includes('origin')"></Input>
-                              <Input v-else v-model="vo.origin" readonly></Input>
-                            </FormItem>
-                          </Col>
-                          <Col span="8">
-                            <FormItem label="航班信息-终点">
-                              <Input v-model="vo.destination" readonly
-                                icon="ios-alert-outline"
-                                @click.native="getFieldError(vo, 'destination', vo.destination)"
-                                style="width: auto"
-                                v-if="currentInvoiceErrorFields.includes('destination')"></Input>
-                              <Input v-else v-model="vo.destination" readonly></Input>
-                            </FormItem>
-                          </Col>
-                          <Col span="8">
-                            <FormItem label="航班信息-日期">
-                              <Input v-model="vo.invoiceDate" readonly
-                                icon="ios-alert-outline"
-                                @click.native="getFieldError(vo, 'invoiceDate', vo.invoiceDate)"
-                                style="width: auto"
-                                v-if="currentInvoiceErrorFields.includes('invoiceDate')"></Input>
-                              <Input v-else v-model="vo.invoiceDate" readonly></Input>
-                            </FormItem>
-                          </Col>
-                        </Row> -->
                       </Form>
                     </template>
                     <template v-else-if="vo.invoiceType==='客运票'">
@@ -1100,7 +1068,7 @@
                               <Input v-else v-model="vo.invoiceType" readonly ></Input>
                             </FormItem>
                           </Col>
-                          <Col span="8">
+                          <Col span="8" v-if="vo.invoiceNo!==undefined">
                             <FormItem label="发票号码">
                               <Input v-model="vo.invoiceNo" readonly
                                 icon="ios-alert-outline"
@@ -1110,7 +1078,7 @@
                               <Input v-else v-model="vo.invoiceNo" readonly></Input>
                             </FormItem>
                           </Col>
-                          <Col span="8">
+                          <Col span="8" v-if="vo.invoiceCode!==undefined">
                             <FormItem label="发票代码">
                               <Input v-model="vo.invoiceCode" readonly
                                 icon="ios-alert-outline"
@@ -1122,7 +1090,7 @@
                           </Col>
                         </Row>
                         <Row :gutter="16">
-                          <Col span="8">
+                          <Col span="8" v-if="vo.invoiceDate!==undefined">
                             <FormItem label="开票日期">
                               <Input v-model="vo.invoiceDate" readonly
                                 icon="ios-alert-outline"
@@ -1132,7 +1100,7 @@
                               <Input v-else v-model="vo.invoiceDate" readonly></Input>
                             </FormItem>
                           </Col>
-                          <Col span="16">
+                          <Col span="16" v-if="vo.invoicePrintCode!==undefined">
                             <FormItem label="发票机打代码" :label-width="120">
                               <Input
                                 v-model="vo.invoicePrintCode"
@@ -1150,7 +1118,7 @@
                           </Col>
                         </Row>
                         <Row :gutter="16">
-                          <Col span="16">
+                          <Col span="16" v-if="vo.invoicePrintNo!==undefined">
                             <FormItem label="发票机打号码" :label-width="120">
                               <Input
                                 v-model="vo.invoicePrintNo"
@@ -1166,7 +1134,7 @@
                               ></Input>
                             </FormItem>
                           </Col>
-                          <Col span="8">
+                          <Col span="8" v-if="vo.invoiceCRC!==undefined">
                             <FormItem label="校验码">
                               <Input v-model="vo.invoiceCRC" readonly
                                 icon="ios-alert-outline"
@@ -1684,7 +1652,7 @@
                       <!-- <Row :gutter="16">
                       </Row> -->
                       <Row :gutter="16">
-                        <Col span="10">
+                        <Col span="10" v-if="vo.specialSeal!==undefined">
                           <FormItem label="是否有发票专用章" :label-width="120">
                             <Input
                               :value="vo.specialSeal"
@@ -1692,7 +1660,7 @@
                             ></Input>
                           </FormItem>
                         </Col>
-                        <Col span="14">
+                        <Col span="14" v-if="vo.remarks!==undefined">
                           <Tooltip
                             :content="vo.remarks"
                             :max-width="200"
@@ -2260,18 +2228,26 @@ export default {
         return true;
       })
       this.tabsInvoiceIndex = allInvoice.findIndex(i => i.invoiceId===_this.invoiceId);
+      const panelSet = [
+        { name: 'buyerInfo-', need: ['purchaserName'] },
+        { name: 'sellerInfo-', need: ['sellerName'] },
+        { name: 'invoiceInfo-', need: ['invoiceItems', 'invoiceFlights'] },
+      ];
       if (imageIds.length === 0) {
         this.$set(this, "messageInfo", { invoices: allInvoice });
+        const _thisKeys = Object.keys(allInvoice[0]);
+        const panelNames = panelSet.filter(s => {
+          return _thisKeys.map(k => {
+            return s.need.includes(k);
+          }).filter(i => i).length > 0;
+        }).map(ii => ii.name);
         this.$set(
           this,
           "dataPanelOpen",
           [
             "baseInfo-",
-            "buyerInfo-",
-            "sellerInfo-",
             "otherInfo-",
-            "invoiceInfo-",
-          ].map(
+          ].concat(panelNames).map(
             (i) =>
               `${i}${allInvoice.length > 0 ? allInvoice[0]["invoiceId"] : "0"}`
           )
@@ -2283,16 +2259,19 @@ export default {
         });
         this.tabsInvoiceIndex = filterInvoices.findIndex(i => i.invoiceId===_this.invoiceId);
         this.$set(this, "messageInfo", { invoices: filterInvoices });
+        const _thisKeys = Object.keys(filterInvoices[0]);
+        const panelNames = panelSet.filter(s => {
+          return _thisKeys.map(k => {
+            return s.need.includes(k);
+          }).filter(i => i).length > 0;
+        }).map(ii => ii.name);
         this.$set(
           this,
           "dataPanelOpen",
           [
             "baseInfo-",
-            "buyerInfo-",
-            "sellerInfo-",
             "otherInfo-",
-            "invoiceInfo-",
-          ].map(
+          ].concat(panelNames).map(
             (i) =>
               `${i}${
                 filterInvoices.length > 0 ? filterInvoices[0]["invoiceId"] : "0"
@@ -2304,16 +2283,29 @@ export default {
     getErrorMessage(invoiceIdP) {
       const _this = this;
       _this.currentInvoiceErrorFields = [];
+      const panelSet = [
+        { name: 'buyerInfo-', need: ['purchaserName'] },
+        { name: 'sellerInfo-', need: ['sellerName'] },
+        { name: 'invoiceInfo-', need: ['invoiceItems', 'invoiceFlights'] },
+      ];
+      let allInvoice = [];
+      this.allData.imageInfo.map(dd => {
+        allInvoice = allInvoice.concat(dd.invoices);
+      });
+      const fI = allInvoice.find(x => x.invoiceId===invoiceIdP);
+      const _thisKeys = Object.keys(fI);
+      const panelNames = panelSet.filter(s => {
+        return _thisKeys.map(k => {
+          return s.need.includes(k);
+        }).filter(i => i).length > 0;
+      }).map(ii => ii.name);
       _this.$set(
         _this,
         "dataPanelOpen",
         [
           "baseInfo-",
-          "buyerInfo-",
-          "sellerInfo-",
           "otherInfo-",
-          "invoiceInfo-",
-        ].map((i) => `${i}${invoiceIdP || "0"}`)
+        ].concat(panelNames).map((i) => `${i}${invoiceIdP || "0"}`)
       );
       if (this.currentInvoiceRuleId !== '') {
         const findRule = _this.allData.data.find(r => r.ruleType==="IMAGES");
