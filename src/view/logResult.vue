@@ -2095,7 +2095,7 @@ export default {
       axios
         .request({
           method: 'post',
-          url: `/api/bill/qldata`,
+          url: `/api/server/qldata`,
           data: request
         })
         .then((resp) => {
@@ -2221,7 +2221,7 @@ export default {
       axios
         .request({
           method: 'post',
-          url: `/api/bill/qlresult`,
+          url: `/api/server/qlresult`,
           data: {
             taskId: this.billNumber
           }

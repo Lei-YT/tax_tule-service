@@ -20,6 +20,9 @@ class HttpRequest {
         Authorization: 'Bearer ' + store.state.user.token
       }
     }
+    if (!store.state.user.token) {
+      delete config.headers.Authorization;
+    }
     return config
   }
   destroy (url) {
