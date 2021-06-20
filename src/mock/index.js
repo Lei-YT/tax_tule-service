@@ -4,9 +4,10 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result12.json'
+import resultJson from '@/dataJson/result11.json'
 import resultDataJson from '@/dataJson/result-data.json'
-import resultDataJson2 from '@/dataJson/result-data6.json'
+import resultDataJson2 from '@/dataJson/result-data7.json'
+import isFirstEdit from '@/dataJson/isFirstEdit.json'
 import userJson from '@/dataJson/user.json'
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
@@ -46,17 +47,17 @@ Mock.mock(/\/api\/login\/passwordchange/, 'post', (req, res) => {
 Mock.mock(/\/api\/bill\/robot/, 'post', (req, res) => {
   // console.log('mock res', req, process)
   // console.log('mock res robot', req)
-  return Mock.mock(Encrypt(JSON.stringify(	{
+  return Mock.mock(Encrypt(JSON.stringify({
     "success": true,
     "code": 20000,
     "message": "成功",
     "data": {
-        "checking": 1,
-        "fail": 99,
-        "success": 9,
-        "timeout": 1
-	    }
-	})))
+      "checking": 1,
+      "fail": 99,
+      "success": 9,
+      "timeout": 1
+    }
+  })))
 })
 Mock.mock(/\/api\/scene\/homelist/, 'post', (req, res) => {
   // console.log('mock res homelist', req, process)
@@ -117,7 +118,8 @@ Mock.mock(/\/api\/bill\/qlresult/, 'post', (req, res) => {
 })
 
 // Mock.mock(/\/api\/ql\/rule\/data/, 'post', (req, res) => {
-Mock.mock(/\/api\/bill\/qldata/, 'post', (req, res) => {
+// Mock.mock(/\/api\/bill\/qldata/, 'post', (req, res) => {
+Mock.mock(/\/api\/(server|bill)\/qldata/, 'post', (req, res) => {
   /**
     {
     "ruleId":"YQ4685271606",
@@ -125,11 +127,11 @@ Mock.mock(/\/api\/bill\/qldata/, 'post', (req, res) => {
     "taskId":"1387829612651159553"
     }
    */
-  console.log('if rule', JSON.parse(req.body).hasOwnProperty('ruleId'))
-  const ifR = JSON.parse(req.body).hasOwnProperty('ruleId');
-  console.log('mock res', req, ifR ? resultDataJson2 : resultDataJson)
+  // console.log('if rule', JSON.parse(req.body).hasOwnProperty('ruleId'))
+  // const ifR = JSON.parse(req.body).hasOwnProperty('ruleId');
+  // console.log('mock res', req, ifR ? resultDataJson2 : resultDataJson)
   // return Mock.mock((!ifR ? resultDataJson2 : resultDataJson))
-  return Mock.mock(( Encrypt(JSON.stringify(resultDataJson2 ))))
+  return Mock.mock((Encrypt(JSON.stringify(resultDataJson2))))
 })
 
 Mock.mock(/\/api\/user\/list/, 'post', (req, res) => {
@@ -161,6 +163,21 @@ Mock.mock(/\/api\/bill\/findall/, 'post', (req, res) => {
 
 // Mock.mock(/\/bill\/checkDateChart/, 'post', (req, res) => {
 Mock.mock(/\/api\/bill\/checkdatechart/, 'post', (req, res) => {
-  console.log('req',req, checkdateJson)
+  console.log('req', req, checkdateJson)
   return Mock.mock(Encrypt(JSON.stringify(checkdateJson)))
+})
+
+Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
+  console.log('req', req, isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
+})
+
+Mock.mock(/\/sample\/save/, 'post', (req, res) => {
+  console.log('req', req, isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(
+    {
+      "success": true,
+      "code": 20000,
+      "message": "成功"
+    })))
 })

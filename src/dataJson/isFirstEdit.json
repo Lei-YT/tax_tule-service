@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "code": 20000,
+  "message": "成功",
+  "data": {
+    "isFirstEdit": false,
+    "edit": [
+      "invoiceCode",
+      "invoiceNo",
+      "invoiceItems.1.itemUnit",
+      "invoiceItems.1.itemName"
+    ]
+  }
+}
