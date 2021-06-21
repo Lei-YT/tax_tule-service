@@ -31,6 +31,8 @@ Vue.use(iView, {
 Vue.use(TreeTable)
 Vue.use(VOrgTree)
 Vue.use(VueLazyload)
+import lodash from 'lodash'
+Vue.prototype._ = lodash
 
 // Vue.use(VueLazyLoad, {
 //   preLoad: 1,
