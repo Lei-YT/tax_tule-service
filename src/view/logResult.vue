@@ -2349,6 +2349,7 @@ import ImagePreview from "@/components/image-preview";
 // import { matchCNkeys } from "@/libs/invoice";
 import { Notification, Loading } from 'element-ui'
 import axios from '@/libs/api.request'
+import axiosR from 'axios'
 const clubArray = (arr) => {
   return arr.reduce((acc, val, ind) => {
     acc[ind] = acc[ind] ? acc[ind] : {};
@@ -2909,9 +2910,10 @@ export default {
       const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       axios
         .request({
-          method: 'get',
-          url: `http://10.15.196.127/sample/isFirstEdit?imageId=${request.imageId}&invoiceId=${request.invoiceId}`,
-          // data: request
+          method: 'post',
+          // url: `http://10.15.196.127/sample/isFirstEdit?imageId=${request.imageId}&invoiceId=${request.invoiceId}`,
+          url: `/api/sample/isFirstEdit`,
+          data: request
         })
         .then((resp) => {
           loadingInstance.close()
@@ -3038,7 +3040,8 @@ export default {
       axios
         .request({
           method: 'post',
-          url: `http://10.15.196.127/sample/save`,
+          // url: `http://10.15.196.127/sample/save`,
+          url: `/api/sample/save`,
           data: postBody
         })
         .then((resp) => {
