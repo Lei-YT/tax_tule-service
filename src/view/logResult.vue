@@ -2912,7 +2912,7 @@ export default {
         .request({
           method: 'post',
           // url: `http://10.15.196.127/sample/isFirstEdit?imageId=${request.imageId}&invoiceId=${request.invoiceId}`,
-          url: `/api/sample/isFirstEdit`,
+          url: `/api/bill/isfirstedit`,
           data: request
         })
         .then((resp) => {
@@ -3041,7 +3041,7 @@ export default {
         .request({
           method: 'post',
           // url: `http://10.15.196.127/sample/save`,
-          url: `/api/sample/save`,
+          url: `/api/bill/save`,
           data: postBody
         })
         .then((resp) => {
