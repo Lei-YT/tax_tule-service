@@ -243,7 +243,7 @@
             </div>
             <div class="imgBox" v-if="!emptyImageInfo">
               <div class="leftImg">
-                <img :src="imgSrc" class="bigImg" @click="showImgbox()" />
+                <img v-lazy="imgSrc" class="bigImg" @click="showImgbox()" />
               </div>
               <div class="rightImg">
                 <div
@@ -255,7 +255,7 @@
                     handelImage(item);
                   "
                 >
-                  <img :src="item.imageURL" class="smallImg" />
+                  <img v-lazy="item.imageURL" class="smallImg" />
                   <span :class="imgHasError.includes(item.imageId) ? 'index-icon red-index' : 'index-icon '">{{ index + 1 }}</span>
                 </div>
               </div>
