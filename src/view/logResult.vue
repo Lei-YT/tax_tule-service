@@ -2496,7 +2496,8 @@ export default {
       return this.imageData.length === 0;
     },
     editable: function () {
-      return this.currentInvoiceErrorFields.length > 0;
+      return this.currentInvoiceRuleId !== 0;
+      // return this.currentInvoiceErrorFields.length > 0;
     }
   },
   methods: {
