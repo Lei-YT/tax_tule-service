@@ -187,7 +187,7 @@ export default {
       this.cardIdx = index;
       this.rightData = item;
       this.robotId = item.id;
-      this.getData(item);
+      this.getData(item, item.id);
       this.getChartsData(item.id);
     },
     getChartTwo() {
@@ -309,7 +309,7 @@ export default {
           _this.robotId = res.data.data[0].id;
           _this.rightData = res.data.data[0];
           _this.getChartsData(res.data.data[0].id);
-          _this.getData(res.data.data[0]);
+          _this.getData(res.data.data[0], res.data.data[0].id);
         }
       });
     },
@@ -324,8 +324,10 @@ export default {
           method: "post",
           url: `/api/bill/robot`,
           data: {
-            robotId: id
-          }
+            robotId: id,
+            checkBeginDate: "",
+            checkEndDate: "",
+          },
         })
         .then((resp) => {
           let data = resp.data;
@@ -487,20 +489,47 @@ export default {
     /**
      * 人机协同统计 - 右 > 下右:圆环
      */
-    getData(data) {
-      this.rightItem = [];
-      let obj3 = {};
-      obj3.value = data.completedNum;
-      obj3.name = "机器人审核";
-      let obj4 = {};
-      obj4.value = data.manmade;
-      obj4.name = "转人工";
-      let obj5 = {};
-      obj5.value = data.failNum;
-      obj5.name = "超时";
-      this.rightItem.push(obj3, obj4, obj5);
-      localSave("rightPie", JSON.stringify(this.rightItem));
-      this.getChartThr();
+    getData(data, id) {
+      const request = {
+        robotId: id,
+        checkBeginDate: "",
+        checkEndDate: "",
+      };
+      let _this = this;
+      axios
+        .request({
+          method: "post",
+          url: `/api/bill/billstatuscount`,
+          data: {
+            robotId: id,
+            checkBeginDate: "",
+            checkEndDate: "",
+          },
+        })
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 20000) {
+            const parseData = [
+              {
+                name: "机器人审核",
+                value: Number(data.data.reject) + Number(data.data.adopt),
+              },
+              { name: "转人工", value: data.data.artificial },
+              { name: "超时", value: data.data.timeout },
+            ];
+            _this.rightItem = parseData;
+            localSave("rightPie", JSON.stringify(parseData));
+            _this.getChartThr();
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.message,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleChange(status, sceneId) {
       let _this = this;
