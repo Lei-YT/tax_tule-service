@@ -313,6 +313,10 @@ export default {
         }
       });
     },
+    /**
+     * 单据量统计 - 右 > 顶部百分比
+     * 结果统计 - 右 > 下左:饼图
+     */
     getChartsData(id) {
       let _this = this;
       axios
@@ -480,6 +484,9 @@ export default {
       localSave("leftPie", JSON.stringify(_this.leftData));
       _this.getChartTwo();
     },
+    /**
+     * 人机协同统计 - 右 > 下右:圆环
+     */
     getData(data) {
       this.rightItem = [];
       let obj3 = {};
