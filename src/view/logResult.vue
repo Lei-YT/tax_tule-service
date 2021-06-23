@@ -2568,7 +2568,7 @@ export default {
     ruleClick(ruleType, vo, i) {
       const _this = this;
       if (ruleType !== "IMAGES") {
-        return false;
+        return this.ruleResultClick(ruleType, vo, i);
       }
       _this.currentInvoiceRuleId = vo.ruleId;
       _this.isReadonly = true;
@@ -2591,9 +2591,6 @@ export default {
     },
     ruleResultClick(ruleType, vo, i) {
       const _this = this;
-      if (ruleType !== "IMAGES") {
-        return false;
-      }
       _this.currentInvoiceRuleId = vo.ruleId;
       const ruleRequest = {
         ruleId: vo.ruleId,
