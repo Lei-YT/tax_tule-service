@@ -44,6 +44,21 @@ Mock.mock(/\/api\/login\/passwordchange/, 'post', (req, res) => {
 //   console.log('mock res', req, process)
 //   return Mock.mock(process)
 // })
+Mock.mock(/\/api\/bill\/billstatuscount/, 'post', (req, res) => {
+  // console.log('mock res', req, process)
+  // console.log('mock res robot', req)
+  return Mock.mock(Encrypt(JSON.stringify({
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+      "artificial": 15,
+      "adopt": 11,
+      "reject": 22,
+      "timeout": 2
+    }
+  })))
+})
 Mock.mock(/\/api\/bill\/robot/, 'post', (req, res) => {
   // console.log('mock res', req, process)
   // console.log('mock res robot', req)
