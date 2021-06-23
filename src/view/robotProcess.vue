@@ -54,10 +54,99 @@
         <div class="rigthCon">
           <div class="topCon">
             <Card style="width: 100%">
-              <p slot="title">Hi,{{ rightData.name }}为您服务</p>
-              <div slot="title" class="titBtn">
+              <div slot="title" style="display: flex; flex-direction: column">
+                <p>Hi,{{ rightData.name }}为您服务</p>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    padding-top: 1.5rem;
+                  "
+                >
+                  <Form
+                    :inline="true"
+                    :label-width="70"
+                    class="demo-form-inline"
+                    ref="formInline"
+                  >
+                    <FormItem label="审核日期:" prop="checkBeginDate">
+                      <div class="numCount">
+                        <Date-picker
+                          placeholder="选择日期"
+                          type="date"
+                          size="large"
+                          style="width: '150px'"
+                          :options="disabledDate1"
+                          :value="checkBeginDate"
+                          format="yyyy-MM-dd"
+                          @on-change="
+                            handleDatepicker($event, 'checkBeginDate')
+                          "
+                        >
+                        </Date-picker>
+                        <span style="margin: 0 5px">—</span>
+                        <Date-picker
+                          placeholder="选择日期"
+                          type="date"
+                          size="large"
+                          :options="disabledDate2"
+                          :value="checkEndDate"
+                          format="yyyy-MM-dd"
+                          @on-change="handleDatepicker($event, 'checkEndDate')"
+                        >
+                        </Date-picker>
+                      </div>
+                    </FormItem>
+
+                    <FormItem :label-width="0">
+                      <el-button
+                        type="primary"
+                        @click="checkyear()"
+                        size="small"
+                      >
+                        本年
+                      </el-button>
+
+                      <el-button
+                        type="primary"
+                        @click="checkmonth()"
+                        size="small"
+                        >本月</el-button
+                      >
+
+                      <el-button
+                        type="primary"
+                        @click="checktoday()"
+                        size="small"
+                        >本日</el-button
+                      >
+                    </FormItem>
+                    <FormItem :label-width="50">
+                      <el-button
+                        type="primary"
+                        @click="getCheckdate()"
+                        icon="el-icon-search"
+                        size="small"
+                        >查询</el-button
+                      >
+                      <el-button
+                        @click="handleReset()"
+                        style="margin-left: 15px"
+                        icon="el-icon-refresh-left"
+                        size="small"
+                        >重置</el-button
+                      >
+                    </FormItem>
+                  </Form>
+                </div>
+              </div>
+              <!--
+                  justify-content: space-between; -->
+              <div slot="extra" class="titBtn">
                 <el-button
                   type="primary"
+                  size="small"
                   style="margin-right: 10px"
                   v-if="rightData.status == 1"
                   @click="handleChange(2, rightData.sceneId)"
@@ -65,6 +154,7 @@
                 >
                 <el-button
                   type="warning"
+                  size="small"
                   style="margin-right: 10px"
                   v-if="rightData.status == 2"
                   @click="handleChange(3, rightData.sceneId)"
@@ -72,6 +162,7 @@
                 >
                 <el-button
                   type="success"
+                  size="small"
                   style="margin-right: 10px"
                   v-if="rightData.status == 3"
                   @click="handleChange(2, rightData.sceneId)"
@@ -79,6 +170,7 @@
                 >
                 <el-button
                   type="info"
+                  size="small"
                   style="margin-right: 10px"
                   v-if="rightData.status == 3"
                   @click="handleChange(4, rightData.sceneId)"
@@ -86,12 +178,14 @@
                 >
                 <el-button
                   type="info"
+                  size="small"
                   style="margin-right: 10px"
                   v-if="rightData.status == 5"
                   >需人工处理</el-button
                 >
                 <el-button
                   type="primary"
+                  size="small"
                   style="margin-right: 10px"
                   v-if="rightData.status == 4"
                   @click="handleReboot(rightData.sceneId)"
@@ -168,6 +262,10 @@ export default {
           type: "操作日志",
         },
       ],
+      checkBeginDate: "",
+      checkEndDate: "",
+      disabledDate1: {},
+      disabledDate2: {},
     };
   },
   created() {},
@@ -183,6 +281,7 @@ export default {
     }, 1800000);
   },
   methods: {
+    handleDatepicker() {},
     showRightInfo(item, index) {
       this.cardIdx = index;
       this.rightData = item;
@@ -634,7 +733,7 @@ export default {
   display: flex;
 }
 .titBtn {
-  display: flex;
+  // display: flex;
 }
 .downCon {
   width: 100%;
@@ -788,5 +887,8 @@ export default {
       }
     }
   }
+}
+/deep/.ivu-input {
+  width: 150px;
 }
 </style>
