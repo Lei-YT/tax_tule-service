@@ -186,6 +186,12 @@ Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
   console.log('req', req, isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
 })
+Mock.mock(/\/api\/bill\/isfirstedit/, 'post', (req, res) => {
+  console.log('req ' + req.url, req, isFirstEdit)
+  isFirstEdit.data.isFirstEdit = Random.boolean();
+  console.log(isFirstEdit.data.isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
+})
 
 Mock.mock(/\/sample\/save/, 'post', (req, res) => {
   console.log('req', req, isFirstEdit)
@@ -196,3 +202,13 @@ Mock.mock(/\/sample\/save/, 'post', (req, res) => {
       "message": "成功"
     })))
 })
+Mock.mock(/\/api\/bill\/save/, 'post', (req, res) => {
+  console.log('req', req, isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(
+    {
+      "success": true,
+      "code": 20000,
+      "message": "成功"
+    })))
+})
+

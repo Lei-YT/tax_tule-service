@@ -1363,22 +1363,26 @@
                         </Row>
                       <!-- </Form> -->
                     </template>
+                    <!-- test:  -->
                     <template v-else >
                       <!-- <Form label-position="left" :label-width="70"> -->
                         <Row :gutter="16">
                           <Col span="8">
                             <FormItem label="发票类型">
-                              <Input v-model.lazy="vo.invoiceType" :readonly="isReadonly"
+                              <template v-if="isReadonly">
+                              <Input v-model.lazy="vo.invoiceType" :readonly="true"
                                 icon="ios-alert-outline"
                                 v-bind:style="inputCommonStyle"
                                 v-bind:class="{'text-highlight': editFields.includes('invoiceType')}"
                                 @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
                                 @on-change="handleCorrectField('invoiceType', '发票类型')"
-                                v-if="currentInvoiceErrorFields.includes('invoiceType')"
+                                v-if="currentInvoiceErrorFields.includes('invoiceType') "
                               ></Input>
-                              <Input v-else v-model.lazy="vo.invoiceType" :readonly="isReadonly"
+                              <Input v-else v-model.lazy="vo.invoiceType" :readonly="true"
                                 @on-change="handleCorrectField('invoiceType', '发票类型')"
                                 v-bind:class="{'text-highlight': editFields.includes('invoiceType')}"></Input>
+                              </template>
+                              <Cascader v-else @on-change="handlePickInvoiceType" :data="invoiceTypeData" v-model="selectedInvoiceType" transfer trigger="hover" filterable :render-format="invoiceTypeFormatter"></Cascader>
                             </FormItem>
                           </Col>
                           <Col span="8" v-if="vo.invoiceNo!==undefined">
@@ -2351,9 +2355,9 @@
 <script>
 import ImagePreview from "@/components/image-preview";
 // import { matchCNkeys } from "@/libs/invoice";
+import invoiceTypeData from "../libs/invoiceType";
 import { Notification, Loading } from 'element-ui'
 import axios from '@/libs/api.request'
-import axiosR from 'axios'
 const clubArray = (arr) => {
   return arr.reduce((acc, val, ind) => {
     acc[ind] = acc[ind] ? acc[ind] : {};
@@ -2376,6 +2380,8 @@ export default {
   components: { ImagePreview },
   data() {
     return {
+      invoiceTypeData: invoiceTypeData,
+      selectedInvoiceType: [],
       showFormRet: false,
       showImageRet: false,
       formColumnsB: [
@@ -3048,7 +3054,7 @@ export default {
           if (data.code === 20000) {
             _this.isReadonly = true;
             _this.invoiceIsFirstEdit = false;
-            _this.editFields = _this.editFields.concat(changeFieldObj.map(e => e.fieldKeyName))
+            // _this.editFields = _this.editFields.concat(changeFieldObj.map(e => e.fieldKeyName))
             _this.correctData = [];
             _this.correctItemData = [];
             const rr = {imageId: _this.imageId, invoiceId: _this.invoiceId};
@@ -3083,6 +3089,16 @@ export default {
         parentKeyName: p
       }
       this.correctItemData.push(tmpObj);
+    },
+    handlePickInvoiceType(value, selectedData){
+      console.log('handlePickInvoiceType', value, selectedData)
+      this.selectedInvoiceType = value;
+      this.handleCorrectField('invoiceType', '发票类型');
+      const invoiceTypeValue = value.slice(-1)[0];
+      this.$set(this.messageInfo.invoices[this.tabsInvoiceIndex], 'invoiceType', invoiceTypeValue);
+    },
+    invoiceTypeFormatter(label){
+      return label.slice(-1)[0];
     },
   },
 };
@@ -3154,6 +3170,7 @@ export default {
     position: relative;
     .bigImg {
       width: 100%;
+      max-height: 450px;
       height: 100%;
       border: 0;
     }
