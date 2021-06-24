@@ -2496,7 +2496,8 @@ export default {
       return this.imageData.length === 0;
     },
     editable: function () {
-      return this.currentInvoiceRuleId !== 0;
+      return true;
+      // return this.currentInvoiceRuleId !== 0;
       // return this.currentInvoiceErrorFields.length > 0;
     }
   },
@@ -2905,7 +2906,7 @@ export default {
       let editFieldsItems = [];
       _this.editFields = editFields;
       _this.editFieldsItems = editFieldsItems;
-      const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+      // const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       axios
         .request({
           method: 'post',
@@ -2914,7 +2915,7 @@ export default {
           data: request
         })
         .then((resp) => {
-          loadingInstance.close()
+          // loadingInstance.close()
           let data = resp.data;
           if (data.code === 20000) {
             if (data.data.isFirstEdit == true) {
@@ -2943,7 +2944,7 @@ export default {
         .catch((err) => {
           console.log(err);
         }).finally(() => {
-          loadingInstance.close()
+          // loadingInstance.close()
         });
     },
     getFieldError (vo, currentKey, currentVal) {
