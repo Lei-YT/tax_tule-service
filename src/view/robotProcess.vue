@@ -281,7 +281,73 @@ export default {
     }, 1800000);
   },
   methods: {
-    handleDatepicker() {},
+    handleDatepicker(dateValue, dataKey) {
+      this.$set(this, dataKey, dateValue);
+      this.status = "";
+      const bb = new Date();
+      bb.setFullYear(bb.getFullYear() - 1);
+      let lastyear = bb;
+      let today = new Date();
+
+      let begindate = new Date(this.checkBeginDate);
+      let enddate = new Date(this.checkEndDate);
+      this.disabledDate1 = {
+        disabledDate(date) {
+          return (
+            (date && date.valueOf() <= lastyear) ||
+            (date && date.valueOf() >= enddate)
+          );
+        },
+      };
+      this.disabledDate2 = {
+        disabledDate(date) {
+          return (
+            (date && date.valueOf() <= begindate) ||
+            (date && date.valueOf() >= today)
+          );
+        },
+      };
+    },
+    getCheckdate() {
+      const _this = this;
+      _this.getChartsData(_this.robotId);
+      _this.getData([], _this.robotId);
+    },
+    handleReset(){
+      this.checkBeginDate = "";
+      this.checkEndDate = "";
+    },
+    checkyear() {
+      var now_year = new Date().getFullYear();
+      let begindate = new Date(now_year, 0, 1);
+      this.checkBeginDate=this.formatDate(begindate);
+      this.checkEndDate=this.formatDate(new Date());
+    },
+    checkmonth() {
+      var date=new Date();
+      date.setDate(1);
+      this.checkBeginDate=this.formatDate(date);
+
+      this.checkEndDate=this.formatDate(new Date());
+    },
+    checktoday() {
+      var now = new Date()
+
+      this.checkBeginDate=this.formatDate(now);
+      this.checkEndDate=this.formatDate(now);
+      // return Promise.resolve();
+    },
+    formatDate(date) {
+      var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      return [year, month, day].join("-");
+    },
     showRightInfo(item, index) {
       this.cardIdx = index;
       this.rightData = item;
@@ -424,8 +490,8 @@ export default {
           url: `/api/bill/robot`,
           data: {
             robotId: id,
-            checkBeginDate: "",
-            checkEndDate: "",
+            checkBeginDate: _this.checkBeginDate,
+            checkEndDate: _this.checkEndDate,
           },
         })
         .then((resp) => {
@@ -447,6 +513,11 @@ export default {
             localSave("countChart", JSON.stringify(_this.chartsDate));
             _this.renderCountChart();
             _this.getLeftData(data.data);
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.message,
+            });
           }
         })
         .catch((err) => {
@@ -592,19 +663,15 @@ export default {
     getData(data, id) {
       const request = {
         robotId: id,
-        checkBeginDate: "",
-        checkEndDate: "",
+        checkBeginDate: this.checkBeginDate,
+        checkEndDate: this.checkEndDate,
       };
       let _this = this;
       axios
         .request({
           method: "post",
           url: `/api/bill/billstatuscount`,
-          data: {
-            robotId: id,
-            checkBeginDate: "",
-            checkEndDate: "",
-          },
+          data: request,
         })
         .then((resp) => {
           let data = resp.data;
