@@ -275,11 +275,15 @@
               </div>
               <div class="tabData">
               <p class="data-header" v-if="!emptyImageInfo">
-                结构化数据
                 <template v-if="editable">
+                  <Button type="primary" size="small" :ghost="isReadonly" @click="isReadonly = true">结构化数据</Button>
                   <Divider type="vertical" />
-                  <Button type="primary" ghost @click="dataEdit">学习样本纠偏</Button>
+                  <Button type="primary" size="small" :ghost="!isReadonly" @click="isReadonly = false">学习样本纠偏</Button>
                 </template>
+                <template v-else>
+                  结构化数据
+                </template>
+
                 <span class="text-primary pr-1">报错信息: {{currentInvoiceErrorFields.length}}条</span>
               </p>
 
@@ -2485,6 +2489,7 @@ export default {
         backgroundColor: '#FFFA99',
         width: '100%',
       },
+      invoiceIsFirstEdit: false,
     };
   },
   mounted() {
@@ -2496,9 +2501,7 @@ export default {
       return this.imageData.length === 0;
     },
     editable: function () {
-      return true;
-      // return this.currentInvoiceRuleId !== 0;
-      // return this.currentInvoiceErrorFields.length > 0;
+      return this.invoiceIsFirstEdit;
     }
   },
   methods: {
@@ -2885,20 +2888,23 @@ export default {
           "otherInfo-",
         ].concat(panelNames).map((i) => `${i}${invoiceIdP || "0"}`)
       );
+      let findImgId = '';
       if (this.currentInvoiceRuleId !== '') {
         const findRule = _this.allData.data.find(r => r.ruleType==="IMAGES");
         const findRet = findRule.result.find(rr => rr.ruleId===_this.currentInvoiceRuleId);
 
         let dataImgIds = Object.keys(_this.allImageInvoiceIds);
-        let findImgId = dataImgIds.find(k => {
+        findImgId = dataImgIds.find(k => {
           return _this.allImageInvoiceIds[k].includes(invoiceIdP);
         })
         let fieldsImgs = findRet.imageData.find(ee => ee.imageId===findImgId);
         let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
         _this.currentInvoiceErrorFields = fieldsInvoice.fields || [];
-        const rr = {imageId: findImgId, invoiceId: invoiceIdP};
-        _this.getEditField(rr);
+      } else {
+        findImgId = _this.imageId;
       }
+      const rr = {imageId: findImgId, invoiceId: invoiceIdP};
+      _this.getEditField(rr);
     },
     getEditField(request) {
       const _this = this;
@@ -2906,18 +2912,18 @@ export default {
       let editFieldsItems = [];
       _this.editFields = editFields;
       _this.editFieldsItems = editFieldsItems;
-      // const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+      const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       axios
         .request({
           method: 'post',
-          // url: `http://10.15.196.127/sample/isFirstEdit?imageId=${request.imageId}&invoiceId=${request.invoiceId}`,
           url: `/api/bill/isfirstedit`,
           data: request
         })
         .then((resp) => {
-          // loadingInstance.close()
+          loadingInstance.close()
           let data = resp.data;
           if (data.code === 20000) {
+            _this.invoiceIsFirstEdit = data.data.isFirstEdit;
             if (data.data.isFirstEdit == true) {
               return false;
             }
@@ -2944,7 +2950,7 @@ export default {
         .catch((err) => {
           console.log(err);
         }).finally(() => {
-          // loadingInstance.close()
+          loadingInstance.close()
         });
     },
     getFieldError (vo, currentKey, currentVal) {
@@ -2982,12 +2988,6 @@ export default {
       this.showbigimg = !this.showbigimg;
       this.showImgData = [];
       this.showImgData.push(this.imageData[this.imgIndex]);
-    },
-    /**
-     * 学习样本纠偏
-     */
-    dataEdit() {
-      this.isReadonly = false;
     },
     handleSubmitData(formRef, formData) {
       const changeField = [...new Set([...(this.correctData.map(t => t.fieldKeyName))])];
@@ -3039,7 +3039,6 @@ export default {
       axios
         .request({
           method: 'post',
-          // url: `http://10.15.196.127/sample/save`,
           url: `/api/bill/save`,
           data: postBody
         })
@@ -3048,11 +3047,12 @@ export default {
           let data = resp.data;
           if (data.code === 20000) {
             _this.isReadonly = true;
+            _this.invoiceIsFirstEdit = false;
             _this.editFields = _this.editFields.concat(changeFieldObj.map(e => e.fieldKeyName))
-            // todo:
-            // _this.editFieldsItems = _this.editFieldsItems.concat(changeItemFieldObj.map(e => e.fieldKeyName))
             _this.correctData = [];
             _this.correctItemData = [];
+            const rr = {imageId: _this.imageId, invoiceId: _this.invoiceId};
+            _this.getEditField(rr);
           } else {
             Notification.closeAll()
             Notification({
