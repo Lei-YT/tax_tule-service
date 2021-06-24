@@ -53,15 +53,15 @@
         <!-- 右边图表 -->
         <div class="rigthCon">
           <div class="topCon">
-            <Card style="width: 100%">
-              <div slot="title" style="display: flex; flex-direction: column">
-                <p>Hi,{{ rightData.name }}为您服务</p>
+            <Card style="width: 100%; display:block;" class="topConTitle">
+              <div slot="title" style="display: flex; flex-direction: row;flex-wrap: wrap;">
+                <p style="flex:1 0;">Hi,{{ rightData.name }}为您服务</p>
                 <div
                   style="
+                    flex: 0 0 825px;
                     display: flex;
                     flex-direction: row;
                     justify-content: flex-end;
-                    padding-top: 1.5rem;
                   "
                 >
                   <Form
@@ -140,58 +140,58 @@
                     </FormItem>
                   </Form>
                 </div>
+                <div class="titBtn">
+                  <el-button
+                    type="primary"
+                    size="small"
+                    style="margin-right: 10px"
+                    v-if="rightData.status == 1"
+                    @click="handleChange(2, rightData.sceneId)"
+                    >启动</el-button
+                  >
+                  <el-button
+                    type="warning"
+                    size="small"
+                    style="margin-right: 10px"
+                    v-if="rightData.status == 2"
+                    @click="handleChange(3, rightData.sceneId)"
+                    >暂停</el-button
+                  >
+                  <el-button
+                    type="success"
+                    size="small"
+                    style="margin-right: 10px"
+                    v-if="rightData.status == 3"
+                    @click="handleChange(2, rightData.sceneId)"
+                    >继续</el-button
+                  >
+                  <el-button
+                    type="info"
+                    size="small"
+                    style="margin-right: 10px"
+                    v-if="rightData.status == 3"
+                    @click="handleChange(4, rightData.sceneId)"
+                    >结束</el-button
+                  >
+                  <el-button
+                    type="info"
+                    size="small"
+                    style="margin-right: 10px"
+                    v-if="rightData.status == 5"
+                    >需人工处理</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    size="small"
+                    style="margin-right: 10px"
+                    v-if="rightData.status == 4"
+                    @click="handleReboot(rightData.sceneId)"
+                    >重启</el-button
+                  >
+                </div>
               </div>
-              <!--
+              <!--slot="extra"
                   justify-content: space-between; -->
-              <div slot="extra" class="titBtn">
-                <el-button
-                  type="primary"
-                  size="small"
-                  style="margin-right: 10px"
-                  v-if="rightData.status == 1"
-                  @click="handleChange(2, rightData.sceneId)"
-                  >启动</el-button
-                >
-                <el-button
-                  type="warning"
-                  size="small"
-                  style="margin-right: 10px"
-                  v-if="rightData.status == 2"
-                  @click="handleChange(3, rightData.sceneId)"
-                  >暂停</el-button
-                >
-                <el-button
-                  type="success"
-                  size="small"
-                  style="margin-right: 10px"
-                  v-if="rightData.status == 3"
-                  @click="handleChange(2, rightData.sceneId)"
-                  >继续</el-button
-                >
-                <el-button
-                  type="info"
-                  size="small"
-                  style="margin-right: 10px"
-                  v-if="rightData.status == 3"
-                  @click="handleChange(4, rightData.sceneId)"
-                  >结束</el-button
-                >
-                <el-button
-                  type="info"
-                  size="small"
-                  style="margin-right: 10px"
-                  v-if="rightData.status == 5"
-                  >需人工处理</el-button
-                >
-                <el-button
-                  type="primary"
-                  size="small"
-                  style="margin-right: 10px"
-                  v-if="rightData.status == 4"
-                  @click="handleReboot(rightData.sceneId)"
-                  >重启</el-button
-                >
-              </div>
               <div class="chartOne">
                 <div id="countChart" style="width: 100%; height: 260px"></div>
               </div>
@@ -568,6 +568,7 @@ export default {
           },
         ],
       });
+      countChart.resize();
     },
     getLeftData(data) {
       let _this = this;
@@ -732,6 +733,9 @@ export default {
 /deep/.ivu-card-head {
   display: flex;
 }
+/deep/.topConTitle .ivu-card-head {
+    display: block;
+}
 .titBtn {
   // display: flex;
 }
@@ -891,4 +895,7 @@ export default {
 /deep/.ivu-input {
   width: 150px;
 }
+// /deep/.ivu-form-item{
+//   margin-bottom: 1px;
+// }
 </style>
