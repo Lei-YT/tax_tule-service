@@ -2629,6 +2629,7 @@
   </div>
 </template>
 <script>
+import "@/components/invoice/index.js";
 import ImagePreview from "@/components/image-preview";
 // import { matchCNkeys } from "@/libs/invoice";
 import invoiceTypeData from "../libs/invoiceType";
