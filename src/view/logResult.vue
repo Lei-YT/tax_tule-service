@@ -1736,6 +1736,7 @@
                       <!-- </Form> -->
                     </template>
                   </el-collapse-item>
+                  <!-- test: -->
                   <el-collapse-item
                     title="购买方信息"
                     v-if="vo.purchaserName"
@@ -1886,6 +1887,7 @@
                       </Row>
                     <!-- </Form> -->
                   </el-collapse-item>
+                  <!-- test: -->
                   <el-collapse-item
                     title="销售方信息"
                     v-if="vo.sellerName "
@@ -2007,6 +2009,7 @@
                       </Row>
                     <!-- </Form> -->
                   </el-collapse-item>
+                  <!-- test: -->
                   <el-collapse-item
                     title="发票详情"
                     v-if="vo.invoiceItems && vo.invoiceItems.length>0"
@@ -2484,6 +2487,7 @@
                       </table>
                     </template>
                   </el-collapse-item>
+                  <!-- test: -->
                   <el-collapse-item
                     title="其他"
                     v-bind:name="'otherInfo-' + vo.invoiceId"
@@ -3768,6 +3772,8 @@ export default {
 }
 /deep/.rule-table .ivu-tooltip-rel{
   max-width: 130px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 /deep/.imgBox .rightImg .index-icon.red-index{
   background-color: rgba(254,61,61, .6);
