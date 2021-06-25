@@ -414,7 +414,22 @@
                           </Col>
                         </Row>
                         <Row :gutter="16">
-                          <Col span="12">
+                          <Col span="8">
+                            <FormItem label="保险费">
+                              <Input v-model="vo.insurance" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'insurance', vo.insurance)"
+                                @on-change="handleCorrectField('insurance', '保险费')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('insurance')}"
+                                v-if="currentInvoiceErrorFields.includes('insurance')"></Input>
+                              <Input v-else v-model="vo.insurance" :readonly="isReadonly"
+                                @on-change="handleCorrectField('insurance', '保险费')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('insurance')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
                             <FormItem label="其他税费">
                               <Input v-model="vo.otherTaxes" :readonly="isReadonly"
                                 icon="ios-alert-outline"
@@ -429,7 +444,7 @@
                               v-bind:class="{'text-highlight': editFields.includes('otherTaxes')}"></Input>
                             </FormItem>
                           </Col>
-                          <Col span="12">
+                          <Col span="8">
                             <FormItem label="合计">
                               <Input v-model="vo.amountWithTax" :readonly="isReadonly"
                                 icon="ios-alert-outline"
@@ -474,6 +489,38 @@
                                 @on-change="handleCorrectField('sellerName', '填开单位')"
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('sellerName')}"></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="销售单位代号">
+                              <Input v-model="vo.agentCode" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'agentCode', vo.agentCode)"
+                                @on-change="handleCorrectField('agentCode', '销售单位代号')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('agentCode')}"
+                                v-if="currentInvoiceErrorFields.includes('agentCode')"></Input>
+                              <Input v-else v-model="vo.agentCode" :readonly="isReadonly"
+                                @on-change="handleCorrectField('agentCode', '销售单位代号')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('agentCode')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="出发地是否为国内">
+                              <Input v-model="vo.isDomestic" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'isDomestic', vo.isDomestic)"
+                                @on-change="handleCorrectField('isDomestic', '出发地是否为国内')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('isDomestic')}"
+                                v-if="currentInvoiceErrorFields.includes('isDomestic')"></Input>
+                              <Input v-else v-model="vo.isDomestic" :readonly="isReadonly"
+                                @on-change="handleCorrectField('isDomestic', '出发地是否为国内')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('isDomestic')}"></Input>
                             </FormItem>
                           </Col>
                         </Row>
@@ -643,7 +690,7 @@
                           </Col>
                         </Row>
                         <Row :gutter="16">
-                          <Col span="12">
+                          <Col span="8">
                             <FormItem label="价税合计（小写）">
                               <Input v-model="vo.amountWithTax" :readonly="isReadonly"
                                 icon="ios-alert-outline"
@@ -656,6 +703,36 @@
                                 @on-change="handleCorrectField('amountWithTax', '价税合计（小写）')"
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('amountWithTax')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="发票所属地">
+                              <Input v-model="vo.sellerAddress" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'sellerAddress', vo.sellerAddress)"
+                                @on-change="handleCorrectField('sellerAddress', '发票所属地')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('sellerAddress')}"
+                                v-if="currentInvoiceErrorFields.includes('sellerAddress')"></Input>
+                              <Input v-else v-model="vo.sellerAddress" :readonly="isReadonly"
+                                @on-change="handleCorrectField('sellerAddress', '发票所属地')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('sellerAddress')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="消费分类">
+                              <Input v-model="vo.industryCategory" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'industryCategory', vo.industryCategory)"
+                                @on-change="handleCorrectField('industryCategory', '消费分类')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('industryCategory')}"
+                                v-if="currentInvoiceErrorFields.includes('industryCategory')"></Input>
+                              <Input v-else v-model="vo.industryCategory" :readonly="isReadonly"
+                                @on-change="handleCorrectField('industryCategory', '消费分类')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('industryCategory')}"></Input>
                             </FormItem>
                           </Col>
                         </Row>
@@ -713,18 +790,18 @@
                         </Row>
                         <Row :gutter="16">
                           <Col span="12">
-                            <FormItem label="金额">
-                              <Input v-model="vo.invoiceAmount" :readonly="isReadonly"
+                            <FormItem label="价税合计（小写）">
+                              <Input v-model="vo.amountWithTax" :readonly="isReadonly"
                                 icon="ios-alert-outline"
-                                @click.native="getFieldError(vo, 'invoiceAmount', vo.invoiceAmount)"
-                                @on-change="handleCorrectField('invoiceAmount', '金额')"
+                                @click.native="getFieldError(vo, 'amountWithTax', vo.amountWithTax)"
+                                @on-change="handleCorrectField('amountWithTax', '价税合计（小写）')"
                               v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFields.includes('invoiceAmount')}"
-                                v-if="currentInvoiceErrorFields.includes('invoiceAmount')"></Input>
-                              <Input v-else v-model="vo.invoiceAmount" :readonly="isReadonly"
-                                @on-change="handleCorrectField('invoiceAmount', '金额')"
+                              v-bind:class="{'text-highlight': editFields.includes('amountWithTax')}"
+                                v-if="currentInvoiceErrorFields.includes('amountWithTax')"></Input>
+                              <Input v-else v-model="vo.amountWithTax" :readonly="isReadonly"
+                                @on-change="handleCorrectField('amountWithTax', '价税合计（小写）')"
                               v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFields.includes('invoiceAmount')}"></Input>
+                              v-bind:class="{'text-highlight': editFields.includes('amountWithTax')}"></Input>
                             </FormItem>
                           </Col>
                           <Col span="12">
@@ -745,6 +822,44 @@
                                 @on-change="handleCorrectField('invoiceDate', '发票日期')"
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('invoiceDate')}"
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="入口站">
+                              <Input v-model="vo.origin" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'origin', vo.origin)"
+                                @on-change="handleCorrectField('origin', '入口站')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('origin')}"
+                                v-if="currentInvoiceErrorFields.includes('origin')"></Input>
+                              <Input v-else v-model="vo.origin" :readonly="isReadonly"
+                                @on-change="handleCorrectField('origin', '入口站')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('origin')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="出口站" :label-width="70">
+                              <Input
+                                v-model="vo.destination"
+                                :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @on-change="handleCorrectField('destination', '出口站')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('destination')}"
+                                @click.native="getFieldError(vo, 'destination', vo.destination)"
+                                v-if="currentInvoiceErrorFields.includes('destination')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.destination"
+                                :readonly="isReadonly"
+                                @on-change="handleCorrectField('destination', '出口站')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('destination')}"
                               ></Input>
                             </FormItem>
                           </Col>
@@ -803,18 +918,18 @@
                         </Row>
                         <Row :gutter="16">
                           <Col span="8">
-                            <FormItem label="金额">
-                              <Input v-model="vo.invoiceAmount" :readonly="isReadonly"
+                            <FormItem label="价税合计（小写）">
+                              <Input v-model="vo.amountWithTax" :readonly="isReadonly"
                                 icon="ios-alert-outline"
-                                @click.native="getFieldError(vo, 'invoiceAmount', vo.invoiceAmount)"
-                                @on-change="handleCorrectField('invoiceAmount', '金额')"
+                                @click.native="getFieldError(vo, 'amountWithTax', vo.amountWithTax)"
+                                @on-change="handleCorrectField('amountWithTax', '价税合计（小写）')"
                               v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFields.includes('invoiceAmount')}"
-                                v-if="currentInvoiceErrorFields.includes('invoiceAmount')"></Input>
-                              <Input v-else v-model="vo.invoiceAmount" :readonly="isReadonly"
-                                @on-change="handleCorrectField('invoiceAmount', '金额')"
+                              v-bind:class="{'text-highlight': editFields.includes('amountWithTax')}"
+                                v-if="currentInvoiceErrorFields.includes('amountWithTax')"></Input>
+                              <Input v-else v-model="vo.amountWithTax" :readonly="isReadonly"
+                                @on-change="handleCorrectField('amountWithTax', '价税合计（小写）')"
                               v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFields.includes('invoiceAmount')}"></Input>
+                              v-bind:class="{'text-highlight': editFields.includes('amountWithTax')}"></Input>
                             </FormItem>
                           </Col>
                           <Col span="8">
@@ -971,6 +1086,38 @@
                               v-bind:class="{'text-highlight': editFields.includes('invoiceType')}"></Input>
                             </FormItem>
                           </Col>
+                          <Col span="8" >
+                            <FormItem label="发票号码">
+                              <Input v-model="vo.invoiceNumber" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @on-click="getFieldError(vo, 'invoiceNumber', vo.invoiceNumber)"
+                                v-bind:style="inputCommonStyle"
+                                @on-change="handleCorrectField('invoiceNumber', '发票号码')"
+                                v-bind:class="{'text-highlight': editFields.includes('invoiceNumber')}"
+                                v-if="currentInvoiceErrorFields.includes('invoiceNumber')"></Input>
+                              <Input v-else v-model="vo.invoiceNumber" :readonly="isReadonly"
+                                @on-change="handleCorrectField('invoiceNumber', '发票号码')"
+                                v-bind:class="{'text-highlight': editFields.includes('invoiceNumber')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8"
+                          >
+                            <FormItem label="发票代码">
+                              <Input v-model="vo.ticketNo" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'ticketNo', vo.ticketNo)"
+                                v-bind:style="inputCommonStyle"
+                                v-bind:class="{'text-highlight': editFields.includes('ticketNo')}"
+                                @on-change="handleCorrectField('ticketNo', '发票代码')"
+                                v-if="currentInvoiceErrorFields.includes('ticketNo')"></Input>
+                              <Input v-else v-model="vo.ticketNo"
+                                v-bind:class="{'text-highlight': editFields.includes('ticketNo')}"
+                                @on-change="handleCorrectField('ticketNo', '发票代码')"
+                                :readonly="isReadonly"></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
                           <Col span="8">
                             <FormItem label="出发站">
                               <Input v-model="vo.origin" :readonly="isReadonly"
@@ -999,6 +1146,21 @@
                                 @on-change="handleCorrectField('destination', '到达站')"
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('destination')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="8">
+                            <FormItem label="车次">
+                              <Input v-model="vo.transportationNo" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'transportationNo', vo.transportationNo)"
+                                @on-change="handleCorrectField('transportationNo', '车次')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('transportationNo')}"
+                                v-if="currentInvoiceErrorFields.includes('transportationNo')"></Input>
+                              <Input v-else v-model="vo.transportationNo" :readonly="isReadonly"
+                                @on-change="handleCorrectField('transportationNo', '车次')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('transportationNo')}"></Input>
                             </FormItem>
                           </Col>
                         </Row>
@@ -1035,6 +1197,23 @@
                             </FormItem>
                           </Col>
                           <Col span="8">
+                            <FormItem label="座位号">
+                              <Input v-model="vo.seatNo" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'class', vo.seatNo)"
+                                @on-change="handleCorrectField('seatNo', '座位号')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('seatNo')}"
+                                v-if="currentInvoiceErrorFields.includes('seatNo')"></Input>
+                              <Input v-else v-model="vo.seatNo" :readonly="isReadonly"
+                                @on-change="handleCorrectField('seatNo', '座位号')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('seatNo')}"></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="8">
                             <FormItem label="金额合计（小写）">
                               <Input v-model="vo.amountWithoutTax" :readonly="isReadonly"
                                 icon="ios-alert-outline"
@@ -1049,25 +1228,23 @@
                               v-bind:class="{'text-highlight': editFields.includes('amountWithoutTax')}"></Input>
                             </FormItem>
                           </Col>
-                        </Row>
-                        <Row :gutter="16">
-                          <Col span="12">
-                            <FormItem label="火车票编号(左上)" :label-width="120">
+                          <Col span="8">
+                            <FormItem label="火车票编号(左上)" >
                               <Input v-model="vo.invoiceNumber" :readonly="isReadonly"
                                 icon="ios-alert-outline"
                                 @click.native="getFieldError(vo, 'invoiceNumber', vo.invoiceNumber)"
-                                @on-change="handleCorrectField('invoiceNumber', '火车票代码(左上)')"
+                                @on-change="handleCorrectField('invoiceNumber', '火车票编号(左上)')"
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('invoiceNumber')}"
                                 v-if="currentInvoiceErrorFields.includes('invoiceNumber')"></Input>
                               <Input v-else v-model="vo.invoiceNumber" :readonly="isReadonly"
-                                @on-change="handleCorrectField('invoiceNumber', '火车票代码(左上)')"
+                                @on-change="handleCorrectField('invoiceNumber', '火车票编号(左上)')"
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('invoiceNumber')}"></Input>
                             </FormItem>
                           </Col>
-                          <Col span="12">
-                            <FormItem label="火车票代码(左下)" :label-width="120">
+                          <Col span="8">
+                            <FormItem label="火车票代码(左下)" >
                               <Input
                                 v-model="vo.invoiceCode"
                                 :readonly="isReadonly"
@@ -1084,6 +1261,76 @@
                                 @on-change="handleCorrectField('invoiceCode', '火车票代码(左下)')"
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('invoiceCode')}"
+                              ></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="火车票销售地" >
+                              <Input v-model="vo.sellerAddress" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'sellerAddress', vo.sellerAddress)"
+                                @on-change="handleCorrectField('sellerAddress', '火车票销售地')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('sellerAddress')}"
+                                v-if="currentInvoiceErrorFields.includes('sellerAddress')"></Input>
+                              <Input v-else v-model="vo.sellerAddress" :readonly="isReadonly"
+                                @on-change="handleCorrectField('sellerAddress', '火车票销售地')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('sellerAddress')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="出发地是否为国内" >
+                              <Input v-model="vo.isDomestic" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'isDomestic', vo.isDomestic)"
+                                @on-change="handleCorrectField('isDomestic', '出发地是否为国内')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('isDomestic')}"
+                                v-if="currentInvoiceErrorFields.includes('isDomestic')"></Input>
+                              <Input v-else v-model="vo.isDomestic" :readonly="isReadonly"
+                                @on-change="handleCorrectField('isDomestic', '出发地是否为国内')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('isDomestic')}"></Input>
+                            </FormItem>
+                          </Col>
+                        </Row>
+                        <Row :gutter="16">
+                          <Col span="12">
+                            <FormItem label="旅客姓名" >
+                              <Input v-model="vo.passengerName" :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @click.native="getFieldError(vo, 'passengerName', vo.passengerName)"
+                                @on-change="handleCorrectField('passengerName', '旅客姓名')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('passengerName')}"
+                                v-if="currentInvoiceErrorFields.includes('passengerName')"></Input>
+                              <Input v-else v-model="vo.passengerName" :readonly="isReadonly"
+                                @on-change="handleCorrectField('passengerName', '旅客姓名')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('passengerName')}"></Input>
+                            </FormItem>
+                          </Col>
+                          <Col span="12">
+                            <FormItem label="证件号码" >
+                              <Input
+                                v-model="vo.passengerID"
+                                :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @on-change="handleCorrectField('passengerID', '证件号码')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('passengerID')}"
+                                @click.native="getFieldError(vo, 'passengerID', vo.passengerID)"
+                                v-if="currentInvoiceErrorFields.includes('passengerID')"
+                              ></Input>
+                              <Input v-else
+                                v-model="vo.passengerID"
+                                :readonly="isReadonly"
+                                @on-change="handleCorrectField('passengerID', '证件号码')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('passengerID')}"
                               ></Input>
                             </FormItem>
                           </Col>
@@ -1584,7 +1831,7 @@
                           </FormItem>
                         </Col>
                         <Col span="14">
-                          <FormItem label="开户行及账号" :label-width="100">
+                          <FormItem label="开户行及账号" v-if="vo.purchaserIDNumber!==undefined" :label-width="100">
                             <Tooltip
                               :content="vo.purchaserBankAccount"
                               :max-width="200"
@@ -1607,6 +1854,35 @@
                               v-bind:style="inputCommonStyle"
                               v-bind:class="{'text-highlight': editFields.includes('purchaserBankAccount')}"
                               ></Input>
+                            </Tooltip>
+                          </FormItem>
+                        </Col>
+                      </Row>
+                      <Row :gutter="16">
+                        <Col span="24">
+                          <FormItem label="身份证号码" :label-width="100">
+                            <Tooltip
+                              :content="vo.purchaserIDNumber"
+                              :max-width="200"
+                              transfer
+                            >
+                            <Input
+                              v-model="vo.purchaserIDNumber"
+                              :readonly="isReadonly"
+                                icon="ios-alert-outline"
+                                @on-change="handleCorrectField('purchaserIDNumber', '身份证号码')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('purchaserIDNumber')}"
+                                @click.native="getFieldError(vo, 'purchaserIDNumber', vo.purchaserIDNumber)"
+                                v-if="currentInvoiceErrorFields.includes('purchaserIDNumber')"
+                            ></Input>
+                            <Input v-else
+                              v-model="vo.purchaserIDNumber"
+                              :readonly="isReadonly"
+                                @on-change="handleCorrectField('purchaserIDNumber', '身份证号码')"
+                              v-bind:style="inputCommonStyle"
+                              v-bind:class="{'text-highlight': editFields.includes('purchaserIDNumber')}"
+                            ></Input>
                             </Tooltip>
                           </FormItem>
                         </Col>
@@ -2972,6 +3248,7 @@ export default {
     },
     handleTab(index, invoiceId) {
       const _this = this;
+      this.isReadonly = true;
       this.tabsInvoiceIndex = index;
       this.invoiceId = invoiceId;
       this.getErrorMessage(invoiceId);
