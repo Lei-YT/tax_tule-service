@@ -1633,18 +1633,15 @@
                             </FormItem>
                           </Col>
                           <Col span="8" v-if="vo.invoiceNo!==undefined">
-                            <FormItem label="发票号码">
-                              <Input v-model="vo.invoiceNo" :readonly="isReadonly"
-                                icon="ios-alert-outline"
-                                @on-click="getFieldError(vo, 'invoiceNo', vo.invoiceNo)"
-                                v-bind:style="inputCommonStyle"
-                                @on-change="handleCorrectField('invoiceNo', '发票号码')"
-                                v-bind:class="{'text-highlight': editFields.includes('invoiceNo')}"
-                                v-if="currentInvoiceErrorFields.includes('invoiceNo')"></Input>
-                              <Input v-else v-model="vo.invoiceNo" :readonly="isReadonly"
-                                @on-change="handleCorrectField('invoiceNo', '发票号码')"
-                                v-bind:class="{'text-highlight': editFields.includes('invoiceNo')}"></Input>
-                            </FormItem>
+                            <component :is="'defaultC'"
+                              fieldKey='invoiceNo'
+                              fieldName="发票号码"
+                              :defaultKeyValue="vo.invoiceNo"
+                              :invoiceData="vo"
+                              :isReadonly="isReadonly"
+                              @on-input-change="handleCorrectField"
+                              @on-icon-click="getFieldError"
+                            />
                           </Col>
                           <Col span="8" v-if="vo.invoiceCode!==undefined"
                           >
@@ -2629,7 +2626,8 @@
   </div>
 </template>
 <script>
-import "@/components/invoice/index.js";
+import { mapMutations } from "vuex";
+import "@/components/invoice-field/index.js";
 import ImagePreview from "@/components/image-preview";
 // import { matchCNkeys } from "@/libs/invoice";
 import invoiceTypeData from "../libs/invoiceType";
@@ -2788,6 +2786,10 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      "setEditFields",
+      "setCurrentInvoiceErrorFields",
+    ]),
     handelAllImage() {
       const _this = this;
       // 有字段的报错图片
@@ -3147,6 +3149,7 @@ export default {
     getErrorMessage(invoiceIdP) {
       const _this = this;
       _this.currentInvoiceErrorFields = [];
+      _this.setCurrentInvoiceErrorFields([]);
       const panelSet = [
         { name: 'buyerInfo-', need: ['purchaserName'] },
         { name: 'sellerInfo-', need: ['sellerName'] },
@@ -3183,6 +3186,7 @@ export default {
         let fieldsImgs = findRet.imageData.find(ee => ee.imageId===findImgId);
         let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
         _this.currentInvoiceErrorFields = fieldsInvoice.fields || [];
+        _this.setCurrentInvoiceErrorFields(_this.currentInvoiceErrorFields)
       } else {
         findImgId = _this.imageId;
       }
@@ -3194,6 +3198,7 @@ export default {
       let editFields = [];
       let editFieldsItems = [];
       _this.editFields = editFields;
+      _this.setEditFields([]);
       _this.editFieldsItems = editFieldsItems;
       const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       axios
@@ -3219,6 +3224,7 @@ export default {
               editFieldsItems[itemIndex] = editFieldsItems[itemIndex] || [];
               editFieldsItems[itemIndex].push(ss[2]);
             })
+            _this.setEditFields(editFields);
             _this.editFields = editFields;
             _this.editFieldsItems = editFieldsItems;
           } else {
@@ -3332,7 +3338,6 @@ export default {
           if (data.code === 20000) {
             _this.isReadonly = true;
             _this.invoiceIsFirstEdit = false;
-            // _this.editFields = _this.editFields.concat(changeFieldObj.map(e => e.fieldKeyName))
             _this.correctData = [];
             _this.correctItemData = [];
             const rr = {imageId: _this.imageId, invoiceId: _this.invoiceId};

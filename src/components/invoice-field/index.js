@@ -8,7 +8,7 @@ requireComponent.keys().forEach(fileName => {
     // 获取文件名
     var names = fileName.split("/").pop().replace(/\.\w+$/, "");//BaseBtn
 
-    // console.log(_.camelCase(names))
+    // console.log('---', _.camelCase(names))
 
     // 获取组件配置
     const componentConfig = requireComponent(fileName);
