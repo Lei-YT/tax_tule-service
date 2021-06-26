@@ -1,54 +1,60 @@
 <template>
   <FormItem :label="fieldName">
-    <Input
-      v-model="vo.invoiceType"
-      :readonly="isReadonly"
-      icon="ios-alert-outline"
-      @on-change="handleCorrectField('invoiceType', fieldName)"
-      v-bind:style="inputCommonStyle"
-      v-bind:class="{ 'text-highlight': editFields.includes('invoiceType') }"
-      @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
-      v-if="currentInvoiceErrorFields.includes('invoiceType')"
-    ></Input>
-    <Input
+    <template v-if="isReadonly">
+      <Input
+        v-model="fieldKeyValue"
+        :readonly="isReadonly"
+        icon="ios-alert-outline"
+        v-bind:class="{ 'text-highlight': highlightsEdit }"
+        v-bind:style="inputCommonStyle"
+        @on-click="onIconClick"
+        @on-change="onInputEdit"
+        v-if="isErrorField"
+      ></Input>
+      <Input
+        v-else
+        v-model="fieldKeyValue"
+        :readonly="isReadonly"
+        @on-change="onInputEdit"
+        v-bind:class="{ 'text-highlight': highlightsEdit }"
+      ></Input>
+    </template>
+    <Cascader
       v-else
-      v-model="vo.invoiceType"
-      :readonly="isReadonly"
-      @on-change="handleCorrectField('invoiceType', fieldName)"
-      v-bind:style="inputCommonStyle"
-      v-bind:class="{ 'text-highlight': editFields.includes('invoiceType') }"
-    ></Input>
+      @on-change="handlePickInvoiceType"
+      :data="invoiceTypeData"
+      v-model="selectedInvoiceType"
+      transfer
+      trigger="hover"
+      filterable
+      :render-format="invoiceTypeFormatter"
+    ></Cascader>
   </FormItem>
 </template>
 
 <script>
+import invoiceTypeData from "@/libs/invoiceType";
+import mixin from "./mixin";
 export default {
-  props: {
-    fieldName: {
-      type: String,
-      default: '发票类型'
-    },
-    fieldKeyValue: {
-      type: String,
-      default: ''
-    },
-    isReadonly: {
-      type: Boolean,
-      default: true
-    },
-    handleCorrectField: {
-      type: Object,
-      default: function () {}
-    }
-  },
-  data(){
+  mixins: [mixin],
+  props: {},
+  data() {
     return {
-      inputCommonStyle: {
-        // backgroundColor: '#FFFA99',
-        width: '100%',
-      },
-    }
-  }
+      invoiceTypeData: invoiceTypeData,
+      selectedInvoiceType: [],
+    };
+  },
+  methods: {
+    invoiceTypeFormatter(label) {
+      return label.slice(-1)[0];
+    },
+    handlePickInvoiceType(value, selectedData) {
+      console.log('handlePickInvoiceType', value, selectedData)
+      this.selectedInvoiceType = value;
+      const invoiceTypeValue = value.slice(-1)[0];
+      this.$emit("on-select-type", invoiceTypeValue);
+    },
+  },
 };
 </script>
 

@@ -1615,22 +1615,16 @@
                       <!-- <Form label-position="left" :label-width="70"> -->
                         <Row :gutter="16">
                           <Col span="8">
-                            <FormItem label="发票类型">
-                              <template v-if="isReadonly">
-                              <Input v-model.lazy="vo.invoiceType" :readonly="true"
-                                icon="ios-alert-outline"
-                                v-bind:style="inputCommonStyle"
-                                v-bind:class="{'text-highlight': editFields.includes('invoiceType')}"
-                                @click.native="getFieldError(vo, 'invoiceType', vo.invoiceType)"
-                                @on-change="handleCorrectField('invoiceType', '发票类型')"
-                                v-if="currentInvoiceErrorFields.includes('invoiceType') "
-                              ></Input>
-                              <Input v-else v-model.lazy="vo.invoiceType" :readonly="true"
-                                @on-change="handleCorrectField('invoiceType', '发票类型')"
-                                v-bind:class="{'text-highlight': editFields.includes('invoiceType')}"></Input>
-                              </template>
-                              <Cascader v-else @on-change="handlePickInvoiceType" :data="invoiceTypeData" v-model="selectedInvoiceType" transfer trigger="hover" filterable :render-format="invoiceTypeFormatter"></Cascader>
-                            </FormItem>
+                          <component :is="'invoiceType'"
+                              fieldKey='invoiceNo'
+                              fieldName="发票类型1"
+                              :defaultKeyValue="vo.invoiceType"
+                              :invoiceData="vo"
+                              :isReadonly="isReadonly"
+                              @on-input-change="handleCorrectField"
+                              @on-icon-click="getFieldError"
+                              @on-select-type="onPickInvoiceType"
+                          />
                           </Col>
                           <Col span="8" v-if="vo.invoiceNo!==undefined">
                             <component :is="'defaultC'"
@@ -3382,6 +3376,10 @@ export default {
       this.selectedInvoiceType = value;
       this.handleCorrectField('invoiceType', '发票类型');
       const invoiceTypeValue = value.slice(-1)[0];
+      this.$set(this.messageInfo.invoices[this.tabsInvoiceIndex], 'invoiceType', invoiceTypeValue);
+    },
+    onPickInvoiceType(invoiceTypeValue){
+      this.handleCorrectField('invoiceType', '发票类型');
       this.$set(this.messageInfo.invoices[this.tabsInvoiceIndex], 'invoiceType', invoiceTypeValue);
     },
     invoiceTypeFormatter(label){
