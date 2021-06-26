@@ -9,7 +9,7 @@ export default {
       default: "",
     },
     defaultKeyValue: {
-      type: String,
+      type: [String, Object, Array],
       default: "",
     },
     labelWidth: {
@@ -34,7 +34,7 @@ export default {
   },
   data(){
     return {
-      fieldKeyValue: this.defaultKeyValue || '',
+      fieldKeyValue: this.defaultKeyValue ,
       inputCommonStyle: {
         // backgroundColor: '#FFFA99',
         width: "100%",

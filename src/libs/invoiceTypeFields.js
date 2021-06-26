@@ -1,5 +1,6 @@
 export const getInvoiceFields = (invoiceType) => {
   let getBase = _.cloneDeep(base);
+  let getItems = _.cloneDeep(itemDetail);
   switch (invoiceType) {
     case '客运票':
       getBase.fields = [
@@ -117,13 +118,14 @@ export const getInvoiceFields = (invoiceType) => {
         [
           { label: '出发地是否为国内', key: 'isDomestic', col: 12, width: 100 },
         ],
-      ]
+      ];
+      getItems = flightsDetail;
       break;
 
     default:
       break;
   }
-  return [getBase, buyer, seller, itemDetail, other];
+  return [getBase, buyer, seller, getItems, other];
 }
 const base = {
   label: '基本信息', prename: 'baseInfo-', checkField: 'invoiceType', fields: [
@@ -197,11 +199,31 @@ const other = {
   ]
 }
 const itemDetail = {
-  label: '发票详情', prename: 'invoiceInfo-', checkField: 'invoiceItems', fields: [
-  ]
+  label: '发票详情', prename: 'invoiceInfo-', isItems: true, checkField: 'invoiceItems', fields: [
+  ],
+  showSummary: true,
+  columns: [
+    { label: '货物或应税劳务、服务名称', key: 'itemName', width: 180},
+    { label: '单位', key: 'itemUnit', width: 60},
+    { label: '数量', key: 'itemQuantity', width: 60},
+    { label: '单价', key: 'itemUnitPrice', width: 60},
+    { label: '金额', key: 'itemAmount', width: 120},
+    { label: '税率', key: 'itemTaxRate', width: 60},
+    { label: '税额', key: 'itemTaxAmount', width: 60},
+  ],
 }
 
 const flightsDetail = {
-  label: '机票详情', prename: 'invoiceInfo-', checkField: 'invoiceFlights', fields: [
-  ]
+  label: '航班信息', prename: 'invoiceInfo-', isItems: true, checkField: 'invoiceFlights', fields: [
+  ],
+  showSummary: false,
+  columns: [
+    { label: '日期', key: 'fpDate', width: 180},
+    { label: '时间', key: 'fpTime', width: 60},
+    { label: '航班号', key: 'fpFlightNumber', width: 60},
+    { label: '起点', key: 'fpDeparture', width: 60},
+    { label: '终点', key: 'fpDestination', width: 120},
+    { label: '承运', key: 'fpCarrier', width: 60},
+    { label: '舱等', key: 'fpClass', width: 60},
+  ],
 }

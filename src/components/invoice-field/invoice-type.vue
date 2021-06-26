@@ -56,15 +56,11 @@ export default {
   mixins: [mixin],
   props: {},
   computed: {
-    selectedInvoiceType() {
-      const t = findIndexArray(invoiceTypeData, this.defaultKeyValue, [])
-      return t;
-    },
   },
   data() {
     return {
       invoiceTypeData: invoiceTypeData,
-      // selectedInvoiceType: [],
+      selectedInvoiceType: findIndexArray(invoiceTypeData, this.defaultKeyValue, []),
     };
   },
   methods: {

@@ -296,8 +296,31 @@
                 >
                 <Form :ref="'invoiceData'+vo.invoiceId" :model="vo" label-position="left" :label-width="70">
                   <template v-for="(iset) in invoiceFieldsSetting" >
+                    <template v-if="iset.isItems===true && ['invoiceFlights', 'invoiceItems'].includes(iset.checkField)">
                   <el-collapse-item
-                    v-if="vo[iset.checkField]!==undefined && vo[iset.checkField].length>0"
+                    :key="iset.label"
+                    :title="iset.label"
+                    v-if="vo[iset.checkField] && vo[iset.checkField].length>0"
+                    v-bind:name="iset.prename + vo.invoiceId"
+                    style="width: 100%"
+                  >
+                    <component :is="'invoiceItems'"
+                      :fieldKey='iset.checkField'
+                      :fieldName="iset.label"
+                      :defaultKeyValue="vo[iset.checkField]"
+                      :itemData="vo[iset.checkField]"
+                      :itemFields="iset.columns"
+                      :showSummary="iset.showSummary"
+                      :invoiceData="vo"
+                      :isReadonly="isReadonly"
+                      @on-input-change="handleCorrectField"
+                      @on-icon-click="getFieldError"
+                      @on-item-change="handleCorrectItemField"
+                    />
+                  </el-collapse-item>
+                    </template>
+                  <el-collapse-item
+                    v-else-if="iset.isItems!==true && vo[iset.checkField]!==undefined"
                     :key="iset.label"
                     :title="iset.label"
                     v-bind:name="iset.prename + vo.invoiceId"
@@ -336,484 +359,6 @@
                     </Row>
                   </el-collapse-item>
                   </template>
-                  <!-- test: -->
-                  <el-collapse-item
-                    title="发票详情"
-                    v-if="vo.invoiceItems && vo.invoiceItems.length>0"
-                    v-bind:name="'invoiceInfo-' + vo.invoiceId"
-                    style="width: 100%"
-                  >
-                    <template>
-                      <table
-                        style="width: 100%; text-align: center"
-                        class="rule-table td-nowrap"
-                      >
-                        <thead>
-                          <tr style="text-align: center">
-                            <th width="60">序号</th>
-                            <!-- <th width="60">价税合计</th> -->
-                            <th width="180">
-                            <Tooltip
-                              placement="top-start"
-                              content="货物或应税劳务、服务名称"
-                              :max-width="200"
-                              transfer
-                            >货物或应税劳务、服务名称
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemName', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemName')"
-                              />
-                            </Tooltip>
-                              </th>
-                            <th width="60">单位
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemUnit', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemUnit')"
-                              /></th>
-                            <th width="60">数量
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemQuantity', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemQuantity')"
-                              /></th>
-                            <th width="60">单价
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemUnitPrice', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemUnitPrice')"
-                              /></th>
-                            <th width="120">
-                            <Tooltip
-                              placement="top-start"
-                              content="金额"
-                              :max-width="200"
-                              transfer
-                            >金额
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemAmount', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemAmount')"
-                              />
-                            </Tooltip></th>
-                            <th width="60">
-                            <Tooltip
-                              placement="top-start"
-                              content="税率"
-                              :max-width="200"
-                              transfer
-                            >税率
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemTaxRate', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemTaxRate')"
-                              />
-                            </Tooltip></th>
-                            <th width="60">税额
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'itemTaxAmount', '')"
-                                v-if="currentInvoiceErrorFields.includes('itemTaxAmount')"
-                              /></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="(n, i) in vo.invoiceItems" v-bind:key="i">
-                            <td style="text-align: center">{{ i + 1 }}</td>
-                            <td
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('itemName')}">
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemName"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.itemName }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.itemName"
-                                v-bind:style="inputCommonStyle"
-                                @on-change="handleCorrectItemField(i, 'itemName', '货物或应税劳务、服务名称', 'invoiceItems')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('itemUnit')}">
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemUnit"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.itemUnit }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.itemUnit"
-                                @on-change="handleCorrectItemField(i, 'itemUnit', '单位', 'invoiceItems')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('itemQuantity')}">
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemQuantity"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.itemQuantity }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.itemQuantity"
-                                @on-change="handleCorrectItemField(i, 'itemQuantity', '数量', 'invoiceItems')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('itemUnitPrice')}">
-                            <Tooltip
-                              placement="top-start"
-                              :content="Number(n.itemUnitPrice).toFixed(2)"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ Number(n.itemUnitPrice).toFixed(2) }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.itemUnitPrice"
-                                @on-change="handleCorrectItemField(i, 'itemUnitPrice', '单价', 'invoiceItems')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('itemAmount')}">
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemAmount"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.itemAmount }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.itemAmount"
-                                @on-change="handleCorrectItemField(i, 'itemAmount', '金额', 'invoiceItems')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('itemTaxRate')}">
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemTaxRate"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.itemTaxRate }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.itemTaxRate"
-                                @on-change="handleCorrectItemField(i, 'itemTaxRate', '税率', 'invoiceItems')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('itemTaxAmount')}">
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.itemTaxAmount"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.itemTaxAmount }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.itemTaxAmount"
-                                @on-change="handleCorrectItemField(i, 'itemTaxAmount', '税额', 'invoiceItems')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                          </tr>
-                          <tr>
-                            <td style="font-weight: 700">合计</td>
-                            <td colspan="4"></td>
-                            <td>
-                            <template v-if="isReadonly">
-                            {{vo.amountWithoutTax}}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="vo.amountWithoutTax"
-                                @on-change="handleCorrectField('amountWithoutTax', '合计')"
-                              ></Input>
-                            </template>
-                            </td>
-                            <td>
-                              <!-- v-if="isReadonly" -->
-                            <template >
-                            {{vo.taxRate}}
-                            </template>
-                            <!-- <template v-else>
-                              <Input
-                                v-model="vo.taxRate"
-                                @on-change="handleCorrectField('taxRate', '税率')"
-                              ></Input>
-                            </template> -->
-                            </td>
-                            <td>
-                            <template v-if="isReadonly">
-                            {{vo.taxAmount}}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="vo.taxAmount"
-                                @on-change="handleCorrectField('taxAmount', '税额')"
-                              ></Input>
-                            </template>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="font-weight: 700">价税合计</td>
-                            <td>
-                            <template v-if="isReadonly">
-                            {{vo.amountWithTax}}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="vo.amountWithTax"
-                                @on-change="handleCorrectField('amountWithTax', '价税合计')"
-                              ></Input>
-                            </template>
-                            </td>
-                            <td colspan="6"></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </template>
-                  </el-collapse-item>
-                  <el-collapse-item
-                    title="航班信息"
-                    v-if="vo.invoiceFlights && vo.invoiceFlights.length>0"
-                    v-bind:name="'invoiceInfo-' + vo.invoiceId"
-                    style="width: 100%"
-                  >
-                    <template>
-                      <table
-                        style="width: 100%; text-align: center"
-                        class="rule-table td-nowrap"
-                      >
-                        <thead>
-                          <tr style="text-align: center">
-                            <th width="60">序号</th>
-                            <!-- <th width="60">价税合计</th> -->
-                            <th width="180">
-                            <Tooltip
-                              placement="top-start"
-                              content="日期"
-                              :max-width="200"
-                              transfer
-                            >日期
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'fpDate', '')"
-                                v-if="currentInvoiceErrorFields.includes('fpDate')"
-                              />
-                            </Tooltip>
-                              </th>
-                            <th width="60">时间
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'fpTime', '')"
-                                v-if="currentInvoiceErrorFields.includes('fpTime')"
-                              /></th>
-                            <th width="60">航班号
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'fpFlightNumber', '')"
-                                v-if="currentInvoiceErrorFields.includes('fpFlightNumber')"
-                              /></th>
-                            <th width="60">起点
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'fpDeparture', '')"
-                                v-if="currentInvoiceErrorFields.includes('fpDeparture')"
-                              /></th>
-                            <th width="120">
-                            <Tooltip
-                              placement="top-start"
-                              content="终点"
-                              :max-width="200"
-                              transfer
-                            >终点
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'fpDestination', '')"
-                                v-if="currentInvoiceErrorFields.includes('fpDestination')"
-                              />
-                            </Tooltip></th>
-                            <th width="60">
-                            <Tooltip
-                              placement="top-start"
-                              content="承运"
-                              :max-width="200"
-                              transfer
-                            >承运
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'fpCarrier', '')"
-                                v-if="currentInvoiceErrorFields.includes('fpCarrier')"
-                              />
-                            </Tooltip></th>
-                            <th width="60">舱等
-                              <Icon type="ios-alert-outline" class="icon-danger"
-                                @click.native="getFieldError(vo, 'fpClass', '')"
-                                v-if="currentInvoiceErrorFields.includes('fpClass')"
-                              /></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="(n, i) in vo.invoiceFlights" v-bind:key="i">
-                            <td style="text-align: center">{{ i + 1 }}</td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.fpDate"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.fpDate }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.fpDate"
-                              v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('fpDate')}"
-                                @on-change="handleCorrectItemField(i, 'fpDate', '日期', 'invoiceFlights')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.fpTime"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.fpTime }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.fpTime"
-                              v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('fpTime')}"
-                                @on-change="handleCorrectItemField(i, 'fpTime', '时间', 'invoiceFlights')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.fpFlightNumber"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.fpFlightNumber }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.fpFlightNumber"
-                              v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('fpFlightNumber')}"
-                                @on-change="handleCorrectItemField(i, 'fpFlightNumber', '航班号', 'invoiceFlights')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="(n.fpDeparture)"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ (n.fpDeparture) }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.fpDeparture"
-                              v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('fpDeparture')}"
-                                @on-change="handleCorrectItemField(i, 'fpDeparture', '起点', 'invoiceFlights')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.fpDestination"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.fpDestination }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.fpDestination"
-                              v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('fpDestination')}"
-                                @on-change="handleCorrectItemField(i, 'fpDestination', '终点', 'invoiceFlights')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.fpCarrier"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.fpCarrier }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.fpCarrier"
-                              v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('fpCarrier')}"
-                                @on-change="handleCorrectItemField(i, 'fpCarrier', '承运', 'invoiceFlights')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                            <td>
-                            <Tooltip
-                              placement="top-start"
-                              :content="n.fpClass"
-                              :max-width="200"
-                              transfer
-                            >
-                            <template v-if="isReadonly">
-                            {{ n.fpClass }}
-                            </template>
-                            <template v-else>
-                              <Input
-                                v-model="n.fpClass"
-                              v-bind:style="inputCommonStyle"
-                              v-bind:class="{'text-highlight': editFieldsItems[i+1] && editFieldsItems[i+1].includes('fpClass')}"
-                                @on-change="handleCorrectItemField(i, 'fpClass', '舱等', 'invoiceFlights')"
-                              ></Input>
-                            </template>
-                            </Tooltip></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </template>
-                  </el-collapse-item>
         <Row v-if="!isReadonly" type="flex" justify="center" align="middle" :style="{marginBottom: '1rem'}">
           <Col span="8">
           <Button long type="primary" @click="handleSubmitData('invoiceData'+vo.invoiceId, vo)">保存</Button>
@@ -856,13 +401,7 @@
           }"
           :cell-class-name="formTableCellClassName"
         >
-          <!-- <el-table-column
-            v-if="resultFormData.length>0"
-            type="index"
-            label="序号"
-            align="center"
-            width="60"/> -->
-          <template v-for="(col, i) in formColumnsChildren">
+          <template v-for="(col) in formColumnsChildren">
             <el-table-column
               :prop="col.key"
               :label="col.title"
@@ -890,13 +429,7 @@
           }"
           :cell-class-name="imageTableCellClassName"
         >
-          <!-- <el-table-column
-            v-if="resultImageData.length>0"
-            type="index"
-            label="序号"
-            align="center"
-            width="60"/> -->
-          <template v-for="(col, i) in imageColumnsChildren">
+          <template v-for="(col) in imageColumnsChildren">
             <el-table-column
               :prop="col.key"
               :label="col.title"
@@ -944,7 +477,8 @@ export default {
   components: { ImagePreview },
   data() {
     return {
-      invoiceFieldsSetting: [],
+      // invoiceFieldsSetting: [],
+      currentInvoiceType: '',
       invoiceTypeData: invoiceTypeData,
       selectedInvoiceType: [],
       showFormRet: false,
@@ -1073,11 +607,15 @@ export default {
     },
     editable: function () {
       return this.invoiceIsFirstEdit;
+    },
+    invoiceFieldsSetting(){
+      return getInvoiceFields(this.currentInvoiceType)
     }
   },
   methods: {
     ...mapMutations([
       "setEditFields",
+      "setEditFieldsItems",
       "setCurrentInvoiceErrorFields",
     ]),
     handelAllImage() {
@@ -1464,8 +1002,9 @@ export default {
           "otherInfo-",
         ].concat(panelNames).map((i) => `${i}${invoiceIdP || "0"}`)
       );
-      this.invoiceFieldsSetting = getInvoiceFields(fI.invoiceType);
-      console.log('xx', this.invoiceFieldsSetting)
+      // this.invoiceFieldsSetting = getInvoiceFields(fI.invoiceType);
+      // console.log('xx', this.invoiceFieldsSetting)
+      this.currentInvoiceType = fI.invoiceType;
       let findImgId = '';
       if (this.currentInvoiceRuleId !== '') {
         const findRule = _this.allData.data.find(r => r.ruleType==="IMAGES");
@@ -1490,8 +1029,9 @@ export default {
       let editFields = [];
       let editFieldsItems = [];
       _this.editFields = editFields;
-      _this.setEditFields([]);
       _this.editFieldsItems = editFieldsItems;
+      _this.setEditFields([]);
+      _this.setEditFieldsItems([]);
       const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
       axios
         .request({
@@ -1517,6 +1057,7 @@ export default {
               editFieldsItems[itemIndex].push(ss[2]);
             })
             _this.setEditFields(editFields);
+            _this.setEditFieldsItems(editFieldsItems);
             _this.editFields = editFields;
             _this.editFieldsItems = editFieldsItems;
           } else {
@@ -1674,7 +1215,9 @@ export default {
     },
     onPickInvoiceType(invoiceTypeValue){
       this.handleCorrectField('invoiceType', '发票类型');
+      this.currentInvoiceType = invoiceTypeValue;
       this.$set(this.messageInfo.invoices[this.tabsInvoiceIndex], 'invoiceType', invoiceTypeValue);
+      this.$forceUpdate();
     },
     invoiceTypeFormatter(label){
       return label.slice(-1)[0];
@@ -1682,7 +1225,7 @@ export default {
   },
 };
 </script>
-<style rel="stylesheet/scss" lang="less" scoped>
+<style lang="less" scoped>
 .item {
   margin-bottom: 20px;
 }
