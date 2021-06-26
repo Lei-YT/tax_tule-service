@@ -331,10 +331,11 @@
                       :key="ri"
                     >
                     <template v-for="(ifield, fi) in irow">
-                      <Col :key="fi.label" :span="ifield.col" style="flex: 1 0 auto"
+                      <template v-if="ifield.key==='invoiceType'">
+                      <Col :key="fi.label" :span="isReadonly ? ifield.col : 24" style="flex: 1 0 auto"
                         v-if="vo[ifield.key]!==undefined "
                       >
-                        <component :is="'invoiceType'" v-if="ifield.key==='invoiceType'"
+                        <component :is="'invoiceType'"
                             fieldKey='invoiceType'
                             fieldName="发票类型"
                             :defaultKeyValue="vo.invoiceType"
@@ -344,7 +345,13 @@
                             @on-icon-click="getFieldError"
                             @on-select-type="onPickInvoiceType"
                         />
-                        <component :is="'defaultC'" v-else
+                      </Col>
+                      </template>
+                      <template v-else>
+                      <Col :key="fi.label" :span="ifield.col" style="flex: 1 0 auto"
+                        v-if="vo[ifield.key]!==undefined "
+                      >
+                        <component :is="'defaultC'"
                           :fieldKey='ifield.key'
                           :fieldName="ifield.label"
                           :defaultKeyValue="vo[ifield.key]"
@@ -355,6 +362,7 @@
                           @on-icon-click="getFieldError"
                         />
                       </Col>
+                      </template>
                     </template>
                     </Row>
                   </el-collapse-item>
