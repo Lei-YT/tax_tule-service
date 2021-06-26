@@ -383,6 +383,7 @@
                               :itemData="vo[iset.checkField]"
                               :itemFields="iset.columns"
                               :showSummary="iset.showSummary"
+                              :showIndex="iset.showIndex"
                               :invoiceData="vo"
                               :isReadonly="isReadonly"
                               @on-input-change="handleCorrectField"
@@ -1044,7 +1045,7 @@ export default {
       const panelSet = [
         { name: "buyerInfo-", need: ["purchaserName"] },
         { name: "sellerInfo-", need: ["sellerName"] },
-        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights"] },
+        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights", "fpItems"] },
       ];
       if (imageIds.length === 0) {
         this.$set(this, "messageInfo", { invoices: allInvoice });
@@ -1116,7 +1117,7 @@ export default {
       const panelSet = [
         { name: "buyerInfo-", need: ["purchaserName"] },
         { name: "sellerInfo-", need: ["sellerName"] },
-        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights"] },
+        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights", "fpItems"] },
       ];
       let allInvoice = [];
       this.allData.imageInfo.map((dd) => {

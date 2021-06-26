@@ -2,7 +2,7 @@
   <table style="width: 100%; text-align: center" class="rule-table td-nowrap">
     <thead>
       <tr style="text-align: center">
-        <th width="60">序号</th>
+        <th width="60" v-if="showIndex">序号</th>
         <template v-for="fieldL in itemFields">
           <th :width="fieldL.width" :key="fieldL.key">
             <Tooltip
@@ -106,7 +106,7 @@
     </thead>
     <tbody>
       <tr v-for="(n, i) in itemData" v-bind:key="'itemtr' + i">
-        <td style="text-align: center">{{ i + 1 }}</td>
+        <td style="text-align: center" v-if="showIndex">{{ i + 1 }}</td>
         <td v-for="fieldL in itemFields" :key="fieldL.key + 'val' + i"
           v-bind:class="{
             'text-highlight':
@@ -204,6 +204,10 @@ export default {
       type: Array,
     },
     showSummary: {
+      type: Boolean,
+      default: true,
+    },
+    showIndex: {
       type: Boolean,
       default: true,
     },
