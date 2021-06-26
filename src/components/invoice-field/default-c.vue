@@ -1,5 +1,10 @@
 <template>
-  <FormItem :label="fieldName">
+  <Tooltip
+    :content="fieldKeyValue"
+    :max-width="200"
+    transfer
+  >
+  <FormItem :label="fieldName" :label-width="labelWidth">
     <Input
       v-model="fieldKeyValue"
       :readonly="isReadonly"
@@ -18,20 +23,18 @@
       v-bind:class="{ 'text-highlight': highlightsEdit }"
     ></Input>
   </FormItem>
+  </Tooltip>
 </template>
 
 <script>
 import mixin from "./mixin";
 export default {
   mixins: [mixin],
-  props: {
-  },
+  props: {},
   data() {
-    return {
-    };
+    return {};
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
 

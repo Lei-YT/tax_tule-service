@@ -12,6 +12,10 @@ export default {
       type: String,
       default: "",
     },
+    labelWidth: {
+      type: Number,
+      default: 70,
+    },
     invoiceData: {
       type: Object,
     },

@@ -4,7 +4,7 @@ import Mock from 'mockjs'
 import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result8.json'
+import resultJson from '@/dataJson/result12.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data7.json'
 import isFirstEdit from '@/dataJson/isFirstEdit.json'
