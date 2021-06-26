@@ -1036,7 +1036,7 @@ export default {
       axios
         .request({
           method: 'post',
-          url: `/api/bill/isfirstedit`,
+          url: `/api/server/isfirstedit`,
           data: request
         })
         .then((resp) => {
@@ -1162,7 +1162,7 @@ export default {
       axios
         .request({
           method: 'post',
-          url: `/api/bill/save`,
+          url: `/api/server/save`,
           data: postBody
         })
         .then((resp) => {
