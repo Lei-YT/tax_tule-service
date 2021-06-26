@@ -296,7 +296,7 @@
                 >
                 <Form :ref="'invoiceData'+vo.invoiceId" :model="vo" label-position="left" :label-width="70">
                   <template v-for="(iset) in invoiceFieldsSetting" >
-                    <template v-if="iset.isItems===true && ['invoiceFlights', 'invoiceItems'].includes(iset.checkField)">
+                    <template v-if="iset.isItems===true && ['invoiceFlights', 'invoiceItems','fpItems'].includes(iset.checkField)">
                   <el-collapse-item
                     :key="iset.label"
                     :title="iset.label"

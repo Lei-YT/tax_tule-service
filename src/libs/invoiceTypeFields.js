@@ -121,6 +121,31 @@ export const getInvoiceFields = (invoiceType) => {
       ];
       getItems = flightsDetail;
       break;
+    case '材料动态报表封面':
+    case '材料动态报表封面':
+    case '银行承兑汇票':
+    case '税收完税证明':
+    case '资金支付审批单1':
+    case '资金支付审批单3':
+    case '内部往来通知书':
+    case '交款单':
+    case '借款单':
+    case '领款单':
+    case '低值易耗品摊销表':
+    case '周转材料摊销表':
+    case '临时设施摊销计算表':
+    case '内部食堂就餐审批表':
+      getBase = imgBase;
+      getItems = fpItems;
+      break;
+    case '税金及附加计提表':
+      getBase = imgBase;
+      getItems = fpItems2;
+      break;
+    case '增值税进项税额汇总清单':
+      getBase = imgBase;
+      getItems = fpItems3;
+      break;
 
     default:
       break;
@@ -284,20 +309,107 @@ const imgBase = {
       { label: '承兑人开户行行号', key: 'fpAcceptorBankID', col: 12, width: 100 },
       { label: '承兑人开户行名称', key: 'fpAcceptorBank', col: 12, width: 100 },
     ],
-    // 税收完税说明
+    // 税收完税证明
     [
       { label: '金额合计（小写）', key: 'amountTotal', col: 8, width: 100 },
       { label: '金额合计（大写）', key: 'fpCapitalAmount', col: 8, width: 100 },
       { label: '填发日期', key: 'fpDate', col: 8, width: 100 },
       { label: '税务机关', key: 'fpTaxAuthority', col: 8, width: 100 },
       { label: '纳税人识别号', key: 'fpPayerID', col: 8, width: 100 },
-      { label: 'itemTaxID	原凭证号', key: 'fpItems', col: 8, width: 100 },
-      { label: 'itemTaxType	税种', key: 'fpItems', col: 8, width: 100 },
-      { label: 'itemName	品目名称', key: 'fpItems', col: 8, width: 100 },
-      { label: 'itemDuringPeriod	税款所属时期', key: 'fpItems', col: 8, width: 100 },
-      { label: 'itemWarehouseDate	入(退)库日期', key: 'fpItems', col: 8, width: 100 },
-      { label: 'itemAmount	实缴(退)金额', key: 'fpItems', col: 8, width: 100 },
+    ],
+    // 税金及附加计提表
+    [
+      { label: '年/季度', key: 'fpDate', col: 12, width: 100 },
+      { label: '单位(左上角的)', key: 'fpApplicantUnit', col: 12, width: 100 },
+    ],
+    // 资金支付审批单1
+    // 资金支付审批单3
+    [
+      { label: '申请单位', key: 'fpApplicantUnit', col: 12, width: 120 },
+      { label: '款项性质', key: 'fpSummary', col: 12, width: 120 },
+      { label: '开户名称', key: 'fpBeneficiaryName', col: 8, width: 120 },
+      { label: '开户银行', key: 'fpBeneficiaryBank', col: 8, width: 120 },
+      { label: '银行账号', key: 'fpBeneficiaryAccount', col: 8, width: 120 },
+      { label: '本次申请支付金额（大写）', key: 'fpApplicantCapitalAmount', col: 12, width: 120 },
+      { label: '本次申请支付金额（小写）', key: 'fpApplicantAmount', col: 12, width: 120 },
+    ],
+    // 增值税进项税额汇总清单
+    [
+      { label: '发票合计金额', key: 'fpAmount', col: 8, width: 120 },
+      { label: '增值税进项税额合计金额', key: 'fpTotalTaxAmount', col: 8, width: 120 },
+      { label: '单位(左上角的)', key: 'fpApplicantUnit', col: 8, width: 120 },
+      { label: '增值税进项税额', key: 'inputVat', col: 8, width: 120 },
+      { label: '增值税税率', key: 'vatRate', col: 8, width: 120 },
+    ],
+    // 内部往来通知书
+    [
+      { label: '发送单位', key: 'sendingUnit', col: 8 },
+      { label: '接收单位', key: 'receivingUnit', col: 8 },
+      { label: '借方金额', key: 'debitAmount', col: 8 },
+      { label: '贷方金额', key: 'creditAmount', col: 8 },
+      { label: '日期', key: 'fpDate', col: 8 },
+    ],
+    // 交款单
+    [
+      { label: '交款金额', key: 'amount', col: 12 },
+      { label: '交款人', key: 'payer', col: 12 },
+    ],
+    // 借款单
+    [
+      { label: '借款人', key: 'borrower', col: 12 },
+      { label: '借款金额', key: 'loanAmount', col: 12 },
 
     ],
+    // 领款单
+    [
+      { label: '领款金额', key: 'receivedAomunt', col: 12 },
+      { label: '领款人', key: 'payee', col: 12 },
+
+    ],
+    // 低值易耗品摊销表
+    // 周转材料摊销表
+    // 临时设施摊销计算表
+    // 内部食堂就餐审批表
+    [
+      { label: '本期摊销额合计', key: 'amortizationAmount', col: 12, width: 120 },
+      { label: '合计餐数合计金额', key: 'totalValue', col: 12, width: 120 },
+    ],
   ]
+}
+const fpItems = {
+  label: '发票详情', prename: 'invoiceInfo-', isItems: true, checkField: 'fpItems', fields: [
+  ],
+  showSummary: false,
+  columns: [
+    { label: '原凭证号', key: 'itemTaxID', width: 80 },
+    { label: '税种', key: 'itemTaxType', width: 80 },
+    { label: '品目名称', key: 'itemName', width: 80 },
+    { label: '税款所属时期', key: 'itemDuringPeriod', width: 80 },
+    { label: '入(退)库日期', key: 'itemWarehouseDate', width: 80 },
+    { label: '实缴(退)金额', key: 'itemAmount', width: 80 },
+  ],
+}
+const fpItems2 = {
+  label: '发票详情', prename: 'invoiceInfo-', isItems: true, checkField: 'fpItems', fields: [
+  ],
+  showSummary: false,
+  columns: [
+    { label: '序号', key: 'itemId', width: 80 },
+    { label: '税费项目', key: 'itemName', width: 80 },
+    { label: '计提基数', key: 'itemAccrualBase', width: 80 },
+    { label: '税率', key: 'itemTaxRate', width: 80 },
+    { label: '应计提金额', key: 'itemAmount', width: 80 },
+    { label: '备注', key: 'itemRemarks', width: 80 },
+  ],
+}
+const fpItems3 = {
+  label: '发票详情', prename: 'invoiceInfo-', isItems: true, checkField: 'fpItems', fields: [
+  ],
+  showSummary: false,
+  columns: [
+    { label: '序号', key: 'itemId', width: 80 },
+    { label: '类型', key: 'itemType', width: 80 },
+    { label: '发票合计金额', key: 'itemAmount', width: 80 },
+    { label: '备注', key: 'itemRemarks', width: 80 },
+  ],
 }
