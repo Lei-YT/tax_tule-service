@@ -5,8 +5,8 @@ export default [
       {
         label: '发票', value: '发票',
         children: [
-          { label: '专用发票', value: '专用发票' },
-          { label: '普通发票', value: '普通发票' },
+          { label: '增值税专用发票', value: '增值税专用发票' },
+          { label: '增值税普通发票', value: '增值税普通发票' },
           { label: '通行费增值税电子普通发票', value: '通行费增值税电子普通发票' },
           { label: '国内旅客运输服务电子增值税普通发票', value: '国内旅客运输服务电子增值税普通发票' },
           { label: '航空运输电子客票行程单', value: '航空运输电子客票行程单' },

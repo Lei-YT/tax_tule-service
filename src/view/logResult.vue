@@ -1617,7 +1617,7 @@
                           <Col span="8">
                           <component :is="'invoiceType'"
                               fieldKey='invoiceNo'
-                              fieldName="发票类型1"
+                              fieldName="发票类型"
                               :defaultKeyValue="vo.invoiceType"
                               :invoiceData="vo"
                               :isReadonly="isReadonly"

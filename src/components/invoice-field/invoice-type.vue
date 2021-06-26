@@ -35,13 +35,36 @@
 <script>
 import invoiceTypeData from "@/libs/invoiceType";
 import mixin from "./mixin";
+const findIndexArray = (data, id, indexArray) => {
+  let arr = Array.from(indexArray);
+  for (let i = 0, len = data.length; i < len; i++) {
+    arr.push(data[i].value);
+    if (data[i].value === id) {
+      return arr;
+    }
+    let children = data[i].children;
+    if (children && children.length) {
+      let result = findIndexArray(children, id, arr);
+      if (result) return result;
+    }
+    arr.pop();
+  }
+  return false;
+};
+
 export default {
   mixins: [mixin],
   props: {},
+  computed: {
+    selectedInvoiceType() {
+      const t = findIndexArray(invoiceTypeData, this.defaultKeyValue, [])
+      return t;
+    },
+  },
   data() {
     return {
       invoiceTypeData: invoiceTypeData,
-      selectedInvoiceType: [],
+      // selectedInvoiceType: [],
     };
   },
   methods: {
@@ -49,7 +72,7 @@ export default {
       return label.slice(-1)[0];
     },
     handlePickInvoiceType(value, selectedData) {
-      console.log('handlePickInvoiceType', value, selectedData)
+      console.log("handlePickInvoiceType", value, selectedData);
       this.selectedInvoiceType = value;
       const invoiceTypeValue = value.slice(-1)[0];
       this.$emit("on-select-type", invoiceTypeValue);

@@ -189,7 +189,7 @@ Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
 Mock.mock(/\/api\/bill\/isfirstedit/, 'post', (req, res) => {
   console.log('req ' + req.url, req, isFirstEdit)
   isFirstEdit.data.isFirstEdit = Random.boolean();
-  console.log(isFirstEdit.data.isFirstEdit)
+  // console.log(isFirstEdit.data.isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
 })
 
