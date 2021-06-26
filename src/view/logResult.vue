@@ -1373,7 +1373,6 @@ export default {
       this.correctItemData.push(tmpObj);
     },
     handlePickInvoiceType(value, selectedData) {
-      console.log("handlePickInvoiceType", value, selectedData);
       this.selectedInvoiceType = value;
       this.handleCorrectField("invoiceType", "发票类型");
       const invoiceTypeValue = value.slice(-1)[0];
@@ -1384,7 +1383,6 @@ export default {
       );
     },
     onPickInvoiceType(invoiceTypeValue) {
-      console.log('selected', invoiceTypeValue)
       this.handleCorrectField("invoiceType", "发票类型");
       this.currentInvoiceType = invoiceTypeValue;
       this.$set(
