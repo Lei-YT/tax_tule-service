@@ -3,10 +3,11 @@
     <div id="list">
       <!-- 头部 -->
       <Card style="width: 100%" class="ticketType">
-        <el-button v-if="!forbidExternal"
+        <el-button
+          v-if="!forbidExternal"
           type="primary"
           plain
-          @click="$router.push({name: 'auditLogIndex'})"
+          @click="$router.push({ name: 'auditLogIndex' })"
           icon="el-icon-arrow-left"
           size="small"
           >返回</el-button
@@ -94,8 +95,14 @@
                           class="hover-primary"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
-                          <td style="text-align: left" @click="ruleClick(item.ruleType, n, i)">{{ n.ruleName }}</td>
-                          <td style="text-align: center"
+                          <td
+                            style="text-align: left"
+                            @click="ruleClick(item.ruleType, n, i)"
+                          >
+                            {{ n.ruleName }}
+                          </td>
+                          <td
+                            style="text-align: center"
                             @click="ruleResultClick(item.ruleType, n, i)"
                           >
                             <Icon
@@ -104,7 +111,12 @@
                               color="#E02020"
                             />
                           </td>
-                          <td style="text-align: left" @click="ruleResultClick(item.ruleType, n, i)">{{ n.message ? n.message : "——" }}</td>
+                          <td
+                            style="text-align: left"
+                            @click="ruleResultClick(item.ruleType, n, i)"
+                          >
+                            {{ n.message ? n.message : "——" }}
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -132,9 +144,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: true">
-                            暂无数据
-                          </td>
+                          <td colspan="4" style="text-align: true">暂无数据</td>
                         </tr>
                         <tr
                           v-for="(n, i) in item.result.filter((obj) => {
@@ -200,32 +210,34 @@
               </div>
             </div>
 
-    <Modal
-      v-model="showbigimg"
-      draggable scrollable
-      :closable="true"
-      :footer-hide="true"
-      @on-cancel="showbigimg=false"
-      width="1400"
-    >
-                  <div slot="header"
-                    style="
-                      color: #1991dd;
-                      font-size: 16px;
-                      display: flex;
-                      align-items: center;
-                    "
-                  >
-                    <img
-                      src="@/assets/images/tupian-2.png"
-                      style="width: 22px; height: 19px; margin-right: 8px"
-                    />查看图片
-                  </div>
+            <Modal
+              v-model="showbigimg"
+              draggable
+              scrollable
+              :closable="true"
+              :footer-hide="true"
+              @on-cancel="showbigimg = false"
+              width="1400"
+            >
+              <div
+                slot="header"
+                style="
+                  color: #1991dd;
+                  font-size: 16px;
+                  display: flex;
+                  align-items: center;
+                "
+              >
+                <img
+                  src="@/assets/images/tupian-2.png"
+                  style="width: 22px; height: 19px; margin-right: 8px"
+                />查看图片
+              </div>
               <div
                 class="showbigimgbox"
                 style="height: 677px; background-color: #fff"
               >
-                <div class="showimg-content" >
+                <div class="showimg-content">
                   <ImagePreview
                     :items="showImgData"
                     height="667px"
@@ -233,7 +245,7 @@
                   />
                 </div>
               </div>
-    </Modal>
+            </Modal>
             <div
               v-if="emptyImageInfo"
               class="empty-text"
@@ -256,7 +268,14 @@
                   "
                 >
                   <img v-lazy="item.imageURL" class="smallImg" />
-                  <span :class="imgHasError.includes(item.imageId) ? 'index-icon red-index' : 'index-icon '">{{ index + 1 }}</span>
+                  <span
+                    :class="
+                      imgHasError.includes(item.imageId)
+                        ? 'index-icon red-index'
+                        : 'index-icon '
+                    "
+                    >{{ index + 1 }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -274,107 +293,165 @@
                 </Button>
               </div>
               <div class="tabData">
-              <p class="data-header" v-if="!emptyImageInfo">
-                <template v-if="editable">
-                  <Button type="primary" size="small" :ghost="isReadonly" @click="isReadonly = true">结构化数据</Button>
-                  <Divider type="vertical" />
-                  <Button type="primary" size="small" :ghost="!isReadonly" @click="isReadonly = false">学习样本纠偏</Button>
-                </template>
-                <template v-else>
-                  结构化数据
-                </template>
-
-                <span class="text-primary pr-1">报错信息: {{currentInvoiceErrorFields.length}}条</span>
-              </p>
-
-              <template v-for="(vo, index) in messageInfo.invoices">
-                <el-collapse
-                  v-if="tabsInvoiceIndex == index"
-                  style="width: 100%; padding-left: 10px"
-                  v-model="dataPanelOpen"
-                  :key="vo.invoiceId + index"
-                >
-                <Form :ref="'invoiceData'+vo.invoiceId" :model="vo" label-position="left" :label-width="70">
-                  <template v-for="(iset) in invoiceFieldsSetting" >
-                    <template v-if="iset.isItems===true && ['invoiceFlights', 'invoiceItems','fpItems'].includes(iset.checkField)">
-                  <el-collapse-item
-                    :key="iset.label"
-                    :title="iset.label"
-                    v-if="vo[iset.checkField] && vo[iset.checkField].length>0"
-                    v-bind:name="iset.prename + vo.invoiceId"
-                    style="width: 100%"
-                  >
-                    <component :is="'invoiceItems'"
-                      :fieldKey='iset.checkField'
-                      :fieldName="iset.label"
-                      :defaultKeyValue="vo[iset.checkField]"
-                      :itemData="vo[iset.checkField]"
-                      :itemFields="iset.columns"
-                      :showSummary="iset.showSummary"
-                      :invoiceData="vo"
-                      :isReadonly="isReadonly"
-                      @on-input-change="handleCorrectField"
-                      @on-icon-click="getFieldError"
-                      @on-item-change="handleCorrectItemField"
-                    />
-                  </el-collapse-item>
-                    </template>
-                  <el-collapse-item
-                    v-else-if="iset.isItems!==true && vo[iset.checkField]!==undefined"
-                    :key="iset.label"
-                    :title="iset.label"
-                    v-bind:name="iset.prename + vo.invoiceId"
-                    style="width: 100%"
-                  >
-                    <Row :gutter="16" type="flex"
-                      v-for="(irow, ri) in iset.fields"
-                      :key="ri"
+                <p class="data-header" v-if="!emptyImageInfo">
+                  <template v-if="editable">
+                    <Button
+                      type="primary"
+                      size="small"
+                      :ghost="!isReadonly"
+                      @click="isReadonly = true"
+                      >结构化数据</Button
                     >
-                    <template v-for="(ifield, fi) in irow">
-                      <template v-if="ifield.key==='invoiceType'">
-                      <Col :key="fi.label" :span="isReadonly ? ifield.col : 24" style="flex: 1 0 auto"
-                        v-if="vo[ifield.key]!==undefined "
+                    <Divider type="vertical" />
+                    <Button
+                      type="primary"
+                      size="small"
+                      :ghost="isReadonly"
+                      @click="isReadonly = false"
+                      >学习样本纠偏</Button
+                    >
+                  </template>
+                  <template v-else> 结构化数据 </template>
+
+                  <span class="text-primary pr-1"
+                    >报错信息: {{ currentInvoiceErrorFields.length }}条</span
+                  >
+                </p>
+
+                <template v-for="(vo, index) in messageInfo.invoices">
+                  <Form
+                    :ref="'invoiceData' + vo.invoiceId"
+                    :model="vo"
+                    label-position="left"
+                    :label-width="70"
+                    :key="vo.invoiceId + index"
+                    v-if="tabsInvoiceIndex == index"
+                  >
+                    <Row
+                      :gutter="16"
+                      type="flex"
+                      style="padding-left:10px; padding-top:10px;margin-top:.5rem;"
+                    >
+                      <Col
+                        :span="24"
+                        style="flex: 1 0 auto"
                       >
-                        <component :is="'invoiceType'"
-                            fieldKey='invoiceType'
-                            fieldName="发票类型"
-                            :defaultKeyValue="vo.invoiceType"
-                            :invoiceData="vo"
-                            :isReadonly="isReadonly"
-                            @on-input-change="handleCorrectField"
-                            @on-icon-click="getFieldError"
-                            @on-select-type="onPickInvoiceType"
-                        />
-                      </Col>
-                      </template>
-                      <template v-else>
-                      <Col :key="fi.label" :span="ifield.col" style="flex: 1 0 auto"
-                        v-if="vo[ifield.key]!==undefined "
-                      >
-                        <component :is="'defaultC'"
-                          :fieldKey='ifield.key'
-                          :fieldName="ifield.label"
-                          :defaultKeyValue="vo[ifield.key]"
-                          :labelWidth="ifield.width"
+                        <!-- v-if="vo.invoiceType !== undefined" -->
+                        <invoiceType
+                          fieldKey="invoiceType"
+                          fieldName="学习样本类型"
+                          :defaultKeyValue="vo.invoiceType"
                           :invoiceData="vo"
                           :isReadonly="isReadonly"
+                          :label-width="120"
                           @on-input-change="handleCorrectField"
                           @on-icon-click="getFieldError"
+                          @on-select-type="onPickInvoiceType"
                         />
                       </Col>
-                      </template>
-                    </template>
                     </Row>
-                  </el-collapse-item>
-                  </template>
-        <Row v-if="!isReadonly" type="flex" justify="center" align="middle" :style="{marginBottom: '1rem'}">
-          <Col span="8">
-          <Button long type="primary" @click="handleSubmitData('invoiceData'+vo.invoiceId, vo)">保存</Button>
-          </Col>
-        </Row>
-                    </Form>
-                </el-collapse>
-              </template>
+                    <el-collapse
+                      style="width: 100%; padding-left: 10px"
+                      v-model="dataPanelOpen"
+                    >
+                      <template v-for="iset in invoiceFieldsSetting">
+                        <template
+                          v-if="
+                            iset.isItems === true &&
+                            [
+                              'invoiceFlights',
+                              'invoiceItems',
+                              'fpItems',
+                            ].includes(iset.checkField)
+                          "
+                        >
+                          <el-collapse-item
+                            :key="iset.label"
+                            :title="iset.label"
+                            v-if="
+                              vo[iset.checkField] &&
+                              vo[iset.checkField].length > 0
+                            "
+                            v-bind:name="iset.prename + vo.invoiceId"
+                            style="width: 100%"
+                          >
+                            <!-- <component :is="'invoiceItems'" -->
+                            <invoiceItems
+                              :fieldKey="iset.checkField"
+                              :fieldName="iset.label"
+                              :defaultKeyValue="vo[iset.checkField]"
+                              :itemData="vo[iset.checkField]"
+                              :itemFields="iset.columns"
+                              :showSummary="iset.showSummary"
+                              :invoiceData="vo"
+                              :isReadonly="isReadonly"
+                              @on-input-change="handleCorrectField"
+                              @on-icon-click="getFieldError"
+                              @on-item-change="handleCorrectItemField"
+                            />
+                          </el-collapse-item>
+                        </template>
+                        <el-collapse-item
+                          v-else-if="
+                            iset.isItems !== true &&
+                            vo[iset.checkField] !== undefined
+                          "
+                          :key="iset.label"
+                          :title="iset.label"
+                          v-bind:name="iset.prename + vo.invoiceId"
+                          style="width: 100%"
+                        >
+                          <Row
+                            :gutter="16"
+                            type="flex"
+                            v-for="(irow, ri) in iset.fields"
+                            :key="ri"
+                          >
+                            <template v-for="(ifield, fi) in irow">
+                              <template v-if="ifield.key !== 'invoiceType'">
+                                <Col
+                                  :key="fi.label"
+                                  :span="ifield.col"
+                                  style="flex: 1 0 auto"
+                                  v-if="vo[ifield.key] !== undefined"
+                                >
+                                  <defaultC
+                                    :fieldKey="ifield.key"
+                                    :fieldName="ifield.label"
+                                    :defaultKeyValue="vo[ifield.key]"
+                                    :labelWidth="ifield.width"
+                                    :invoiceData="vo"
+                                    :isReadonly="isReadonly"
+                                    @on-input-change="handleCorrectField"
+                                    @on-icon-click="getFieldError"
+                                  />
+                                </Col>
+                              </template>
+                            </template>
+                          </Row>
+                        </el-collapse-item>
+                      </template>
+                      <Row
+                        v-if="!isReadonly"
+                        type="flex"
+                        justify="center"
+                        align="middle"
+                        :style="{ marginBottom: '1rem' }"
+                      >
+                        <Col span="8">
+                          <Button
+                            long
+                            type="primary"
+                            @click="
+                              handleSubmitData('invoiceData' + vo.invoiceId, vo)
+                            "
+                            >保存</Button
+                          >
+                        </Col>
+                      </Row>
+                    </el-collapse>
+                  </Form>
+                </template>
               </div>
             </div>
           </Card>
@@ -384,15 +461,28 @@
     <Modal
       title=" "
       v-model="ruleRowtoggle"
-      draggable scrollable
+      draggable
+      scrollable
       :closable="true"
       :footer-hide="true"
       width="1000"
       class-name="result-data-modal"
     >
-      <Row :gutter="10" style="margin-left: 0;margin-right:0;">
-        <Col v-if="ruleFormToggle" :span="ruleImageToggle?12:24" class="thead-name" style="padding-left: 0;padding-right: 0;">表单</Col>
-        <Col v-if="ruleImageToggle" :span="ruleFormToggle?12:24" class="thead-name" style="padding-left: 0;padding-right: 0;">影像</Col>
+      <Row :gutter="10" style="margin-left: 0; margin-right: 0">
+        <Col
+          v-if="ruleFormToggle"
+          :span="ruleImageToggle ? 12 : 24"
+          class="thead-name"
+          style="padding-left: 0; padding-right: 0"
+          >表单</Col
+        >
+        <Col
+          v-if="ruleImageToggle"
+          :span="ruleFormToggle ? 12 : 24"
+          class="thead-name"
+          style="padding-left: 0; padding-right: 0"
+          >影像</Col
+        >
       </Row>
       <div class="table-row">
         <el-table
@@ -409,7 +499,7 @@
           }"
           :cell-class-name="formTableCellClassName"
         >
-          <template v-for="(col) in formColumnsChildren">
+          <template v-for="col in formColumnsChildren">
             <el-table-column
               :prop="col.key"
               :label="col.title"
@@ -437,7 +527,7 @@
           }"
           :cell-class-name="imageTableCellClassName"
         >
-          <template v-for="(col) in imageColumnsChildren">
+          <template v-for="col in imageColumnsChildren">
             <el-table-column
               :prop="col.key"
               :label="col.title"
@@ -461,8 +551,8 @@ import ImagePreview from "@/components/image-preview";
 // import { matchCNkeys } from "@/libs/invoice";
 import invoiceTypeData from "@/libs/invoiceType";
 import { getInvoiceFields } from "@/libs/invoiceTypeFields";
-import { Notification, Loading } from 'element-ui'
-import axios from '@/libs/api.request'
+import { Notification, Loading } from "element-ui";
+import axios from "@/libs/api.request";
 const clubArray = (arr) => {
   return arr.reduce((acc, val, ind) => {
     acc[ind] = acc[ind] ? acc[ind] : {};
@@ -486,7 +576,7 @@ export default {
   data() {
     return {
       // invoiceFieldsSetting: [],
-      currentInvoiceType: '',
+      currentInvoiceType: "",
       invoiceTypeData: invoiceTypeData,
       selectedInvoiceType: [],
       showFormRet: false,
@@ -591,7 +681,7 @@ export default {
       ruleImageToggle: true,
       allImageInvoiceIds: {},
       currentInvoiceErrorFields: [],
-      currentInvoiceRuleId: '',
+      currentInvoiceRuleId: "",
       forbidExternal: this.$route.meta.forbidExternal,
       isReadonly: true,
       correctData: [],
@@ -599,14 +689,15 @@ export default {
       editFields: [],
       editFieldsItems: [],
       inputCommonStyle: {
-        backgroundColor: '#FFFA99',
-        width: '100%',
+        backgroundColor: "#FFFA99",
+        width: "100%",
       },
       invoiceIsFirstEdit: false,
     };
   },
   mounted() {
-    this.billNumber = this.$route.params.billNumber || this.$route.query.billNumber;
+    this.billNumber =
+      this.$route.params.billNumber || this.$route.query.billNumber;
     this.query();
   },
   computed: {
@@ -616,9 +707,9 @@ export default {
     editable: function () {
       return this.invoiceIsFirstEdit;
     },
-    invoiceFieldsSetting(){
-      return getInvoiceFields(this.currentInvoiceType)
-    }
+    invoiceFieldsSetting() {
+      return getInvoiceFields(this.currentInvoiceType);
+    },
   },
   methods: {
     ...mapMutations([
@@ -629,14 +720,18 @@ export default {
     handelAllImage() {
       const _this = this;
       // 有字段的报错图片
-      const errorFields = _this.allData.errors.filter(e => {
-        const hasfield = e.infos.filter(ei => ei.hasOwnProperty('fields'))
+      const errorFields = _this.allData.errors.filter((e) => {
+        const hasfield = e.infos.filter((ei) => ei.hasOwnProperty("fields"));
         return hasfield.length > 0;
-      })
+      });
       // 所有报错图片
-      _this.imgHasError = _this.allData.errors.map(i => i.imageId);
-      let newSortImageInfo = _this.allData.imageInfo.filter(img => _this.imgHasError.includes(img.imageId));
-      const noErrImage = _this.allData.imageInfo.filter(img => !_this.imgHasError.includes(img.imageId));
+      _this.imgHasError = _this.allData.errors.map((i) => i.imageId);
+      let newSortImageInfo = _this.allData.imageInfo.filter((img) =>
+        _this.imgHasError.includes(img.imageId)
+      );
+      const noErrImage = _this.allData.imageInfo.filter(
+        (img) => !_this.imgHasError.includes(img.imageId)
+      );
       _this.imageData = newSortImageInfo.concat(noErrImage);
       _this.invoiceId =
         _this.imageData.length > 0
@@ -704,15 +799,15 @@ export default {
         });
         this.imgHasError = ids;
         this.setImageData(ids, vo.imageData[0].infos[0].invoiceId);
-        console.log('image', vo)
+        console.log("image", vo);
         // _this.invoiceId = vo.imageData[0].infos[0].invoiceId;
       } else {
-        Notification.closeAll()
+        Notification.closeAll();
         Notification({
-          message: '无影像数据',
-          type: 'warning',
-          duration: 2000
-        })
+          message: "无影像数据",
+          type: "warning",
+          duration: 2000,
+        });
       }
     },
     ruleResultClick(ruleType, vo, i) {
@@ -721,61 +816,67 @@ export default {
       const ruleRequest = {
         ruleId: vo.ruleId,
         billNumber: _this.allData.billNo, // this.billNumber,
-        taskId: _this.allData.taskId
-      }
+        taskId: _this.allData.taskId,
+      };
       _this.getRuleInvoice(ruleRequest);
-
     },
     // mapper highlight
-    formTableCellClassName({row, column, rowIndex, columnIndex}) {
+    formTableCellClassName({ row, column, rowIndex, columnIndex }) {
       const _this = this;
       const columnName = column.property;
       if (columnName === undefined) {
-        return ''
+        return "";
       }
       const dataIndex = Number(columnName.replace(/\D/g, ""));
-      if ( ! _this.resultFormDataRaw[dataIndex].hasOwnProperty('valueData')) {
-        return ''
+      if (!_this.resultFormDataRaw[dataIndex].hasOwnProperty("valueData")) {
+        return "";
       }
-      if ( ! row.hasOwnProperty(columnName)) {
-        return ''
+      if (!row.hasOwnProperty(columnName)) {
+        return "";
       }
-      const valueObj = _this.resultFormDataRaw[dataIndex].valueData.find(ele => `${ele.index} | ${ele.value}`===row[columnName]);
-      return valueObj.highLight === true ? "text-highlight" : ''
+      const valueObj = _this.resultFormDataRaw[dataIndex].valueData.find(
+        (ele) => `${ele.index} | ${ele.value}` === row[columnName]
+      );
+      return valueObj.highLight === true ? "text-highlight" : "";
     },
-    imageTableCellClassName({row, column, rowIndex, columnIndex}) {
+    imageTableCellClassName({ row, column, rowIndex, columnIndex }) {
       const _this = this;
       const columnName = column.property;
       if (columnName === undefined) {
-        return ''
+        return "";
       }
       const dataIndex = Number(columnName.replace(/\D/g, ""));
-      if ( ! _this.resultImageDataRaw[dataIndex].hasOwnProperty('valueData')) {
-        return ''
+      if (!_this.resultImageDataRaw[dataIndex].hasOwnProperty("valueData")) {
+        return "";
       }
-      if ( ! row.hasOwnProperty(columnName)) {
-        return ''
+      if (!row.hasOwnProperty(columnName)) {
+        return "";
       }
-      const valueObj = _this.resultImageDataRaw[dataIndex].valueData.find(ele => `${ele.index} | ${ele.value}`===row[columnName]);
-      return valueObj.highLight === true ? "text-highlight" : ''
+      const valueObj = _this.resultImageDataRaw[dataIndex].valueData.find(
+        (ele) => `${ele.index} | ${ele.value}` === row[columnName]
+      );
+      return valueObj.highLight === true ? "text-highlight" : "";
     },
     getRuleInvoice(request, showAllRules = true) {
       const _this = this;
-      const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+      const loadingInstance = Loading.service({
+        fullscreen: true,
+        background: "hsla(0,0%,100%,.2)",
+      });
       axios
         .request({
-          method: 'post',
+          method: "post",
           url: `/api/server/qldata`,
-          data: request
+          data: request,
         })
         .then((resp) => {
-          loadingInstance.close()
+          loadingInstance.close();
           let data = resp.data;
           if (data.status === 200) {
-            if (data.data.form.length ===0 && !showAllRules) {
+            if (data.data.form.length === 0 && !showAllRules) {
               _this.ruleFormToggle = false;
             }
-            if (data.data.image.length ===0 && !showAllRules) {
+            if (data.data.image.length === 0 && !showAllRules) {
               _this.ruleImageToggle = false;
             }
             // Modal
@@ -800,7 +901,9 @@ export default {
 
             const xx = data.data.form.map((fc, i) => {
               const keyn = `data${i}`;
-              const formData = fc.valueData.map(hi => `${hi.index} | ${hi.value}`); // fc.data
+              const formData = fc.valueData.map(
+                (hi) => `${hi.index} | ${hi.value}`
+              ); // fc.data
               return formData.map((d) => {
                 const newd = {};
                 newd[keyn] = d;
@@ -822,7 +925,9 @@ export default {
 
             const tt = data.data.image.map((fc, i) => {
               const keyn = `data${i}`;
-              const imageData = fc.valueData.map(hi => `${hi.index} | ${hi.value}`); // fc.data
+              const imageData = fc.valueData.map(
+                (hi) => `${hi.index} | ${hi.value}`
+              ); // fc.data
               return imageData.map((d) => {
                 const newd = {};
                 newd[keyn] = d;
@@ -843,18 +948,19 @@ export default {
             }
             _this.ruleRowtoggle = true;
           } else {
-            Notification.closeAll()
+            Notification.closeAll();
             Notification({
               message: data.msg || data.message,
-              type: 'warning',
-              duration: 2000
-            })
+              type: "warning",
+              duration: 2000,
+            });
           }
         })
         .catch((err) => {
           console.log(err);
-        }).finally(() => {
-          loadingInstance.close()
+        })
+        .finally(() => {
+          loadingInstance.close();
         });
     },
     setImageData(arr, invoiceIdP) {
@@ -866,23 +972,22 @@ export default {
           newArr.push(data[i]);
         }
       }
-      let newSortImageInfo = data.filter(img => arr.includes(img.imageId));
-      const noErrImage = data.filter(img => !arr.includes(img.imageId));
+      let newSortImageInfo = data.filter((img) => arr.includes(img.imageId));
+      const noErrImage = data.filter((img) => !arr.includes(img.imageId));
       _this.imageData = newSortImageInfo.concat(noErrImage);
       // this.imageData = newArr;
-      let targetInvoice = invoiceIdP ? invoiceIdP : (
-        newArr.length > 0
-          ? newArr[0]["invoices"].length > 0
-            ? newArr[0]["invoices"][0]["invoiceId"]
-            : ""
-          : "" );
+      let targetInvoice = invoiceIdP
+        ? invoiceIdP
+        : newArr.length > 0
+        ? newArr[0]["invoices"].length > 0
+          ? newArr[0]["invoices"][0]["invoiceId"]
+          : ""
+        : "";
       this.invoiceId = targetInvoice;
-      this.imageId =
-        newArr.length > 0 ? newArr[0]["imageId"] : "";
+      this.imageId = newArr.length > 0 ? newArr[0]["imageId"] : "";
       this.getMessageInfo(newArr.map((a) => a.imageId));
       this.getErrorMessage(this.invoiceId);
-      const imageURL0 =
-        newArr.length > 0 ? newArr[0]["imageURL"] : "";
+      const imageURL0 = newArr.length > 0 ? newArr[0]["imageURL"] : "";
       this.handleClick(imageURL0, 0);
       // this.tabsInvoiceIndex = 0;
     },
@@ -890,26 +995,28 @@ export default {
       const _this = this;
       axios
         .request({
-          method: 'post',
+          method: "post",
           url: `/api/server/qlresult`,
           data: {
-            taskId: this.billNumber
-          }
+            taskId: this.billNumber,
+          },
         })
         .then((resp) => {
           let data = resp.data;
           if (data.status == 200) {
             _this.allData = data.data;
-            _this.allData.imageInfo.map(img => {
-              return img.invoices.map(invo => {
-                const taxRate = Number(((invo.taxAmount/invo.amountWithoutTax)*100).toFixed(2));
-                invo.taxRate = invo.amountWithoutTax ? `${taxRate}%` : '';
+            _this.allData.imageInfo.map((img) => {
+              return img.invoices.map((invo) => {
+                const taxRate = Number(
+                  ((invo.taxAmount / invo.amountWithoutTax) * 100).toFixed(2)
+                );
+                invo.taxRate = invo.amountWithoutTax ? `${taxRate}%` : "";
                 return invo;
                 // const sumR = invo.invoiceItems.reduce((acc, val) => {
                 //   return acc.itemAmount+val.itemAmount;
                 // });
               });
-            })
+            });
             _this.handelAllImage();
           }
         })
@@ -923,62 +1030,82 @@ export default {
       let data = this.allData.imageInfo;
       let allInvoice = [];
       let filterInvoices = [];
-      let filterImages = data.filter(img => imageIds.includes(img.imageId));
-      data.map(dd => {
+      let filterImages = data.filter((img) => imageIds.includes(img.imageId));
+      data.map((dd) => {
         allInvoice = allInvoice.concat(dd.invoices);
-        _this.allImageInvoiceIds[dd.imageId] = dd.invoices.map(di => di.invoiceId);
+        _this.allImageInvoiceIds[dd.imageId] = dd.invoices.map(
+          (di) => di.invoiceId
+        );
         return true;
-      })
-      this.tabsInvoiceIndex = allInvoice.findIndex(i => i.invoiceId===_this.invoiceId);
+      });
+      this.tabsInvoiceIndex = allInvoice.findIndex(
+        (i) => i.invoiceId === _this.invoiceId
+      );
       const panelSet = [
-        { name: 'buyerInfo-', need: ['purchaserName'] },
-        { name: 'sellerInfo-', need: ['sellerName'] },
-        { name: 'invoiceInfo-', need: ['invoiceItems', 'invoiceFlights'] },
+        { name: "buyerInfo-", need: ["purchaserName"] },
+        { name: "sellerInfo-", need: ["sellerName"] },
+        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights"] },
       ];
       if (imageIds.length === 0) {
         this.$set(this, "messageInfo", { invoices: allInvoice });
         const _thisKeys = Object.keys(allInvoice[0]);
-        const panelNames = panelSet.filter(s => {
-          return _thisKeys.map(k => {
-            return s.need.includes(k);
-          }).filter(i => i).length > 0;
-        }).map(ii => ii.name);
+        const panelNames = panelSet
+          .filter((s) => {
+            return (
+              _thisKeys
+                .map((k) => {
+                  return s.need.includes(k);
+                })
+                .filter((i) => i).length > 0
+            );
+          })
+          .map((ii) => ii.name);
         this.$set(
           this,
           "dataPanelOpen",
-          [
-            "baseInfo-",
-            "otherInfo-",
-          ].concat(panelNames).map(
-            (i) =>
-              `${i}${allInvoice.length > 0 ? allInvoice[0]["invoiceId"] : "0"}`
-          )
+          ["baseInfo-", "otherInfo-"]
+            .concat(panelNames)
+            .map(
+              (i) =>
+                `${i}${
+                  allInvoice.length > 0 ? allInvoice[0]["invoiceId"] : "0"
+                }`
+            )
         );
       } else {
         filterImages.map((a) => {
-          filterInvoices = filterInvoices.concat(a.invoices)
+          filterInvoices = filterInvoices.concat(a.invoices);
           return true;
         });
-        this.tabsInvoiceIndex = filterInvoices.findIndex(i => i.invoiceId===_this.invoiceId);
+        this.tabsInvoiceIndex = filterInvoices.findIndex(
+          (i) => i.invoiceId === _this.invoiceId
+        );
         this.$set(this, "messageInfo", { invoices: filterInvoices });
         const _thisKeys = Object.keys(filterInvoices[0]);
-        const panelNames = panelSet.filter(s => {
-          return _thisKeys.map(k => {
-            return s.need.includes(k);
-          }).filter(i => i).length > 0;
-        }).map(ii => ii.name);
+        const panelNames = panelSet
+          .filter((s) => {
+            return (
+              _thisKeys
+                .map((k) => {
+                  return s.need.includes(k);
+                })
+                .filter((i) => i).length > 0
+            );
+          })
+          .map((ii) => ii.name);
         this.$set(
           this,
           "dataPanelOpen",
-          [
-            "baseInfo-",
-            "otherInfo-",
-          ].concat(panelNames).map(
-            (i) =>
-              `${i}${
-                filterInvoices.length > 0 ? filterInvoices[0]["invoiceId"] : "0"
-              }`
-          )
+          ["baseInfo-", "otherInfo-"]
+            .concat(panelNames)
+            .map(
+              (i) =>
+                `${i}${
+                  filterInvoices.length > 0
+                    ? filterInvoices[0]["invoiceId"]
+                    : "0"
+                }`
+            )
         );
       }
     },
@@ -987,49 +1114,62 @@ export default {
       _this.currentInvoiceErrorFields = [];
       _this.setCurrentInvoiceErrorFields([]);
       const panelSet = [
-        { name: 'buyerInfo-', need: ['purchaserName'] },
-        { name: 'sellerInfo-', need: ['sellerName'] },
-        { name: 'invoiceInfo-', need: ['invoiceItems', 'invoiceFlights'] },
+        { name: "buyerInfo-", need: ["purchaserName"] },
+        { name: "sellerInfo-", need: ["sellerName"] },
+        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights"] },
       ];
       let allInvoice = [];
-      this.allData.imageInfo.map(dd => {
+      this.allData.imageInfo.map((dd) => {
         allInvoice = allInvoice.concat(dd.invoices);
       });
-      const fI = allInvoice.find(x => x.invoiceId===invoiceIdP);
+      const fI = allInvoice.find((x) => x.invoiceId === invoiceIdP);
       const _thisKeys = Object.keys(fI);
-      const panelNames = panelSet.filter(s => {
-        return _thisKeys.map(k => {
-          return s.need.includes(k);
-        }).filter(i => i).length > 0;
-      }).map(ii => ii.name);
+      const panelNames = panelSet
+        .filter((s) => {
+          return (
+            _thisKeys
+              .map((k) => {
+                return s.need.includes(k);
+              })
+              .filter((i) => i).length > 0
+          );
+        })
+        .map((ii) => ii.name);
       _this.$set(
         _this,
         "dataPanelOpen",
-        [
-          "baseInfo-",
-          "otherInfo-",
-        ].concat(panelNames).map((i) => `${i}${invoiceIdP || "0"}`)
+        ["baseInfo-", "otherInfo-"]
+          .concat(panelNames)
+          .map((i) => `${i}${invoiceIdP || "0"}`)
       );
       // this.invoiceFieldsSetting = getInvoiceFields(fI.invoiceType);
       // console.log('xx', this.invoiceFieldsSetting)
       this.currentInvoiceType = fI.invoiceType;
-      let findImgId = '';
-      if (this.currentInvoiceRuleId !== '') {
-        const findRule = _this.allData.data.find(r => r.ruleType==="IMAGES");
-        const findRet = findRule.result.find(rr => rr.ruleId===_this.currentInvoiceRuleId);
+      let findImgId = "";
+      if (this.currentInvoiceRuleId !== "") {
+        const findRule = _this.allData.data.find(
+          (r) => r.ruleType === "IMAGES"
+        );
+        const findRet = findRule.result.find(
+          (rr) => rr.ruleId === _this.currentInvoiceRuleId
+        );
 
         let dataImgIds = Object.keys(_this.allImageInvoiceIds);
-        findImgId = dataImgIds.find(k => {
+        findImgId = dataImgIds.find((k) => {
           return _this.allImageInvoiceIds[k].includes(invoiceIdP);
-        })
-        let fieldsImgs = findRet.imageData.find(ee => ee.imageId===findImgId);
-        let fieldsInvoice = fieldsImgs.infos.find(ei => ei.invoiceId === invoiceIdP);
+        });
+        let fieldsImgs = findRet.imageData.find(
+          (ee) => ee.imageId === findImgId
+        );
+        let fieldsInvoice = fieldsImgs.infos.find(
+          (ei) => ei.invoiceId === invoiceIdP
+        );
         _this.currentInvoiceErrorFields = fieldsInvoice.fields || [];
-        _this.setCurrentInvoiceErrorFields(_this.currentInvoiceErrorFields)
+        _this.setCurrentInvoiceErrorFields(_this.currentInvoiceErrorFields);
       } else {
         findImgId = _this.imageId;
       }
-      const rr = {imageId: findImgId, invoiceId: invoiceIdP};
+      const rr = { imageId: findImgId, invoiceId: invoiceIdP };
       _this.getEditField(rr);
     },
     getEditField(request) {
@@ -1040,59 +1180,63 @@ export default {
       _this.editFieldsItems = editFieldsItems;
       _this.setEditFields([]);
       _this.setEditFieldsItems([]);
-      const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+      const loadingInstance = Loading.service({
+        fullscreen: true,
+        background: "hsla(0,0%,100%,.2)",
+      });
       axios
         .request({
-          method: 'post',
+          method: "post",
           url: `/api/server/isfirstedit`,
-          data: request
+          data: request,
         })
         .then((resp) => {
-          loadingInstance.close()
+          loadingInstance.close();
           let data = resp.data;
           if (data.code === 20000) {
             _this.invoiceIsFirstEdit = data.data.isFirstEdit;
             if (data.data.isFirstEdit == true) {
               return false;
             }
-            editFields = data.data.edit.filter(f => f.indexOf('.')===-1);
-            const items = data.data.edit.filter(f => f.indexOf('.')!==-1);
-            items.map(ik => {
-              const ss = ik.split('.');
+            editFields = data.data.edit.filter((f) => f.indexOf(".") === -1);
+            const items = data.data.edit.filter((f) => f.indexOf(".") !== -1);
+            items.map((ik) => {
+              const ss = ik.split(".");
               const itemIndex = Number(ss[1]);
 
               editFieldsItems[itemIndex] = editFieldsItems[itemIndex] || [];
               editFieldsItems[itemIndex].push(ss[2]);
-            })
+            });
             _this.setEditFields(editFields);
             _this.setEditFieldsItems(editFieldsItems);
             _this.editFields = editFields;
             _this.editFieldsItems = editFieldsItems;
           } else {
-            Notification.closeAll()
+            Notification.closeAll();
             Notification({
               message: data.msg || data.message,
-              type: 'warning',
-              duration: 2000
-            })
+              type: "warning",
+              duration: 2000,
+            });
           }
         })
         .catch((err) => {
           console.log(err);
-        }).finally(() => {
-          loadingInstance.close()
+        })
+        .finally(() => {
+          loadingInstance.close();
         });
     },
-    getFieldError (vo, currentKey, currentVal) {
-      const _this = this
+    getFieldError(vo, currentKey, currentVal) {
+      const _this = this;
       const ruleRequest = {
         ruleId: _this.currentInvoiceRuleId,
         billNumber: _this.allData.billNo, // this.billNumber,
         taskId: _this.allData.taskId,
-        keyName:currentKey,
-        value:currentVal
-      }
-      this.getRuleInvoice(ruleRequest, false)
+        keyName: currentKey,
+        value: currentVal,
+      };
+      this.getRuleInvoice(ruleRequest, false);
     },
     handleTab(index, invoiceId) {
       const _this = this;
@@ -1121,113 +1265,135 @@ export default {
       this.showImgData.push(this.imageData[this.imgIndex]);
     },
     handleSubmitData(formRef, formData) {
-      const changeField = [...new Set([...(this.correctData.map(t => t.fieldKeyName))])];
+      const changeField = [
+        ...new Set([...this.correctData.map((t) => t.fieldKeyName)]),
+      ];
       const changeFieldObj = [];
       changeField.map((k, i) => {
         let t = {};
-        this.correctData.map(kn => {
-          if (k===kn.fieldKeyName) {
-            t = {...kn};
+        this.correctData.map((kn) => {
+          if (k === kn.fieldKeyName) {
+            t = { ...kn };
             t.fieldKeyValue = formData[kn.fieldKeyName];
             changeFieldObj[i] = t;
           }
-        })
-      })
-      const changeItemField = [...new Set([...(this.correctItemData.map(t => `${t.fieldKeyName}-${t.lineNumber}`))])];
+        });
+      });
+      const changeItemField = [
+        ...new Set([
+          ...this.correctItemData.map(
+            (t) => `${t.fieldKeyName}-${t.lineNumber}`
+          ),
+        ]),
+      ];
       const changeItemFieldObj = [];
       changeItemField.map((k, i) => {
         let t = {};
         this.correctItemData.map((kn) => {
-          if (k===`${kn.fieldKeyName}-${kn.lineNumber}`) {
-            t = {...kn};
-            t.fieldKeyValue = formData[kn.parentKeyName][kn.lineNumber-1][kn.fieldKeyName];
+          if (k === `${kn.fieldKeyName}-${kn.lineNumber}`) {
+            t = { ...kn };
+            t.fieldKeyValue =
+              formData[kn.parentKeyName][kn.lineNumber - 1][kn.fieldKeyName];
             changeItemFieldObj[i] = t;
           }
-        })
-      })
-      console.log([...changeFieldObj, ...changeItemFieldObj])
+        });
+      });
+      console.log([...changeFieldObj, ...changeItemFieldObj]);
       const postEditData = [...changeFieldObj, ...changeItemFieldObj];
       if (postEditData.length === 0) {
-        Notification.closeAll()
+        Notification.closeAll();
         Notification({
-          message: '未修改数据',
-          type: 'warning',
-          duration: 2000
-        })
+          message: "未修改数据",
+          type: "warning",
+          duration: 2000,
+        });
         return false;
       }
       const _this = this;
-      const loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+      const loadingInstance = Loading.service({
+        fullscreen: true,
+        background: "hsla(0,0%,100%,.2)",
+      });
       const postBody = {
-        "billNumber": _this.allData.billNo,
-        "taskId": _this.allData.taskId,
-        "imageUrl": _this.imgSrc,
-        "imageId": _this.imageId,
-        "invoiceId": _this.invoiceId,
-        "invoiceType": formData.invoiceType,
-        "data": postEditData,
+        billNumber: _this.allData.billNo,
+        taskId: _this.allData.taskId,
+        imageUrl: _this.imgSrc,
+        imageId: _this.imageId,
+        invoiceId: _this.invoiceId,
+        invoiceType: formData.invoiceType,
+        data: postEditData,
       };
       axios
         .request({
-          method: 'post',
+          method: "post",
           url: `/api/server/save`,
-          data: postBody
+          data: postBody,
         })
         .then((resp) => {
-          loadingInstance.close()
+          loadingInstance.close();
           let data = resp.data;
           if (data.code === 20000) {
             _this.isReadonly = true;
             _this.invoiceIsFirstEdit = false;
             _this.correctData = [];
             _this.correctItemData = [];
-            const rr = {imageId: _this.imageId, invoiceId: _this.invoiceId};
+            const rr = { imageId: _this.imageId, invoiceId: _this.invoiceId };
             _this.getEditField(rr);
           } else {
-            Notification.closeAll()
+            Notification.closeAll();
             Notification({
               message: data.msg || data.message,
-              type: 'warning',
-              duration: 2000
-            })
+              type: "warning",
+              duration: 2000,
+            });
           }
         })
         .catch((err) => {
           console.log(err);
-        }).finally(() => {
-          loadingInstance.close()
+        })
+        .finally(() => {
+          loadingInstance.close();
         });
     },
     handleCorrectField(field, fieldName) {
       const tmpObj = {
         fieldName: fieldName,
         fieldKeyName: field,
-      }
+      };
       this.correctData.push(tmpObj);
     },
     handleCorrectItemField(i, field, fieldName, p) {
       const tmpObj = {
         fieldName: fieldName,
         fieldKeyName: field,
-        lineNumber: i+1,
-        parentKeyName: p
-      }
+        lineNumber: i + 1,
+        parentKeyName: p,
+      };
       this.correctItemData.push(tmpObj);
     },
-    handlePickInvoiceType(value, selectedData){
-      console.log('handlePickInvoiceType', value, selectedData)
+    handlePickInvoiceType(value, selectedData) {
+      console.log("handlePickInvoiceType", value, selectedData);
       this.selectedInvoiceType = value;
-      this.handleCorrectField('invoiceType', '发票类型');
+      this.handleCorrectField("invoiceType", "发票类型");
       const invoiceTypeValue = value.slice(-1)[0];
-      this.$set(this.messageInfo.invoices[this.tabsInvoiceIndex], 'invoiceType', invoiceTypeValue);
+      this.$set(
+        this.messageInfo.invoices[this.tabsInvoiceIndex],
+        "invoiceType",
+        invoiceTypeValue
+      );
     },
-    onPickInvoiceType(invoiceTypeValue){
-      this.handleCorrectField('invoiceType', '发票类型');
+    onPickInvoiceType(invoiceTypeValue) {
+      console.log('selected', invoiceTypeValue)
+      this.handleCorrectField("invoiceType", "发票类型");
       this.currentInvoiceType = invoiceTypeValue;
-      this.$set(this.messageInfo.invoices[this.tabsInvoiceIndex], 'invoiceType', invoiceTypeValue);
-      this.$forceUpdate();
+      this.$set(
+        this.messageInfo.invoices[this.tabsInvoiceIndex],
+        "invoiceType",
+        invoiceTypeValue
+      );
+      // this.$forceUpdate();
     },
-    invoiceTypeFormatter(label){
+    invoiceTypeFormatter(label) {
       return label.slice(-1)[0];
     },
   },
@@ -1471,7 +1637,7 @@ export default {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #eeeeee;
-  &.td-nowrap{
+  &.td-nowrap {
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -1492,12 +1658,12 @@ export default {
     padding: 10px 0;
     text-align: center;
   }
-  .ivu-tooltip{
+  .ivu-tooltip {
     width: 100%;
     text-align: center;
     display: inline-block;
   }
-  .ivu-tooltip-rel{
+  .ivu-tooltip-rel {
     // max-width: 130px;
     width: 100%;
     text-align: center;
@@ -1542,13 +1708,13 @@ export default {
   padding-left: 0.5rem;
   border-left: 2px solid #1991dd;
 }
-/deep/.result-data-modal .ivu-modal-body .ivu-row{
+/deep/.result-data-modal .ivu-modal-body .ivu-row {
   padding-left: 0;
   padding-right: 0;
   margin-left: 0;
   margin-right: 0;
 }
-/deep/.result-data-modal .ivu-modal-body .ivu-row .thead-name{
+/deep/.result-data-modal .ivu-modal-body .ivu-row .thead-name {
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -1558,7 +1724,7 @@ export default {
   border-bottom: 1px solid #fff;
 }
 /deep/.result-data-modal .ivu-modal-body .ivu-row,
-/deep/.result-data-modal .ivu-modal-body .table-row{
+/deep/.result-data-modal .ivu-modal-body .table-row {
   display: flex;
 }
 /deep/.el-table__append-wrapper {
@@ -1581,44 +1747,45 @@ export default {
   border-color: #1991dd;
 }
 /deep/.text-highlight,
-/deep/.text-highlight .ivu-input{
-  background-color: #FFFA99;
+/deep/.text-highlight .ivu-input {
+  background-color: #fffa99;
 }
-/deep/.hover-primary:hover{
+/deep/.hover-primary:hover {
   cursor: pointer;
   background-color: #ecf5ff;
   // #b3d8ff
 }
-/deep/.data-header{
+/deep/.data-header {
   padding: 10px;
   text-align: center;
-  border: 1px solid #EEEEEE;
-  background: #FAFAFA;
+  border: 1px solid #eeeeee;
+  background: #fafafa;
   position: relative;
 }
-/deep/.text-primary{
+/deep/.text-primary {
   color: #1991dd;
 }
-/deep/.pr-1{
+/deep/.pr-1 {
   position: absolute;
   right: 1rem;
 }
-/deep/.ivu-input-icon, /deep/.icon-danger{
-  color: #FE3D3D;
+/deep/.ivu-input-icon,
+/deep/.icon-danger {
+  color: #fe3d3d;
   font-weight: 700;
   cursor: pointer;
   font-size: 18px;
   vertical-align: text-bottom;
 }
-/deep/.el-table--enable-row-hover .el-table__body tr:hover>td.text-highlight{
-  background-color: #FFFA99;
+/deep/.el-table--enable-row-hover .el-table__body tr:hover > td.text-highlight {
+  background-color: #fffa99;
 }
-/deep/.rule-table .ivu-tooltip-rel{
+/deep/.rule-table .ivu-tooltip-rel {
   max-width: 130px;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-/deep/.imgBox .rightImg .index-icon.red-index{
-  background-color: rgba(254,61,61, .6);
+/deep/.imgBox .rightImg .index-icon.red-index {
+  background-color: rgba(254, 61, 61, 0.6);
 }
 </style>

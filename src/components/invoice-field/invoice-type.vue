@@ -1,5 +1,5 @@
 <template>
-  <FormItem :label="fieldName">
+  <FormItem :label="fieldName" :label-width="labelWidth">
     <template v-if="isReadonly">
       <Input
         v-model="fieldKeyValue"
@@ -21,14 +21,28 @@
     </template>
     <Cascader
       v-else
+      placeholder="请选择或输入搜索"
       @on-change="handlePickInvoiceType"
       :data="invoiceTypeData"
       v-model="selectedInvoiceType"
       transfer
       trigger="hover"
       filterable
+      :clearable="false"
       :render-format="invoiceTypeFormatter"
     ></Cascader>
+    <!-- <el-cascader
+      v-else
+      placeholder="请选择"
+      @change="handlePickInvoiceType"
+      v-model="selectedInvoiceType"
+      transfer
+      :clearable="true"
+      :filterable="true"
+      :show-all-levels="false"
+      :options="invoiceTypeData"
+      :props="{ expandTrigger: 'hover' }"
+    ></el-cascader> -->
   </FormItem>
 </template>
 
@@ -60,7 +74,11 @@ export default {
   data() {
     return {
       invoiceTypeData: invoiceTypeData,
-      selectedInvoiceType: findIndexArray(invoiceTypeData, this.defaultKeyValue, []),
+      selectedInvoiceType: findIndexArray(
+        invoiceTypeData,
+        this.defaultKeyValue,
+        []
+      ),
     };
   },
   methods: {
@@ -71,6 +89,7 @@ export default {
       console.log("handlePickInvoiceType", value, selectedData);
       this.selectedInvoiceType = value;
       const invoiceTypeValue = value.slice(-1)[0];
+      this.fieldKeyValue = invoiceTypeValue;
       this.$emit("on-select-type", invoiceTypeValue);
     },
   },
