@@ -436,7 +436,7 @@ export default {
         tooltip: {
           trigger: "item",
         },
-        color: ["#70B822", "#1991DD", "#F7B500"],
+        color: ["#70B822", "#9C97D3", "#1991DD", "#F7B500"],
         legend: {
           icon: "circle",
           orient: "vertical",
@@ -683,10 +683,8 @@ export default {
           let data = resp.data;
           if (data.code === 20000) {
             const parseData = [
-              {
-                name: "机器人审核",
-                value: Number(data.data.reject) + Number(data.data.adopt),
-              },
+              { name: "通过", value: data.data.adopt },
+              { name: "驳回", value: data.data.reject },
               { name: "转人工", value: data.data.artificial },
               { name: "超时", value: data.data.timeout },
             ];
