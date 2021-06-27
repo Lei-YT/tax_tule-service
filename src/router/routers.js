@@ -110,6 +110,44 @@ export default [
   },
   {
     path: '/',
+    name: 'manageUser',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: homePath,
+        name: 'manageUserIndex',
+        meta: {
+          icon: 'ios-person-add-outline',
+          title: '用户管理'
+        },
+        component: () => import('@/view/manageUser.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'institutionsMange',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: homePath,
+        name: 'institutionsMange',
+        meta: {
+          icon: 'ios-podium',
+          title: '机构管理'
+        },
+        component: () => import('@/view/institutions.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
     name: 'user',
     meta: {
       hideInBread: true

@@ -7,7 +7,7 @@
       :collapsed-width="64"
       v-model="collapsed"
       class="left-sider"
-      :style="{ overflow: 'hidden' }"
+      :style="{ overflow: 'hidden',minWidth:'260px' }"
     >
       <side-menu
         accordion
