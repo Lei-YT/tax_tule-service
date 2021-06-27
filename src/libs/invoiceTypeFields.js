@@ -1,5 +1,6 @@
 export const getInvoiceFields = (invoiceType) => {
   let getBase = _.cloneDeep(base);
+  let getSeller = _.cloneDeep(seller);
   let getItems = _.cloneDeep(itemDetail);
   switch (invoiceType) {
     case '客运票':
@@ -8,26 +9,16 @@ export const getInvoiceFields = (invoiceType) => {
           { label: '发票类型', key: 'invoiceType', col: 8 },
           { label: '发票代码', key: 'invoiceCode', col: 8 },
           { label: '发票号码', key: 'invoiceNo', col: 8 },
-        ],
-        [
           { label: '发票抬头', key: 'invoiceTitle', col: 24 },
-        ],
-        [
           { label: '起始站', key: 'startCity', col: 12 },
           { label: '终点站', key: 'terminus', col: 12 },
-        ],
-        [
           { label: '出行日期', key: 'invoiceDate', col: 12 },
           { label: '开车时间', key: 'invoiceTime', col: 12 },
-        ],
-        [
           { label: '旅客姓名', key: 'passengerName', col: 12 },
           { label: '证件号码', key: 'passengerID', col: 12 },
-        ],
-        [
-          { label: '价税合计（小写）', key: 'amountWithTax', col: 8 },
-          { label: '发票所属地', key: 'sellerAddress', col: 8 },
-          { label: '消费分类', key: 'industryCategory', col: 8 },
+          { label: '价税合计（小写）', key: 'amountWithTax', col: 12 },
+          { label: '消费分类', key: 'industryCategory', col: 12 },
+          { label: '发票所属地', key: 'sellerAddress', col: 12, width: 100 },
         ],
       ];
       break;
@@ -96,28 +87,22 @@ export const getInvoiceFields = (invoiceType) => {
         [
           { label: '印刷序号', key: 'serialNo', col: 12 },
           { label: '电子客票号码', key: 'invoiceCode', col: 12, width: 100 },
-        ],
-        [
           { label: '旅客姓名', key: 'passengerName', col: 12 },
           { label: '证件号码', key: 'passengerID', col: 12 },
-        ],
-        [
-          { label: '票价', key: 'fare', col: 8 },
-          { label: '保险费', key: 'insurance', col: 8 },
-          { label: '其他税费', key: 'otherTaxes', col: 8 },
-        ],
-        [
+          { label: '票价', key: 'fare', col: 12 },
+          { label: '保险费', key: 'insurance', col: 12 },
+          { label: '其他税费', key: 'otherTaxes', col: 12 },
           { label: '民航发展基金', key: 'CAACDF', col: 12, width: 100 },
           { label: '合计', key: 'amountWithTax', col: 12 },
-        ],
-        [
-          { label: '填开日期', key: 'issueDate', col: 8 },
-          { label: '填开单位', key: 'sellerName', col: 8 },
-          { label: '销售单位代号', key: 'agentCode', col: 8, width: 100 },
-        ],
-        [
           { label: '出发地是否为国内', key: 'isDomestic', col: 12, width: 100 },
         ],
+      ];
+      getSeller.fields = [
+        [
+          { label: '填开单位', key: 'sellerName', col: 24 },
+          { label: '填开日期', key: 'issueDate', col: 12 },
+          { label: '销售单位代号', key: 'agentCode', col: 12, width: 100 },
+        ]
       ];
       getItems = flightsDetail;
       break;
@@ -178,7 +163,7 @@ export const getInvoiceFields = (invoiceType) => {
     default:
       break;
   }
-  return [getBase, buyer, seller, getItems, other];
+  return [getBase, buyer, getSeller, getItems, other];
 }
 const base = {
   label: '基本信息', prename: 'baseInfo-', checkField: 'invoiceType', fields: [
@@ -194,15 +179,11 @@ const base = {
     [
       { label: '开票日期', key: 'invoiceDate', col: 12 },
       { label: '校验码', key: 'invoiceCRC', col: 12 },
-    ],
-    [
-      { label: '金额合计', key: 'amountWithoutTax', col: 8 },
-      { label: '税额合计', key: 'taxAmount', col: 8 },
-      { label: '价税合计（小写）', key: 'amountWithTax', col: 8 },
-    ],
-    [
-      { label: '金额', key: 'invoiceAmount', col: 8 },
-      { label: '票据归属地', key: 'invoiceAddress', col: 16, width: 100 },
+      { label: '金额合计', key: 'amountWithoutTax', col: 12 },
+      { label: '税额合计', key: 'taxAmount', col: 12 },
+      { label: '价税合计（小写）', key: 'amountWithTax', col: 12 },
+      { label: '金额', key: 'invoiceAmount', col: 12 },
+      { label: '票据归属地', key: 'invoiceAddress', col: 12, width: 100 },
     ],
     [
       { label: '发票抬头', key: 'invoiceTitle', col: 24 },

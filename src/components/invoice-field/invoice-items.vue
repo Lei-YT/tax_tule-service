@@ -6,7 +6,6 @@
         <template v-for="fieldL in itemFields">
           <th :width="fieldL.width" :key="fieldL.key">
             <Tooltip
-              placement="top-start"
               :content="fieldL.label"
               :max-width="200"
               transfer
@@ -115,7 +114,6 @@
           }"
         >
           <Tooltip
-            placement="top-start"
             :content="n[fieldL.key]"
             :max-width="200"
             transfer
