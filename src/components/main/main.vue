@@ -51,35 +51,6 @@
         </Layout>
       </Content>
     </Layout>
-
-    <el-dialog
-      title="首次登录, 请修改密码"
-      :visible="showPWModify"
-      :show-close="false"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-      @close="handleCloseModify"
-    >
-      <el-form
-        :model="pwModify"
-        label-width="100px"
-        center
-        :rules="pwRules"
-        ref="pwModify"
-      >
-        <el-form-item label="旧密码：" prop="oldpassword">
-          <el-input v-model="pwModify.oldpassword" />
-        </el-form-item>
-        <el-form-item label="新密码：" prop="password">
-          <el-input v-model="pwModify.password" show-password />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitModify('pwModify')"
-          >确 定</el-button
-        >
-      </div>
-    </el-dialog>
   </Layout>
 </template>
 <script>
@@ -87,8 +58,7 @@ import SideMenu from "./components/side-menu";
 import HeaderBar from "./components/header-bar";
 import User from "./components/user";
 import { mapMutations, mapActions, mapGetters } from "vuex";
-import { getNewTagList, routeEqual, localSave, localRead } from "@/libs/util";
-import { passwordchange } from "@/api/user";
+import { getNewTagList, routeEqual, localSave } from "@/libs/util";
 import routers from "@/router/routers";
 import "./main.less";
 export default {
@@ -104,16 +74,6 @@ export default {
       minLogo: "",
       maxLogo: "",
       isFullscreen: false,
-      pwModify: {
-        // adminNo: "",
-        password: "",
-        oldpassword: "",
-      },
-      pwRules: {
-        // adminNo: [{ required: true, message: "请填写账号" }],
-        password: [{ required: true, message: "请填写新密码" }],
-        oldpassword: [{ required: true, message: "请填写旧密码" }],
-      },
     };
   },
   computed: {
@@ -129,12 +89,6 @@ export default {
     },
     adminNo() {
       return this.$store.state.user.adminNo;
-    },
-    showPWModify: {
-      get() {
-        return this.$store.state.user.showPWModify;
-      },
-      set() {},
     },
     cacheList() {
       const list = [
@@ -171,12 +125,8 @@ export default {
       "setLocal",
       "setHomeRoute",
       "closeTag",
-      "setShowPWModify",
     ]),
     ...mapActions(["handleLogin", "getUnreadMessageCount"]),
-    handleCloseModify() {
-      this.setShowPWModify(false);
-    },
     turnToPage(route) {
       let { name, params, query } = {};
       if (typeof route === "string") name = route;
@@ -213,36 +163,6 @@ export default {
     },
     handleClick(item) {
       this.turnToPage(item);
-    },
-    submitModify(formName) {
-      const _this = this;
-      let params = {
-        adminNo: this.adminNo,
-        password: this.pwModify.password.replace(/\s*/g, "") || "",
-        oldpassword: this.pwModify.oldpassword.replace(/\s*/g, "") || "",
-      };
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          passwordchange(params).then((res) => {
-            if (res.data.code == 0) {
-              _this.$message({
-                message: res.data.msg,
-                type: "success",
-                duration: 1500,
-              });
-              _this.setShowPWModify(false);
-            } else {
-              _this.$notify({
-                title: "温馨提示",
-                type: "warning",
-                message: res.data.msg,
-              });
-            }
-          });
-        } else {
-          return false;
-        }
-      });
     },
   },
   watch: {
