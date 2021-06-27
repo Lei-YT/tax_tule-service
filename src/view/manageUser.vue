@@ -31,13 +31,20 @@
         <div class="userTables" v-if="!isCustom">
           <div class="searchWarp">
             <div class="leftWrap">
-              <Input v-model="searchVal" placeholder="请输入关键字查询" />
-              <Button type="primary" icon="ios-search" style="margin-left: 15px"
+              <Input v-model="searchName" placeholder="请输入关键字查询" />
+              <Button
+                type="primary"
+                @click="searchData()"
+                icon="ios-search"
+                style="margin-left: 15px"
                 >查询</Button
               >
             </div>
             <div class="rigthWrap">
-              <Button type="error" v-if="chooseLength > 0" @click="handel('1')"
+              <Button
+                type="error"
+                v-if="chooseLength.length > 0"
+                @click="handel('1')"
                 >确认删除</Button
               >
               <Button type="primary" icon="md-trash" ghost v-else
@@ -76,12 +83,12 @@
               width="60"
             />
             <el-table-column prop="name" label="姓名" align="center" />
-            <el-table-column prop="name" label="账号" align="center" />
-            <el-table-column prop="name" label="所属机构" align="center" />
+            <el-table-column prop="adminNo" label="账号" align="center" />
+            <el-table-column prop="organ" label="所属机构" align="center" />
             <el-table-column label="用户状态" align="center">
               <template slot-scope="scope">
                 <el-button
-                  v-if="scope.row.result == 0"
+                  v-if="scope.row.isEnable == 1"
                   type="text"
                   size="small"
                   @click="changeStatus(scope.row)"
@@ -97,9 +104,14 @@
                 >
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="手机号" align="center" />
-            <el-table-column prop="address" label="邮箱" align="center" />
-            <el-table-column prop="address" label="创建时间" align="center" />
+            <el-table-column prop="phone" label="手机号" align="center" />
+            <el-table-column prop="email" label="邮箱" align="center" />
+            <el-table-column
+              prop="created_at"
+              label="创建时间"
+              align="center"
+              width="160"
+            />
           </el-table>
           <div class="pageCon">
             <div class="showCon">
@@ -130,23 +142,23 @@
             :model="ruleForm"
             :rules="rules"
             ref="ruleForm"
-            label-width="80"
+            :label-width="80"
             class="demo-ruleForm"
           >
             <el-col :span="12">
-              <FormItem label="账号" prop="name">
-                <Input v-model="ruleForm.name" placeholder="请输入账号" />
+              <FormItem label="账号" prop="account">
+                <Input v-model="ruleForm.account" placeholder="请输入账号" />
               </FormItem>
-              <FormItem label="手机号" prop="name">
-                <Input v-model="ruleForm.name" placeholder="请输入手机号" />
+              <FormItem label="手机号" prop="phone">
+                <Input v-model="ruleForm.phone" placeholder="请输入手机号" />
               </FormItem>
             </el-col>
             <el-col :span="12">
               <FormItem label="姓名" prop="name">
                 <Input v-model="ruleForm.name" placeholder="请输入姓名" />
               </FormItem>
-              <FormItem label="邮箱" prop="name">
-                <Input v-model="ruleForm.name" placeholder="请输入邮箱" />
+              <FormItem label="邮箱" prop="email">
+                <Input v-model="ruleForm.email" placeholder="请输入邮箱" />
               </FormItem>
             </el-col>
           </Form>
@@ -174,7 +186,10 @@
               style="margin-right: 15px"
               >添加岗位</Button
             >
-            <Button type="error" v-if="postLength > 0" @click="handel('2')"
+            <Button
+              type="error"
+              v-if="postLength.length > 0"
+              @click="handel('2')"
               >确认删除</Button
             >
             <Button type="primary" icon="md-trash" ghost v-else
@@ -263,6 +278,17 @@
               <p>22222222222</p>
             </div>
           </div>
+          <div class="footers">
+            <Button type="primary" ghost @click="addPostCon = false"
+              >取消</Button
+            >
+            <Button
+              type="primary"
+              @click="submitForm('ruleForm')"
+              style="margin-left: 15px"
+              >提交</Button
+            >
+          </div>
         </div>
       </Card>
     </div>
@@ -291,8 +317,8 @@
         }"
       >
         <el-table-column property="name" label="姓名" align="center" />
-        <el-table-column property="date" label="账号" align="center" />
-        <el-table-column property="name" label="所属机构" align="center" />
+        <el-table-column property="account" label="账号" align="center" />
+        <el-table-column property="organ" label="所属机构" align="center" />
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleImport(scope.row)" type="text" size="small"
@@ -320,16 +346,26 @@
 </template>
 
 <script>
+import {
+  getUserList, // 账号列表
+  addUser, // 新增
+  getAddlist,
+  delUsers, // 删除账号
+  enableUser,
+  importAddUser,
+} from "@/api/mangeUser";
 export default {
   components: {},
   data() {
     return {
+      searchName: "",
       addPostCon: false,
       delCon: "",
       delType: "",
       centerDialogVisible: false,
-      chooseLength: 0,
-      postLength: 0,
+      chooseLength: [],
+      idArr: [],
+      postLength: [],
       isCustom: false,
       dialogTableVisible: false,
       searchVal: "",
@@ -372,68 +408,7 @@ export default {
           ],
         },
       ],
-      tableData1: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-      ],
+      tableData1: [],
       tableData2: [
         {
           date: "2016-05-02",
@@ -471,28 +446,7 @@ export default {
           address: "上海市普陀区",
         },
       ],
-      gridData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-      ],
+      gridData: [],
       postTableData: [
         {
           date: "2016-05-04",
@@ -507,24 +461,91 @@ export default {
       ],
       ruleForm: {
         name: "",
-        region: "",
-        date1: "",
-        date2: "",
+        account: "",
+        phone: "",
+        email: "",
       },
       rules: {
         name: [{ required: true, message: "请输入账号", trigger: "blur" }],
-        region: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        account: [{ required: true, message: "请输入姓名", trigger: "blur" }],
       },
+      userInfo: null,
     };
   },
-  computed: {},
-  mounted() {},
+  created() {
+    this.query();
+    this.getList();
+  },
   methods: {
+    getList() {
+      let params = {
+        name: this.userVal.replace(/\s*/g, "") || "",
+        account: this.userVal.replace(/\s*/g, "") || "",
+      };
+      getAddlist(params).then((res) => {
+        if (res.data.code == 0) {
+          this.gridData = res.data.data;
+          this.page.totalElement = res.data.totalcount;
+        }
+      });
+    },
+    query() {
+      let params = {
+        name: this.searchName.replace(/\s*/g, "") || "",
+        pageindex: this.page.currentPage,
+        pagesize: this.page.size,
+      };
+      getUserList(params).then((res) => {
+        if (res.data.code == 0) {
+          this.tableData1 = res.data.data;
+          this.page.totalElement = res.data.totalcount;
+        }
+      });
+    },
     // 确认删除
     sureDel() {
+      // 禁用账户
+      if (this.delType == 3) {
+        enableUser(this.userInfo)
+          .then((res) => {
+            if (res.data.code == 0) {
+              this.$message({
+                message: res.data.msg,
+                type: "success",
+                duration: 1200,
+              });
+            }
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: res.data.msg,
+            });
+          });
+      } else if (this.delType == 1) {
+        // 删除该用户
+        delUsers(this.idArr)
+          .then((res) => {
+            if (res.data.code == 0) {
+              this.$message({
+                message: res.data.msg,
+                type: "success",
+                duration: 1200,
+              });
+              this.query();
+            }
+          })
+          .catch((err) => {
+            this.$message({
+              type: "info",
+              message: err,
+            });
+          });
+      }
       this.centerDialogVisible = false;
     },
     handel(type, row) {
+      this.userInfo = row;
       this.delType = type;
       if (type == 1) {
         this.delCon = "您是否要删除该用户？";
@@ -536,21 +557,35 @@ export default {
       this.centerDialogVisible = true;
     },
     handlePostChange(val) {
-      this.postLength = val.length;
+      this.postLength = val;
     },
     handleSelectionChange(val) {
-      this.chooseLength = val.length;
-      console.log(val, "++++++++++");
-      //   let idArr = [];
-      //   val.map((item, index) => {
-      //     return idArr.push(item.id);
-      //   });
-      //   this.idArr = idArr;
+      this.chooseLength = val;
+      let idArr = [];
+      val.map((item, index) => {
+        return idArr.push(item.id);
+      });
+      this.idArr = idArr;
     },
     submitForm(formName) {
+      let params = {
+        name: this.ruleForm.name.replace(/\s*/g, "") || "",
+        account: this.ruleForm.account.replace(/\s*/g, "") || "",
+        phone: this.ruleForm.phone || "",
+        email: this.ruleForm.email || "",
+      };
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          addUser(params).then((res) => {
+            if (res.data.code == 0) {
+              this.$message({
+                message: res.data.msg,
+                type: "success",
+                duration: 1500,
+              });
+              this.query();
+            }
+          });
         } else {
           return false;
         }
@@ -561,20 +596,30 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.isCustom = false;
     },
     clearCon() {
       this.searchVal = "";
     },
-    changeStatus(row) {
-      console.log(row, "++++++");
-    },
+    changeStatus(row) {},
     addUser() {
       this.dialogTableVisible = true;
     },
     addPost() {
       this.addPostCon = true;
     },
-    handleImport(row) {},
+    handleImport(row) {
+      importAddUser({ id: row.id }).then((res) => {
+        if (res.data.code == 0) {
+          this.$message({
+            message: res.data.msg,
+            type: "success",
+            duration: 1500,
+          });
+          this.query();
+        }
+      });
+    },
     handleCustom() {
       this.dialogTableVisible = false;
       this.isCustom = true;
@@ -586,36 +631,12 @@ export default {
     sizeChange(size) {
       this.page.size = size;
       this.currentChange(1);
-      // this.query();
+      this.query();
     },
-    // open(index) {
-    //   this.items[index]["open"] = !this.items[index]["open"];
-    //   this.$forceUpdate();
-    // },
-    // open02(index, ii) {
-    //   this.items[index]["result"][ii]["open"] = !this.items[index]["result"][
-    //     ii
-    //   ]["open"];
-    //   this.$forceUpdate();
-    // },
-    // openAll(index) {
-    //   let data = this.items[index];
-    //   data.open = true;
-    //   if (data.result && data.result.length) {
-    //     for (let i = 0; i < data.result.length; i++) {
-    //       data.result[i].open = true;
-    //     }
-    //   }
-    //   this.$forceUpdate();
-    // },
-    // rowClick(item) {
-    //   if (item.imageData && item.imageData.length) {
-    //     let ids = item.imageData.map((item) => {
-    //       return item.imageId;
-    //     });
-    //     this.$emit("row-click", ids);
-    //   }
-    // },
+    searchData() {
+      this.page.currentPage = 1;
+      this.query();
+    },
   },
 };
 </script>
