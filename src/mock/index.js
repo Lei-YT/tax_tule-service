@@ -9,6 +9,7 @@ import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data7.json'
 import isFirstEdit from '@/dataJson/isFirstEdit.json'
 import userJson from '@/dataJson/user.json'
+import userOrganJson from '@/dataJson/user-organ.json'
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
 import infoMange from "@/dataJson/infoMange2.json";
@@ -151,6 +152,14 @@ Mock.mock(/\/api\/(server|bill)\/qldata/, 'post', (req, res) => {
 
 Mock.mock(/\/api\/user\/list/, 'post', (req, res) => {
   // console.log('mock res', req, userJson)
+  return Mock.mock(Encrypt(JSON.stringify(userJson)))
+})
+Mock.mock(/\/api\/user\/organlist/, 'post', (req, res) => {
+  console.log('organ organlist mock res', req, userOrganJson)
+  return Mock.mock(Encrypt(JSON.stringify(userOrganJson)))
+})
+Mock.mock(/\/api\/user\/userlist/, 'post', (req, res) => {
+  console.log('organ userlist mock res', req, userJson)
   return Mock.mock(Encrypt(JSON.stringify(userJson)))
 })
 Mock.mock(/\/api\/user\/add/, 'post', (req, res) => {

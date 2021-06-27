@@ -8,16 +8,16 @@
       </div>
       <div class="searchCon">
         <Input
-          v-model="searchVal"
+          v-model="searchOrgan"
           icon="md-close"
           placeholder="请输入机构关键字"
           @on-click="clearCon"
           style="width: 83%"
         />
-        <Button type="primary" icon="ios-search" />
+        <Button type="primary" icon="ios-search" @click="getTreeData" />
       </div>
       <div class="treeCon">
-        <Tree :data="TreeData" />
+        <Tree :data="TreeData" @on-select-change="onTreeNodeClick" />
       </div>
     </Card>
     <!-- 右 -->
@@ -31,8 +31,8 @@
         <div class="userTables" v-if="!isCustom">
           <div class="searchWarp">
             <div class="leftWrap">
-              <Input v-model="searchVal" placeholder="请输入关键字查询" />
-              <Button type="primary" icon="ios-search" style="margin-left: 15px"
+              <Input v-model="searchUser" placeholder="请输入关键字查询" />
+              <Button type="primary" icon="ios-search" style="margin-left: 15px" @click="usernameSearch"
                 >查询</Button
               >
             </div>
@@ -40,7 +40,7 @@
               <Button type="error" v-if="chooseLength > 0" @click="handel('1')"
                 >确认删除</Button
               >
-              <Button type="primary" icon="md-trash" ghost v-else
+              <Button type="error" icon="md-trash" ghost v-else
                 >删除用户</Button
               >
               <Button
@@ -59,6 +59,7 @@
             stripe
             border
             @selection-change="handleSelectionChange"
+            @row-click="onUserRowClick"
             empty-text="暂无数据"
             :header-cell-style="{
               background: '#eef1f6',
@@ -76,8 +77,8 @@
               width="60"
             />
             <el-table-column prop="name" label="姓名" align="center" />
-            <el-table-column prop="name" label="账号" align="center" />
-            <el-table-column prop="name" label="所属机构" align="center" />
+            <el-table-column prop="adminNo" label="账号" align="center" />
+            <el-table-column prop="organ" label="所属机构" align="center" />
             <el-table-column label="用户状态" align="center">
               <template slot-scope="scope">
                 <el-button
@@ -97,9 +98,9 @@
                 >
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="手机号" align="center" />
-            <el-table-column prop="address" label="邮箱" align="center" />
-            <el-table-column prop="address" label="创建时间" align="center" />
+            <el-table-column prop="phone" label="手机号" align="center" />
+            <el-table-column prop="email" label="邮箱" align="center" />
+            <el-table-column prop="created_at" label="创建时间" align="center" />
           </el-table>
           <div class="pageCon">
             <div class="showCon">
@@ -130,7 +131,7 @@
             :model="ruleForm"
             :rules="rules"
             ref="ruleForm"
-            label-width="80"
+            :label-width="80"
             class="demo-ruleForm"
           >
             <el-col :span="12">
@@ -164,7 +165,7 @@
         </div>
       </Card>
       <!-- 下 -->
-      <Card :bordered="false" style="margin-top: 15px">
+      <Card :bordered="false" style="margin-top: 15px" class="ghostHeader">
         <div slot="title" class="cardHeads">
           <div class="leftCon">
             <Button
@@ -177,9 +178,7 @@
             <Button type="error" v-if="postLength > 0" @click="handel('2')"
               >确认删除</Button
             >
-            <Button type="primary" icon="md-trash" ghost v-else
-              >删除岗位</Button
-            >
+            <Button type="error" icon="md-trash" ghost v-else>删除岗位</Button>
           </div>
           <div class="subCon">
             <Button type="primary">提交</Button>
@@ -225,7 +224,7 @@
           <el-divider />
           <div class="postSearch">
             <Input
-              v-model="searchVal"
+              v-model="searchPost"
               placeholder="请输入岗位关键字"
               style="width: 250px"
             />
@@ -262,6 +261,17 @@
               <p>1111</p>
               <p>22222222222</p>
             </div>
+          </div>
+          <div class="footers">
+            <Button type="primary" ghost @click="addPostCon = false"
+              >取消</Button
+            >
+            <Button
+              type="primary"
+              @click="submitForm('ruleForm')"
+              style="margin-left: 15px"
+              >提交</Button
+            >
           </div>
         </div>
       </Card>
@@ -320,6 +330,7 @@
 </template>
 
 <script>
+import { getOrganList, getOrganUserList, getUserList } from "./../api/user";
 export default {
   components: {},
   data() {
@@ -333,6 +344,9 @@ export default {
       isCustom: false,
       dialogTableVisible: false,
       searchVal: "",
+      searchOrgan: "",
+      searchUser: "",
+      searchPost: "",
       userVal: "",
       choosedList: [],
       page: {
@@ -518,8 +532,87 @@ export default {
     };
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.getTreeData();
+  },
   methods: {
+    getTreeData(){
+      const r = {
+        org_code: '',
+        org_name: this.searchOrgan
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
+      getOrganList(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onTreeNodeClick(currentTree, currentNode) {
+      this.addPostCon = false;
+      this.isCustom = false;
+      console.log(currentTree, currentNode);
+      const _this = this;
+      const r = {
+        pageindex: this.page.currentPage,
+        pagesize: this.page.size,
+        organ: currentNode.id,
+      };
+      getOrganUserList(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.tableData1 = data.data;
+            _this.page.totalElement = data.totalcount;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    usernameSearch(){
+      const _this = this;
+      const r = {
+        pageindex: this.page.currentPage,
+        pagesize: this.page.size,
+        name: this.searchUser,
+      };
+      getUserList(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.tableData1 = data.data;
+            _this.page.totalElement = data.totalcount;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onUserRowClick(row){
+      console.log('on row click', row)
+    },
     // 确认删除
     sureDel() {
       this.centerDialogVisible = false;
@@ -561,9 +654,11 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.isCustom = false;
     },
     clearCon() {
-      this.searchVal = "";
+      // this.searchVal = "";
+      this.searchOrgan = "";
     },
     changeStatus(row) {
       console.log(row, "++++++");
@@ -631,6 +726,9 @@ export default {
     color: #fff;
     font-weight: 400;
   }
+}
+/deep/.ghostHeader .ivu-card-head {
+  background: #fff;
 }
 .cardHead {
   display: flex;
