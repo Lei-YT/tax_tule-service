@@ -211,4 +211,61 @@ Mock.mock(/\/api\/server\/save/, 'post', (req, res) => {
       "message": "成功"
     })))
 })
+Mock.mock(/\/api\/bill\/delflow/i, 'post', (req, res) => {
+  console.log('req', req, isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(
+    {
+      "success": true,
+      "code": 20000,
+      "message": "成功",
+      "data": {
+        "info": "删除条数1"
+      }
+    }
+  )))
+})
+Mock.mock(/\/api\/bill\/updateFlowStatus/i, 'post', (req, res) => {
+  console.log('req', req, isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(
+    {
+      "success": true,
+      "code": 20000,
+      "message": "成功",
+      "data": {
+        "info": "更新条数1"
+      }
+    }
+
+  )))
+})
+
+Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
+  console.log('req', req, isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(
+    {
+      "success": true,
+      "code": 20000,
+      "message": "成功",
+
+      "data": {
+        "list": [
+          {
+            "id": 1,
+            "create_date": "2021-06-22 15:20:39",
+            "update_date": "2021-06-22 15:20:39",
+            "form_name": "CRTG_劳务结算单",
+            "status": 1
+          },
+          {
+            "id": 2,
+            "create_date": "2021-06-22 15:20:39",
+            "update_date": "2021-06-22 15:20:39",
+            "form_name": "CRTG_劳务结算单2",
+            "status": 6
+          },
+        ]
+      }
+    }
+  )))
+})
 

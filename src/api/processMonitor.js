@@ -53,3 +53,27 @@ export const setbill = (params) => {
     method: 'POST'
   })
 }
+
+export const getFormProcess = (params) => {
+  return axios.request({
+    url: `/api/bill/getrobotformflow`,
+    data: params,
+    method: 'POST'
+  })
+}
+
+export const deleteFormProcess = (params) => {
+  return axios.request({
+    url: `/api/bill/delflow`,
+    data: params,
+    method: 'POST'
+  })
+}
+
+export const updateFormProcess = (params) => {
+  return axios.request({
+    url: `/api/bill/updateFlowStatus`,
+    data: params,
+    method: 'POST'
+  })
+}

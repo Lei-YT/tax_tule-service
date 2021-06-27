@@ -18,7 +18,7 @@
     <!-- 内容区 -->
     <div class="conBox">
       <!-- 控制台 -->
-      <div class="conOne" v-if="cur == 0">
+      <div class="conOne" v-show="cur == 0">
         <!-- 左边内容 -->
         <div class="leftCon">
           <Card
@@ -208,11 +208,15 @@
         </div>
       </div>
       <!-- 信息管理 -->
-      <div class="conTwo" v-if="cur == 1">
+      <div class="conTwo" v-show="cur == 1">
         <InfoManage></InfoManage>
       </div>
+      <!-- 表单流程管理 -->
+      <div class="conThr" v-show="cur == 2">
+        <FormProcess></FormProcess>
+      </div>
       <!-- 操作日志 -->
-      <div class="conThr" v-if="cur == 2">
+      <div class="conThr" v-show="cur == 3">
         <OperationLog></OperationLog>
       </div>
     </div>
@@ -230,10 +234,12 @@ import {
 } from "@/api/user";
 import InfoManage from "./components/InfoManage";
 import OperationLog from "./components/OperationLog";
+import FormProcess from "./components/FormProcess";
 export default {
   components: {
     InfoManage,
     OperationLog,
+    FormProcess,
   },
   data() {
     return {
@@ -259,6 +265,9 @@ export default {
           type: "信息管理",
         },
         {
+          type: "表单流程管理",
+        },
+        {
           type: "操作日志",
         },
       ],
@@ -268,7 +277,6 @@ export default {
       disabledDate2: {},
     };
   },
-  created() {},
   beforeDestroy() {
     clearInterval(this.timer);
     this.timer = null;
