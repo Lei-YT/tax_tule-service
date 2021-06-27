@@ -960,10 +960,12 @@ export default {
           Array.from(
             this.$refs.table.$refs.headerWrapper.querySelectorAll("col")
           ).forEach((n, i) => {
-            this.$refs.sum_xiaoji.children[i].style =
-              "width:" + n.getAttribute("width") + "px";
-            this.$refs.sum_heji.children[i].style =
-              "width:" + n.getAttribute("width") + "px";
+            if (this.$refs.sum_xiaoji.children[i]) {
+              this.$refs.sum_xiaoji.children[i].style =
+                "width:" + n.getAttribute("width") + "px";
+              this.$refs.sum_heji.children[i].style =
+                "width:" + n.getAttribute("width") + "px";
+            }
           });
         }
       });
