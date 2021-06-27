@@ -1700,7 +1700,8 @@ export default {
   width: calc(100% - 20rem);
   border-top: 1px solid #999;
   position: absolute;
-  right: 2.5rem;
+  // right: 2.5rem;
+  right: 26px;
   overflow: hidden;
 }
 /deep/.el-collapse-item__header {
