@@ -107,15 +107,12 @@ export default {
         if (valid) {
           passwordchange(params).then((res) => {
             if (res.data.code == 0) {
-              _this.$message({
-                message: res.data.msg,
+              _this.$notify({
+                title: res.data.msg,
                 type: "success",
-                duration: 1500,
+                message: '请重新登录.',
               });
               _this.setShowPWModify(false);
-              _this.$router.push({
-                name: "home",
-              });
             } else {
               _this.$notify({
                 title: "温馨提示",

@@ -103,13 +103,15 @@ export default {
           } else {
             commit('setIsNewUser', Number(res.data.data.is_new))
             commit('setShowPWModify', Number(res.data.data.is_new)!==0)
-            commit('setToken', res.data.data.token)
-            commit('setId', res.data.data.id)
-            commit('setUserName', res.data.data.name)
-            commit('setAvatar', res.data.data.imgUrl)
-            commit('setAdminNo', res.data.data.adminNo)
-            commit('setAccess', res.data.data.adminNo)
-            commit('setStationName', res.data.data.stationName)
+            if (Number(res.data.data.is_new)===0) {
+              commit('setToken', res.data.data.token)
+              commit('setId', res.data.data.id)
+              commit('setUserName', res.data.data.name)
+              commit('setAvatar', res.data.data.imgUrl)
+              commit('setAdminNo', res.data.data.adminNo)
+              commit('setAccess', res.data.data.adminNo)
+              commit('setStationName', res.data.data.stationName)
+            }
             resolve()
           }
         }).catch(err => {
