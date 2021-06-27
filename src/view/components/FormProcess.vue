@@ -71,7 +71,7 @@
                 >删除</el-button
               >
               <el-button
-                @click="addFormFlow"
+                @click="showAddModal = true"
                 type="primary"
                 style="margin-left: 15px"
                 icon="el-icon-plus"
@@ -123,8 +123,12 @@
                     :disabled="!scope.row.node_share.includes(1)"
                     >业务审批节点</Option
                   >
-                  <Option :value="1" key="1"
-                    :disabled="scope.row.node_share.includes(2)">共享中心审批节点</Option>
+                  <Option
+                    :value="1"
+                    key="1"
+                    :disabled="scope.row.node_share.includes(2)"
+                    >共享中心审批节点</Option
+                  >
                 </Select>
               </template>
             </el-table-column>
@@ -196,6 +200,24 @@
         </div>
       </Card>
     </div>
+    <el-dialog title="添加表单" :visible.sync="showAddModal">
+      <el-form
+        ref="addformflowf"
+        :model="addForm"
+        :rules="addFormRules"
+        label-width="100px"
+        center
+      >
+        <el-form-item label="表单名称" prop="formName">
+          <el-input v-model="addForm.formName" placeholder="请输入表单名称" />
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showAddModal = false">取 消</el-button>
+        <el-button type="primary" @click="addFormFlow()">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -204,7 +226,12 @@ const _NODE_SHARE_ONLY = 1;
 const _NODE_SHARE_BIZ = 2;
 const MODE_SINGLE = 1;
 const MODE_MULTI = 2;
-import { getFormProcess, deleteFormProcess, updateFormProcess } from "@/api/processMonitor";
+import {
+  getFormProcess,
+  deleteFormProcess,
+  updateFormProcess,
+  addFormProcess,
+} from "@/api/processMonitor";
 export default {
   data() {
     return {
@@ -225,6 +252,10 @@ export default {
       formName: "",
       selectedRow: [],
       showAddModal: false,
+      addForm: { formName: "" },
+      addFormRules: {
+        formName: [{ required: true, message: "请输入表单名称" }],
+      },
     };
   },
   mounted() {
@@ -284,7 +315,9 @@ export default {
         beginDate: this.beginDate,
         endDate: this.endDate,
       };
-      Object.keys(r).forEach((key) => (r[key] == null || r[key] == '') && delete r[key]);
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
       getFormProcess(r)
         .then((resp) => {
           let data = resp.data;
@@ -308,7 +341,39 @@ export default {
           console.log(err);
         });
     },
-    addFormFlow() {},
+    addFormFlow() {
+      const _this = this;
+      const params = {
+        formName: this.addForm.formName.replace(/\s*/g, "") || "",
+      };
+      this.$refs.addformflowf.validate((valid) => {
+        if (valid) {
+          addFormProcess(params)
+            .then((resp) => {
+              let data = resp.data;
+              if (data.code === 20000) {
+                _this.$message({
+                  message: `${data.data.info}`, // ${data.message}
+                  type: "success",
+                  duration: 1500,
+                });
+                _this.showAddModal = false;
+              } else {
+                _this.$notify({
+                  title: "温馨提示",
+                  type: "warning",
+                  message: data.data.info,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          return false;
+        }
+      });
+    },
     deleteSelected() {
       const _this = this;
       if (this.selectedRow.length === 0) {
@@ -399,11 +464,12 @@ export default {
       }
       if (isNew === true) {
         const r = {
-          id: row.id, status: s
-        }
+          id: row.id,
+          status: s,
+        };
         this.updateFormFlow(r);
       }
-      return { val: s, isNew: isNew};
+      return { val: s, isNew: isNew };
     },
     handleSelectNode(row, v) {
       row.node_share = v;
@@ -462,10 +528,10 @@ export default {
     margin-right: 1rem;
   }
 }
-/deep/.ivu-select-multiple .ivu-tag span:not(.ivu-select-max-tag){
+/deep/.ivu-select-multiple .ivu-tag span:not(.ivu-select-max-tag) {
   margin-right: 0;
 }
-/deep/.ivu-select-multiple .ivu-tag i{
+/deep/.ivu-select-multiple .ivu-tag i {
   display: none;
 }
 </style>

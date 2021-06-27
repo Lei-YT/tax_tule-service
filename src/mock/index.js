@@ -224,6 +224,20 @@ Mock.mock(/\/api\/bill\/delflow/i, 'post', (req, res) => {
     }
   )))
 })
+Mock.mock(/\/api\/bill\/addflow/i, 'post', (req, res) => {
+  console.log('req', req, isFirstEdit)
+  return Mock.mock(Encrypt(JSON.stringify(
+    {
+      "success": true,
+      "code": 20000,
+      "message": "成功",
+      "data": {
+          "info": "插入成功1条"
+      }
+  }
+
+  )))
+})
 Mock.mock(/\/api\/bill\/updateFlowStatus/i, 'post', (req, res) => {
   console.log('req', req, isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(

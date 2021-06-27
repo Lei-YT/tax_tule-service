@@ -77,3 +77,10 @@ export const updateFormProcess = (params) => {
     method: 'POST'
   })
 }
+export const addFormProcess = (params) => {
+  return axios.request({
+    url: `/api/bill/addflow`,
+    data: params,
+    method: 'POST'
+  })
+}
