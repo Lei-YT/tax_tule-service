@@ -2,12 +2,12 @@
   <div class="wraps">
     <div id="list">
       <Card style="width: 100%">
-          <Form
-            :inline="true"
-            :label-width="70"
-            class="flow-form-inline"
-            ref="formInline"
-          >
+        <Form
+          :inline="true"
+          :label-width="70"
+          class="flow-form-inline"
+          ref="formInline"
+        >
           <div>
             <FormItem label="表单名称" prop="formName">
               <Input v-model="formName" placeholder="请输入表单名称" />
@@ -56,23 +56,23 @@
               >
             </FormItem>
           </div>
-            <FormItem :label-width="0" class="flow-form-action">
-              <el-button
-                @click="deleteSelected"
-                type="danger"
-                icon="el-icon-delete"
-                size="small"
-                >删除</el-button
-              >
-              <el-button
-                @click="showAddModal = true"
-                type="primary"
-                icon="el-icon-plus"
-                size="small"
-                >添加表单</el-button
-              >
-            </FormItem>
-          </Form>
+          <FormItem :label-width="0" class="flow-form-action">
+            <el-button
+              @click="deleteSelected"
+              type="danger"
+              icon="el-icon-delete"
+              size="small"
+              >删除</el-button
+            >
+            <el-button
+              @click="showAddModal = true"
+              type="primary"
+              icon="el-icon-plus"
+              size="small"
+              >添加表单</el-button
+            >
+          </FormItem>
+        </Form>
         <div class="tableList">
           <el-table
             ref="formFlowTable"
@@ -443,6 +443,7 @@ export default {
       if (row.node_share.length === 0) {
         s = 0;
       } else if (row.node_share.length === 1) {
+        isNew = row.share_mode !== 0;
         s = row.share_mode === MODE_SINGLE ? 1 : 2;
       } else if (row.node_share.length === 2) {
         if (row.share_mode === row.biz_mode) {
@@ -520,12 +521,12 @@ export default {
     margin-right: 1rem;
   }
 }
-/deep/.flow-form-inline{
+/deep/.flow-form-inline {
   // width: 100%;
   display: flex;
   justify-content: space-between;
 }
-/deep/.flow-form-inline .flow-form-action.ivu-form-item .ivu-form-item-content{
+/deep/.flow-form-inline .flow-form-action.ivu-form-item .ivu-form-item-content {
   display: flex;
   justify-content: space-between;
 }
