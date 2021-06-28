@@ -26,11 +26,11 @@
       :data="invoiceTypeData"
       v-model="selectedInvoiceType"
       transfer
-      trigger="hover"
       filterable
       :clearable="false"
       :render-format="invoiceTypeFormatter"
     ></Cascader>
+      <!-- trigger="hover" -->
     <!-- <el-cascader
       v-else
       placeholder="请选择"
