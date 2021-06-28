@@ -383,7 +383,7 @@ export default {
         return false;
       }
       const r = this.selectedRow.map((row) => row.id);
-      deleteFormProcess(r)
+      deleteFormProcess({id: r})
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
