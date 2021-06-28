@@ -59,3 +59,19 @@ export const importAddUser = (params) => {
         method: 'POST'
     })
 }
+// 机构用户列表
+export const getOrganUserList = (params) => {
+  return axios.request({
+    url: `/api/user/userlist`,
+    data: params,
+    method: 'POST'
+  })
+}
+// 机构列表
+export const getOrganList = (params) => {
+  return axios.request({
+    url: `/api/user/organlist`,
+    data: params,
+    method: 'POST'
+  })
+}

@@ -17,7 +17,7 @@
         <Button type="primary" icon="ios-search" />
       </div>
       <div class="treeCon">
-        <Tree :data="TreeData" />
+        <Tree :data="TreeData" @on-select-change="onTreeNodeClick" />
       </div>
     </Card>
     <!-- 右 -->
@@ -353,6 +353,8 @@ import {
   delUsers, // 删除账号
   enableUser,
   importAddUser,
+  getOrganUserList,
+  getOrganList,
 } from "@/api/mangeUser";
 export default {
   components: {},
@@ -477,6 +479,57 @@ export default {
     this.getList();
   },
   methods: {
+    getTreeData(){
+      const r = {
+        org_code: '',
+        org_name: this.searchOrgan
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
+      getOrganList(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.TreeData = data.data;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onTreeNodeClick(currentTree, currentNode) {
+      this.addPostCon = false;
+      this.isCustom = false;
+      console.log(currentTree, currentNode);
+      const _this = this;
+      const r = {
+        pageindex: this.page.currentPage,
+        pagesize: this.page.size,
+        organ: currentNode.id,
+      };
+      getOrganUserList(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.tableData1 = data.data;
+            _this.page.totalElement = data.totalcount;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     getList() {
       let params = {
         name: this.userVal.replace(/\s*/g, "") || "",
