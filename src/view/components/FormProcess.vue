@@ -39,7 +39,7 @@
               </div>
             </FormItem>
 
-            <FormItem :label-width="10">
+            <FormItem :label-width="0">
               <el-button
                 type="primary"
                 @click="searchData()"
@@ -56,7 +56,7 @@
               >
             </FormItem>
           </div>
-            <FormItem :label-width="50">
+            <FormItem :label-width="0" class="flow-form-action">
               <el-button
                 @click="deleteSelected"
                 type="danger"
@@ -67,7 +67,6 @@
               <el-button
                 @click="showAddModal = true"
                 type="primary"
-                style="margin-left: 15px"
                 icon="el-icon-plus"
                 size="small"
                 >添加表单</el-button
@@ -376,7 +375,7 @@ export default {
         return false;
       }
       const r = this.selectedRow.map((row) => row.id);
-      deleteFormProcess({id: r})
+      deleteFormProcess(r)
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
@@ -523,6 +522,10 @@ export default {
 }
 /deep/.flow-form-inline{
   // width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+/deep/.flow-form-inline .flow-form-action.ivu-form-item .ivu-form-item-content{
   display: flex;
   justify-content: space-between;
 }
