@@ -129,6 +129,45 @@ export default [
   },
   {
     path: '/',
+    name: 'addWorks',
+    meta: {
+      hideInBread: true,
+      hideInMenu: true
+    },
+    component: Main,
+    children: [
+      {
+        path: homePath,
+        name: 'addWorks',
+        meta: {
+          icon: 'ios-nuclear',
+          title: '岗位权限管理'
+        },
+        component: () => import('@/view/addWorks.vue')
+      },
+    ]
+  },
+  {
+    path: '/',
+    name: 'workPermiss',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: homePath,
+        name: 'workPermiss',
+        meta: {
+          icon: 'ios-nuclear',
+          title: '岗位权限管理'
+        },
+        component: () => import('@/view/workPermiss.vue')
+      }
+    ]
+  },
+  {
+    path: '/',
     name: 'institutionsMange',
     meta: {
       hideInBread: true

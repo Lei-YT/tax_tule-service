@@ -5,6 +5,7 @@ import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
 import process from "@/dataJson/process.json";
 import resultJson from '@/dataJson/result12.json'
+import mangeUser from '@/dataJson/mangeUser.json'
 import resultDataJson from '@/dataJson/result-data.json'
 import resultDataJson2 from '@/dataJson/result-data7.json'
 import isFirstEdit from '@/dataJson/isFirstEdit.json'
@@ -149,8 +150,11 @@ Mock.mock(/\/api\/(server|bill)\/qldata/, 'post', (req, res) => {
   // return Mock.mock((!ifR ? resultDataJson2 : resultDataJson))
   return Mock.mock((Encrypt(JSON.stringify(resultDataJson2))))
 })
-
 Mock.mock(/\/api\/user\/list/, 'post', (req, res) => {
+  // console.log('mock res', req, userJson)
+  return Mock.mock(Encrypt(JSON.stringify(mangeUser)))
+})
+Mock.mock(/\/api\/user\/addlist/, 'post', (req, res) => {
   // console.log('mock res', req, userJson)
   return Mock.mock(Encrypt(JSON.stringify(userJson)))
 })
