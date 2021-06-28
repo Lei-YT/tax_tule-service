@@ -2,20 +2,13 @@
   <div class="wraps">
     <div id="list">
       <Card style="width: 100%">
-        <div
-          style="
-            flex: 0 0 825px;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-          "
-        >
           <Form
             :inline="true"
             :label-width="70"
-            class="demo-form-inline"
+            class="flow-form-inline"
             ref="formInline"
           >
+          <div>
             <FormItem label="表单名称" prop="formName">
               <Input v-model="formName" placeholder="请输入表单名称" />
             </FormItem>
@@ -62,6 +55,7 @@
                 >重置</el-button
               >
             </FormItem>
+          </div>
             <FormItem :label-width="50">
               <el-button
                 @click="deleteSelected"
@@ -80,7 +74,6 @@
               >
             </FormItem>
           </Form>
-        </div>
         <div class="tableList">
           <el-table
             ref="formFlowTable"
@@ -383,7 +376,7 @@ export default {
         return false;
       }
       const r = this.selectedRow.map((row) => row.id);
-      deleteFormProcess(r)
+      deleteFormProcess({id: r})
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
@@ -527,6 +520,11 @@ export default {
   .paginationStyle > .el-button {
     margin-right: 1rem;
   }
+}
+/deep/.flow-form-inline{
+  // width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 /deep/.ivu-select-multiple .ivu-tag span:not(.ivu-select-max-tag) {
   margin-right: 0;
