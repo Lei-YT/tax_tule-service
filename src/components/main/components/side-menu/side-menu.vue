@@ -200,7 +200,8 @@ export default {
   },
   computed: {
     textColor() {
-      return this.theme === "dark" ? "#fff" : "#495060";
+      return '#fff';
+      // return this.theme === "dark" ? "#fff" : "#495060";
     },
   },
   watch: {
