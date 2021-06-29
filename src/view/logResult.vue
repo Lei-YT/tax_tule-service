@@ -1478,6 +1478,7 @@ export default {
     .smallImgBox {
       position: relative;
       margin-bottom: 5px;
+      min-height: 50px;
     }
     .smallImgBox:last-child {
       margin-bottom: 0;
