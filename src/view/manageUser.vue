@@ -65,6 +65,8 @@
             :data="tableData1"
             stripe
             border
+            highlight-current-row
+            @current-change="handleOnUserClick"
             @selection-change="handleSelectionChange"
             empty-text="暂无数据"
             :header-cell-style="{
@@ -618,6 +620,9 @@ export default {
       });
       this.idArr = idArr;
     },
+    handleOnUserClick(currentUser){
+      console.log('user click one', currentUser);
+    },
     submitForm(formName) {
       let params = {
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
@@ -683,11 +688,9 @@ export default {
     sizeChange(size) {
       this.page.size = size;
       this.currentChange(1);
-      this.query();
     },
     searchData() {
-      this.page.currentPage = 1;
-      this.query();
+      this.currentChange(1);
     },
   },
 };
@@ -788,5 +791,8 @@ export default {
 }
 .postName {
   margin-left: 15px;
+}
+/deep/.el-table__body tr.current-row>td{
+  background-color: #b2e2fa;
 }
 </style>
