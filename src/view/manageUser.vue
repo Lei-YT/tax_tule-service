@@ -47,7 +47,7 @@
                 @click="handel('1')"
                 >确认删除</Button
               >
-              <Button type="primary" icon="md-trash" ghost v-else
+              <Button type="error" icon="md-trash" ghost v-else
                 >删除用户</Button
               >
               <Button
@@ -176,7 +176,7 @@
         </div>
       </Card>
       <!-- 下 -->
-      <Card :bordered="false" style="margin-top: 15px">
+      <Card :bordered="false" style="margin-top: 15px" class="ghostHeader">
         <div slot="title" class="cardHeads">
           <div class="leftCon">
             <Button
@@ -192,7 +192,7 @@
               @click="handel('2')"
               >确认删除</Button
             >
-            <Button type="primary" icon="md-trash" ghost v-else
+            <Button type="error" icon="md-trash" ghost v-else
               >删除岗位</Button
             >
           </div>
@@ -730,6 +730,9 @@ export default {
       background: #fff;
     }
   }
+}
+/deep/.ghostHeader .ivu-card-head {
+  background: #fff;
 }
 .cardHeads,
 .searchWarp,
