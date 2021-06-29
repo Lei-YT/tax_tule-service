@@ -194,9 +194,7 @@
               @click="handel('2')"
               >确认删除</Button
             >
-            <Button type="error" icon="md-trash" ghost v-else
-              >删除岗位</Button
-            >
+            <Button type="error" icon="md-trash" ghost v-else>删除岗位</Button>
           </div>
           <div class="subCon">
             <Button type="primary">提交</Button>
@@ -481,10 +479,11 @@ export default {
     this.getList();
   },
   methods: {
-    getTreeData(){
+    getTreeData() {
+      const _this = this;
       const r = {
-        org_code: '',
-        org_name: this.searchOrgan
+        org_code: "",
+        org_name: this.searchOrgan,
       };
       Object.keys(r).forEach(
         (key) => (r[key] == null || r[key] == "") && delete r[key]
@@ -620,8 +619,8 @@ export default {
       });
       this.idArr = idArr;
     },
-    handleOnUserClick(currentUser){
-      console.log('user click one', currentUser);
+    handleOnUserClick(currentUser) {
+      console.log("user click one", currentUser);
     },
     submitForm(formName) {
       let params = {
@@ -666,7 +665,7 @@ export default {
     },
     handleImport(row) {
       importAddUser(row).then((res) => {
-        console.log(res,'导入添加');
+        console.log(res, "导入添加");
         if (res.data.code == 0) {
           this.$message({
             message: res.data.msg,
@@ -792,7 +791,7 @@ export default {
 .postName {
   margin-left: 15px;
 }
-/deep/.el-table__body tr.current-row>td{
+/deep/.el-table__body tr.current-row > td {
   background-color: #b2e2fa;
 }
 </style>

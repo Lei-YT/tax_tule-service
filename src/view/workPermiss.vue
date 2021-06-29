@@ -13,13 +13,15 @@
             placeholder="请输入关键字查询"
             style="width: 250px; margin-right: 15px"
           />
-          <Button type="primary" icon="ios-search" @click="searchData()">查询</Button>
+          <Button type="primary" icon="ios-search" @click="searchData()"
+            >查询</Button
+          >
         </div>
         <div class="rightCon">
           <Button type="error" v-if="postLength.length > 0" @click="handel('1')"
             >确认删除</Button
           >
-          <Button type="primary" icon="md-trash" ghost v-else>删除岗位</Button>
+          <Button type="error" icon="md-trash" ghost v-else>删除岗位</Button>
           <Button
             type="primary"
             icon="md-add"
@@ -34,6 +36,8 @@
         stripe
         border
         empty-text="暂无数据"
+        highlight-current-row
+        @current-change="onJobsClick"
         @selection-change="handleJobsChange"
         :header-cell-style="{
           background: '#eef1f6',
@@ -83,7 +87,7 @@
           <Button type="error" v-if="authorData.length > 0" @click="handel('2')"
             >删除授权</Button
           >
-          <Button type="primary" icon="md-trash" ghost v-else>删除授权</Button>
+          <Button type="error" icon="md-trash" ghost v-else>删除授权</Button>
         </div>
         <div class="rightCon">
           <Button type="primary" @click="submit">提交</Button>
@@ -150,6 +154,9 @@
 <script>
 import {
   getStation, // 岗位列表
+  getStationPower,
+  deleteStation,
+  deleteStationPower,
 } from "@/api/mangeUser";
 export default {
   components: {},
@@ -167,43 +174,30 @@ export default {
         size: 10, // 每页显示多少条
       },
       tableData1: [],
-      tableData2: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-      ],
+      currentJob: {},
+      tableData2: [],
     };
   },
   created() {
     this.query();
   },
   methods: {
-     query() {
+    query() {
       let params = {
         name: this.searchVal.replace(/\s*/g, "") || "",
         pageindex: this.page.currentPage,
         pagesize: this.page.size,
       };
-      console.log('params',params);
+      console.log("params", params);
       getStation(params).then((res) => {
         if (res.data.code == 0) {
           this.tableData1 = res.data.data;
           this.page.totalElement = res.data.totalcount;
+        } else {
+          _this.$Notice.warning({
+            title: "温馨提示",
+            desc: data.message,
+          });
         }
       });
     },
@@ -211,11 +205,76 @@ export default {
       this.centerDialogVisible = true;
     },
     submit() {},
+    onJobsClick(currentJob) {
+      this.currentJob = currentJob;
+      this.getStationPowerList(currentJob);
+    },
     handleJobsChange(val) {
       this.postLength = val;
+      this.deleteJobs(val);
+    },
+    deleteJobs(selectJobs) {
+      const _this = this;
+      if (selectJobs.length === 0) {
+        _this.$Notice.warning({
+          title: "请勾选需要删除的岗位",
+        });
+        return false;
+      }
+      const r = selectJobs.map((row) => row.id);
+      deleteStation(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.$Notice.success({
+              title: data.message,
+              desc: data.data.info,
+            });
+            _this.query();
+            _this.tableData2 = [];
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.message,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleAuthorChange(val) {
       this.authorData = val;
+      this.deletePower(val);
+    },
+    deletePower(selectedPower) {
+      const _this = this;
+      if (selectedPower.length === 0) {
+        _this.$Notice.warning({
+          title: "请勾选需要删除的授权",
+        });
+        return false;
+      }
+      const r = selectedPower.map((row) => row.id);
+      deleteStationPower(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.$Notice.success({
+              title: data.message,
+              desc: data.data.info,
+            });
+            _this.getStationPowerList(_this.currentJob);
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.message,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     addPost(type) {
       this.$router.push({
@@ -238,6 +297,30 @@ export default {
       this.centerDialogVisible = true;
     },
     sureDel() {},
+    getStationPowerList(job) {
+      const _this = this;
+      const r = {
+        station_id: job.id,
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
+      getStationPower(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.tableData2 = data.data;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     currentChange(current) {
       this.page.currentPage = current;
       this.query();
@@ -245,11 +328,9 @@ export default {
     sizeChange(size) {
       this.page.size = size;
       this.currentChange(1);
-      this.query();
     },
     searchData() {
-      this.page.currentPage = 1;
-      this.query();
+      this.currentChange(1);
     },
   },
 };
@@ -315,5 +396,8 @@ export default {
   border: 1px solid;
   display: flex;
   justify-content: center;
+}
+/deep/.el-table__body tr.current-row > td {
+  background-color: #b2e2fa;
 }
 </style>
