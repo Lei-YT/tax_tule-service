@@ -10,12 +10,10 @@
         <div class="leftCon">
           <Input
             v-model="searchVal"
-            icon="md-close"
             placeholder="请输入关键字查询"
-            @on-click="clearCon"
             style="width: 250px; margin-right: 15px"
           />
-          <Button type="primary" icon="ios-search">查询</Button>
+          <Button type="primary" icon="ios-search" @click="searchData()">查询</Button>
         </div>
         <div class="rightCon">
           <Button type="error" v-if="postLength.length > 0" @click="handel('1')"
@@ -47,9 +45,9 @@
         <el-table-column type="selection" align="center" width="55" />
         <el-table-column type="index" label="序号" align="center" width="60" />
         <el-table-column prop="name" label="岗位名称" align="center" />
-        <el-table-column prop="name" label="岗位编号" align="center" />
-        <el-table-column prop="name" label="描述" align="center" />
-        <el-table-column prop="address" label="创建时间" align="center" />
+        <el-table-column prop="number" label="岗位编号" align="center" />
+        <el-table-column prop="describe" label="描述" align="center" />
+        <el-table-column prop="created_at" label="创建时间" align="center" />
       </el-table>
       <div class="pageCon">
         <div class="showCon">显示 1-10 条，共 {{ page.totalElement }} 条</div>
@@ -150,6 +148,9 @@
 </template>
 
 <script>
+import {
+  getStation, // 岗位列表
+} from "@/api/mangeUser";
 export default {
   components: {},
   data() {
@@ -165,68 +166,7 @@ export default {
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
-      tableData1: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-      ],
+      tableData1: [],
       tableData2: [
         {
           date: "2016-05-02",
@@ -249,10 +189,23 @@ export default {
       ],
     };
   },
-  mounted() {},
+  created() {
+    this.query();
+  },
   methods: {
-    clearCon() {
-      this.searchVal = "";
+     query() {
+      let params = {
+        name: this.searchVal.replace(/\s*/g, "") || "",
+        pageindex: this.page.currentPage,
+        pagesize: this.page.size,
+      };
+      console.log('params',params);
+      getStation(params).then((res) => {
+        if (res.data.code == 0) {
+          this.tableData1 = res.data.data;
+          this.page.totalElement = res.data.totalcount;
+        }
+      });
     },
     addUser() {
       this.centerDialogVisible = true;
@@ -292,7 +245,11 @@ export default {
     sizeChange(size) {
       this.page.size = size;
       this.currentChange(1);
-      // this.query();
+      this.query();
+    },
+    searchData() {
+      this.page.currentPage = 1;
+      this.query();
     },
   },
 };

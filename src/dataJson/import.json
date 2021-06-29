@@ -1,0 +1,54 @@
+{
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+        "list": [
+            {
+                "ModifyDT": "2021-04-30T01:15:36.890+0000",
+                "OrgID": "04c4dea4-ae2b-4b69-8c38-d673883255ee",
+                "IsAdmin": false,
+                "UserName": "陈中明",
+                "UserID": "7792CB4E-8F35-4765-98EC-0649FE8A11BA",
+                "UserCode": "1108050",
+                "IsValid": true
+            },
+            {
+                "ModifyDT": "2020-11-10T03:21:31.180+0000",
+                "OrgID": "5f0c760f-e1cc-4f89-9852-82f46b3851df",
+                "IsAdmin": false,
+                "UserName": "陈中国",
+                "UserID": "9548D90A-D2A4-483B-B07C-66DE887F574F",
+                "UserCode": "1145033",
+                "IsValid": true
+            },
+            {
+                "ModifyDT": "2020-11-10T03:21:31.180+0000",
+                "OrgID": "4fb26d36-a282-4bd6-83db-6a9bf756a8a4",
+                "IsAdmin": false,
+                "UserName": "陈中",
+                "UserID": "B17AEE4B-669B-4505-938A-C67CD7E12773",
+                "UserCode": "1127294",
+                "IsValid": true
+            },
+            {
+                "ModifyDT": "2021-04-28T05:42:31.117+0000",
+                "OrgID": "caee2e02-d40e-4968-81a0-a7599d83cd33",
+                "IsAdmin": false,
+                "UserName": "陈中华",
+                "UserID": "CE60806A-F949-443C-872A-15228D9F0B44",
+                "UserCode": "1090160",
+                "IsValid": true
+            },
+            {
+                "ModifyDT": "2021-05-31T08:38:02.943+0000",
+                "OrgID": "a0affe90-8235-4e8f-a2d3-da2eda03e895",
+                "IsAdmin": false,
+                "UserName": "陈中联",
+                "UserID": "EAFCE330-4429-47F8-BB5B-75D964F3BEB0",
+                "UserCode": "1132226",
+                "IsValid": true
+            }
+        ]
+    }
+}

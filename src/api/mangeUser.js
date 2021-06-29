@@ -12,12 +12,13 @@ export const getUserList = (params) => {
         method: 'POST'
     })
 }
+
+// 添加导入用户查询接口
 export const getAddlist = (params) => {
     return axios.request({
         url: `/api/user/addlist`, //?pagesize=${params.pagesize}&pageindex=${params.pageindex}&name=${params.name}&stationName=${params.stationName}`,
         data: {
-            account: params.account,
-            name: params.name,
+            userName: params.userName,
         },
         method: 'POST'
     })
@@ -54,7 +55,7 @@ export const addUser = (params) => {
 // 导入添加
 export const importAddUser = (params) => {
     return axios.request({
-        url: `/api/user/add`, //?stationName=${params.stationName}&name=${params.name}&adminNo=${params.adminNo}&password=${params.password}`,
+        url: `/api/user/adduser`, //?stationName=${params.stationName}&name=${params.name}&adminNo=${params.adminNo}&password=${params.password}`,
         data: params,
         method: 'POST'
     })
@@ -75,3 +76,11 @@ export const getOrganList = (params) => {
     method: 'POST'
   })
 }
+// 岗位列表
+export const getStation = (params) => {
+    return axios.request({
+      url: `/api/user/station`,
+      data: params,
+      method: 'POST'
+    })
+  }

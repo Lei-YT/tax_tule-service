@@ -297,7 +297,7 @@
     <el-dialog title="添加用户" :visible.sync="dialogTableVisible">
       <div class="userBox">
         用户：<Input
-          v-model="userVal"
+          v-model="userName"
           placeholder="请输入用户账号或者姓名"
           style="width: 55%"
         />
@@ -316,8 +316,8 @@
           fontSize: '12px',
         }"
       >
-        <el-table-column property="name" label="姓名" align="center" />
-        <el-table-column property="account" label="账号" align="center" />
+        <el-table-column property="UserName" label="姓名" align="center" />
+        <el-table-column property="UserCode" label="账号" align="center" />
         <el-table-column property="organ" label="所属机构" align="center" />
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -349,12 +349,12 @@
 import {
   getUserList, // 账号列表
   addUser, // 新增
-  getAddlist,
+  getAddlist, // 添加导入用户查询接口
   delUsers, // 删除账号
   enableUser,
   importAddUser,
-  getOrganUserList,
-  getOrganList,
+  getOrganUserList, // 机构用户列表
+  getOrganList, // 机构列表
 } from "@/api/mangeUser";
 export default {
   components: {},
@@ -371,7 +371,7 @@ export default {
       isCustom: false,
       dialogTableVisible: false,
       searchVal: "",
-      userVal: "",
+      userName: "",
       choosedList: [],
       page: {
         totalElement: 0, // 总页数
@@ -532,13 +532,11 @@ export default {
     },
     getList() {
       let params = {
-        name: this.userVal.replace(/\s*/g, "") || "",
-        account: this.userVal.replace(/\s*/g, "") || "",
+        userName: this.userName.replace(/\s*/g, "") || "",
       };
       getAddlist(params).then((res) => {
-        if (res.data.code == 0) {
-          this.gridData = res.data.data;
-          this.page.totalElement = res.data.totalcount;
+        if (res.data.code == 20000) {
+          this.gridData = res.data.data.list;
         }
       });
     },
@@ -662,7 +660,8 @@ export default {
       this.addPostCon = true;
     },
     handleImport(row) {
-      importAddUser({ id: row.id }).then((res) => {
+      importAddUser(row).then((res) => {
+        console.log(res,'导入添加');
         if (res.data.code == 0) {
           this.$message({
             message: res.data.msg,
