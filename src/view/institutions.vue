@@ -117,15 +117,6 @@
             <p>备注：从中间库导入机构</p>
           </FormItem>
         </Form>
-        <div>机构：</div>
-        <div>
-          <Input
-            v-model="searchVal"
-            placeholder="请输入机构编号"
-            style="width: 250px"
-          />
-          <p>备注：从中间库导入机构</p>
-        </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <Button type="primary" @click="centerDialogVisible = false" ghost
