@@ -56,7 +56,7 @@
                 style="margin: 0 15px"
                 >启用</Button
               >
-              <Button type="primary" icon="md-add" @click="addUser"
+              <Button type="primary" icon="md-add" @click="addUserBtn"
                 >添加用户</Button
               >
             </div>
@@ -222,12 +222,16 @@
             align="center"
             width="60"
           />
-          <el-table-column label="姓名" align="center" >
-            <template >
-              {{currentUser.name}}
+          <el-table-column label="姓名" align="center">
+            <template>
+              {{ currentUser.name }}
             </template>
           </el-table-column>
-          <el-table-column prop="organ.OrgSName" label="所属机构" align="center" />
+          <el-table-column
+            prop="organ.OrgSName"
+            label="所属机构"
+            align="center"
+          />
           <el-table-column prop="station.name" label="岗位" align="center" />
         </el-table>
       </Card>
@@ -303,9 +307,9 @@
         用户：<Input
           v-model="userName"
           placeholder="请输入用户账号或者姓名"
-          style="width: 55%"
+          style="width: 200px"
         />
-        <Button type="primary" icon="ios-search" />
+        <Button type="primary" icon="ios-search" @click="getList" />
         <Button type="primary" @click="handleCustom">自定义添加 》</Button>
       </div>
       <el-table
@@ -502,16 +506,23 @@ export default {
         });
     },
     getList() {
+      const _this = this;
       let params = {
         userName: this.userName.replace(/\s*/g, "") || "",
       };
       getAddlist(params).then((res) => {
         if (res.data.code == 20000) {
-          this.gridData = res.data.data.list;
+          _this.gridData = res.data.data.list;
+        } else {
+          _this.$Notice.warning({
+            title: "温馨提示",
+            desc: data.msg,
+          });
         }
       });
     },
     query() {
+      const _this = this;
       let params = {
         name: this.searchName.replace(/\s*/g, "") || "",
         pageindex: this.page.currentPage,
@@ -519,8 +530,14 @@ export default {
       };
       getUserList(params).then((res) => {
         if (res.data.code == 0) {
-          this.tableData1 = res.data.data;
-          this.page.totalElement = res.data.totalcount;
+          _this.tableData1 = res.data.data;
+          _this.page.totalElement = res.data.totalcount;
+          _this.currentUser = {};
+        } else {
+          _this.$Notice.warning({
+            title: "温馨提示",
+            desc: data.msg,
+          });
         }
       });
     },
@@ -593,10 +610,10 @@ export default {
       this.currentUser = currentUser;
       this.getUserOrganStation(currentUser);
     },
-    getUserOrganStation(user){
+    getUserOrganStation(user) {
       const _this = this;
       const r = {
-        userid: user.id
+        userid: user.id,
       };
       userOrgan(r)
         .then((resp) => {
@@ -649,11 +666,14 @@ export default {
       this.searchVal = "";
     },
     changeStatus(row) {},
-    addUser() {
+    addUserBtn() {
       this.dialogTableVisible = true;
     },
     addPost() {
-      if (this.currentUser===null || Object.keys(this.currentUser).length===0) {
+      if (
+        this.currentUser === null ||
+        Object.keys(this.currentUser).length === 0
+      ) {
         this.$Notice.warning({
           title: "请先选中一个用户",
         });
@@ -662,15 +682,17 @@ export default {
       this.addPostCon = true;
     },
     handleImport(row) {
+      const _this = this;
       importAddUser(row).then((res) => {
         console.log(res, "导入添加");
         if (res.data.code == 0) {
-          this.$message({
+          _this.$message({
             message: res.data.msg,
             type: "success",
             duration: 1500,
           });
-          this.query();
+          _this.query();
+          _this.dialogTableVisible = false;
         }
       });
     },
@@ -765,7 +787,7 @@ export default {
   border-bottom: 1px solid #999;
 }
 /deep/.el-dialog__footer {
-  border: 1px solid;
+  border-top: 1px solid;
   display: flex;
   justify-content: center;
 }
@@ -790,7 +812,10 @@ export default {
   margin-left: 15px;
 }
 /deep/.el-table__body tr.current-row > td,
-/deep/.el-table--striped .el-table__body tr.el-table__row--striped.current-row td {
+/deep/.el-table--striped
+  .el-table__body
+  tr.el-table__row--striped.current-row
+  td {
   background-color: #b2e2fa;
 }
 </style>

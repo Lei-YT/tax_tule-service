@@ -158,6 +158,7 @@ Mock.mock(/\/api\/user\/list/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify(mangeUser)))
 })
 Mock.mock(/\/api\/user\/addlist/, 'post', (req, res) => {
+  console.log('import list', importData)
   return Mock.mock(Encrypt(JSON.stringify(importData)))
 })
 Mock.mock(/\/api\/user\/station/, 'post', (req, res) => {

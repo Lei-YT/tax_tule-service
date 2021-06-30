@@ -14,7 +14,7 @@
           @on-click="clearCon"
           style="width: 83%"
         />
-        <Button type="primary" icon="ios-search" />
+        <Button type="primary" icon="ios-search" @click="getTreeData" />
       </div>
       <div class="treeCon">
         <Tree :data="TreeData" />
@@ -52,12 +52,12 @@
               align="center"
               width="60"
             />
-            <el-table-column prop="name" label="机构名称" align="center" />
-            <el-table-column prop="name" label="机构编号" align="center" />
-            <el-table-column prop="name" label="业务分组" align="center" />
+            <el-table-column prop="OrgSName" label="机构名称" align="center" />
+            <el-table-column prop="OrgCode" label="机构编号" align="center" />
+            <el-table-column prop="OrgForm" label="业务分组" align="center" />
             <el-table-column label="业务类型" align="center">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.result == 0" type="text" size="small"
+                <!-- <el-button v-if="scope.row.result == 0" type="text" size="small"
                   >启用</el-button
                 >
                 <el-button
@@ -66,15 +66,15 @@
                   size="small"
                   style="color: #e02020"
                   >禁用</el-button
-                >
+                > -->
               </template>
             </el-table-column>
             <el-table-column prop="name" label="描述" align="center" />
-            <el-table-column prop="address" label="创建时间" align="center" />
+            <el-table-column prop="created_at" label="创建时间" align="center" />
           </el-table>
           <div class="pageCon">
             <div class="showCon">
-              显示 1-10 条，共 {{ page.totalElement }} 条
+              共 {{ page.totalElement }} 条
             </div>
             <div class="paginationStyle">
               <el-button @click="currentChange(1)" type="text" size="small"
@@ -253,7 +253,7 @@ export default {
       const _this = this;
       const r = {
         org_code: "",
-        org_name: this.searchOrgan,
+        org_name: this.searchVal,
       };
       Object.keys(r).forEach(
         (key) => (r[key] == null || r[key] == "") && delete r[key]

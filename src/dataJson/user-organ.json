@@ -2,10 +2,28 @@
   "code": 0,
   "msg": "查询成功",
   "data": [
-    {
-      "id": 1,
-      "org_code": "",
-      "org_name": ""
-    }
+      {
+          "id": 1,
+          "OrgID": "00000000-0000-0000-00000000-0000-0000-00000001710756809",
+          "OrgCode": "1710756809",
+          "OrgName": "中铁隧道局集团有限公司",
+          "OrgSName": "中铁隧道局",
+          "OrgForm": "20\r\n20",
+          "ApprovalLevel": 20,
+          "IsPermanent": 1,
+          "IsVirtual": 0,
+          "EffDate": "2010-01-01 00:00:00",
+          "ExpDate": "9999-12-31 00:00:00",
+          "PID": null,
+          "ListOrder": 15,
+          "LevelCode": "/1/2/16/",
+          "Level": 3,
+          "IsLowest": 0,
+          "DataStatus": 1,
+          "DeptOrgID": null,
+          "created_at": null,
+          "updated_at": null,
+          "deleted_at": null
+      }
   ]
 }

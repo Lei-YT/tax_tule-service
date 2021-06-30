@@ -16,7 +16,7 @@ export const getUserList = (params) => {
 // 添加导入用户查询接口
 export const getAddlist = (params) => {
   return axios.request({
-    url: `/api/user/addlist`, //?pagesize=${params.pagesize}&pageindex=${params.pageindex}&name=${params.name}&stationName=${params.stationName}`,
+    url: `/api/user/addlist`,
     data: {
       userName: params.userName,
     },
