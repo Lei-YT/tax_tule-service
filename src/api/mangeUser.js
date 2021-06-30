@@ -140,3 +140,12 @@ export const addOrgan = (params) => {
     method: 'POST'
   })
 }
+// 用户的机构>岗位
+export const userOrgan = (params) => {
+  return axios.request({
+    url: `/api/user/useroslist`,
+    data: params,
+    method: 'POST'
+  })
+}
+// todo: 删除用户下的岗位, 删除用户（多选），禁用/启用用户(多选)

@@ -222,9 +222,13 @@
             align="center"
             width="60"
           />
-          <el-table-column prop="name" label="姓名" align="center" />
-          <el-table-column prop="name" label="所属机构" align="center" />
-          <el-table-column prop="address" label="岗位" align="center" />
+          <el-table-column label="姓名" align="center" >
+            <template >
+              {{currentUser.name}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="organ.OrgSName" label="所属机构" align="center" />
+          <el-table-column prop="station.name" label="岗位" align="center" />
         </el-table>
       </Card>
     </div>
@@ -355,6 +359,7 @@ import {
   importAddUser,
   getOrganUserList, // 机构用户列表
   getOrganList, // 机构列表
+  userOrgan,
 } from "@/api/mangeUser";
 export default {
   components: {},
@@ -411,43 +416,7 @@ export default {
         },
       ],
       tableData1: [],
-      tableData2: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-      ],
+      tableData2: [],
       gridData: [],
       postTableData: [
         {
@@ -472,6 +441,7 @@ export default {
         account: [{ required: true, message: "请输入姓名", trigger: "blur" }],
       },
       userInfo: null,
+      currentUser: {},
     };
   },
   created() {
@@ -620,7 +590,29 @@ export default {
       this.idArr = idArr;
     },
     handleOnUserClick(currentUser) {
-      console.log("user click one", currentUser);
+      this.currentUser = currentUser;
+      this.getUserOrganStation(currentUser);
+    },
+    getUserOrganStation(user){
+      const _this = this;
+      const r = {
+        userid: user.id
+      };
+      userOrgan(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.tableData2 = data.data;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     submitForm(formName) {
       let params = {
@@ -661,6 +653,12 @@ export default {
       this.dialogTableVisible = true;
     },
     addPost() {
+      if (this.currentUser===null || Object.keys(this.currentUser).length===0) {
+        this.$Notice.warning({
+          title: "请先选中一个用户",
+        });
+        return false;
+      }
       this.addPostCon = true;
     },
     handleImport(row) {
