@@ -296,17 +296,19 @@
                 <p class="data-header" v-if="!emptyImageInfo">
                   <template v-if="editable">
                     <Button
-                      type="primary"
+                      type="text"
                       size="small"
                       :ghost="!isReadonly"
+                      :class="{'btn-active': isReadonly}"
                       @click="isReadonly = true"
                       >结构化数据</Button
                     >
                     <Divider type="vertical" />
                     <Button
-                      type="primary"
+                      type="text"
                       size="small"
                       :ghost="isReadonly"
+                      :class="{'btn-active': !isReadonly}"
                       @click="isReadonly = false"
                       >学习样本纠偏</Button
                     >
@@ -331,6 +333,7 @@
                       :gutter="16"
                       type="flex"
                       style="padding-left:10px; padding-top:10px;margin-top:.5rem;"
+                      v-if="!isReadonly"
                     >
                       <Col
                         :span="24"
@@ -409,7 +412,26 @@
                             :key="ri"
                           >
                             <template v-for="(ifield, fi) in irow">
-                              <template v-if="ifield.key !== 'invoiceType'">
+                              <template v-if="ifield.key !== 'invoiceType' ">
+                                <Col
+                                  :key="fi.label"
+                                  :span="ifield.col"
+                                  style="flex: 1 0 auto"
+                                  v-if="vo[ifield.key] !== undefined"
+                                >
+                                  <defaultC
+                                    :fieldKey="ifield.key"
+                                    :fieldName="ifield.label"
+                                    :defaultKeyValue="vo[ifield.key]"
+                                    :labelWidth="ifield.width"
+                                    :invoiceData="vo"
+                                    :isReadonly="isReadonly"
+                                    @on-input-change="handleCorrectField"
+                                    @on-icon-click="getFieldError"
+                                  />
+                                </Col>
+                              </template>
+                              <template v-else-if="ifield.key === 'invoiceType' && isReadonly">
                                 <Col
                                   :key="fi.label"
                                   :span="ifield.col"
@@ -1757,11 +1779,23 @@ export default {
   // #b3d8ff
 }
 /deep/.data-header {
-  padding: 10px;
+  // padding: 10px;
+  height: 50px;
+  line-height: 50px;
   text-align: center;
   border: 1px solid #eeeeee;
   background: #fafafa;
   position: relative;
+}
+/deep/.data-header .ivu-btn-text.btn-active {
+  background-color: #1991dd;
+  color: #fff;
+}
+/deep/.data-header .ivu-btn-text {
+  height: 50px;
+  border-radius: 0;
+  background-color: inherit;
+  color: inherit;
 }
 /deep/.text-primary {
   color: #1991dd;

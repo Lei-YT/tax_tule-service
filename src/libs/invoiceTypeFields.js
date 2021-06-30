@@ -159,9 +159,19 @@ export const getInvoiceFields = (invoiceType) => {
       getBase = imgBase;
       getItems = fpItems3;
       break;
-
+    case '中铁财务公司回单':
+    case '资金中心回单':
+      imgBase.fields = (fields10);
+      getBase = imgBase;
+      getItems = fpItems3;
+      break;
     default:
       break;
+  }
+  if (invoiceType.includes('银行')) {
+    imgBase.fields = (fields10);
+    getBase = imgBase;
+    getItems = fpItems3;
   }
   return [getBase, buyer, getSeller, getItems, other];
 }
@@ -200,6 +210,7 @@ const base = {
 const buyer = {
   label: '购买方信息', prename: 'buyerInfo-', checkField: 'purchaserName', fields: [
     [
+      { label: '发票类型', key: 'invoiceType', col: 8 },
       { label: '名称', key: 'purchaserName', col: 10, width: 100 },
       { label: '地址电话', key: 'purchaserAddress', col: 14, width: 100 },
     ],
@@ -272,6 +283,7 @@ const imgBase = {
 const fields1 = [
   // 材料动态报表封面
   [
+    { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '本月发料小计合计', key: 'monthSum', col: 12, width: 120, },
     { label: '本月发料主材小计', key: 'monthMainMaterialSum', col: 12, width: 120, },
     { label: '本月发料油料小计', key: 'monthMaterialOilSum', col: 12, width: 120, },
@@ -290,6 +302,7 @@ const fields1 = [
 const fields2 = [
   // 银行承兑汇票
   [
+    { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '票据金额', key: 'billAmount', col: 12, width: 80 },
     { label: '大写金额', key: 'fpCapitalAmount', col: 12, width: 80 },
     { label: '出票日期', key: 'fpDate', col: 12, width: 80 },
@@ -309,6 +322,7 @@ const fields2 = [
 const fields3 = [
   // 税收完税证明
   [
+    { label: '影像类型', key: 'invoiceType', col: 8 },
     { label: '金额合计（小写）', key: 'amountTotal', col: 12, width: 100 },
     { label: '金额合计（大写）', key: 'fpCapitalAmount', col: 12, width: 100 },
     { label: '填发日期', key: 'fpDate', col: 12, width: 100 },
@@ -319,6 +333,7 @@ const fields3 = [
 const fields4 = [
   // 税金及附加计提表
   [
+    { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '年/季度', key: 'fpDate', col: 12, width: 100 },
     { label: '单位(左上角的)', key: 'fpApplicantUnit', col: 12, width: 100 },
   ],
@@ -327,6 +342,10 @@ const fields5 = [
   // 资金支付审批单1
   // 资金支付审批单3
   [
+    { label: '影像类型', key: 'invoiceType', col: 8 },
+    { label: '收款方户名', key: 'accountName', col: 12 },
+    { label: '收款方账号', key: 'accountNo', col: 12 },
+    { label: '支付金额', key: 'payment', col: 12 },
     { label: '申请单位', key: 'fpApplicantUnit', col: 12, width: 120 },
     { label: '款项性质', key: 'fpSummary', col: 12, width: 120 },
     { label: '开户名称', key: 'fpBeneficiaryName', col: 12, width: 120 },
@@ -339,6 +358,7 @@ const fields5 = [
 const fields6 = [
   // 增值税进项税额汇总清单
   [
+    { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '发票合计金额', key: 'fpAmount', col: 12, width: 100 },
     { label: '增值税进项税额合计金额', key: 'fpTotalTaxAmount', col: 24, width: 100 },
     { label: '单位(左上角的)', key: 'fpApplicantUnit', col: 12, width: 100 },
@@ -349,6 +369,7 @@ const fields6 = [
 const fields7 = [
   // 内部往来通知书
   [
+    { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '发送单位', key: 'sendingUnit', col: 24 },
     { label: '接收单位', key: 'receivingUnit', col: 24 },
     { label: '借方金额', key: 'debitAmount', col: 12 },
@@ -359,6 +380,7 @@ const fields7 = [
 const fields8 = [
   // 交款单
   [
+    { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '交款金额', key: 'amount', col: 12 },
     { label: '交款人', key: 'payer', col: 12 },
   ],
@@ -381,8 +403,30 @@ const fields9 = [
   // 临时设施摊销计算表
   // 内部食堂就餐审批单
   [
+    { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '本期摊销额合计', key: 'amortizationAmount', col: 12, width: 120 },
     { label: '合计餐数合计金额', key: 'totalValue', col: 12, width: 120 },
+  ],
+]
+const fields10 = [
+  [
+    {label: '影像类型', key: 'invoiceType', col: 12 },
+    {label: '客户定制化附件', key: 'fpType', col: 12 },
+    {label: '中铁财务公司回单', key: 'fpSubType', col: 12 },
+    {label: '中铁财务有限责任公司', key: 'fpCompanyName', col: 12 },
+    {label: '上半部分“单”字结尾的文本', key: 'fpTitle', col: 12 },
+    {label: '表头日期', key: 'fpDate', col: 12 },
+    {label: '付款人户名', key: 'fpPayerName', col: 12 },
+    {label: '付款人账号', key: 'fpPayerAccount', col: 12 },
+    {label: '付款人开户银行', key: 'fpPayerBank', col: 12 },
+    {label: '收款人户名', key: 'fpBeneficiaryName', col: 12 },
+    {label: '收款人账号', key: 'fpBeneficiaryAccount', col: 12 },
+    {label: '收款人开户银行', key: 'fpBeneficiaryBank', col: 12 },
+    {label: '金额 ', key: 'fpAmount', col: 12 },
+    {label: '大写金额 ', key: 'fpCapitalAmount', col: 12 },
+    {label: '用途', key: 'fpPurpose', col: 12 },
+    {label: '有章为"yes",无章为"no"', key: 'fpStamp', col: 12 },
+    {label: '摘要', key: 'fpSummary', col: 12 },
   ],
 ]
 
