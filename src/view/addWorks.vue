@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { getPower, addStation } from "@/api/mangeUser";
+import { getPower, addStation, editStation } from "@/api/mangeUser";
 export default {
   components: {},
   data() {
@@ -219,9 +219,12 @@ export default {
       const r = {
         stationId: this.stationId, // ? 新增岗位哪来的id
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
-        desc: this.ruleForm.desc.replace(/\s*/g, "") || "",
+        describe: this.ruleForm.describe.replace(/\s*/g, "") || "",
         powerIdArr: this.selectedPower.map((e) => e.id),
       };
+        Object.keys(r).forEach(
+          (key) => (r[key] == null || r[key] == "") && delete r[key]
+        );
       if (this.type === "jobs") {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -253,16 +256,13 @@ export default {
           }
         });
       } else {
-        Object.keys(r).forEach(
-          (key) => (r[key] == null || r[key] == "") && delete r[key]
-        );
         if (this.selectedPower.length === 0) {
           _this.$Notice.warning({
             title: "请勾选需要配置的权限",
           });
           return false;
         }
-        addStation(r)
+        editStation(r)
           .then((resp) => {
             let data = resp.data;
             if (data.code === 0) {

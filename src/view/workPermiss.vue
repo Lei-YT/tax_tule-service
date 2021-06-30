@@ -255,7 +255,10 @@ export default {
         });
         return false;
       }
-      const r = selectedPower.map((row) => row.id);
+      const r = {
+        stationId: this.currentJob.id,
+        delpowerIdArr: selectedPower.map((row) => row.id),
+      };
       deleteStationPower(r)
         .then((resp) => {
           let data = resp.data;
@@ -278,7 +281,10 @@ export default {
     },
     addPost(type) {
       const _this = this;
-      if (type === 'root' && (this.currentJob === null || Object.keys(this.currentJob).length === 0) ) {
+      if (
+        type === "root" &&
+        (this.currentJob === null || Object.keys(this.currentJob).length === 0)
+      ) {
         _this.$Notice.warning({
           title: "请先选中一个岗位",
         });
@@ -288,7 +294,7 @@ export default {
         name: "addWorks",
         params: {
           type,
-          stationId: _this.currentJob.id
+          stationId: _this.currentJob.id,
         },
       });
     },
@@ -299,8 +305,9 @@ export default {
       const _this = this;
       if (type === "1") {
         this.$Modal.confirm({
-          title: '确认',
-          content: "您是否要删除该岗位？ 可能存在配置为岗位的用户，将导致删除失败。",
+          title: "确认",
+          content:
+            "您是否要删除该岗位？ 可能存在配置为岗位的用户，将导致删除失败。",
           onOk: () => {
             _this.deleteJobs(_this.postLength);
           },
@@ -310,7 +317,7 @@ export default {
         });
       } else if (type === "2") {
         this.$Modal.confirm({
-          title: '确认',
+          title: "确认",
           content: "您是否要删除该岗位的此项授权？",
           onOk: () => {
             _this.deletePower(_this.authorData);
