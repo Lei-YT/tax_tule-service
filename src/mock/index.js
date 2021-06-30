@@ -13,6 +13,7 @@ import isFirstEdit from '@/dataJson/isFirstEdit.json'
 import userJson from '@/dataJson/user.json'
 import userOrganJson from '@/dataJson/user-organ.json'
 import userStation from '@/dataJson/user-station.json'
+import organStation from '@/dataJson/organ-station.json'
 import stationPower from '@/dataJson/station-power.json'
 import powerList from '@/dataJson/power-list.json'
 import selectDataJson from '@/dataJson/select.json'
@@ -179,6 +180,10 @@ Mock.mock(/\/api\/user\/userlist/, 'post', (req, res) => {
 Mock.mock(/\/api\/user\/useroslist/, 'post', (req, res) => {
   console.log('useroslist mock res', req, userStation)
   return Mock.mock(Encrypt(JSON.stringify(userStation)))
+})
+Mock.mock(/\/api\/user\/organstationlist/, 'post', (req, res) => {
+  console.log('organ station mock res', req, organStation)
+  return Mock.mock(Encrypt(JSON.stringify(organStation)))
 })
 Mock.mock(/\/api\/user\/stationpower/, 'post', (req, res) => {
   console.log('stationpower mock res', req, stationPower)

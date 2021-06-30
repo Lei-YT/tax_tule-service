@@ -1,0 +1,26 @@
+{
+  "code": 0,
+  "msg": "操作成功",
+  "data": [
+    {
+      "id": 1,
+      "name": "管理员",
+      "number": "1",
+      "describe": "管理员",
+      "created_at": "2021-06-29 03:02:19",
+      "updated_at": null,
+      "deleted_at": null,
+      "organstation_count": 1
+    },
+    {
+      "id": 2,
+      "name": "会计",
+      "number": "2",
+      "describe": "会计",
+      "created_at": "2021-06-29 03:13:31",
+      "updated_at": null,
+      "deleted_at": null,
+      "organstation_count": 0
+    }
+  ]
+}

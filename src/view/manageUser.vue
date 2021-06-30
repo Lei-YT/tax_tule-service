@@ -178,7 +178,7 @@
         </div>
       </Card>
       <!-- 下 -->
-      <Card :bordered="false" style="margin-top: 15px" class="ghostHeader">
+      <Card :bordered="false" style="margin-top: 15px" class="ghostHeader" v-if="!isCustom">
         <div slot="title" class="cardHeads">
           <div class="leftCon">
             <Button
@@ -364,6 +364,7 @@ import {
   getOrganUserList, // 机构用户列表
   getOrganList, // 机构列表
   userOrgan,
+  organStation,
 } from "@/api/mangeUser";
 export default {
   components: {},
@@ -422,18 +423,7 @@ export default {
       tableData1: [],
       tableData2: [],
       gridData: [],
-      postTableData: [
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-        },
-      ],
+      postTableData: [],
       ruleForm: {
         name: "",
         account: "",
@@ -478,32 +468,61 @@ export default {
           console.log(err);
         });
     },
+    parseTree(obj, childrenKey) {
+      const _this = this;
+      const o = { ...obj };
+      o.title = o.name;
+      // o.selected = true;
+      o.expand = true;
+      if (o.hasOwnProperty(childrenKey))
+        o.children = o[childrenKey].map((ch) => _this.parseTree(ch));
+      return o;
+    },
     onTreeNodeClick(currentTree, currentNode) {
-      this.addPostCon = false;
-      this.isCustom = false;
       console.log(currentTree, currentNode);
       const _this = this;
-      const r = {
-        pageindex: this.page.currentPage,
-        pagesize: this.page.size,
-        organ: currentNode.id,
-      };
-      getOrganUserList(r)
-        .then((resp) => {
-          let data = resp.data;
-          if (data.code === 0) {
-            _this.tableData1 = data.data;
-            _this.page.totalElement = data.totalcount;
-          } else {
-            _this.$Notice.warning({
-              title: "温馨提示",
-              desc: data.msg,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (this.addPostCon === false && this.isCustom === false) {
+        const r = {
+          pageindex: this.page.currentPage,
+          pagesize: this.page.size,
+          organ: currentNode.id,
+        };
+        getOrganUserList(r)
+          .then((resp) => {
+            let data = resp.data;
+            if (data.code === 0) {
+              _this.tableData1 = data.data;
+              _this.page.totalElement = data.totalcount;
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: data.msg,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (this.addPostCon === true) {
+        const r = {
+          orgid: currentNode.id,
+        };
+        organStation(r)
+          .then((resp) => {
+            let data = resp.data;
+            if (data.code === 0) {
+              _this.postTableData = data.data;
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: data.msg,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     getList() {
       const _this = this;
@@ -632,6 +651,7 @@ export default {
         });
     },
     submitForm(formName) {
+      const _this = this;
       let params = {
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
         account: this.ruleForm.account.replace(/\s*/g, "") || "",
@@ -642,12 +662,13 @@ export default {
         if (valid) {
           addUser(params).then((res) => {
             if (res.data.code == 0) {
-              this.$message({
+              _this.$message({
                 message: res.data.msg,
                 type: "success",
                 duration: 1500,
               });
-              this.query();
+              _this.isCustom = false;
+              _this.query();
             }
           });
         } else {
