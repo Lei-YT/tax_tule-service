@@ -211,7 +211,6 @@ export default {
     },
     handleJobsChange(val) {
       this.postLength = val;
-      this.deleteJobs(val);
     },
     deleteJobs(selectJobs) {
       const _this = this;
@@ -245,7 +244,6 @@ export default {
     },
     handleAuthorChange(val) {
       this.authorData = val;
-      this.deletePower(val);
     },
     deletePower(selectedPower) {
       const _this = this;
@@ -288,13 +286,31 @@ export default {
       this.centerDialogVisible = false;
     },
     handel(type) {
-      if (type == 1) {
-        this.delCon =
-          "您是否要删除该岗位？ 可能存在配置为岗位的用户，将导致删除失败。";
-      } else if (type == 2) {
-        this.delCon = "您是否要删除该岗位的此项授权？";
+      const _this = this;
+      if (type === "1") {
+        this.$Modal.confirm({
+          title: '确认',
+          content: "您是否要删除该岗位？ 可能存在配置为岗位的用户，将导致删除失败。",
+          onOk: () => {
+            _this.deleteJobs(_this.postLength);
+          },
+          onCancel: () => {
+            // _this.$Message.info("取消");
+          },
+        });
+      } else if (type === "2") {
+        this.$Modal.confirm({
+          title: '确认',
+          content: "您是否要删除该岗位的此项授权？",
+          onOk: () => {
+            _this.deletePower(_this.authorData);
+          },
+          onCancel: () => {
+            // _this.$Message.info("取消");
+          },
+        });
       }
-      this.centerDialogVisible = true;
+      return false;
     },
     sureDel() {},
     getStationPowerList(job) {

@@ -102,7 +102,6 @@ export const getStationPower = (params) => {
 }
 // 删除岗位权限
 export const deleteStationPower = (params) => {
-  return false;
   return axios.request({
     url: `/api/user/`,
     data: params,
@@ -111,7 +110,6 @@ export const deleteStationPower = (params) => {
 }
 // 删除岗位
 export const deleteStation = (params) => {
-  return false;
   return axios.request({
     url: `/api/user/`,
     data: params,
