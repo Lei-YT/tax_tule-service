@@ -791,7 +791,8 @@ export default {
 .postName {
   margin-left: 15px;
 }
-/deep/.el-table__body tr.current-row > td {
+/deep/.el-table__body tr.current-row > td,
+/deep/.el-table--striped .el-table__body tr.el-table__row--striped.current-row td {
   background-color: #b2e2fa;
 }
 </style>
