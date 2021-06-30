@@ -89,9 +89,9 @@
           >
           <Button type="error" icon="md-trash" ghost v-else>删除授权</Button>
         </div>
-        <div class="rightCon">
+        <!-- <div class="rightCon">
           <Button type="primary" @click="submit">提交</Button>
-        </div>
+        </div> -->
       </div>
       <el-table
         :data="tableData2"
@@ -183,6 +183,7 @@ export default {
   },
   methods: {
     query() {
+      const _this = this;
       let params = {
         name: this.searchVal.replace(/\s*/g, "") || "",
         pageindex: this.page.currentPage,
@@ -191,8 +192,9 @@ export default {
       console.log("params", params);
       getStation(params).then((res) => {
         if (res.data.code == 0) {
-          this.tableData1 = res.data.data;
-          this.page.totalElement = res.data.totalcount;
+          _this.tableData1 = res.data.data;
+          _this.page.totalElement = res.data.totalcount;
+          _this.currentJob = {};
         } else {
           _this.$Notice.warning({
             title: "温馨提示",
@@ -275,10 +277,18 @@ export default {
         });
     },
     addPost(type) {
+      const _this = this;
+      if (type === 'root' && (this.currentJob === null || Object.keys(this.currentJob).length === 0) ) {
+        _this.$Notice.warning({
+          title: "请先选中一个岗位",
+        });
+        return false;
+      }
       this.$router.push({
         name: "addWorks",
         params: {
           type,
+          stationId: _this.currentJob.id
         },
       });
     },

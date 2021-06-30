@@ -116,3 +116,11 @@ export const deleteStation = (params) => {
     method: 'POST'
   })
 }
+// +岗位
+export const addStation = (params) => {
+  return axios.request({
+    url: `/api/user/addstation`,
+    data: params,
+    method: 'POST'
+  })
+}

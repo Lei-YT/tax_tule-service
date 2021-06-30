@@ -13,6 +13,7 @@ import isFirstEdit from '@/dataJson/isFirstEdit.json'
 import userJson from '@/dataJson/user.json'
 import userOrganJson from '@/dataJson/user-organ.json'
 import stationPower from '@/dataJson/station-power.json'
+import powerList from '@/dataJson/power-list.json'
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
 import infoMange from "@/dataJson/infoMange2.json";
@@ -165,6 +166,10 @@ Mock.mock(/\/api\/user\/organlist/, 'post', (req, res) => {
   console.log('organ organlist mock res', req, userOrganJson)
   return Mock.mock(Encrypt(JSON.stringify(userOrganJson)))
 })
+Mock.mock(/\/api\/user\/powerlist/, 'post', (req, res) => {
+  console.log('powerlist mock res', req, powerList)
+  return Mock.mock(Encrypt(JSON.stringify(powerList)))
+})
 Mock.mock(/\/api\/user\/userlist/, 'post', (req, res) => {
   console.log('organ userlist mock res', req, userJson)
   return Mock.mock(Encrypt(JSON.stringify(userJson)))
@@ -174,6 +179,12 @@ Mock.mock(/\/api\/user\/stationpower/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify(stationPower)))
 })
 Mock.mock(/\/api\/user\/add/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    'code': 0,
+    'msg': '操作成功.'
+  })))
+})
+Mock.mock(/\/api\/user\/addstation/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,
     'msg': '操作成功.'
