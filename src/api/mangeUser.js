@@ -124,3 +124,11 @@ export const addStation = (params) => {
     method: 'POST'
   })
 }
+// +机构
+export const addOrgan = (params) => {
+  return axios.request({
+    url: `/api/user/addorgan`,
+    data: params,
+    method: 'POST'
+  })
+}

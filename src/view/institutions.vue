@@ -100,6 +100,23 @@
     <!-- 添加添加机构 -->
     <el-dialog title="添加机构" :visible.sync="centerDialogVisible" width="30%">
       <div class="centerCon">
+        <Form
+          :model="organForm"
+          :rules="formRules"
+          ref="organForm"
+          :inline="true"
+          :label-width="80"
+          class="demo-ruleForm"
+        >
+          <FormItem label="机构：" prop="val">
+            <Input
+              v-model="organForm.val"
+              placeholder="请输入机构编号"
+              style="width: 230px"
+            />
+            <p>备注：从中间库导入机构</p>
+          </FormItem>
+        </Form>
         <div>机构：</div>
         <div>
           <Input
@@ -123,12 +140,19 @@
 </template>
 
 <script>
+import { getOrganList, addOrgan } from "@/api/mangeUser";
 export default {
   components: {},
   data() {
     return {
       centerDialogVisible: false,
       searchVal: "",
+      organForm: {
+        val: "",
+      },
+      formRules: {
+        val: [{ required: true, message: "请输入机构编号", trigger: "blur" }],
+      },
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
@@ -230,16 +254,88 @@ export default {
       ],
     };
   },
-  mounted() {},
+  mounted() {
+    this.getTreeData()
+  },
   methods: {
+    getTreeData() {
+      const _this = this;
+      const r = {
+        org_code: "",
+        org_name: this.searchOrgan,
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
+      getOrganList(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            // _this.TreeData = data.data;
+            _this.tableData1 = data.data;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onTreeNodeClick(currentTree, currentNode) {
+      console.log(currentTree, currentNode);
+      const _this = this;
+    },
+    parseTree(obj, childrenKey) {
+      const _this = this;
+      const o = { ...obj };
+      o.title = o.name;
+      // o.selected = true;
+      o.expand = true;
+      if (o.hasOwnProperty(childrenKey))
+        o.children = o[childrenKey].map((ch) => _this.parseTree(ch));
+      return o;
+    },
     clearCon() {
       this.searchVal = "";
     },
     addUser() {
       this.centerDialogVisible = true;
     },
-    handleImport(row) {
-      this.centerDialogVisible = false;
+    handleImport() {
+      const _this = this;
+      const r = {
+        orgCode: this.organForm.val.replace(/\s*/g, "") || "",
+      }
+      this.$refs.organForm.validate((valid) => {
+        if (valid) {
+          addOrgan(r)
+            .then((resp) => {
+              let data = resp.data;
+              if (data.code === 20000) {
+                _this.$message({
+                  message: `${data.message}`,
+                  type: "success",
+                  duration: 1500,
+                });
+                _this.centerDialogVisible = false;
+              } else {
+                _this.$notify({
+                  title: "温馨提示",
+                  type: "warning",
+                  message: data.message,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          return false;
+        }
+      });
     },
     currentChange(current) {
       this.page.currentPage = current;
