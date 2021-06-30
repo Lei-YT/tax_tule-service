@@ -309,7 +309,7 @@
                       size="small"
                       :ghost="isReadonly"
                       :class="{'btn-active': !isReadonly}"
-                      @click="isReadonly = false"
+                      @click="goEdit"
                       >学习样本纠偏</Button
                     >
                   </template>
@@ -424,7 +424,7 @@
                                     :fieldName="ifield.label"
                                     :defaultKeyValue="vo[ifield.key]"
                                     :labelWidth="ifield.width"
-                                    :invoiceData="vo"
+                                    :invoiceData="isReadonly ? vo : editInvoice"
                                     :isReadonly="isReadonly"
                                     @on-input-change="handleCorrectField"
                                     @on-icon-click="getFieldError"
@@ -716,6 +716,7 @@ export default {
         width: "100%",
       },
       invoiceIsFirstEdit: false,
+      editInvoice: {},
     };
   },
   mounted() {
@@ -1416,6 +1417,10 @@ export default {
     },
     invoiceTypeFormatter(label) {
       return label.slice(-1)[0];
+    },
+    goEdit(){
+      this.editInvoice = {...this.messageInfo.invoices[this.tabsInvoiceIndex]};
+      this.isReadonly = false;
     },
   },
 };
