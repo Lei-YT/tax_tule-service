@@ -265,13 +265,13 @@ export default {
           if (data.code === 0) {
             _this.$Notice.success({
               title: data.message,
-              desc: data.data.info,
+              desc: data.msg,
             });
             _this.getStationPowerList(_this.currentJob);
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
-              desc: data.message,
+              desc: data.msg,
             });
           }
         })

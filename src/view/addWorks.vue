@@ -219,12 +219,12 @@ export default {
       const r = {
         stationId: this.stationId, // ? 新增岗位哪来的id
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
-        describe: this.ruleForm.describe.replace(/\s*/g, "") || "",
+        describe: this.ruleForm.desc.replace(/\s*/g, "") || "",
         powerIdArr: this.selectedPower.map((e) => e.id),
       };
-        Object.keys(r).forEach(
-          (key) => (r[key] == null || r[key] == "") && delete r[key]
-        );
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
       if (this.type === "jobs") {
         this.$refs[formName].validate((valid) => {
           if (valid) {
