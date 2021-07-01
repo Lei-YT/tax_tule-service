@@ -331,15 +331,15 @@ Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
         "list": [
           {
             "id": 1,
-            "create_date": "2021-06-22 15:20:39",
-            "update_date": "2021-06-22 15:20:39",
+            "create_date": "2021-06-26T08:49:56.000+0000",
+            "update_date": "2021-06-26T08:49:56.000+0000",
             "form_name": "CRTG_劳务结算单",
             "status": 1
           },
           {
             "id": 2,
-            "create_date": "2021-06-22 15:20:39",
-            "update_date": "2021-06-22 15:20:39",
+            "create_date": "2021-06-26T08:49:56.000+0000",
+            "update_date": "2021-06-26T08:49:56.000+0000",
             "form_name": "CRTG_劳务结算单2",
             "status": 6
           },

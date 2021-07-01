@@ -159,13 +159,13 @@
               </template>
             </el-table-column>
             <el-table-column
-              prop="create_date"
+              prop="create_date_text"
               label="创建时间"
               width="160"
               align="center"
             />
             <el-table-column
-              prop="update_date"
+              prop="update_date_text"
               label="修改时间"
               width="160"
               align="center"
@@ -319,6 +319,8 @@ export default {
                 _this.convertStatusToSelection(row.status),
                 row
               );
+              row.create_date_text = String(row.create_date).substring(0, String(row.create_date).indexOf('.000')).replace('T', ' ');
+              row.update_date_text = String(row.update_date).substring(0, String(row.update_date).indexOf('.000')).replace('T', ' ');
               return row;
             });
             _this.tableData = data.data.list;
