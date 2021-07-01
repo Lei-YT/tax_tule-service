@@ -27,6 +27,7 @@
       v-model="selectedInvoiceType"
       transfer
       filterable
+      change-on-select
       :clearable="false"
       :render-format="invoiceTypeFormatter"
     ></Cascader>

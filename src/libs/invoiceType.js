@@ -39,6 +39,10 @@ export default [
               { label: '招商银行1', value: '招商银行1', children: [] },
               { label: '招商银行2', value: '招商银行2', children: [] },]
           },
+          { label: '工业银行', value: '工业银行', children: [] },
+          { label: '中国民生银行', value: '中国民生银行', children: [] },
+          { label: '中铁财务公司回单', value: '中铁财务公司回单', children: [] },
+          { label: '资金中心回单', value: '资金中心回单', children: [] },
         ]
       },
       {

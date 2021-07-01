@@ -1281,17 +1281,17 @@ export default {
             _this.editFieldsItems = editFieldsItems;
             // _this.editInvoice = {..._this.messageInfo.invoices[_this.tabsInvoiceIndex]};
             // todo: 更新 editInvoice 已经变更的值 --*--
-            editFields.map((ek) => {
-              _this.editInvoice[ek] = "--*--";
-            });
-            if (itemsKey.length > 0) {
-              editFieldsItems.map((row, ii) => {
-                if (ii === 0) return true;
-                row.map((rowK) => {
-                  _this.editInvoice[itemsKey[0]][ii - 1][rowK] = "--*--";
-                });
-              });
-            }
+            // editFields.map((ek) => {
+            //   _this.editInvoice[ek] = "--*--";
+            // });
+            // if (itemsKey.length > 0) {
+            //   editFieldsItems.map((row, ii) => {
+            //     if (ii === 0) return true;
+            //     row.map((rowK) => {
+            //       _this.editInvoice[itemsKey[0]][ii - 1][rowK] = "--*--";
+            //     });
+            //   });
+            // }
           } else {
             Notification.closeAll();
             Notification({
