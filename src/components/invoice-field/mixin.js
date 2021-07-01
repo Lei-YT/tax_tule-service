@@ -23,13 +23,17 @@ export default {
       type: Boolean,
       default: true,
     },
+    isRaw: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed:{
     isErrorField(){
       return this.$store.state.invoice.currentInvoiceErrorFields.includes(this.fieldKey);
     },
     highlightsEdit(){
-      return this.$store.state.invoice.editFields.includes(this.fieldKey);
+      return this.$store.state.invoice.editFields.includes(this.fieldKey) && this.isRaw===false;
     },
   },
   data(){
@@ -44,7 +48,7 @@ export default {
   methods: {
     onInputEdit(){
       this.invoiceData[this.fieldKey] = this.fieldKeyValue;
-      this.$emit('on-input-change', this.fieldKey, this.fieldName);
+      this.$emit('on-input-change', this.fieldKey, this.fieldName, this.invoiceData);
     },
     onIconClick(){
       this.$emit('on-icon-click', this.invoiceData, this.fieldKey, this.fieldKeyValue);

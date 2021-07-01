@@ -294,26 +294,26 @@
               </div>
               <div class="tabData">
                 <p class="data-header" v-if="!emptyImageInfo">
-                  <template v-if="editable">
+                  <template>
                     <Button
                       type="text"
                       size="small"
-                      :ghost="!isReadonly"
-                      :class="{'btn-active': isReadonly}"
-                      @click="isReadonly = true"
+                      :ghost="!showInvoiceRaw"
+                      :class="{ 'btn-active': showInvoiceRaw }"
+                      @click="showInvoiceRaw = true"
                       >结构化数据</Button
                     >
-                    <Divider type="vertical" />
+                    <!-- <Divider type="vertical" /> -->
                     <Button
                       type="text"
                       size="small"
-                      :ghost="isReadonly"
-                      :class="{'btn-active': !isReadonly}"
+                      :ghost="showInvoiceRaw"
+                      :class="{ 'btn-active': !showInvoiceRaw }"
                       @click="goEdit"
                       >学习样本纠偏</Button
                     >
                   </template>
-                  <template v-else> 结构化数据 </template>
+                  <!-- <template v-else> 结构化数据 </template> -->
 
                   <span class="text-primary pr-1"
                     >报错信息: {{ currentInvoiceErrorFields.length }}条</span
@@ -332,21 +332,22 @@
                     <Row
                       :gutter="16"
                       type="flex"
-                      style="padding-left:10px; padding-top:10px;margin-top:.5rem;"
-                      v-if="!isReadonly"
+                      style="
+                        padding-left: 10px;
+                        padding-top: 10px;
+                        margin-top: 0.5rem;
+                      "
+                      v-if="!showInvoiceRaw"
                     >
-                      <Col
-                        :span="24"
-                        style="flex: 1 0 auto"
-                      >
-                        <!-- v-if="vo.invoiceType !== undefined" -->
+                      <Col :span="24" style="flex: 1 0 auto">
                         <invoiceType
                           fieldKey="invoiceType"
                           fieldName="学习样本类型"
-                          :defaultKeyValue="vo.invoiceType"
-                          :invoiceData="vo"
-                          :isReadonly="isReadonly"
+                          :defaultKeyValue="editInvoice.invoiceType"
+                          :invoiceData="editInvoice"
+                          :isReadonly="!editable"
                           :label-width="120"
+                          :isRaw="false"
                           @on-input-change="handleCorrectField"
                           @on-icon-click="getFieldError"
                           @on-select-type="onPickInvoiceType"
@@ -378,8 +379,9 @@
                             v-bind:name="iset.prename + vo.invoiceId"
                             style="width: 100%"
                           >
-                            <!-- <component :is="'invoiceItems'" -->
                             <invoiceItems
+                              v-if="showInvoiceRaw"
+                              :key="iset.checkField + '0'"
                               :fieldKey="iset.checkField"
                               :fieldName="iset.label"
                               :defaultKeyValue="vo[iset.checkField]"
@@ -388,7 +390,25 @@
                               :showSummary="iset.showSummary"
                               :showIndex="iset.showIndex"
                               :invoiceData="vo"
-                              :isReadonly="isReadonly"
+                              :isReadonly="true"
+                              :isRaw="true"
+                              @on-input-change="handleCorrectField"
+                              @on-icon-click="getFieldError"
+                              @on-item-change="handleCorrectItemField"
+                            />
+                            <invoiceItems
+                              v-else
+                              :key="iset.checkField + '1'"
+                              :fieldKey="iset.checkField"
+                              :fieldName="iset.label"
+                              :defaultKeyValue="editInvoice[iset.checkField]"
+                              :itemData="editInvoice[iset.checkField]"
+                              :itemFields="iset.columns"
+                              :showSummary="iset.showSummary"
+                              :showIndex="iset.showIndex"
+                              :invoiceData="editInvoice"
+                              :isReadonly="!editable"
+                              :isRaw="false"
                               @on-input-change="handleCorrectField"
                               @on-icon-click="getFieldError"
                               @on-item-change="handleCorrectItemField"
@@ -412,7 +432,8 @@
                             :key="ri"
                           >
                             <template v-for="(ifield, fi) in irow">
-                              <template v-if="ifield.key !== 'invoiceType' ">
+                              <!-- <template v-if="ifield.key !== 'invoiceType' "> -->
+                              <template v-if="showInvoiceRaw">
                                 <Col
                                   :key="fi.label"
                                   :span="ifield.col"
@@ -420,31 +441,37 @@
                                   v-if="vo[ifield.key] !== undefined"
                                 >
                                   <defaultC
-                                    :fieldKey="ifield.key"
-                                    :fieldName="ifield.label"
-                                    :defaultKeyValue="vo[ifield.key]"
-                                    :labelWidth="ifield.width"
-                                    :invoiceData="isReadonly ? vo : editInvoice"
-                                    :isReadonly="isReadonly"
-                                    @on-input-change="handleCorrectField"
-                                    @on-icon-click="getFieldError"
-                                  />
-                                </Col>
-                              </template>
-                              <template v-else-if="ifield.key === 'invoiceType' && isReadonly">
-                                <Col
-                                  :key="fi.label"
-                                  :span="ifield.col"
-                                  style="flex: 1 0 auto"
-                                  v-if="vo[ifield.key] !== undefined"
-                                >
-                                  <defaultC
+                                    :key="ifield.key + '0'"
                                     :fieldKey="ifield.key"
                                     :fieldName="ifield.label"
                                     :defaultKeyValue="vo[ifield.key]"
                                     :labelWidth="ifield.width"
                                     :invoiceData="vo"
-                                    :isReadonly="isReadonly"
+                                    :isReadonly="true"
+                                    :isRaw="true"
+                                    @on-icon-click="getFieldError"
+                                  />
+                                </Col>
+                              </template>
+                              <template v-else>
+                                <Col
+                                  :key="fi.label"
+                                  :span="ifield.col"
+                                  style="flex: 1 0 auto"
+                                  v-if="
+                                    vo[ifield.key] !== undefined &&
+                                    ifield.key !== 'invoiceType'
+                                  "
+                                >
+                                  <defaultC
+                                    :key="ifield.key + '1'"
+                                    :fieldKey="ifield.key"
+                                    :fieldName="ifield.label"
+                                    :defaultKeyValue="editInvoice[ifield.key]"
+                                    :labelWidth="ifield.width"
+                                    :invoiceData="editInvoice"
+                                    :isReadonly="!editable"
+                                    :isRaw="false"
                                     @on-input-change="handleCorrectField"
                                     @on-icon-click="getFieldError"
                                   />
@@ -455,7 +482,7 @@
                         </el-collapse-item>
                       </template>
                       <Row
-                        v-if="!isReadonly"
+                        v-if="editable && !showInvoiceRaw"
                         type="flex"
                         justify="center"
                         align="middle"
@@ -466,7 +493,10 @@
                             long
                             type="primary"
                             @click="
-                              handleSubmitData('invoiceData' + vo.invoiceId, vo)
+                              handleSubmitData(
+                                'invoiceData' + vo.invoiceId,
+                                editInvoice
+                              )
                             "
                             >保存</Button
                           >
@@ -717,6 +747,7 @@ export default {
       },
       invoiceIsFirstEdit: false,
       editInvoice: {},
+      showInvoiceRaw: true,
     };
   },
   mounted() {
@@ -729,7 +760,7 @@ export default {
       return this.imageData.length === 0;
     },
     editable: function () {
-      return this.invoiceIsFirstEdit;
+      return this.invoiceIsFirstEdit && this.showInvoiceRaw === false;
     },
     invoiceFieldsSetting() {
       return getInvoiceFields(this.currentInvoiceType);
@@ -1068,7 +1099,10 @@ export default {
       const panelSet = [
         { name: "buyerInfo-", need: ["purchaserName"] },
         { name: "sellerInfo-", need: ["sellerName"] },
-        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights", "fpItems"] },
+        {
+          name: "invoiceInfo-",
+          need: ["invoiceItems", "invoiceFlights", "fpItems"],
+        },
       ];
       if (imageIds.length === 0) {
         this.$set(this, "messageInfo", { invoices: allInvoice });
@@ -1140,7 +1174,10 @@ export default {
       const panelSet = [
         { name: "buyerInfo-", need: ["purchaserName"] },
         { name: "sellerInfo-", need: ["sellerName"] },
-        { name: "invoiceInfo-", need: ["invoiceItems", "invoiceFlights", "fpItems"] },
+        {
+          name: "invoiceInfo-",
+          need: ["invoiceItems", "invoiceFlights", "fpItems"],
+        },
       ];
       let allInvoice = [];
       this.allData.imageInfo.map((dd) => {
@@ -1193,6 +1230,9 @@ export default {
       } else {
         findImgId = _this.imageId;
       }
+      _this.editInvoice = _.cloneDeep(
+        _this.messageInfo.invoices[_this.tabsInvoiceIndex]
+      );
       const rr = { imageId: findImgId, invoiceId: invoiceIdP };
       _this.getEditField(rr);
     },
@@ -1224,17 +1264,34 @@ export default {
             }
             editFields = data.data.edit.filter((f) => f.indexOf(".") === -1);
             const items = data.data.edit.filter((f) => f.indexOf(".") !== -1);
+            let itemsKey = []; // 'invoiceItems';
             items.map((ik) => {
               const ss = ik.split(".");
               const itemIndex = Number(ss[1]);
+              itemsKey.push(ss[0]);
 
               editFieldsItems[itemIndex] = editFieldsItems[itemIndex] || [];
               editFieldsItems[itemIndex].push(ss[2]);
             });
+            itemsKey = [...new Set([...itemsKey])];
+            console.log("eek", itemsKey);
             _this.setEditFields(editFields);
             _this.setEditFieldsItems(editFieldsItems);
             _this.editFields = editFields;
             _this.editFieldsItems = editFieldsItems;
+            // _this.editInvoice = {..._this.messageInfo.invoices[_this.tabsInvoiceIndex]};
+            // todo: 更新 editInvoice 已经变更的值 --*--
+            editFields.map((ek) => {
+              _this.editInvoice[ek] = "--*--";
+            });
+            if (itemsKey.length > 0) {
+              editFieldsItems.map((row, ii) => {
+                if (ii === 0) return true;
+                row.map((rowK) => {
+                  _this.editInvoice[itemsKey[0]][ii - 1][rowK] = "--*--";
+                });
+              });
+            }
           } else {
             Notification.closeAll();
             Notification({
@@ -1395,32 +1452,18 @@ export default {
       };
       this.correctItemData.push(tmpObj);
     },
-    handlePickInvoiceType(value, selectedData) {
-      this.selectedInvoiceType = value;
-      this.handleCorrectField("invoiceType", "发票类型");
-      const invoiceTypeValue = value.slice(-1)[0];
-      this.$set(
-        this.messageInfo.invoices[this.tabsInvoiceIndex],
-        "invoiceType",
-        invoiceTypeValue
-      );
-    },
     onPickInvoiceType(invoiceTypeValue) {
       this.handleCorrectField("invoiceType", "发票类型");
       this.currentInvoiceType = invoiceTypeValue;
-      this.$set(
-        this.messageInfo.invoices[this.tabsInvoiceIndex],
-        "invoiceType",
-        invoiceTypeValue
-      );
-      // this.$forceUpdate();
+      this.$set(this.editInvoice, "invoiceType", invoiceTypeValue);
     },
     invoiceTypeFormatter(label) {
       return label.slice(-1)[0];
     },
-    goEdit(){
-      this.editInvoice = {...this.messageInfo.invoices[this.tabsInvoiceIndex]};
+    goEdit() {
       this.isReadonly = false;
+      this.showInvoiceRaw = false;
+      this.$forceUpdate();
     },
   },
 };
@@ -1785,8 +1828,8 @@ export default {
 }
 /deep/.data-header {
   // padding: 10px;
-  height: 50px;
-  line-height: 50px;
+  height: 45px;
+  line-height: 45px;
   text-align: center;
   border: 1px solid #eeeeee;
   background: #fafafa;
@@ -1797,10 +1840,11 @@ export default {
   color: #fff;
 }
 /deep/.data-header .ivu-btn-text {
-  height: 50px;
+  height: 45px;
   border-radius: 0;
   background-color: inherit;
   color: inherit;
+  border: none;
 }
 /deep/.text-primary {
   color: #1991dd;

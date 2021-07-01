@@ -231,13 +231,13 @@ Mock.mock(/\/api\/bill\/checkdatechart/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify(checkdateJson)))
 })
 
-Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
-  console.log('req', req, isFirstEdit)
-  return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
-})
+// Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
+//   console.log('req', req, isFirstEdit)
+//   return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
+// })
 Mock.mock(/\/api\/server\/isfirstedit/, 'post', (req, res) => {
   console.log('req ' + req.url, req, isFirstEdit)
-  isFirstEdit.data.isFirstEdit = Random.boolean();
+  isFirstEdit.data.isFirstEdit = false; // Random.boolean();
   // console.log(isFirstEdit.data.isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
 })

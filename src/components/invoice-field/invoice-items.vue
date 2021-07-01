@@ -109,7 +109,7 @@
         <td v-for="fieldL in itemFields" :key="fieldL.key + 'val' + i"
           v-bind:class="{
             'text-highlight':
-              $store.state.invoice.editFieldsItems[i + 1] &&
+              $store.state.invoice.editFieldsItems[i + 1] && isRaw===false &&
               $store.state.invoice.editFieldsItems[i + 1].includes(fieldL.key),
           }"
         >

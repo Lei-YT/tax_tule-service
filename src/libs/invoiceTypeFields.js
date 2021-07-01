@@ -210,7 +210,6 @@ const base = {
 const buyer = {
   label: '购买方信息', prename: 'buyerInfo-', checkField: 'purchaserName', fields: [
     [
-      { label: '发票类型', key: 'invoiceType', col: 8 },
       { label: '名称', key: 'purchaserName', col: 10, width: 100 },
       { label: '地址电话', key: 'purchaserAddress', col: 14, width: 100 },
     ],
