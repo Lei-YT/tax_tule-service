@@ -177,6 +177,14 @@ export const userAddOrgan = (params) => {
     method: 'POST'
   })
 }
-// todo: 删除用户（多选），禁用/启用用户(多选), 机构下的机构
+// 用户 绑定 机构
+export const userWithOrgan = (params) => {
+  return axios.request({
+    url: `/api/user/userwithorgan`,
+    data: params,
+    method: 'POST'
+  })
+}
+// todo:
 // ? 机构-岗位绑定，组成机构+岗映射关系 这个操作在哪
 // ? 用户-机构绑定，组成机构+岗映射关系 这个操作在哪; 原型是用户直接绑定机构的岗位

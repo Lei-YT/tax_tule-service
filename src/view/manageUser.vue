@@ -378,6 +378,7 @@ import {
   getOrganChildren,
   userOrgan,
   organStation,
+  userWithOrgan,
 } from "@/api/mangeUser";
 export default {
   components: {},
@@ -467,27 +468,7 @@ export default {
       const _this = this;
       _this.currentOrgan = currentNode;
       if (this.addPostCon === false && this.isCustom === false) {
-        const r = {
-          pageindex: this.page.currentPage,
-          pagesize: this.page.size,
-          organ: currentNode.id,
-        };
-        getOrganUserList(r)
-          .then((resp) => {
-            let data = resp.data;
-            if (data.code === 0) {
-              _this.tableData1 = data.data;
-              _this.page.totalElement = data.totalcount;
-            } else {
-              _this.$Notice.warning({
-                title: "温馨提示",
-                desc: data.msg,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.getCurrenOrganUseList();
         if (Number(currentNode.IsLowest) === 0) {
           const r2 = { OrgID: currentNode.OrgID };
           getOrganChildren(r2)
@@ -509,25 +490,53 @@ export default {
             });
         }
       } else if (this.addPostCon === true) {
-        const r = {
-          orgid: currentNode.id,
-        };
-        organStation(r)
-          .then((resp) => {
-            let data = resp.data;
-            if (data.code === 0) {
-              _this.postTableData = data.data;
-            } else {
-              _this.$Notice.warning({
-                title: "温馨提示",
-                desc: data.msg,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.getCurrentOrganStation();
       }
+    },
+    getCurrenOrganUseList() {
+      const _this = this;
+      const r = {
+        pageindex: this.page.currentPage,
+        pagesize: this.page.size,
+        organ: this.currentOrgan.id,
+      };
+      getOrganUserList(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.tableData1 = data.data;
+            _this.page.totalElement = data.totalcount;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getCurrentOrganStation() {
+      const _this = this;
+      const r = {
+        orgid: this.currentOrgan.id,
+      };
+      organStation(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.postTableData = data.data;
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     onTreeToggle(currentNode) {
       const _this = this;
@@ -698,7 +707,7 @@ export default {
     handel(type, row) {
       if (row) {
         this.userInfo = row;
-        this.chooseLength = [{...row}];
+        this.chooseLength = [{ ...row }];
       }
       this.delType = type;
       if (type == 1) {
@@ -766,7 +775,14 @@ export default {
                 duration: 1500,
               });
               _this.isCustom = false;
-              _this.query();
+              const newUser = res.data.data;
+              _this.boundUserToOrgan(newUser);
+              // _this.query();
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: data.msg,
+              });
             }
           });
         } else {
@@ -784,8 +800,16 @@ export default {
     clearCon() {
       this.searchOrgan = "";
     },
-    changeStatus(row) {},
     addUserBtn() {
+      if (
+        this.currentOrgan === null ||
+        Object.keys(this.currentOrgan).length === 0
+      ) {
+        this.$Notice.warning({
+          title: "请先选中一个机构",
+        });
+        return false;
+      }
       this.dialogTableVisible = true;
     },
     addPost() {
@@ -811,6 +835,29 @@ export default {
           });
           _this.query();
           _this.dialogTableVisible = false;
+        } else {
+          _this.$Notice.warning({
+            title: "温馨提示",
+            desc: data.msg,
+          });
+        }
+      });
+    },
+    boundUserToOrgan(user) {
+      const _this = this;
+      const r = {
+        userid: user.id,
+        orgname: this.currentOrgan.OrgName,
+        orgid: this.currentOrgan.OrgID,
+      };
+      userWithOrgan(r).then((res) => {
+        if (res.data.code == 0) {
+          _this.getCurrenOrganUseList();
+        } else {
+          _this.$Notice.warning({
+            title: "温馨提示",
+            desc: data.msg,
+          });
         }
       });
     },
