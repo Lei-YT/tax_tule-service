@@ -76,6 +76,14 @@ export const getOrganList = (params) => {
     method: 'POST'
   })
 }
+// 机构子级列表
+export const getOrganChildren = (params) => {
+  return axios.request({
+    url: `/api/user/organchilds`,
+    data: params,
+    method: 'POST'
+  })
+}
 // 岗位列表
 export const getStation = (params) => {
   return axios.request({

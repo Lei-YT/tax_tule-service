@@ -17,7 +17,12 @@
         <Button type="primary" icon="ios-search" @click="getTreeData" />
       </div>
       <div class="treeCon">
-        <Tree :data="TreeData" />
+        <Tree
+          :data="TreeData"
+          expand-node
+          @on-select-change="onTreeNodeClick"
+          @on-toggle-expand="onTreeToggle"
+        />
       </div>
     </Card>
     <!-- 右 -->
@@ -70,12 +75,14 @@
               </template>
             </el-table-column>
             <el-table-column prop="name" label="描述" align="center" />
-            <el-table-column prop="created_at" label="创建时间" align="center" />
+            <el-table-column
+              prop="created_at"
+              label="创建时间"
+              align="center"
+            />
           </el-table>
           <div class="pageCon">
-            <div class="showCon">
-              共 {{ page.totalElement }} 条
-            </div>
+            <div class="showCon">共 {{ page.totalElement }} 条</div>
             <div class="paginationStyle">
               <el-button @click="currentChange(1)" type="text" size="small"
                 >首页</el-button
@@ -131,7 +138,7 @@
 </template>
 
 <script>
-import { getOrganList, addOrgan } from "@/api/mangeUser";
+import { getOrganList, getOrganChildren, addOrgan } from "@/api/mangeUser";
 export default {
   components: {},
   data() {
@@ -149,110 +156,18 @@ export default {
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
-      TreeData: [
-        {
-          title: "parent 1",
-          expand: true,
-          children: [
-            {
-              title: "parent 1-1",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-1-1",
-                },
-                {
-                  title: "leaf 1-1-2",
-                },
-              ],
-            },
-            {
-              title: "parent 1-2",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-2-1",
-                },
-                {
-                  title: "leaf 1-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      tableData1: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 0,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区",
-          result: 1,
-        },
-      ],
+      TreeData: [],
+      currentOrgan: {},
+      tableData1: [],
     };
   },
   mounted() {
-    this.getTreeData()
+    this.getTreeData();
   },
   methods: {
     getTreeData() {
       const _this = this;
       const r = {
-        org_code: "",
         org_name: this.searchVal,
       };
       Object.keys(r).forEach(
@@ -262,7 +177,7 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            // _this.TreeData = data.data;
+            _this.TreeData = data.data.map((row) => _this.parseOrganTree(row));
             _this.tableData1 = data.data;
           } else {
             _this.$Notice.warning({
@@ -276,17 +191,62 @@ export default {
         });
     },
     onTreeNodeClick(currentTree, currentNode) {
-      console.log(currentTree, currentNode);
       const _this = this;
+      _this.currentOrgan = currentNode;
+      if (Number(currentNode.IsLowest) === 0) {
+        const r2 = { OrgID: currentNode.OrgID };
+        getOrganChildren(r2)
+          .then((resp) => {
+            let data = resp.data;
+            if (data.code === 0) {
+              currentNode.children = data.data.map((row) =>
+                _this.parseOrganTree(row)
+              );
+              _this.tableData1 = data.data;
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: data.msg,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
-    parseTree(obj, childrenKey) {
+    onTreeToggle(currentNode) {
+      const _this = this;
+      if (Number(currentNode.IsLowest) === 0) {
+        const r2 = { OrgID: currentNode.OrgID };
+        getOrganChildren(r2)
+          .then((resp) => {
+            let data = resp.data;
+            if (data.code === 0) {
+              currentNode.children = data.data.map((row) =>
+                _this.parseOrganTree(row)
+              );
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: data.msg,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    parseOrganTree(obj, childrenKey = null) {
       const _this = this;
       const o = { ...obj };
-      o.title = o.name;
+      o.title = o.OrgSName;
       // o.selected = true;
-      o.expand = true;
-      if (o.hasOwnProperty(childrenKey))
-        o.children = o[childrenKey].map((ch) => _this.parseTree(ch));
+      o.expand = false;
+      o.children = Number(o.IsLowest) === 0 ? [{ expand: false }] : [];
+      if (childrenKey && o.hasOwnProperty(childrenKey))
+        o.children = o[childrenKey].map((ch) => _this.parseOrganTree(ch));
       return o;
     },
     clearCon() {
@@ -299,7 +259,7 @@ export default {
       const _this = this;
       const r = {
         orgCode: this.organForm.val.replace(/\s*/g, "") || "",
-      }
+      };
       this.$refs.organForm.validate((valid) => {
         if (valid) {
           addOrgan(r)
