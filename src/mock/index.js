@@ -5,7 +5,7 @@ import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
 import userAuth from '@/dataJson/user-auth.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result12.json'
+import resultJson from '@/dataJson/result13.json'
 import mangeUser from '@/dataJson/mangeUser.json'
 import importData from '@/dataJson/import.json'
 import station from '@/dataJson/station.json'
@@ -254,7 +254,7 @@ Mock.mock(/\/api\/bill\/checkdatechart/, 'post', (req, res) => {
 // })
 Mock.mock(/\/api\/server\/isfirstedit/, 'post', (req, res) => {
   console.log('req ' + req.url, req, isFirstEdit)
-  isFirstEdit.data.isFirstEdit = false; // Random.boolean();
+  isFirstEdit.data.isFirstEdit = true; // Random.boolean();
   // console.log(isFirstEdit.data.isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
 })

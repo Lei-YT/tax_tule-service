@@ -918,13 +918,6 @@ export default {
 .treeCon {
   margin-top: 17px;
 }
-.rightCon {
-  /deep/.ivu-card:last-child {
-    /deep/.ivu-card-head {
-      background: #fff;
-    }
-  }
-}
 /deep/.ghostHeader .ivu-card-head {
   background: #fff;
 }

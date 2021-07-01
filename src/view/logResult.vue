@@ -337,10 +337,10 @@
                         padding-top: 10px;
                         margin-top: 0.5rem;
                       "
-                      v-if="!showInvoiceRaw"
                     >
                       <Col :span="24" style="flex: 1 0 auto">
                         <invoiceType
+                          :key="'invoiceType0'"
                           fieldKey="invoiceType"
                           fieldName="学习样本类型"
                           :defaultKeyValue="editInvoice.invoiceType"
@@ -351,6 +351,19 @@
                           @on-input-change="handleCorrectField"
                           @on-icon-click="getFieldError"
                           @on-select-type="onPickInvoiceType"
+                          v-if="!showInvoiceRaw"
+                        />
+                        <invoiceType
+                          v-else
+                          :key="'invoiceType1'"
+                          fieldKey="invoiceType"
+                          fieldName="影像类型"
+                          :defaultKeyValue="vo.invoiceType"
+                          :invoiceData="vo"
+                          :isReadonly="true"
+                          :label-width="70"
+                          :isRaw="true"
+                          @on-icon-click="getFieldError"
                         />
                       </Col>
                     </Row>
@@ -438,7 +451,10 @@
                                   :key="fi.label"
                                   :span="ifield.col"
                                   style="flex: 1 0 auto"
-                                  v-if="vo[ifield.key] !== undefined"
+                                  v-if="
+                                    vo[ifield.key] !== undefined &&
+                                    ifield.key !== 'invoiceType'
+                                  "
                                 >
                                   <defaultC
                                     :key="ifield.key + '0'"
@@ -766,7 +782,9 @@ export default {
       return this.invoiceIsFirstEdit && this.showInvoiceRaw === false;
     },
     invoiceFieldsSetting() {
-      return this.showInvoiceRaw ? getInvoiceFields(this.currentInvoiceType) : getInvoiceFields(this.editInvoiceType);
+      return this.showInvoiceRaw
+        ? getInvoiceFields(this.currentInvoiceType)
+        : getInvoiceFields(this.editInvoiceType);
     },
   },
   methods: {
@@ -1211,6 +1229,7 @@ export default {
       // this.invoiceFieldsSetting = getInvoiceFields(fI.invoiceType);
       // console.log('xx', this.invoiceFieldsSetting)
       this.currentInvoiceType = fI.invoiceType;
+      this.editInvoiceType = fI.invoiceType;
       let findImgId = "";
       if (this.currentInvoiceRuleId !== "") {
         const findRule = _this.allData.data.find(

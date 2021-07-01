@@ -1,0 +1,171 @@
+{
+    "status": 200,
+    "message": "成功",
+    "data": {
+        "billType": "CRTG_项目收款单",
+        "taskId": "1410513606446571521",
+        "billNo": "2021070117107B514004930743",
+        "versionName": "正式版-4.3",
+        "imageInfo": [
+            {
+                "imageId": "1410513670383161346",
+                "billId": "1410513648857993218",
+                "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/01\/4e30e44a689cd86f7747267f0cf6ba1e.jpg",
+                "invoices": [
+                    {
+                        "amountWithoutTax": "400000.00",
+                        "date": "2021-07-01",
+                        "fpPayerBank": "工行安徽省黄山祁门支行",
+                        "imageId": "1410513670383161346",
+                        "accountName": "中铁隧道局集团有限公司路桥工程分公司昌景黄安徽段三标四分部",
+                        "fpBeneficiaryBank": "黄山祁门支行营业室",
+                        "fpCapitalAmount": "肆拾万元整",
+                        "fpPurpose": "",
+                        "fpBankName": "中国工商银行",
+                        "accountNumber": "1310098039200034879",
+                        "isVerify": "",
+                        "bankSeal": "yes",
+                        "repeat": "",
+                        "accountNo": "1310098039200037612",
+                        "invoiceType": "银行回单",
+                        "payerName": "中铁隧道局集团有限公司昌景黄铁路安徽段站前三标项目经理部",
+                        "invoiceId": "1410520797684256769",
+                        "fpSummary": "拨四分部工程款",
+                        "fpNumber": "0041-8393-4885-1100"
+                    }
+                ]
+            },
+            {
+                "imageId": "1410513683016404993",
+                "billId": "1410513648857993218",
+                "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/01\/95c35d3a24fc5824c30b29426535938d.jpg",
+                "invoices": [
+                    {
+                        "amountWithoutTax": "84000.00",
+                        "date": "2021-07-01",
+                        "fpPayerBank": "安徽歙县农村商业银行股份有限公司",
+                        "imageId": "1410513683016404993",
+                        "accountName": "中铁隧道局集团有限公司路桥工程分公司昌景黄安徽段三标四分部",
+                        "fpBeneficiaryBank": "黄山祁门支行营业室",
+                        "fpCapitalAmount": "捌万肆仟元整",
+                        "fpPurpose": "",
+                        "fpBankName": "中国工商银行",
+                        "accountNumber": "20010086067566600000017",
+                        "isVerify": "",
+                        "bankSeal": "yes",
+                        "repeat": "",
+                        "accountNo": "1310098039200037612",
+                        "invoiceType": "银行回单",
+                        "payerName": "壹黄山市再广再生资源回收利用有限公司",
+                        "invoiceId": "1410520822912995329",
+                        "fpSummary": "废铁预付款",
+                        "fpNumber": "0041-8392-9303-1100"
+                    }
+                ]
+            },
+            {
+                "imageId": "1410513695653842946",
+                "billId": "1410513648857993218",
+                "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/01\/86189247df0837f41bd006acf228fa0b.jpg",
+                "invoices": [
+                    {
+                        "amountWithoutTax": "1000.00",
+                        "date": "2021-07-01",
+                        "fpPayerBank": "中国农业发展银行芜湖市分行营业部",
+                        "imageId": "1410513695653842946",
+                        "accountName": "中铁隧道局集团有限公司路桥工程分公司昌景黄安徽段三标四分部",
+                        "fpBeneficiaryBank": "黄山祁门支行营业室",
+                        "fpCapitalAmount": "",
+                        "fpPurpose": "",
+                        "fpBankName": "中国工商银行",
+                        "accountNumber": "20334029900100000133191",
+                        "isVerify": "",
+                        "bankSeal": "yes",
+                        "repeat": "",
+                        "accountNo": "1310098039200037612",
+                        "invoiceType": "银行回单",
+                        "payerName": "芜湖山水贸易有限责任公司",
+                        "invoiceId": "1410520835529461762",
+                        "fpSummary": "昌景黄三标第四批地材",
+                        "fpNumber": "0041-8393-2004-1100"
+                    }
+                ]
+            }
+        ],
+        "errors": [],
+        "data": [
+            {
+                "ruleCount": 4,
+                "errorCount": 0,
+                "ruleType": "IMAGES",
+                "color": null,
+                "result": [
+                    {
+                        "ruleId": "MY7053852183",
+                        "ruleName": "当影像.银行回单不包含“财务公司”关键字时，则银行回单应有银行印章",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "NP4656051983",
+                        "ruleName": "当表单.明细表.摘要不包含“工资”，且表单.财务信息.收款方式=“网银”时，表单.财务信息.收款方账号=影像.银行回单.收款方账号",
+                        "correct": true,
+                        "ruleType": "IMAGE"
+                    },
+                    {
+                        "ruleId": "DE3904186763",
+                        "ruleName": "表单.明细表.摘要不包含“标书”字样",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "HQ1789509038",
+                        "ruleName": "当表单.明细表.摘要包含“工资”时，转人工",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    }
+                ]
+            },
+            {
+                "ruleCount": 4,
+                "errorCount": 1,
+                "ruleType": "OTHERS",
+                "color": null,
+                "result": [
+                    {
+                        "ruleId": "CS4881459818",
+                        "ruleName": "列账及时性判断~系统当前日期月数-表单.财务信息.制证日期月数≤3个月",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "QN8102915213",
+                        "ruleName": "系统当前日期月数-表单.财务信息.制证日期月数≤1个月",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "BC1058105325",
+                        "ruleName": "当表单.财务信息.收款方式=“商业汇票”、“银行电汇”、“支票”时，转人工",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "BC3801930309",
+                        "ruleName": "当表单.明细表.摘要不包含“工资”，且表单.财务信息.收款方式=“网银”时，则表单.明细表.收款金额=影像.银行回单.金额合计，表单.明细表.往来单位=影像.银行回单.付款人",
+                        "correct": false,
+                        "message": "请人工复核客商的正确性",
+                        "ruleType": "BILLS"
+                    }
+                ]
+            },
+            {
+                "ruleCount": 0,
+                "errorCount": null,
+                "ruleType": "WARNING",
+                "color": null,
+                "result": []
+            }
+        ]
+    }
+}
