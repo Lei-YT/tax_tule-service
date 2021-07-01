@@ -632,6 +632,7 @@ export default {
     return {
       // invoiceFieldsSetting: [],
       currentInvoiceType: "",
+      editInvoiceType: "",
       invoiceTypeData: invoiceTypeData,
       selectedInvoiceType: [],
       showFormRet: false,
@@ -765,7 +766,7 @@ export default {
       return this.invoiceIsFirstEdit && this.showInvoiceRaw === false;
     },
     invoiceFieldsSetting() {
-      return getInvoiceFields(this.currentInvoiceType);
+      return this.showInvoiceRaw ? getInvoiceFields(this.currentInvoiceType) : getInvoiceFields(this.editInvoiceType);
     },
   },
   methods: {
@@ -1462,7 +1463,8 @@ export default {
     },
     onPickInvoiceType(invoiceTypeValue) {
       this.handleCorrectField("invoiceType", "发票类型");
-      this.currentInvoiceType = invoiceTypeValue;
+      // this.currentInvoiceType = invoiceTypeValue;
+      this.editInvoiceType = invoiceTypeValue;
       this.$set(this.editInvoice, "invoiceType", invoiceTypeValue);
     },
     invoiceTypeFormatter(label) {
