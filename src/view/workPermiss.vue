@@ -189,7 +189,6 @@ export default {
         pageindex: this.page.currentPage,
         pagesize: this.page.size,
       };
-      console.log("params", params);
       getStation(params).then((res) => {
         if (res.data.code == 0) {
           _this.tableData1 = res.data.data;

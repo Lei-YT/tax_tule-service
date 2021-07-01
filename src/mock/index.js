@@ -212,6 +212,12 @@ Mock.mock(/\/api\/user\/addstation/, 'post', (req, res) => {
     'msg': '操作成功.'
   })))
 })
+Mock.mock(/\/api\/user\/userosadd/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    'code': 0,
+    'msg': '操作成功.'
+  })))
+})
 Mock.mock(/\/api\/user\/edit/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,

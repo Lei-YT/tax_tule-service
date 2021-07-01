@@ -81,7 +81,7 @@
               align="center"
             />
           </el-table>
-          <div class="pageCon">
+          <!-- <div class="pageCon">
             <div class="showCon">共 {{ page.totalElement }} 条</div>
             <div class="paginationStyle">
               <el-button @click="currentChange(1)" type="text" size="small"
@@ -99,7 +99,7 @@
                 class-name="page-box"
               />
             </div>
-          </div>
+          </div> -->
         </div>
       </Card>
     </div>
@@ -178,7 +178,11 @@ export default {
           let data = resp.data;
           if (data.code === 0) {
             _this.TreeData = data.data.map((row) => _this.parseOrganTree(row));
-            _this.tableData1 = data.data;
+            _this.currentOrgan = _this.TreeData[0];
+            const firstRoot = data.data.findIndex(
+              (ee) => Number(ee.IsLowest) === 0
+            );
+            _this.getCurrentOrganChildren(_this.TreeData[firstRoot], true);
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -194,49 +198,42 @@ export default {
       const _this = this;
       _this.currentOrgan = currentNode;
       if (Number(currentNode.IsLowest) === 0) {
-        const r2 = { OrgID: currentNode.OrgID };
-        getOrganChildren(r2)
-          .then((resp) => {
-            let data = resp.data;
-            if (data.code === 0) {
-              currentNode.children = data.data.map((row) =>
-                _this.parseOrganTree(row)
-              );
-              _this.tableData1 = data.data;
-            } else {
-              _this.$Notice.warning({
-                title: "温馨提示",
-                desc: data.msg,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.getCurrentOrganChildren(currentNode, true);
       }
     },
     onTreeToggle(currentNode) {
       const _this = this;
       if (Number(currentNode.IsLowest) === 0) {
-        const r2 = { OrgID: currentNode.OrgID };
-        getOrganChildren(r2)
-          .then((resp) => {
-            let data = resp.data;
-            if (data.code === 0) {
-              currentNode.children = data.data.map((row) =>
-                _this.parseOrganTree(row)
-              );
-            } else {
-              _this.$Notice.warning({
-                title: "温馨提示",
-                desc: data.msg,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.getCurrentOrganChildren(currentNode);
       }
+    },
+    getCurrentOrganChildren(currentNode, updateTable = false) {
+      const _this = this;
+      if (currentNode.children[0].hasOwnProperty("title")) {
+        return false;
+      }
+      const r2 = { OrgID: currentNode.OrgID };
+      getOrganChildren(r2)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            currentNode.expand = true;
+            currentNode.children = data.data.map((row) =>
+              _this.parseOrganTree(row)
+            );
+            if (updateTable) {
+              _this.tableData1 = data.data;
+            }
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     parseOrganTree(obj, childrenKey = null) {
       const _this = this;

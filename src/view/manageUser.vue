@@ -121,9 +121,9 @@
               width="160"
             />
           </el-table>
-          <div class="pageCon">
+          <div class="pageCon" v-if="userBySearch">
             <div class="showCon">
-              显示 1-10 条，共 {{ page.totalElement }} 条
+              共 {{ page.totalElement }} 条
             </div>
             <div class="paginationStyle">
               <el-button @click="currentChange(1)" type="text" size="small"
@@ -134,6 +134,27 @@
                 @on-page-size-change="sizeChange"
                 :current="page.currentPage"
                 :total="page.totalElement"
+                prev-text="< 上一页"
+                next-text="下一页 >"
+                show-elevator
+                show-sizer
+                class-name="page-box"
+              />
+            </div>
+          </div>
+          <div class="pageCon" v-else>
+            <div class="showCon">
+              共 {{ ouPage.totalElement }} 条
+            </div>
+            <div class="paginationStyle">
+              <el-button @click="currentOrganUserChange(1)" type="text" size="small"
+                >首页</el-button
+              >
+              <Page
+                @on-change="currentOrganUserChange"
+                @on-page-size-change="organUserSizeChange"
+                :current="ouPage.currentPage"
+                :total="ouPage.totalElement"
                 prev-text="< 上一页"
                 next-text="下一页 >"
                 show-elevator
@@ -207,9 +228,9 @@
             >
             <Button type="error" icon="md-trash" ghost v-else>删除岗位</Button>
           </div>
-          <div class="subCon">
+          <!-- <div class="subCon">
             <Button type="primary">提交</Button>
-          </div>
+          </div> -->
         </div>
         <el-table
           :data="tableData2"
@@ -252,18 +273,19 @@
       <Card :bordered="false">
         <div slot="title" class="cardHead">
           <Icon type="ios-contact-outline" color="#fff" size="22" />
-          <p>用户信息</p>
+          <p>岗位信息</p>
         </div>
         <div>
-          <span>岗位信息</span>
-          <el-divider />
+          <!-- <span>岗位信息</span>
+          <el-divider /> -->
           <div class="postSearch">
             <Input
-              v-model="searchVal"
+              v-model="searchStation"
               placeholder="请输入岗位关键字"
               style="width: 250px"
             />
             <Button type="primary" icon="ios-search" style="margin-left: 15px"
+            @click="searchStationList"
               >查询</Button
             >
           </div>
@@ -283,11 +305,10 @@
           >
             <el-table-column type="selection" align="center" width="55" />
             <el-table-column prop="name" label="岗位名称" align="center" />
-            <el-table-column prop="name" label="岗位编号" align="center" />
+            <el-table-column prop="number" label="岗位编号" align="center" />
           </el-table>
           <div class="choosedCon">
             <div>已选机构和岗位：</div>
-            <!-- todo: 此处选择的是机构下的岗位还是用户可选的岗位 -->
             <div class="mechanism">
               <template v-for="ss in selectedOrganStation">
                 <p :key="'on' + ss.id">{{ ss.organName }}</p>
@@ -305,7 +326,7 @@
             >
             <Button
               type="primary"
-              @click="submitForm('ruleForm')"
+              @click="submitUserAddOS"
               style="margin-left: 15px"
               >提交</Button
             >
@@ -381,6 +402,8 @@ import {
   userOrgan,
   organStation,
   userWithOrgan,
+  userAddOrganS,
+  getStation,
 } from "@/api/mangeUser";
 export default {
   components: {},
@@ -398,9 +421,20 @@ export default {
       dialogTableVisible: false,
       searchVal: "",
       searchOrgan: "",
+      searchStation: "",
       userName: "",
       choosedList: [],
+      ouPage: {
+        totalElement: 0, // 总页数
+        currentPage: 1, // 当前页数
+        size: 10, // 每页显示多少条
+      },
       page: {
+        totalElement: 0, // 总页数
+        currentPage: 1, // 当前页数
+        size: 10, // 每页显示多少条
+      },
+      stationPage: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
@@ -424,11 +458,12 @@ export default {
       userInfo: null,
       currentUser: {},
       selectedOrganStation: [],
+      userBySearch: false,
     };
   },
   created() {
     this.getTreeData();
-    this.query();
+    // this.query();
     // this.getList();
   },
   methods: {
@@ -445,6 +480,11 @@ export default {
           let data = resp.data;
           if (data.code === 0) {
             _this.TreeData = data.data.map((row) => _this.parseOrganTree(row));
+            // _this.TreeData[0].selected = true;
+            _this.currentOrgan = _this.TreeData[0];
+            _this.getCurrenOrganUseList(_this.TreeData[0]);
+            const firstRoot = data.data.findIndex(ee => Number(ee.IsLowest)=== 0);
+            _this.getCurrentOrganChildren(_this.TreeData[firstRoot]);
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -469,46 +509,56 @@ export default {
     },
     onTreeNodeClick(currentTree, currentNode) {
       const _this = this;
+      // _this.TreeData[0].selected = false;
       _this.currentOrgan = currentNode;
       if (this.addPostCon === false && this.isCustom === false) {
-        this.getCurrenOrganUseList();
+        this.getCurrenOrganUseList(currentNode);
         if (Number(currentNode.IsLowest) === 0) {
-          const r2 = { OrgID: currentNode.OrgID };
-          getOrganChildren(r2)
-            .then((resp) => {
-              let data = resp.data;
-              if (data.code === 0) {
-                currentNode.children = data.data.map((row) =>
-                  _this.parseOrganTree(row)
-                );
-              } else {
-                _this.$Notice.warning({
-                  title: "温馨提示",
-                  desc: data.msg,
-                });
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          this.getCurrentOrganChildren(currentNode)
         }
       } else if (this.addPostCon === true) {
         this.getCurrentOrganStation();
       }
     },
-    getCurrenOrganUseList() {
+    getCurrentOrganChildren(currentNode) {
+      const _this = this;
+      if (currentNode.children[0].hasOwnProperty('title')) {
+        return false;
+      }
+      const r2 = { OrgID: currentNode.OrgID };
+      getOrganChildren(r2)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            currentNode.expand = true;
+            currentNode.children = data.data.map((row) =>
+              _this.parseOrganTree(row)
+            );
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getCurrenOrganUseList(currentNode) {
       const _this = this;
       const r = {
-        pageindex: this.page.currentPage,
-        pagesize: this.page.size,
-        organ: this.currentOrgan.id,
+        pageindex: this.ouPage.currentPage,
+        pagesize: this.ouPage.size,
+        organ: currentNode.id,
       };
       getOrganUserList(r)
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
+            _this.userBySearch = false;
             _this.tableData1 = data.data;
-            _this.page.totalElement = data.totalcount;
+            _this.ouPage.totalElement = data.totalcount;
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -530,6 +580,7 @@ export default {
           let data = resp.data;
           if (data.code === 0) {
             _this.postTableData = data.data;
+            _this.searchStation = '';
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -544,24 +595,7 @@ export default {
     onTreeToggle(currentNode) {
       const _this = this;
       if (Number(currentNode.IsLowest) === 0) {
-        const r2 = { OrgID: currentNode.OrgID };
-        getOrganChildren(r2)
-          .then((resp) => {
-            let data = resp.data;
-            if (data.code === 0) {
-              currentNode.children = data.data.map((row) =>
-                _this.parseOrganTree(row)
-              );
-            } else {
-              _this.$Notice.warning({
-                title: "温馨提示",
-                desc: data.msg,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        this.getCurrentOrganChildren(currentNode);
       }
     },
     getList() {
@@ -580,6 +614,9 @@ export default {
         }
       });
     },
+    /**
+     * 用户列表
+     */
     query() {
       const _this = this;
       let params = {
@@ -589,6 +626,7 @@ export default {
       };
       getUserList(params).then((res) => {
         if (res.data.code == 0) {
+          _this.userBySearch = true;
           _this.tableData1 = res.data.data;
           _this.page.totalElement = res.data.totalcount;
           _this.currentUser = {};
@@ -800,6 +838,53 @@ export default {
         organName: _this.currentOrgan.OrgSName,
       }));
     },
+    searchStationList() {
+      const _this = this;
+      let params = {
+        name: this.searchStation.replace(/\s*/g, "") || "",
+        pageindex: this.stationPage.currentPage,
+        pagesize: this.stationPage.size,
+      };
+      getStation(params).then((res) => {
+        if (res.data.code == 0) {
+          _this.postTableData = res.data.data;
+          _this.stationPage.totalElement = res.data.totalcount;
+        } else {
+          _this.$Notice.warning({
+            title: "温馨提示",
+            desc: data.message,
+          });
+        }
+      });
+    },
+    submitUserAddOS(){
+      const _this = this;
+      const r = {
+        userid: this.currentUser.id,
+        osIdArr: this.selectedOrganStation.map(s => s.id)
+      };
+      userAddOrganS(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+              _this.$message({
+                message: data.msg,
+                type: "success",
+                duration: 1500,
+              });
+            _this.addPostCon = false;
+            _this.getUserOrganStation(_this.currentUser);
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.isCustom = false;
@@ -829,6 +914,7 @@ export default {
         });
         return false;
       }
+      this.getCurrentOrganStation();
       this.addPostCon = true;
     },
     handleImport(row) {
@@ -872,6 +958,16 @@ export default {
       this.dialogTableVisible = false;
       this.isCustom = true;
     },
+    // 机构用户
+    currentOrganUserChange(current) {
+      this.ouPage.currentPage = current;
+      this.getCurrenOrganUseList();
+    },
+    organUserSizeChange(size) {
+      this.ouPage.size = size;
+      this.currentOrganUserChange(1);
+    },
+    // 按名字
     currentChange(current) {
       this.page.currentPage = current;
       this.query();

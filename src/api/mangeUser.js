@@ -169,8 +169,8 @@ export const organStation = (params) => {
     method: 'POST'
   })
 }
-// 用户+机构
-export const userAddOrgan = (params) => {
+// 用户+机构岗位
+export const userAddOrganS = (params) => {
   return axios.request({
     url: `/api/user/userosadd`,
     data: params,
@@ -188,3 +188,7 @@ export const userWithOrgan = (params) => {
 // todo:
 // ? 机构-岗位绑定，组成机构+岗映射关系 这个操作在哪
 // ? 用户-机构绑定，组成机构+岗映射关系 这个操作在哪; 原型是用户直接绑定机构的岗位
+
+// ? 默认: 机构下的用户列表, 用户名字搜索无机构信息?
+// ? 默认: 机构下岗位, 岗位名称搜索?
+// ? 用户添加岗位, 传的id 不是岗位的id?
