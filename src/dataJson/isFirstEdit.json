@@ -5,11 +5,22 @@
   "data": {
     "isFirstEdit": false,
     "edit": [
-      "invoiceType",
-      "invoiceCode",
-      "invoiceNo",
-      "invoiceItems.1.itemUnit",
-      "invoiceItems.1.itemName"
+      {
+        "keyName": "invoiceCode",
+        "keyValue": "010101"
+      },
+      {
+        "keyName": "invoiceNo",
+        "keyValue": "xxx"
+      },
+      {
+        "keyName": "invoiceItems.1.itemUnit",
+        "keyValue": "xxx"
+      },
+      {
+        "keyName": "invoiceItems.1.itemName",
+        "keyValue": "xxx"
+      }
     ]
   }
 }

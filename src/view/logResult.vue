@@ -1262,8 +1262,9 @@ export default {
             if (data.data.isFirstEdit == true) {
               return false;
             }
-            editFields = data.data.edit.filter((f) => f.indexOf(".") === -1);
-            const items = data.data.edit.filter((f) => f.indexOf(".") !== -1);
+            const allKeyNames = data.data.edit.map(k => k.keyName);
+            editFields = allKeyNames.filter((f) => f.indexOf(".") === -1);
+            const items = allKeyNames.filter((f) => f.indexOf(".") !== -1);
             let itemsKey = []; // 'invoiceItems';
             items.map((ik) => {
               const ss = ik.split(".");
@@ -1274,24 +1275,24 @@ export default {
               editFieldsItems[itemIndex].push(ss[2]);
             });
             itemsKey = [...new Set([...itemsKey])];
-            console.log("eek", itemsKey);
             _this.setEditFields(editFields);
             _this.setEditFieldsItems(editFieldsItems);
             _this.editFields = editFields;
             _this.editFieldsItems = editFieldsItems;
-            // _this.editInvoice = {..._this.messageInfo.invoices[_this.tabsInvoiceIndex]};
-            // todo: 更新 editInvoice 已经变更的值 --*--
-            // editFields.map((ek) => {
-            //   _this.editInvoice[ek] = "--*--";
-            // });
-            // if (itemsKey.length > 0) {
-            //   editFieldsItems.map((row, ii) => {
-            //     if (ii === 0) return true;
-            //     row.map((rowK) => {
-            //       _this.editInvoice[itemsKey[0]][ii - 1][rowK] = "--*--";
-            //     });
-            //   });
-            // }
+            editFields.map((ek) => {
+              const findObj = data.data.edit.find(f => f.keyName===ek);
+              _this.editInvoice[ek] = findObj.keyValue;
+            });
+            if (itemsKey.length > 0) {
+              editFieldsItems.map((row, ii) => {
+                if (ii === 0) return true;
+                row.map((rowK) => {
+                  const iiKey = `${itemsKey[0]}.${ii}.${rowK}`;
+                  const findObj = data.data.edit.find(f => f.keyName===iiKey);
+                  _this.editInvoice[itemsKey[0]][ii - 1][rowK] = findObj.keyValue;
+                });
+              });
+            }
           } else {
             Notification.closeAll();
             Notification({
