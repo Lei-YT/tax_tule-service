@@ -26,19 +26,16 @@ export const getAddlist = (params) => {
 // 账号启用/禁用
 export const enableUser = (params) => {
   return axios.request({
-    url: `/api/user/enable`, //?id=${id}&token=${t}&isEnable=${status}`,
-    data: {
-      id: params.id,
-      isEnable: params.isEnable
-    },
+    url: `/api/user/enable`,
+    data: params,
     method: 'POST'
   })
 }
 // 账号删除
 export const delUsers = (id) => {
   return axios.request({
-    url: `/api/user/del`, //?id=${id}`,
-    data: { id },
+    url: `/api/user/del`,
+    data: id,
     method: 'POST'
   })
 }

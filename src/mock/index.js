@@ -157,7 +157,7 @@ Mock.mock(/\/api\/(server|bill)\/qldata/, 'post', (req, res) => {
   return Mock.mock((Encrypt(JSON.stringify(resultDataJson2))))
 })
 Mock.mock(/\/api\/user\/list/, 'post', (req, res) => {
-  return Mock.mock(Encrypt(JSON.stringify(mangeUser)))
+  return Mock.mock(Encrypt(JSON.stringify(userJson)))
 })
 Mock.mock(/\/api\/user\/addlist/, 'post', (req, res) => {
   console.log('import list', importData)
@@ -208,6 +208,13 @@ Mock.mock(/\/api\/user\/addstation/, 'post', (req, res) => {
   })))
 })
 Mock.mock(/\/api\/user\/edit/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    'code': 0,
+    'msg': '操作成功.'
+  })))
+})
+Mock.mock(/\/api\/user\/enable/, 'post', (req, res) => {
+  console.log('mock user enable', req)
   return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,
     'msg': '操作成功.'

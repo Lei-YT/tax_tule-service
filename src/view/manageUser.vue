@@ -59,6 +59,7 @@
                 type="primary"
                 icon="ios-ionic-outline"
                 style="margin: 0 15px"
+                @click="handel('4')"
                 >启用</Button
               >
               <Button type="primary" icon="md-add" @click="addUserBtn"
@@ -98,7 +99,7 @@
                   v-if="scope.row.isEnable == 1"
                   type="text"
                   size="small"
-                  @click="changeStatus(scope.row)"
+                  @click="handel('4', scope.row)"
                   >启用</el-button
                 >
                 <el-button
@@ -590,76 +591,122 @@ export default {
     // 确认删除
     sureDel() {
       const _this = this;
-      // 禁用账户
-      if (this.delType == 3) {
-        enableUser(this.userInfo)
-          .then((res) => {
-            if (res.data.code == 0) {
+      let r = {};
+      switch (Number(this.delType)) {
+        case 1:
+          // 删除该用户
+          r = {
+            idarr: this.chooseLength.map((u) => u.id),
+          };
+          delUsers(r)
+            .then((res) => {
+              if (res.data.code == 0) {
+                _this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1200,
+                });
+                _this.query();
+              }
+            })
+            .catch((err) => {
               _this.$message({
-                message: res.data.msg,
-                type: "success",
-                duration: 1200,
+                type: "info",
+                message: err,
               });
-            }
-          })
-          .catch(() => {
-            _this.$message({
-              type: "info",
-              message: res.data.msg,
             });
-          });
-      } else if (this.delType == 1) {
-        // 删除该用户
-        delUsers(this.idArr)
-          .then((res) => {
-            if (res.data.code == 0) {
+          break;
+        case 2:
+          // 删除用户的岗位
+          r = {
+            userid: this.currentUser.id,
+            osIdArr: this.postLength.map((r) => r.id),
+          };
+          deleteUserOrgan(r)
+            .then((res) => {
+              if (res.data.code == 0) {
+                _this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1200,
+                });
+                _this.getUserOrganStation(_this.currentUser);
+              }
+            })
+            .catch((err) => {
               _this.$message({
-                message: res.data.msg,
-                type: "success",
-                duration: 1200,
+                type: "info",
+                message: err,
               });
-              _this.query();
-            }
-          })
-          .catch((err) => {
-            _this.$message({
-              type: "info",
-              message: err,
             });
-          });
-      } else if (this.delType == 2) {
-        // 删除用户的岗位
-        const r = {
-          userid: this.currentUser.id,
-          osIdArr: this.postLength.map((r) => r.id),
-        };
-        deleteUserOrgan(r)
-          .then((res) => {
-            if (res.data.code == 0) {
+
+          break;
+        case 3:
+          // 禁用账户,单行
+          r = {
+            idarr: this.chooseLength.map((u) => u.id),
+            isEnable: 1,
+          };
+          enableUser(r)
+            .then((res) => {
+              if (res.data.code == 0) {
+                _this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1200,
+                });
+              }
+            })
+            .catch(() => {
               _this.$message({
+                type: "info",
                 message: res.data.msg,
-                type: "success",
-                duration: 1200,
               });
-              _this.getUserOrganStation(_this.currentUser);
-            }
-          })
-          .catch((err) => {
-            _this.$message({
-              type: "info",
-              message: err,
             });
-          });
+
+          break;
+        case 4:
+          // 启用账户, 勾选的多个
+          r = {
+            idarr: this.chooseLength.map((u) => u.id),
+            isEnable: 0,
+          };
+          enableUser(r)
+            .then((res) => {
+              if (res.data.code == 0) {
+                _this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1200,
+                });
+              }
+            })
+            .catch(() => {
+              _this.$message({
+                type: "info",
+                message: res.data.msg,
+              });
+            });
+
+          break;
+
+        default:
+          break;
       }
       this.centerDialogVisible = false;
     },
     handel(type, row) {
-      this.userInfo = row;
+      if (row) {
+        this.userInfo = row;
+        this.chooseLength = [{...row}];
+      }
       this.delType = type;
       if (type == 1) {
         this.delCon = "您是否要删除该用户？";
       } else if (type == 2) {
         this.delCon = "您是否要删除该岗位？";
+      } else if (type == 4) {
+        this.delCon = "您是否要启用该用户？";
       } else if (type == 3) {
         this.delCon = "您是否要禁用该用户？";
       }
@@ -756,7 +803,6 @@ export default {
     handleImport(row) {
       const _this = this;
       importAddUser(row).then((res) => {
-        console.log(res, "导入添加");
         if (res.data.code == 0) {
           _this.$message({
             message: res.data.msg,

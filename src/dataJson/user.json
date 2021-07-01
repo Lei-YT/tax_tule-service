@@ -16,7 +16,7 @@
             "deleted_at": null
         },
         {
-            "id": 0,
+            "id": 2,
             "stationName": "admin",
             "name": "管理员",
             "adminNo": "28757",
@@ -29,7 +29,7 @@
             "deleted_at": null
         },
         {
-            "id": 1,
+            "id": 3,
             "stationName": "admin",
             "name": "管理",
             "adminNo": "5435425",
