@@ -287,14 +287,16 @@
           </el-table>
           <div class="choosedCon">
             <div>已选机构和岗位：</div>
+            <!-- todo: 此处选择的是机构下的岗位还是用户可选的岗位 -->
             <div class="mechanism">
-              <p>4454</p>
-              <p>4454</p>
-              <p>4454</p>
+              <template v-for="ss in selectedOrganStation">
+                <p :key="'on' + ss.id">{{ ss.organName }}</p>
+              </template>
             </div>
             <div class="postName">
-              <p>1111</p>
-              <p>22222222222</p>
+              <template v-for="ss in selectedOrganStation">
+                <p :key="'os' + ss.id">{{ ss.name }}</p>
+              </template>
             </div>
           </div>
           <div class="footers">
@@ -421,6 +423,7 @@ export default {
       },
       userInfo: null,
       currentUser: {},
+      selectedOrganStation: [],
     };
   },
   created() {
@@ -791,7 +794,11 @@ export default {
       });
     },
     postSelected(val) {
-      console.log(val, "444444444444");
+      const _this = this;
+      this.selectedOrganStation = val.map((s) => ({
+        ...s,
+        organName: _this.currentOrgan.OrgSName,
+      }));
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
