@@ -156,6 +156,14 @@ export const userOrgan = (params) => {
     method: 'POST'
   })
 }
+// 删除用户的机构>岗位
+export const deleteUserOrgan = (params) => {
+  return axios.request({
+    url: `/api/user/userosdel`,
+    data: params,
+    method: 'POST'
+  })
+}
 // 机构>岗位
 export const organStation = (params) => {
   return axios.request({
@@ -172,6 +180,6 @@ export const userAddOrgan = (params) => {
     method: 'POST'
   })
 }
-// todo: 删除用户下的岗位, 删除用户（多选），禁用/启用用户(多选), 机构下的机构
+// todo: 删除用户（多选），禁用/启用用户(多选), 机构下的机构
 // ? 机构-岗位绑定，组成机构+岗映射关系 这个操作在哪
 // ? 用户-机构绑定，组成机构+岗映射关系 这个操作在哪; 原型是用户直接绑定机构的岗位

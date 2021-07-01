@@ -8,16 +8,21 @@
       </div>
       <div class="searchCon">
         <Input
-          v-model="searchVal"
+          v-model="searchOrgan"
           icon="md-close"
           placeholder="请输入机构关键字"
           @on-click="clearCon"
           style="width: 83%"
         />
-        <Button type="primary" icon="ios-search" />
+        <Button type="primary" icon="ios-search" @click="getTreeData" />
       </div>
       <div class="treeCon">
-        <Tree :data="TreeData" @on-select-change="onTreeNodeClick" />
+        <Tree
+          :data="TreeData"
+          expand-node
+          @on-select-change="onTreeNodeClick"
+          @on-toggle-expand="onTreeToggle"
+        />
       </div>
     </Card>
     <!-- 右 -->
@@ -178,7 +183,12 @@
         </div>
       </Card>
       <!-- 下 -->
-      <Card :bordered="false" style="margin-top: 15px" class="ghostHeader" v-if="!isCustom">
+      <Card
+        :bordered="false"
+        style="margin-top: 15px"
+        class="ghostHeader"
+        v-if="!isCustom"
+      >
         <div slot="title" class="cardHeads">
           <div class="leftCon">
             <Button
@@ -359,10 +369,12 @@ import {
   addUser, // 新增
   getAddlist, // 添加导入用户查询接口
   delUsers, // 删除账号
+  deleteUserOrgan,
   enableUser,
   importAddUser,
   getOrganUserList, // 机构用户列表
   getOrganList, // 机构列表
+  getOrganChildren,
   userOrgan,
   organStation,
 } from "@/api/mangeUser";
@@ -381,6 +393,7 @@ export default {
       isCustom: false,
       dialogTableVisible: false,
       searchVal: "",
+      searchOrgan: "",
       userName: "",
       choosedList: [],
       page: {
@@ -388,38 +401,8 @@ export default {
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
-      TreeData: [
-        {
-          title: "parent 1",
-          expand: true,
-          children: [
-            {
-              title: "parent 1-1",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-1-1",
-                },
-                {
-                  title: "leaf 1-1-2",
-                },
-              ],
-            },
-            {
-              title: "parent 1-2",
-              expand: true,
-              children: [
-                {
-                  title: "leaf 1-2-1",
-                },
-                {
-                  title: "leaf 1-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      TreeData: [],
+      currentOrgan: {},
       tableData1: [],
       tableData2: [],
       gridData: [],
@@ -439,14 +422,14 @@ export default {
     };
   },
   created() {
+    this.getTreeData();
     this.query();
-    this.getList();
+    // this.getList();
   },
   methods: {
     getTreeData() {
       const _this = this;
       const r = {
-        org_code: "",
         org_name: this.searchOrgan,
       };
       Object.keys(r).forEach(
@@ -456,7 +439,7 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.TreeData = data.data;
+            _this.TreeData = data.data.map((row) => _this.parseOrganTree(row));
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -468,19 +451,20 @@ export default {
           console.log(err);
         });
     },
-    parseTree(obj, childrenKey) {
+    parseOrganTree(obj, childrenKey = null) {
       const _this = this;
       const o = { ...obj };
-      o.title = o.name;
+      o.title = o.OrgSName;
       // o.selected = true;
-      o.expand = true;
-      if (o.hasOwnProperty(childrenKey))
-        o.children = o[childrenKey].map((ch) => _this.parseTree(ch));
+      o.expand = false;
+      o.children = Number(o.IsLowest) === 0 ? [{ expand: false }] : [];
+      if (childrenKey && o.hasOwnProperty(childrenKey))
+        o.children = o[childrenKey].map((ch) => _this.parseOrganTree(ch));
       return o;
     },
     onTreeNodeClick(currentTree, currentNode) {
-      console.log(currentTree, currentNode);
       const _this = this;
+      _this.currentOrgan = currentNode;
       if (this.addPostCon === false && this.isCustom === false) {
         const r = {
           pageindex: this.page.currentPage,
@@ -503,6 +487,26 @@ export default {
           .catch((err) => {
             console.log(err);
           });
+        if (Number(currentNode.IsLowest) === 0) {
+          const r2 = { OrgID: currentNode.OrgID };
+          getOrganChildren(r2)
+            .then((resp) => {
+              let data = resp.data;
+              if (data.code === 0) {
+                currentNode.children = data.data.map((row) =>
+                  _this.parseOrganTree(row)
+                );
+              } else {
+                _this.$Notice.warning({
+                  title: "温馨提示",
+                  desc: data.msg,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       } else if (this.addPostCon === true) {
         const r = {
           orgid: currentNode.id,
@@ -512,6 +516,29 @@ export default {
             let data = resp.data;
             if (data.code === 0) {
               _this.postTableData = data.data;
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: data.msg,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    onTreeToggle(currentNode) {
+      const _this = this;
+      if (Number(currentNode.IsLowest) === 0) {
+        const r2 = { OrgID: currentNode.OrgID };
+        getOrganChildren(r2)
+          .then((resp) => {
+            let data = resp.data;
+            if (data.code === 0) {
+              currentNode.children = data.data.map((row) =>
+                _this.parseOrganTree(row)
+              );
             } else {
               _this.$Notice.warning({
                 title: "温馨提示",
@@ -562,12 +589,13 @@ export default {
     },
     // 确认删除
     sureDel() {
+      const _this = this;
       // 禁用账户
       if (this.delType == 3) {
         enableUser(this.userInfo)
           .then((res) => {
             if (res.data.code == 0) {
-              this.$message({
+              _this.$message({
                 message: res.data.msg,
                 type: "success",
                 duration: 1200,
@@ -575,7 +603,7 @@ export default {
             }
           })
           .catch(() => {
-            this.$message({
+            _this.$message({
               type: "info",
               message: res.data.msg,
             });
@@ -585,16 +613,39 @@ export default {
         delUsers(this.idArr)
           .then((res) => {
             if (res.data.code == 0) {
-              this.$message({
+              _this.$message({
                 message: res.data.msg,
                 type: "success",
                 duration: 1200,
               });
-              this.query();
+              _this.query();
             }
           })
           .catch((err) => {
-            this.$message({
+            _this.$message({
+              type: "info",
+              message: err,
+            });
+          });
+      } else if (this.delType == 2) {
+        // 删除用户的岗位
+        const r = {
+          userid: this.currentUser.id,
+          osIdArr: this.postLength.map((r) => r.id),
+        };
+        deleteUserOrgan(r)
+          .then((res) => {
+            if (res.data.code == 0) {
+              _this.$message({
+                message: res.data.msg,
+                type: "success",
+                duration: 1200,
+              });
+              _this.getUserOrganStation(_this.currentUser);
+            }
+          })
+          .catch((err) => {
+            _this.$message({
               type: "info",
               message: err,
             });
@@ -684,7 +735,7 @@ export default {
       this.isCustom = false;
     },
     clearCon() {
-      this.searchVal = "";
+      this.searchOrgan = "";
     },
     changeStatus(row) {},
     addUserBtn() {
