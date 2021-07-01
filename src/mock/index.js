@@ -3,6 +3,7 @@ import { Encrypt, Decrypt } from "@/libs/aes";
 import Mock from 'mockjs'
 import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
+import userAuth from '@/dataJson/user-auth.json'
 import process from "@/dataJson/process.json";
 import resultJson from '@/dataJson/result12.json'
 import mangeUser from '@/dataJson/mangeUser.json'
@@ -46,6 +47,10 @@ Mock.mock(/\/api\/login\/passwordchange/, 'post', (req, res) => {
     'code': 0,
     'msg': '操作成功.'
   })))
+})
+Mock.mock(/\/api\/user\/userhaspower/, 'post', (req, res) => {
+  console.log('user auth', req, userAuth)
+  return Mock.mock(Encrypt(JSON.stringify(userAuth)))
 })
 
 // Mock.mock(/\/api\/scene/, 'post', (req, res) => {

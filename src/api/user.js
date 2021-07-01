@@ -31,6 +31,16 @@ export const passwordchange = ({adminNo, password, oldpassword}) => {
     method: 'POST'
   })
 }
+// 获取用户的权限表
+export const useraccess = (userid) => {
+  return axios.request({
+    url: `/api/user/userhaspower`,
+    data: {
+      userid,
+    },
+    method: 'POST'
+  })
+}
 // 机器人流程监控列表接口
 export const homelist = ({ secneName, id }) => {
   return axios.request({
