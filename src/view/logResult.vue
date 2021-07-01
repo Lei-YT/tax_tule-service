@@ -608,10 +608,12 @@ import { Notification, Loading } from "element-ui";
 import axios from "@/libs/api.request";
 const clubArray = (arr) => {
   return arr.reduce((acc, val, ind) => {
-    acc[ind] = acc[ind] ? acc[ind] : {};
+    acc[ind] = acc[ind] && acc[ind] !== null ? acc[ind] : {};
     val.map((v) => {
-      const key = Object.keys(v)[0];
-      acc[ind][key] = v[key];
+      if (typeof v === "object" && v !== null) {
+        const key = Object.keys(v)[0];
+        acc[ind][key] = v[key];
+      }
     });
     return acc;
   }, []);
@@ -967,7 +969,9 @@ export default {
             });
             if (xx.length > 0) {
               const newArray = xx[0].map((col, i) => xx.map((row) => row[i]));
-              const parr = JSON.parse(JSON.stringify(newArray));
+              const parr = JSON.parse(JSON.stringify(newArray)).filter(
+                (s) => s
+              );
               _this.resultFormData = clubArray(parr)
                 .map((x) => removeEmptyOrNull(x))
                 .filter((nn) => Object.keys(nn).length !== 0);
@@ -1262,7 +1266,7 @@ export default {
             if (data.data.isFirstEdit == true) {
               return false;
             }
-            const allKeyNames = data.data.edit.map(k => k.keyName);
+            const allKeyNames = data.data.edit.map((k) => k.keyName);
             editFields = allKeyNames.filter((f) => f.indexOf(".") === -1);
             const items = allKeyNames.filter((f) => f.indexOf(".") !== -1);
             let itemsKey = []; // 'invoiceItems';
@@ -1280,7 +1284,7 @@ export default {
             _this.editFields = editFields;
             _this.editFieldsItems = editFieldsItems;
             editFields.map((ek) => {
-              const findObj = data.data.edit.find(f => f.keyName===ek);
+              const findObj = data.data.edit.find((f) => f.keyName === ek);
               _this.editInvoice[ek] = findObj.keyValue;
             });
             if (itemsKey.length > 0) {
@@ -1288,8 +1292,11 @@ export default {
                 if (ii === 0) return true;
                 row.map((rowK) => {
                   const iiKey = `${itemsKey[0]}.${ii}.${rowK}`;
-                  const findObj = data.data.edit.find(f => f.keyName===iiKey);
-                  _this.editInvoice[itemsKey[0]][ii - 1][rowK] = findObj.keyValue;
+                  const findObj = data.data.edit.find(
+                    (f) => f.keyName === iiKey
+                  );
+                  _this.editInvoice[itemsKey[0]][ii - 1][rowK] =
+                    findObj.keyValue;
                 });
               });
             }

@@ -8,10 +8,11 @@ import resultJson from '@/dataJson/result12.json'
 import mangeUser from '@/dataJson/mangeUser.json'
 import importData from '@/dataJson/import.json'
 import station from '@/dataJson/station.json'
-import resultDataJson2 from '@/dataJson/result-data7.json'
+import resultDataJson2 from '@/dataJson/result-data8.json'
 import isFirstEdit from '@/dataJson/isFirstEdit.json'
 import userJson from '@/dataJson/user.json'
 import userOrganJson from '@/dataJson/user-organ.json'
+import userOrganChild from '@/dataJson/user-organ-c.json'
 import userStation from '@/dataJson/user-station.json'
 import organStation from '@/dataJson/organ-station.json'
 import stationPower from '@/dataJson/station-power.json'
@@ -168,6 +169,10 @@ Mock.mock(/\/api\/user\/station/, 'post', (req, res) => {
 Mock.mock(/\/api\/user\/organlist/, 'post', (req, res) => {
   console.log('organ organlist mock res', req, userOrganJson)
   return Mock.mock(Encrypt(JSON.stringify(userOrganJson)))
+})
+Mock.mock(/\/api\/user\/organchilds/, 'post', (req, res) => {
+  console.log('organ child mock res', req, userOrganChild)
+  return Mock.mock(Encrypt(JSON.stringify(userOrganChild)))
 })
 Mock.mock(/\/api\/user\/powerlist/, 'post', (req, res) => {
   console.log('powerlist mock res', req, powerList)

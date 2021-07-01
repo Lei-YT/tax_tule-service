@@ -1,0 +1,32 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "image": [],
+    "form": [
+      {
+        "keyName": "头信息-本次结算金额",
+        "jsonPath": "$.head.thisSettlementAmount",
+        "data": [
+          {
+            "index": 1,
+            "data": "528000.00"
+          }
+        ],
+        "valueData": [
+          {
+            "index": 1,
+            "value": "528000.00",
+            "highLight": true
+          }
+        ]
+      },
+      {
+        "keyName": "发票行-专票、普票价税合计(筛选*)",
+        "jsonPath": "$.line.fpLine.amountWithTax",
+        "data": [],
+        "valueData": []
+      }
+    ]
+  }
+}
