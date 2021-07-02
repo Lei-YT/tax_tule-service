@@ -37,6 +37,7 @@ class HttpRequest {
     instance.interceptors.request.use(config => {
       // 添加全局的loading...
       // loadingInstance = Loading.service({ fullscreen: true, background: 'hsla(0,0%,100%,.2)' })
+      iView.LoadingBar.destroy()
       iView.LoadingBar.start()
       this.queue[url] = false
       return config
