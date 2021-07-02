@@ -254,7 +254,7 @@
             width="60"
           />
           <el-table-column label="姓名" align="center">
-            <template>
+            <template v-if="tableData2.length>0">
               {{ currentUser.name }}
             </template>
           </el-table-column>
@@ -306,19 +306,19 @@
             style="margin-top: 15px"
           >
             <el-table-column type="selection" align="center" width="55" />
-            <el-table-column prop="name" label="岗位名称" align="center" />
-            <el-table-column prop="number" label="岗位编号" align="center" />
+            <el-table-column prop="station.name" label="岗位名称" align="center" />
+            <el-table-column prop="station.number" label="岗位编号" align="center" />
           </el-table>
           <div class="choosedCon">
             <div>已选机构和岗位：</div>
             <div class="mechanism">
               <template v-for="ss in selectedOrganStation">
-                <p :key="'on' + ss.id">{{ ss.organName }}</p>
+                <p :key="'on' + ss.id">{{ ss.organ.OrgSName }}</p>
               </template>
             </div>
             <div class="postName">
               <template v-for="ss in selectedOrganStation">
-                <p :key="'os' + ss.id">{{ ss.name }}</p>
+                <p :key="'os' + ss.id">{{ ss.station.name }}</p>
               </template>
             </div>
           </div>
@@ -461,11 +461,11 @@ export default {
       currentUser: {},
       selectedOrganStation: [],
       userBySearch: false,
+      userOrganStation: [],
     };
   },
   created() {
     this.getTreeData();
-    // this.query();
     // this.getList();
   },
   methods: {
@@ -524,12 +524,15 @@ export default {
       // _this.TreeData[0].selected = false;
       _this.currentOrgan = currentNode;
       if (this.addPostCon === false && this.isCustom === false) {
+        this.tableData1 = [];
+        this.tableData2 = [];
         this.getCurrenOrganUseList(currentNode);
         if (Number(currentNode.IsLowest) === 0) {
           this.getCurrentOrganChildren(currentNode);
         }
       } else if (this.addPostCon === true) {
-        this.getCurrentOrganStation();
+        this.postTableData = [];
+        this.getUserOrganStation(this.currentUser);
       }
     },
     getCurrentOrganChildren(currentNode) {
@@ -563,6 +566,7 @@ export default {
         pageindex: this.ouPage.currentPage,
         pagesize: this.ouPage.size,
         organ: currentNode.id,
+        username: this.searchName.replace(/\s*/g, "") || "",
       };
       getOrganUserList(r)
         .then((resp) => {
@@ -582,6 +586,9 @@ export default {
           console.log(err);
         });
     },
+    /**
+     * @deprecated
+     */
     getCurrentOrganStation() {
       const _this = this;
       const r = {
@@ -626,30 +633,6 @@ export default {
         }
       });
     },
-    /**
-     * 用户列表
-     */
-    query() {
-      const _this = this;
-      let params = {
-        name: this.searchName.replace(/\s*/g, "") || "",
-        pageindex: this.page.currentPage,
-        pagesize: this.page.size,
-      };
-      getUserList(params).then((res) => {
-        if (res.data.code == 0) {
-          _this.userBySearch = true;
-          _this.tableData1 = res.data.data;
-          _this.page.totalElement = res.data.totalcount;
-          _this.currentUser = {};
-        } else {
-          _this.$Notice.warning({
-            title: "温馨提示",
-            desc: data.msg,
-          });
-        }
-      });
-    },
     // 确认删除
     sureDel() {
       const _this = this;
@@ -668,7 +651,7 @@ export default {
                   type: "success",
                   duration: 1200,
                 });
-                _this.query();
+                _this.getCurrenOrganUseList(_this.currentOrgan);
               }
             })
             .catch((err) => {
@@ -790,15 +773,24 @@ export default {
       this.getUserOrganStation(currentUser);
     },
     getUserOrganStation(user) {
+      if (user===null || Object.keys(user).length===0) {
+        return false;
+      }
       const _this = this;
       const r = {
         userid: user.id,
+        org_id: this.currentOrgan.id
       };
       userOrgan(r)
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.tableData2 = data.data;
+            const is_user_organ_station = data.data.filter(os => Number(os.userorgan_count)===1);
+            _this.tableData2 = is_user_organ_station;
+            _this.userOrganStation = is_user_organ_station;
+            const not_user_organ_station = data.data.filter(os => Number(os.userorgan_count)!==1);
+            _this.postTableData = not_user_organ_station;
+            // _this.tableData2 = data.data;
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -830,7 +822,7 @@ export default {
               _this.isCustom = false;
               const newUser = res.data.data;
               _this.boundUserToOrgan(newUser);
-              // _this.query();
+              _this.getCurrenOrganUseList(_this.currentOrgan);
             } else {
               _this.$Notice.warning({
                 title: "温馨提示",
@@ -926,7 +918,7 @@ export default {
         });
         return false;
       }
-      this.getCurrentOrganStation();
+      this.getUserOrganStation(this.currentUser);
       this.addPostCon = true;
     },
     handleImport(row) {
@@ -938,7 +930,7 @@ export default {
             type: "success",
             duration: 1500,
           });
-          _this.query();
+          _this.getCurrenOrganUseList(_this.currentOrgan);
           _this.dialogTableVisible = false;
         } else {
           _this.$Notice.warning({
@@ -973,23 +965,14 @@ export default {
     // 机构用户
     currentOrganUserChange(current) {
       this.ouPage.currentPage = current;
-      this.getCurrenOrganUseList();
+      this.getCurrenOrganUseList(this.currentOrgan);
     },
     organUserSizeChange(size) {
       this.ouPage.size = size;
       this.currentOrganUserChange(1);
     },
-    // 按名字
-    currentChange(current) {
-      this.page.currentPage = current;
-      this.query();
-    },
-    sizeChange(size) {
-      this.page.size = size;
-      this.currentChange(1);
-    },
     searchData() {
-      this.currentChange(1);
+      this.currentOrganUserChange(1);
     },
   },
 };
