@@ -185,25 +185,25 @@ export default [
       }
     ]
   },
-  {
-    path: '/',
-    name: 'user',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'userIndex',
-        meta: {
-          icon: 'ios-contacts-outline',
-          title: '权限管理'
-        },
-        component: () => import('@/view/user.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/',
+  //   name: 'user',
+  //   meta: {
+  //     hideInBread: true
+  //   },
+  //   component: Main,
+  //   children: [
+  //     {
+  //       path: homePath,
+  //       name: 'userIndex',
+  //       meta: {
+  //         icon: 'ios-contacts-outline',
+  //         title: '权限管理'
+  //       },
+  //       component: () => import('@/view/user.vue')
+  //     }
+  //   ]
+  // },
   {
     path: '/logResult/shareResult',
     name: 'shareResult',
