@@ -34,7 +34,8 @@ export default [
     component: Main,
     meta: {
       notCache: true,
-      hideInBread: true
+      hideInBread: true,
+      access: ['data','data_search', 'data_count'],
     },
     children: [
       {
@@ -42,7 +43,8 @@ export default [
         name: 'robotDataMonitor',
         meta: {
           icon: 'ios-navigate',
-          title: '机器人数据监控'
+          title: '机器人数据监控',
+          access: ['data','data_search', 'data_count'],
         },
         component: () => import('@/view/robotDataMonitor.vue')
       }
@@ -52,7 +54,8 @@ export default [
     path: '/',
     name: 'robotProcess',
     meta: {
-      hideInBread: true
+      hideInBread: true,
+      access: ['proce', 'proce_search', 'proce_operate',]
     },
     component: Main,
     children: [
@@ -61,7 +64,8 @@ export default [
         name: 'robotProcessIndex',
         meta: {
           icon: 'md-crop',
-          title: '机器人流程监控'
+          title: '机器人流程监控',
+          access: ['proce', 'proce_search', 'proce_operate',]
         },
         component: () => import('@/view/robotProcess.vue')
       }
@@ -71,7 +75,8 @@ export default [
     path: '/',
     name: 'auditLog',
     meta: {
-      hideInBread: true
+      hideInBread: true,
+      access: ['bill','bill_search','bill_operate',]
     },
     component: Main,
     children: [
@@ -82,7 +87,8 @@ export default [
           icon: 'ios-create-outline',
           title: '机器人审单日志',
           keepAlive: true,
-          isBack: false
+          isBack: false,
+          access: ['bill','bill_search','bill_operate',]
         },
         component: () => import('@/view/auditLog.vue')
       }
@@ -93,7 +99,8 @@ export default [
     name: 'logResult',
     meta: {
       hideInBread: true,
-      hideInMenu: true
+      hideInMenu: true,
+      access: ['bill','bill_search','bill_operate',]
     },
     component: Main,
     children: [
@@ -102,7 +109,8 @@ export default [
         name: 'logResultIndex',
         meta: {
           icon: 'ios-create-outline',
-          title: '机器人审单日志 / 机器人审核结果页'
+          title: '机器人审单日志 / 机器人审核结果页',
+          access: ['bill','bill_search','bill_operate',]
         },
         component: () => import('@/view/logResult.vue')
       },
@@ -112,7 +120,8 @@ export default [
     path: '/',
     name: 'manageUser',
     meta: {
-      hideInBread: true
+      hideInBread: true,
+      access: ['user','user_search','user_operate',]
     },
     component: Main,
     children: [
@@ -121,7 +130,8 @@ export default [
         name: 'manageUserIndex',
         meta: {
           icon: 'ios-person-add-outline',
-          title: '用户管理'
+          title: '用户管理',
+          access: ['user','user_search','user_operate',]
         },
         component: () => import('@/view/manageUser.vue')
       }
@@ -132,7 +142,8 @@ export default [
     name: 'addWorks',
     meta: {
       hideInBread: true,
-      hideInMenu: true
+      hideInMenu: true,
+      access: ['station','station_search','station_operate',]
     },
     component: Main,
     children: [
@@ -141,7 +152,8 @@ export default [
         name: 'addWorks',
         meta: {
           icon: 'ios-nuclear',
-          title: '岗位权限管理'
+          title: '岗位权限管理',
+          access: ['station','station_search','station_operate',]
         },
         component: () => import('@/view/addWorks.vue')
       },
@@ -151,7 +163,8 @@ export default [
     path: '/',
     name: 'workPermiss',
     meta: {
-      hideInBread: true
+      hideInBread: true,
+      access: ['station','station_search','station_operate',]
     },
     component: Main,
     children: [
@@ -160,7 +173,8 @@ export default [
         name: 'workPermiss',
         meta: {
           icon: 'ios-nuclear',
-          title: '岗位权限管理'
+          title: '岗位权限管理',
+          access: ['station','station_search','station_operate',]
         },
         component: () => import('@/view/workPermiss.vue')
       }
@@ -170,7 +184,8 @@ export default [
     path: '/',
     name: 'institutionsMange',
     meta: {
-      hideInBread: true
+      hideInBread: true,
+      access: ['organ','organ_search','organ_operate',]
     },
     component: Main,
     children: [
@@ -179,31 +194,32 @@ export default [
         name: 'institutionsMange',
         meta: {
           icon: 'ios-podium',
-          title: '机构管理'
+          title: '机构管理',
+          access: ['organ','organ_search','organ_operate',]
         },
         component: () => import('@/view/institutions.vue')
       }
     ]
   },
-  {
-    path: '/',
-    name: 'user',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'userIndex',
-        meta: {
-          icon: 'ios-contacts-outline',
-          title: '权限管理'
-        },
-        component: () => import('@/view/user.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/',
+  //   name: 'user',
+  //   meta: {
+  //     hideInBread: true
+  //   },
+  //   component: Main,
+  //   children: [
+  //     {
+  //       path: homePath,
+  //       name: 'userIndex',
+  //       meta: {
+  //         icon: 'ios-contacts-outline',
+  //         title: '权限管理'
+  //       },
+  //       component: () => import('@/view/user.vue')
+  //     }
+  //   ]
+  // },
   {
     path: '/logResult/shareResult',
     name: 'shareResult',

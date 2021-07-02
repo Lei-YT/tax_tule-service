@@ -1,6 +1,7 @@
 import {
   login,
   logout,
+  useraccess,
 } from '@/api/user'
 import { setId, getId, setToken, getToken, setUserName, getUserName } from '@/libs/util'
 import { Notification } from 'element-ui'
@@ -21,9 +22,13 @@ export default {
     messageUnreadList: [],
     messageReadedList: [],
     messageTrashList: [],
-    messageContentStore: {}
+    messageContentStore: {},
+    permission:[],
   },
   mutations: {
+    setPermission(state, perms){
+      state.permission = perms;
+    },
     setIsNewUser(state, isNew) {
       state.isNewUser = isNew;
     },
@@ -132,6 +137,37 @@ export default {
             commit('setToken', '')
             commit('setUserName', '')
             commit('setAvatar', '')
+            resolve()
+          }
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    getUserPerms({ commit }, { userid }){
+      return new Promise((resolve, reject) => {
+        useraccess({
+          userid
+        }).then(res => {
+          if (res.data.code != 0) {
+            Notification({
+              message: res.data.msg,
+              type: 'warning',
+              duration: 1300
+            })
+            return false
+          } else {
+            commit('setIsNewUser', Number(res.data.data.is_new))
+            commit('setShowPWModify', Number(res.data.data.is_new)!==0)
+            if (Number(res.data.data.is_new)===0) {
+              commit('setToken', res.data.data.token)
+              commit('setId', res.data.data.id)
+              commit('setUserName', res.data.data.name)
+              commit('setAvatar', res.data.data.imgUrl)
+              commit('setAdminNo', res.data.data.adminNo)
+              commit('setAccess', res.data.data.adminNo)
+              commit('setStationName', res.data.data.stationName)
+            }
             resolve()
           }
         }).catch(err => {
