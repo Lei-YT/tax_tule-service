@@ -35,7 +35,7 @@ export default [
     meta: {
       notCache: true,
       hideInBread: true,
-      access: ['data','data_search', 'data_count'],
+      perms: ['data','data_search', 'data_count'],
     },
     children: [
       {
@@ -44,7 +44,7 @@ export default [
         meta: {
           icon: 'ios-navigate',
           title: '机器人数据监控',
-          access: ['data','data_search', 'data_count'],
+          perms: ['data','data_search', 'data_count'],
         },
         component: () => import('@/view/robotDataMonitor.vue')
       }
@@ -55,7 +55,7 @@ export default [
     name: 'robotProcess',
     meta: {
       hideInBread: true,
-      access: ['proce', 'proce_search', 'proce_operate',]
+      perms: ['proce', 'proce_search', 'proce_operate',]
     },
     component: Main,
     children: [
@@ -65,7 +65,7 @@ export default [
         meta: {
           icon: 'md-crop',
           title: '机器人流程监控',
-          access: ['proce', 'proce_search', 'proce_operate',]
+          perms: ['proce', 'proce_search', 'proce_operate',]
         },
         component: () => import('@/view/robotProcess.vue')
       }
@@ -76,7 +76,7 @@ export default [
     name: 'auditLog',
     meta: {
       hideInBread: true,
-      access: ['bill','bill_search','bill_operate',]
+      perms: ['bill','bill_search','bill_operate',]
     },
     component: Main,
     children: [
@@ -88,7 +88,7 @@ export default [
           title: '机器人审单日志',
           keepAlive: true,
           isBack: false,
-          access: ['bill','bill_search','bill_operate',]
+          perms: ['bill','bill_search','bill_operate',]
         },
         component: () => import('@/view/auditLog.vue')
       }
@@ -100,7 +100,7 @@ export default [
     meta: {
       hideInBread: true,
       hideInMenu: true,
-      access: ['bill','bill_search','bill_operate',]
+      perms: ['bill','bill_search','bill_operate',]
     },
     component: Main,
     children: [
@@ -110,7 +110,7 @@ export default [
         meta: {
           icon: 'ios-create-outline',
           title: '机器人审单日志 / 机器人审核结果页',
-          access: ['bill','bill_search','bill_operate',]
+          perms: ['bill','bill_search','bill_operate',]
         },
         component: () => import('@/view/logResult.vue')
       },
@@ -121,7 +121,7 @@ export default [
     name: 'manageUser',
     meta: {
       hideInBread: true,
-      access: ['user','user_search','user_operate',]
+      perms: ['user','user_search','user_operate',]
     },
     component: Main,
     children: [
@@ -131,7 +131,7 @@ export default [
         meta: {
           icon: 'ios-person-add-outline',
           title: '用户管理',
-          access: ['user','user_search','user_operate',]
+          perms: ['user','user_search','user_operate',]
         },
         component: () => import('@/view/manageUser.vue')
       }
@@ -143,7 +143,7 @@ export default [
     meta: {
       hideInBread: true,
       hideInMenu: true,
-      access: ['station','station_search','station_operate',]
+      perms: ['station','station_search','station_operate',]
     },
     component: Main,
     children: [
@@ -153,7 +153,7 @@ export default [
         meta: {
           icon: 'ios-nuclear',
           title: '岗位权限管理',
-          access: ['station','station_search','station_operate',]
+          perms: ['station','station_search','station_operate',]
         },
         component: () => import('@/view/addWorks.vue')
       },
@@ -164,7 +164,7 @@ export default [
     name: 'workPermiss',
     meta: {
       hideInBread: true,
-      access: ['station','station_search','station_operate',]
+      perms: ['station','station_search','station_operate',]
     },
     component: Main,
     children: [
@@ -174,7 +174,7 @@ export default [
         meta: {
           icon: 'ios-nuclear',
           title: '岗位权限管理',
-          access: ['station','station_search','station_operate',]
+          perms: ['station','station_search','station_operate',]
         },
         component: () => import('@/view/workPermiss.vue')
       }
@@ -185,7 +185,7 @@ export default [
     name: 'institutionsMange',
     meta: {
       hideInBread: true,
-      access: ['organ','organ_search','organ_operate',]
+      perms: ['organ','organ_search','organ_operate',]
     },
     component: Main,
     children: [
@@ -195,31 +195,12 @@ export default [
         meta: {
           icon: 'ios-podium',
           title: '机构管理',
-          access: ['organ','organ_search','organ_operate',]
+          perms: ['organ','organ_search','organ_operate',]
         },
         component: () => import('@/view/institutions.vue')
       }
     ]
   },
-  // {
-  //   path: '/',
-  //   name: 'user',
-  //   meta: {
-  //     hideInBread: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: homePath,
-  //       name: 'userIndex',
-  //       meta: {
-  //         icon: 'ios-contacts-outline',
-  //         title: '权限管理'
-  //       },
-  //       component: () => import('@/view/user.vue')
-  //     }
-  //   ]
-  // },
   {
     path: '/logResult/shareResult',
     name: 'shareResult',

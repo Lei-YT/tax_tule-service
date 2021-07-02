@@ -23,17 +23,17 @@ export default {
     messageReadedList: [],
     messageTrashList: [],
     messageContentStore: {},
-    permission:[],
+    permission: [],
   },
   mutations: {
-    setPermission(state, perms){
+    setPermission(state, perms) {
       state.permission = perms;
     },
     setIsNewUser(state, isNew) {
       state.isNewUser = isNew;
     },
-    setShowPWModify(state, ifShow){
-      state.showPWModify =  ifShow;
+    setShowPWModify(state, ifShow) {
+      state.showPWModify = ifShow;
     },
     setAvatar(state, avatarPath) {
       state.avatarImgPath = avatarPath
@@ -107,8 +107,8 @@ export default {
             return false
           } else {
             commit('setIsNewUser', Number(res.data.data.is_new))
-            commit('setShowPWModify', Number(res.data.data.is_new)!==0)
-            if (Number(res.data.data.is_new)===0) {
+            commit('setShowPWModify', Number(res.data.data.is_new) !== 0)
+            if (Number(res.data.data.is_new) === 0) {
               commit('setToken', res.data.data.token)
               commit('setId', res.data.data.id)
               commit('setUserName', res.data.data.name)
@@ -117,7 +117,7 @@ export default {
               commit('setAccess', res.data.data.adminNo)
               commit('setStationName', res.data.data.stationName)
             }
-            resolve()
+            resolve(res.data.data)
           }
         }).catch(err => {
           reject(err)
@@ -144,7 +144,7 @@ export default {
         })
       })
     },
-    getUserPerms({ commit }, { userid }){
+    getUserPerms({ commit }, { userid }) {
       return new Promise((resolve, reject) => {
         useraccess({
           userid
@@ -157,18 +157,17 @@ export default {
             })
             return false
           } else {
-            commit('setIsNewUser', Number(res.data.data.is_new))
-            commit('setShowPWModify', Number(res.data.data.is_new)!==0)
-            if (Number(res.data.data.is_new)===0) {
-              commit('setToken', res.data.data.token)
-              commit('setId', res.data.data.id)
-              commit('setUserName', res.data.data.name)
-              commit('setAvatar', res.data.data.imgUrl)
-              commit('setAdminNo', res.data.data.adminNo)
-              commit('setAccess', res.data.data.adminNo)
-              commit('setStationName', res.data.data.stationName)
-            }
-            resolve()
+            const powerarr = Object.values(res.data.powerarr);
+            const powerUrl = powerarr.reduce((acc, val, ind) => {
+              val.map((child) => {
+                acc.push(child.url)
+                acc = acc.concat(child.powerchilds.map((child2) => child2.url));
+              })
+              return acc;
+            }, []);
+            const uniqueP = [...new Set([...powerUrl])];
+            commit('setPermission', uniqueP)
+            resolve(uniqueP)
           }
         }).catch(err => {
           reject(err)

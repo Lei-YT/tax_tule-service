@@ -68,27 +68,41 @@ export default {
   },
   data() {
     return {
+      adminNo: '',
       pwModify: {
-        // adminNo: "",
         password: "",
         oldpassword: "",
       },
       pwRules: {
-        // adminNo: [{ required: true, message: "请填写账号" }],
         password: [{ required: true, message: "请填写新密码" }],
         oldpassword: [{ required: true, message: "请填写旧密码" }],
       },
     };
   },
   methods: {
-    ...mapActions(["handleLogin"]),
+    ...mapActions(["handleLogin", "getUserPerms"]),
     ...mapMutations(["setShowPWModify"]),
     handleSubmit({ adminNo, password }) {
       const _this = this;
       this.handleLogin({ adminNo, password }).then((res) => {
+        _this.adminNo = adminNo;
         if (_this.$store.state.user.isNewUser === 0) {
-          this.$router.push({
-            name: "home",
+          _this.getUserPerms(res).then((perms) => {
+            if (perms.length > 0) {
+              let firstPage = _this.$store.getters.menuList[0].name;
+              if (_this.$store.getters.menuList[0].children.length) {
+                firstPage = _this.$store.getters.menuList[0].children[0].name;
+              }
+              _this.$router.replace({
+                name: firstPage,
+              });
+            } else {
+              _this.$notify({
+                title: "温馨提示",
+                type: "warning",
+                message: '未获取到登入权限',
+              });
+            }
           });
         }
       });
@@ -110,7 +124,7 @@ export default {
               _this.$notify({
                 title: res.data.msg,
                 type: "success",
-                message: '请重新登录.',
+                message: "请重新登录.",
               });
               _this.setShowPWModify(false);
             } else {
