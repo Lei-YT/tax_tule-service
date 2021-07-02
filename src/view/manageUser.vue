@@ -479,7 +479,7 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.TreeData = data.data.map((row) => _this.parseOrganTree(row));
+            _this.TreeData = data.data.map((row) => _this.parseOrganTree(row, 'twolevel'));
             // _this.TreeData[0].selected = true;
             _this.currentOrgan = _this.TreeData[0];
             _this.getCurrenOrganUseList(_this.TreeData[0]);
@@ -503,8 +503,10 @@ export default {
       // o.selected = true;
       o.expand = false;
       o.children = Number(o.IsLowest) === 0 ? [{ expand: false }] : [];
-      if (childrenKey && o.hasOwnProperty(childrenKey))
-        o.children = o[childrenKey].map((ch) => _this.parseOrganTree(ch));
+      if (childrenKey && o.hasOwnProperty(childrenKey)) {
+        o.children = o[childrenKey].map((ch) => _this.parseOrganTree(ch, childrenKey));
+        o.expand = true;
+      }
       return o;
     },
     onTreeNodeClick(currentTree, currentNode) {
@@ -532,7 +534,7 @@ export default {
           if (data.code === 0) {
             currentNode.expand = true;
             currentNode.children = data.data.map((row) =>
-              _this.parseOrganTree(row)
+              _this.parseOrganTree(row, 'twolevel')
             );
           } else {
             _this.$Notice.warning({
