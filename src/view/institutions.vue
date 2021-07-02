@@ -210,6 +210,9 @@ export default {
     getCurrentOrganChildren(currentNode, updateTable = false) {
       const _this = this;
       if (currentNode.children[0].hasOwnProperty("title")) {
+        if (updateTable) {
+          _this.tableData1 = currentNode.children;
+        }
         return false;
       }
       const r2 = { OrgID: currentNode.OrgID };
