@@ -122,9 +122,7 @@
             />
           </el-table>
           <div class="pageCon" v-if="userBySearch">
-            <div class="showCon">
-              共 {{ page.totalElement }} 条
-            </div>
+            <div class="showCon">共 {{ page.totalElement }} 条</div>
             <div class="paginationStyle">
               <el-button @click="currentChange(1)" type="text" size="small"
                 >首页</el-button
@@ -143,11 +141,12 @@
             </div>
           </div>
           <div class="pageCon" v-else>
-            <div class="showCon">
-              共 {{ ouPage.totalElement }} 条
-            </div>
+            <div class="showCon">共 {{ ouPage.totalElement }} 条</div>
             <div class="paginationStyle">
-              <el-button @click="currentOrganUserChange(1)" type="text" size="small"
+              <el-button
+                @click="currentOrganUserChange(1)"
+                type="text"
+                size="small"
                 >首页</el-button
               >
               <Page
@@ -284,8 +283,11 @@
               placeholder="请输入岗位关键字"
               style="width: 250px"
             />
-            <Button type="primary" icon="ios-search" style="margin-left: 15px"
-            @click="searchStationList"
+            <Button
+              type="primary"
+              icon="ios-search"
+              style="margin-left: 15px"
+              @click="searchStationList"
               >查询</Button
             >
           </div>
@@ -479,12 +481,18 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.TreeData = data.data.map((row) => _this.parseOrganTree(row, 'twolevel'));
+            _this.TreeData = data.data.map((row) =>
+              _this.parseOrganTree(row, "twolevel")
+            );
             // _this.TreeData[0].selected = true;
-            _this.currentOrgan = _this.TreeData[0];
-            _this.getCurrenOrganUseList(_this.TreeData[0]);
-            const firstRoot = data.data.findIndex(ee => Number(ee.IsLowest)=== 0);
-            _this.getCurrentOrganChildren(_this.TreeData[firstRoot]);
+            if (data.data.length > 0) {
+              _this.currentOrgan = _this.TreeData[0];
+              _this.getCurrenOrganUseList(_this.TreeData[0]);
+              const firstRoot = data.data.findIndex(
+                (ee) => Number(ee.IsLowest) === 0
+              );
+              _this.getCurrentOrganChildren(_this.TreeData[firstRoot]);
+            }
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -504,7 +512,9 @@ export default {
       o.expand = false;
       o.children = Number(o.IsLowest) === 0 ? [{ expand: false }] : [];
       if (childrenKey && o.hasOwnProperty(childrenKey)) {
-        o.children = o[childrenKey].map((ch) => _this.parseOrganTree(ch, childrenKey));
+        o.children = o[childrenKey].map((ch) =>
+          _this.parseOrganTree(ch, childrenKey)
+        );
         o.expand = true;
       }
       return o;
@@ -516,7 +526,7 @@ export default {
       if (this.addPostCon === false && this.isCustom === false) {
         this.getCurrenOrganUseList(currentNode);
         if (Number(currentNode.IsLowest) === 0) {
-          this.getCurrentOrganChildren(currentNode)
+          this.getCurrentOrganChildren(currentNode);
         }
       } else if (this.addPostCon === true) {
         this.getCurrentOrganStation();
@@ -524,7 +534,7 @@ export default {
     },
     getCurrentOrganChildren(currentNode) {
       const _this = this;
-      if (currentNode.children[0].hasOwnProperty('title')) {
+      if (currentNode.children[0].hasOwnProperty("title")) {
         return false;
       }
       const r2 = { OrgID: currentNode.OrgID };
@@ -534,7 +544,7 @@ export default {
           if (data.code === 0) {
             currentNode.expand = true;
             currentNode.children = data.data.map((row) =>
-              _this.parseOrganTree(row, 'twolevel')
+              _this.parseOrganTree(row, "twolevel")
             );
           } else {
             _this.$Notice.warning({
@@ -582,7 +592,7 @@ export default {
           let data = resp.data;
           if (data.code === 0) {
             _this.postTableData = data.data;
-            _this.searchStation = '';
+            _this.searchStation = "";
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -859,21 +869,21 @@ export default {
         }
       });
     },
-    submitUserAddOS(){
+    submitUserAddOS() {
       const _this = this;
       const r = {
         userid: this.currentUser.id,
-        osIdArr: this.selectedOrganStation.map(s => s.id)
+        osIdArr: this.selectedOrganStation.map((s) => s.id),
       };
       userAddOrganS(r)
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-              _this.$message({
-                message: data.msg,
-                type: "success",
-                duration: 1500,
-              });
+            _this.$message({
+              message: data.msg,
+              type: "success",
+              duration: 1500,
+            });
             _this.addPostCon = false;
             _this.getUserOrganStation(_this.currentUser);
           } else {

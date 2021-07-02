@@ -178,11 +178,13 @@ export default {
           let data = resp.data;
           if (data.code === 0) {
             _this.TreeData = data.data.map((row) => _this.parseOrganTree(row, 'twolevel'));
-            _this.currentOrgan = _this.TreeData[0];
-            const firstRoot = data.data.findIndex(
-              (ee) => Number(ee.IsLowest) === 0
-            );
-            _this.getCurrentOrganChildren(_this.TreeData[firstRoot], true);
+            if (data.data.length > 0) {
+              _this.currentOrgan = _this.TreeData[0];
+              const firstRoot = data.data.findIndex(
+                (ee) => Number(ee.IsLowest) === 0
+              );
+              _this.getCurrentOrganChildren(_this.TreeData[firstRoot], true);
+            }
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
