@@ -3,7 +3,7 @@ import {
   logout,
   useraccess,
 } from '@/api/user'
-import { setId, getId, setToken, getToken, setUserName, getUserName } from '@/libs/util'
+import { setPerms, setId, getId, setToken, getToken, setUserName, getUserName } from '@/libs/util'
 import { Notification } from 'element-ui'
 
 export default {
@@ -28,6 +28,7 @@ export default {
   mutations: {
     setPermission(state, perms) {
       state.permission = perms;
+      setPerms(perms);
     },
     setIsNewUser(state, isNew) {
       state.isNewUser = isNew;

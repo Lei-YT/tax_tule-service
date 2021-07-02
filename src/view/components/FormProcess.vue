@@ -8,7 +8,7 @@
           class="flow-form-inline"
           ref="formInline"
         >
-          <div>
+          <div v-if="hasPerm('proce_search')">
             <FormItem label="表单名称" prop="formName">
               <Input v-model="formName" placeholder="请输入表单名称" />
             </FormItem>
@@ -56,7 +56,7 @@
               >
             </FormItem>
           </div>
-          <FormItem :label-width="0" class="flow-form-action">
+          <FormItem :label-width="0" class="flow-form-action" v-if="hasPerm('proce_operate')">
             <el-button
               @click="deleteSelected"
               type="danger"
@@ -84,7 +84,7 @@
             :header-cell-style="{ background: '#eef1f6' }"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column
+            <el-table-column v-if="hasPerm('proce_operate')"
               type="selection"
               width="40"
               fixed="left"
@@ -103,7 +103,7 @@
             />
             <el-table-column label="节点选择" align="center" width="280">
               <template slot-scope="scope">
-                <Select
+                <Select v-if="hasPerm('proce_operate')"
                   transfer
                   multiple
                   v-model="scope.row.node_share"
@@ -122,6 +122,11 @@
                     >共享中心审批节点</Option
                   >
                 </Select>
+                <div v-else>
+                {{ scope.row.node_share.includes(2) ? "共享中心审批节点" : ''}}
+                <Divider v-if="scope.row.node_share.length > 1" type="vertical"/>
+                {{ scope.row.node_share.includes(1) ? "业务审批节点" : ''}}
+                </div>
               </template>
             </el-table-column>
             <el-table-column
@@ -130,6 +135,7 @@
               align="center"
             >
               <template slot-scope="scope">
+                <template v-if="hasPerm('proce_operate')">
                 <Select
                   transfer
                   v-if="scope.row.node_share.includes(NODE_SHARE_BIZ)"
@@ -140,6 +146,11 @@
                   <Option :value="MODE_MULTI">通过、驳回、转人工模式</Option>
                 </Select>
               </template>
+                <div v-else>
+                {{ scope.row.biz_mode===MODE_SINGLE ? "单通过模式" : ''}}
+                {{ scope.row.biz_mode===MODE_MULTI ? "通过、驳回、转人工模式" : ''}}
+                </div>
+              </template>
             </el-table-column>
             <el-table-column
               label="共享中心审批节点模式"
@@ -147,6 +158,7 @@
               align="center"
             >
               <template slot-scope="scope">
+                <template v-if="hasPerm('proce_operate')">
                 <Select
                   transfer
                   v-if="scope.row.node_share.includes(NODE_SHARE_ONLY)"
@@ -156,6 +168,11 @@
                   <Option :value="MODE_SINGLE">单通过模式</Option>
                   <Option :value="MODE_MULTI">通过、驳回、转人工模式</Option>
                 </Select>
+              </template>
+                <div v-else>
+                {{ scope.row.share_mode===MODE_SINGLE ? "单通过模式" : ''}}
+                {{ scope.row.share_mode===MODE_MULTI ? "通过、驳回、转人工模式" : ''}}
+                </div>
               </template>
             </el-table-column>
             <el-table-column

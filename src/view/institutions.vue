@@ -6,7 +6,7 @@
         <Icon type="ios-school-outline" color="#fff" size="22" />
         <p>组织机构</p>
       </div>
-      <div class="searchCon">
+      <div class="searchCon" v-if="hasPerm('organ_search')">
         <Input
           v-model="searchVal"
           icon="md-close"
@@ -33,7 +33,7 @@
           <p>机构信息</p>
         </div>
         <div class="userTables">
-          <div class="searchWarp">
+          <div class="searchWarp" v-if="hasPerm('organ_operate')">
             <Button type="primary" icon="md-add" @click="addUser"
               >添加机构</Button
             >

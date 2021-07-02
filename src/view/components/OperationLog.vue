@@ -2,7 +2,7 @@
   <div class="wraps">
     <div id="list">
       <Card style="width: 100%">
-        <div style="display: flex; justify-content: space-between">
+        <div v-if="hasPerm('proce_search')" style="display: flex; justify-content: space-between">
           <Form
             :inline="true"
             :model="formInline"

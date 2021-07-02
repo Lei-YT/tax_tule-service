@@ -6,6 +6,9 @@ const { title, cookieExpires, useI18n } = config
 
 export const TOKEN_KEY = 'token'
 
+export const setPerms = (arr) => {
+  localStorage.setItem('permissions', JSON.stringify( arr))
+}
 export const setId = (id) => {
   localStorage.setItem('userId', id)
 }

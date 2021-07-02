@@ -6,7 +6,7 @@
         <Icon type="ios-school-outline" color="#fff" size="22" />
         <p>组织机构</p>
       </div>
-      <div class="searchCon">
+      <div class="searchCon" v-if="hasPerm('user_search') || hasPerm('organ_search')">
         <Input
           v-model="searchOrgan"
           icon="md-close"
@@ -35,7 +35,7 @@
         </div>
         <div class="userTables" v-if="!isCustom">
           <div class="searchWarp">
-            <div class="leftWrap">
+            <div class="leftWrap" v-if="hasPerm('user_search')">
               <Input v-model="searchName" placeholder="请输入关键字查询" />
               <Button
                 type="primary"
@@ -45,7 +45,7 @@
                 >查询</Button
               >
             </div>
-            <div class="rigthWrap">
+            <div class="rigthWrap" v-if="hasPerm('user_operate')">
               <Button
                 type="error"
                 v-if="chooseLength.length > 0"
@@ -83,7 +83,7 @@
             }"
             style="margin-top: 15px"
           >
-            <el-table-column type="selection" align="center" width="55" />
+            <el-table-column v-if="hasPerm('user_operate')" type="selection" align="center" width="55" />
             <el-table-column
               type="index"
               label="序号"
@@ -211,7 +211,7 @@
         v-if="!isCustom"
       >
         <div slot="title" class="cardHeads">
-          <div class="leftCon">
+          <div class="leftCon" v-if="hasPerm('user_operate')">
             <Button
               type="primary"
               icon="md-add"
@@ -246,7 +246,7 @@
             marginTop: '10px',
           }"
         >
-          <el-table-column type="selection" align="center" width="55" />
+          <el-table-column v-if="hasPerm('user_operate')" type="selection" align="center" width="55" />
           <el-table-column
             type="index"
             label="序号"

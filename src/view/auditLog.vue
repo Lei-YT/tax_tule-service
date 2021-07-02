@@ -9,6 +9,7 @@
           class="demo-form-inline"
           ref="formInline"
         >
+        <template v-if="hasPerm('bill_search')">
           <div class="searchItem">
             <FormItem label="单据编号:" prop="code">
               <Input v-model="formInline.code" placeholder="请输入单据编号" />
@@ -70,8 +71,9 @@
               </div>
             </FormItem>
           </div>
-
+        </template>
           <div class="footerBox">
+        <template v-if="hasPerm('bill_search')">
             <el-button
               type="primary"
               plain
@@ -88,6 +90,7 @@
               size="small"
               >重置</el-button
             >
+        </template>
             <el-button
               type="primary"
               plain

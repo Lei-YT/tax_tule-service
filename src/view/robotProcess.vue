@@ -56,7 +56,7 @@
             <Card style="width: 100%; display:block;" class="topConTitle">
               <div slot="title" style="display: flex; flex-direction: row;flex-wrap: wrap;">
                 <p style="flex:1 0;">Hi,{{ rightData.name }}为您服务</p>
-                <div
+                <div v-if="hasPerm('proce_search')"
                   style="
                     flex: 0 0 825px;
                     display: flex;
@@ -140,7 +140,7 @@
                     </FormItem>
                   </Form>
                 </div>
-                <div class="titBtn">
+                <div class="titBtn" v-if="hasPerm('proce_operate')">
                   <el-button
                     type="primary"
                     size="small"

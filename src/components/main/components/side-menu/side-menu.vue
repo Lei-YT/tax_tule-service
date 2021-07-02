@@ -45,7 +45,7 @@
       </template>
     </Menu>
     <Row v-show="!collapsed" :gutter="16" style="margin: 0">
-      <Col span="12" flex="main:center cross:center">
+      <Col v-if="hasPerm('rule')"  span="12" flex="main:center cross:center">
         <div flex="dir:top main:center" class="external-link-box">
           <img src="@/assets/images/engine.svg" />
           <div>规则引擎</div>
@@ -58,7 +58,7 @@
           >
         </div>
       </Col>
-      <Col span="12">
+      <Col v-if="hasPerm('rpa')"  span="12">
         <div flex="dir:top cross:center" class="external-link-box">
           <img src="@/assets/images/robot.svg" />
           <div>RPA编辑器</div>
@@ -101,7 +101,7 @@
         </Tooltip>
       </template>
       <div class="external-menu-collapsed">
-        <Tooltip
+        <Tooltip v-if="hasPerm('rule')"
           transfer
           content="规则引擎"
           placement="right"
@@ -116,7 +116,7 @@
             ><img src="@/assets/images/engine.svg" :width="rootIconSize" /></a
           >
         </Tooltip>
-        <Tooltip
+        <Tooltip v-if="hasPerm('rpa')"
           transfer
           content="RPA编辑器"
           placement="right"

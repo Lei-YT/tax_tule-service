@@ -16,6 +16,7 @@ import importDirective from '@/directive'
 import { directive as clickOutside } from 'v-click-outside-x'
 import VueLazyload from 'vue-lazyload'
 import installPlugin from '@/plugin'
+import {hasPermission} from '@/libs/permission'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import TreeTable from 'tree-table-vue'
@@ -52,6 +53,7 @@ Vue.config.productionTip = false
  * @description 全局注册应用配置
  */
 Vue.prototype.$config = config
+Vue.prototype.hasPerm = hasPermission
 /**
  * 注册指令
  */

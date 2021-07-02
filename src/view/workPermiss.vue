@@ -7,7 +7,7 @@
         <p>岗位信息</p>
       </div>
       <div class="searchCon">
-        <div class="leftCon">
+        <div class="leftCon" v-if="hasPerm('station_search')">
           <Input
             v-model="searchVal"
             placeholder="请输入关键字查询"
@@ -17,7 +17,7 @@
             >查询</Button
           >
         </div>
-        <div class="rightCon">
+        <div class="rightCon" v-if="hasPerm('station_operate')">
           <Button type="error" v-if="postLength.length > 0" @click="handel('1')"
             >确认删除</Button
           >
@@ -46,7 +46,7 @@
           fontSize: '12px',
         }"
       >
-        <el-table-column type="selection" align="center" width="55" />
+        <el-table-column type="selection" align="center" width="55" v-if="hasPerm('station_operate')" />
         <el-table-column type="index" label="序号" align="center" width="60" />
         <el-table-column prop="name" label="岗位名称" align="center" />
         <el-table-column prop="number" label="岗位编号" align="center" />
@@ -76,7 +76,7 @@
     <!-- 下 -->
     <Card :bordered="false" style="margin-top: 15px">
       <div class="searchCon">
-        <div class="leftCon">
+        <div class="leftCon" v-if="hasPerm('station_operate')">
           <Button
             type="primary"
             icon="md-add"
@@ -106,7 +106,7 @@
           fontSize: '12px',
         }"
       >
-        <el-table-column type="selection" align="center" width="55" />
+        <el-table-column type="selection" align="center" width="55" v-if="hasPerm('station_operate')" />
         <el-table-column type="index" label="序号" align="center" width="60" />
         <el-table-column prop="name" label="权限名称" align="center" />
         <el-table-column prop="name" label="子权限" align="center" />

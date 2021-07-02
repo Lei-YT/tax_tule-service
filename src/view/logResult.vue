@@ -304,7 +304,7 @@
                       >结构化数据</Button
                     >
                     <!-- <Divider type="vertical" /> -->
-                    <Button
+                    <Button v-if="hasPerm('bill_operate') || forbidExternal"
                       type="text"
                       size="small"
                       :ghost="showInvoiceRaw"

@@ -1,7 +1,7 @@
 <template>
   <div class="wraps">
     <div class="dataMonitor">
-      <Card style="width: 100%">
+      <Card style="width: 100%" v-if="hasPerm('data_search') || hasPerm('data_count')">
         <div style="display: flex; justify-content: space-between">
           <Form
             :inline="true"
