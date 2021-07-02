@@ -177,7 +177,7 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.TreeData = data.data.map((row) => _this.parseOrganTree(row));
+            _this.TreeData = data.data.map((row) => _this.parseOrganTree(row, 'twolevel'));
             _this.currentOrgan = _this.TreeData[0];
             const firstRoot = data.data.findIndex(
               (ee) => Number(ee.IsLowest) === 0
@@ -219,7 +219,7 @@ export default {
           if (data.code === 0) {
             currentNode.expand = true;
             currentNode.children = data.data.map((row) =>
-              _this.parseOrganTree(row)
+              _this.parseOrganTree(row, 'twolevel')
             );
             if (updateTable) {
               _this.tableData1 = data.data;
@@ -242,8 +242,10 @@ export default {
       // o.selected = true;
       o.expand = false;
       o.children = Number(o.IsLowest) === 0 ? [{ expand: false }] : [];
-      if (childrenKey && o.hasOwnProperty(childrenKey))
-        o.children = o[childrenKey].map((ch) => _this.parseOrganTree(ch));
+      if (childrenKey && o.hasOwnProperty(childrenKey)) {
+        o.children = o[childrenKey].map((ch) => _this.parseOrganTree(ch, childrenKey));
+        o.expand = true;
+      }
       return o;
     },
     clearCon() {

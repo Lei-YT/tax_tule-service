@@ -352,6 +352,7 @@ export default {
                   duration: 1500,
                 });
                 _this.showAddModal = false;
+                _this.currentChange(1);
               } else {
                 _this.$notify({
                   title: "温馨提示",
