@@ -306,6 +306,8 @@ export default {
         formName: this.formName,
         beginDate: this.beginDate,
         endDate: this.endDate,
+        pageSize: this.page.size,
+        currentPage: this.page.currentPage
       };
       Object.keys(r).forEach(
         (key) => (r[key] == null || r[key] == "") && delete r[key]
@@ -324,6 +326,7 @@ export default {
               return row;
             });
             _this.tableData = data.data.list;
+            _this.totalElement = data.data.sum;
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
