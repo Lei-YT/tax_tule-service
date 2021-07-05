@@ -326,7 +326,7 @@ export default {
               return row;
             });
             _this.tableData = data.data.list;
-            _this.totalElement = data.data.sum;
+            _this.page.totalElement = data.data.sum;
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
