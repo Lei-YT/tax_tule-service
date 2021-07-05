@@ -324,34 +324,10 @@ Mock.mock(/\/api\/bill\/updateFlowStatus/i, 'post', (req, res) => {
 
   )))
 })
-
+import formflowJson from '@/dataJson/formflow.json';
+import formflowJson2 from '@/dataJson/formflow2.json';
 Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
-  console.log('req', req, isFirstEdit)
-  return Mock.mock(Encrypt(JSON.stringify(
-    {
-      "success": true,
-      "code": 20000,
-      "message": "成功",
-
-      "data": {
-        "list": [
-          {
-            "id": 1,
-            "create_date": "2021-06-26T08:49:56.000+0000",
-            "update_date": "2021-06-26T08:49:56.000+0000",
-            "form_name": "CRTG_劳务结算单",
-            "status": 1
-          },
-          {
-            "id": 2,
-            "create_date": "2021-06-26T08:49:56.000+0000",
-            "update_date": "2021-06-26T08:49:56.000+0000",
-            "form_name": "CRTG_劳务结算单2",
-            "status": 6
-          },
-        ]
-      }
-    }
-  )))
+  console.log('req', req, formflowJson2)
+  return Mock.mock(Encrypt(JSON.stringify(formflowJson2)))
 })
 

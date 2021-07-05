@@ -112,13 +112,13 @@
                   <Option
                     :value="2"
                     key="2"
-                    :disabled="!scope.row.node_share.includes(1)"
+                    :disabled="scope.row.disableBizNode"
                     >业务审批节点</Option
                   >
                   <Option
                     :value="1"
                     key="1"
-                    :disabled="scope.row.node_share.includes(2)"
+                    :disabled="scope.row.disableShareNode"
                     >共享中心审批节点</Option
                   >
                 </Select>
@@ -132,7 +132,7 @@
               <template slot-scope="scope">
                 <Select
                   transfer
-                  v-if="scope.row.node_share.includes(NODE_SHARE_BIZ)"
+                  v-if="scope.row.showBizMode"
                   v-model="scope.row.biz_mode"
                   @on-change="(v) => handleSelectBizMode(scope.row, v)"
                 >
@@ -149,7 +149,7 @@
               <template slot-scope="scope">
                 <Select
                   transfer
-                  v-if="scope.row.node_share.includes(NODE_SHARE_ONLY)"
+                  v-if="scope.row.showShareMode"
                   v-model="scope.row.share_mode"
                   @on-change="(v) => handleSelectShareMode(scope.row, v)"
                 >
@@ -316,16 +316,13 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
-            data.data.list = data.data.list.map((row) => {
-              row = Object.assign(
-                _this.convertStatusToSelection(row.status),
-                row
-              );
+            _this.tableData = data.data.list.map((row) => {
+              const tmp = _this.convertStatusToSelection(row.status);
+              row = {...tmp, ...row};
               row.create_date_text = String(row.create_date).substring(0, String(row.create_date).indexOf('.000')).replace('T', ' ');
               row.update_date_text = String(row.update_date).substring(0, String(row.update_date).indexOf('.000')).replace('T', ' ');
               return row;
             });
-            _this.tableData = data.data.list;
             _this.page.totalElement = data.data.sum;
           } else {
             _this.$Notice.warning({
@@ -408,32 +405,54 @@ export default {
       let node_share = [];
       let share_mode = 0;
       let biz_mode = 0;
+      let disableBizNode = true;
+      let disableShareNode = true;
+      let showBizMode = false;
+      let showShareMode = false;
       switch (Number(code)) {
         case 1:
           node_share = [_NODE_SHARE_ONLY];
+          disableBizNode = true;
+          disableShareNode = false;
+          showBizMode = false;
           share_mode = MODE_SINGLE;
           break;
         case 2:
           node_share = [_NODE_SHARE_ONLY];
+          disableBizNode = true;
+          disableShareNode = false;
+          showBizMode = false;
           share_mode = MODE_MULTI;
           break;
         case 3:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
+          disableBizNode = false;
+          disableShareNode = true;
+          showBizMode = true;
           share_mode = MODE_SINGLE;
           biz_mode = MODE_SINGLE;
           break;
         case 4:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
+          disableBizNode = false;
+          disableShareNode = true;
+          showBizMode = true;
           share_mode = MODE_MULTI;
           biz_mode = MODE_MULTI;
           break;
         case 5:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
+          disableBizNode = false;
+          disableShareNode = true;
+          showBizMode = true;
           share_mode = MODE_SINGLE;
           biz_mode = MODE_MULTI;
           break;
         case 6:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
+          disableBizNode = false;
+          disableShareNode = true;
+          showBizMode = true;
           share_mode = MODE_MULTI;
           biz_mode = MODE_SINGLE;
           break;
@@ -441,7 +460,7 @@ export default {
         default:
           break;
       }
-      return { node_share, share_mode, biz_mode };
+      return { node_share,disableBizNode, disableShareNode, share_mode, biz_mode, showBizMode, showShareMode };
     },
     convertSelectionToStatus(row) {
       let s = row.status;
