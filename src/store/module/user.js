@@ -145,11 +145,12 @@ export default {
         })
       })
     },
-    getUserPerms({ commit }, { userid }) {
+    getUserPerms({ commit }, {id}) {
+      const userid = id;
       return new Promise((resolve, reject) => {
-        useraccess({
+        useraccess(
           userid
-        }).then(res => {
+        ).then(res => {
           if (res.data.code != 0) {
             Notification({
               message: res.data.msg,
