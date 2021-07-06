@@ -208,15 +208,15 @@
         </div>
       </div>
       <!-- 信息管理 -->
-      <div class="conTwo" v-show="cur == 1">
+      <div class="conTwo" v-if="cur == 1">
         <InfoManage></InfoManage>
       </div>
       <!-- 表单流程管理 -->
-      <div class="conThr" v-show="cur == 2">
+      <div class="conThr" v-if="cur == 2">
         <FormProcess></FormProcess>
       </div>
       <!-- 操作日志 -->
-      <div class="conThr" v-show="cur == 3">
+      <div class="conThr" v-if="cur == 3">
         <OperationLog></OperationLog>
       </div>
     </div>

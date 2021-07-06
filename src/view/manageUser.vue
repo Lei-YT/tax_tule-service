@@ -507,7 +507,7 @@ export default {
     parseOrganTree(obj, childrenKey = null) {
       const _this = this;
       const o = { ...obj };
-      o.title = o.OrgSName;
+      o.title = o.OrgName;
       // o.selected = true;
       o.expand = false;
       o.children = Number(o.IsLowest) === 0 ? [{ expand: false }] : [];

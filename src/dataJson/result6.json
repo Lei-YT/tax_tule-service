@@ -318,6 +318,7 @@
         "result": [
           {
             "ruleId": "TC75369490051",
+            "aliasName": "规则-1",
             "ruleName": "规则-1",
             "correct": false,
             "message": "发票类型错误",
@@ -338,6 +339,7 @@
           },
           {
             "ruleId": "TC7536949005",
+            "aliasName": "规则-1",
             "ruleName": "规则-2",
             "correct": false,
             "message": "发票代码不匹配",
@@ -357,11 +359,13 @@
             ]
           },
           {
+            "aliasName": "规则-1",
             "ruleName": "规则-3",
             "correct": false
           },
           {
             "ruleId": "AH5230918848",
+            "aliasName": "规则-1",
             "ruleName": "规则-4",
             "correct": false,
             "message": "发票日期超过可报销日期",
@@ -382,6 +386,7 @@
           },
           {
             "ruleId": "TC75369490055",
+            "aliasName": "规则-1",
             "ruleName": "规则-5",
             "correct": false,
             "message": "销售方错误",
@@ -401,6 +406,7 @@
             ]
           },
           {
+            "aliasName": "规则-1",
             "ruleName": "规则-6",
             "correct": true
           }
@@ -412,12 +418,14 @@
         "ruleType": "OTHERS",
         "result": [
           {
+            "aliasName": "规则-1",
             "ruleName": "单据规则-1",
             "correct": false,
             "message": "单据报错",
             "ruleType": "BILLS"
           },
           {
+            "aliasName": "规则-1",
             "ruleName": "单据规则-2",
             "correct": true,
             "ruleType": "BILLS"
@@ -430,6 +438,7 @@
         "ruleType": "WARNING",
         "result": [
           {
+            "aliasName": "规则-1",
             "ruleName": "预警规则-1",
             "correct": false,
             "warnRank": {
@@ -445,6 +454,7 @@
             "ruleType": "WARNING"
           },
           {
+            "aliasName": "规则-1",
             "ruleName": "预警规则-2",
             "correct": false,
             "warnRank": {

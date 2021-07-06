@@ -70,9 +70,33 @@
                       <thead>
                         <tr>
                           <th width="60">序号</th>
-                          <th style="text-align: left">规则</th>
-                          <th width="60"></th>
-                          <th width="200" style="text-align: left">审核结果</th>
+                          <th v-if="item.showRuleName" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleName')"></Button>
+                          </th>
+                          <th v-else width="80" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleName')"></Button>
+                          </th>
+                          <th v-if="item.showAlias" style="text-align: left">别名
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showAlias')"></Button>
+                          </th>
+                          <th v-else width="80" style="text-align: left">别名
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showAlias')"></Button>
+                          </th>
+                          <th :width="item.showRuleMsg ? 60 : 0"></th>
+                          <th v-if="item.showRuleMsg" width="150" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsg')"></Button>
+                            </th>
+                          <th v-else width="100" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsg')"></Button>
+                            </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -83,7 +107,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: center">
+                          <td colspan="5" style="text-align: center">
                             暂无数据
                           </td>
                         </tr>
@@ -99,13 +123,18 @@
                             style="text-align: left"
                             @click="ruleClick(item.ruleType, n, i)"
                           >
+                          <template v-if="item.showRuleName">
                             {{ n.ruleName }}
+                          </template>
+                          </td>
+                          <td style="text-align: left">
+                            {{ n.aliasName }}
                           </td>
                           <td
                             style="text-align: center"
                             @click="ruleResultClick(item.ruleType, n, i)"
                           >
-                            <Icon
+                            <Icon v-if="item.showRuleMsg"
                               type="md-close-circle"
                               size="25"
                               color="#E02020"
@@ -115,7 +144,10 @@
                             style="text-align: left"
                             @click="ruleResultClick(item.ruleType, n, i)"
                           >
+                          <template v-if="item.showRuleMsg">
                             {{ n.message ? n.message : "——" }}
+                          </template>
+
                           </td>
                         </tr>
                       </tbody>
@@ -131,9 +163,33 @@
                       <thead>
                         <tr>
                           <th width="60">序号</th>
-                          <th style="text-align: left">规则</th>
-                          <th width="60"></th>
-                          <th width="200" style="text-align: left">审核结果</th>
+                          <th v-if="item.showRuleNameC" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleNameC')"></Button>
+                          </th>
+                          <th v-else width="80" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleNameC')"></Button>
+                          </th>
+                          <th v-if="item.showAliasC" style="text-align: left">别名
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showAliasC')"></Button>
+                          </th>
+                          <th v-else width="80" style="text-align: left">别名
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showAliasC')"></Button>
+                          </th>
+                          <th :width="item.showRuleMsgC ? 60 : 0"></th>
+                          <th v-if="item.showRuleMsgC" width="150" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsgC')"></Button>
+                            </th>
+                          <th v-else width="100" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsgC')"></Button>
+                            </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -153,15 +209,22 @@
                           v-bind:key="i"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
-                          <td style="text-align: left">{{ n.ruleName }}</td>
+                          <td style="text-align: left">
+                          <template v-if="item.showRuleNameC">
+                            {{ n.ruleName }}
+                          </template></td>
+                          <td style="text-align: left">
+                            {{ n.aliasName }}
+                          </td>
                           <td style="text-align: center">
-                            <Icon
+                            <Icon v-if="item.showRuleMsgC"
                               type="md-checkmark-circle"
                               size="25"
                               color="#6DD400"
                             />
                           </td>
-                          <td style="text-align: left">通过</td>
+                          <td style="text-align: left">
+                          <template v-if="item.showRuleMsgC">通过</template> </td>
                         </tr>
                       </tbody>
                     </table>
@@ -182,15 +245,17 @@
                     <div flex>{{ row.warnRank.grade }}</div>
                   </template>
                   <template slot="ruleName" slot-scope="{ row }">
-                    <div flex>
+                    <!-- <div flex> -->
                       {{ row.ruleName }}
+                    <!-- </div> -->
+                  </template>
+                  <template slot="retIcon" slot-scope="{ row }">
                       <Icon
                         type="ios-information-circle"
                         size="18"
                         :color="row.warnRank.color"
                         style="margin-left: 60%"
                       />
-                    </div>
                   </template>
                   <template slot="message" slot-scope="{ row }">
                     {{ row.message ? row.message : "——" }}
@@ -739,8 +804,14 @@ export default {
           slot: "ruleName",
         },
         {
+          title: " ",
+          slot: "retIcon",
+          width: 50,
+        },
+        {
           title: "审核结果",
           slot: "message",
+          width: 200,
         },
       ],
       tabsInvoiceIndex: 0,
@@ -1095,6 +1166,15 @@ export default {
                 // });
               });
             });
+            _this.allData.data.map(rule => {
+              rule.showRuleName = false;
+              rule.showAlias = true;
+              rule.showRuleMsg = true;
+              rule.showRuleNameC = false;
+              rule.showAliasC = true;
+              rule.showRuleMsgC = true;
+              return rule;
+            })
             _this.handelAllImage();
           }
         })
@@ -1102,7 +1182,10 @@ export default {
           console.log(err);
         });
     },
-
+    handleOnRuleColumnToggle(rule, key){
+      rule[key] = !rule[key];
+      this.$forceUpdate();
+    },
     getMessageInfo(imageIds) {
       const _this = this;
       let data = this.allData.imageInfo;
