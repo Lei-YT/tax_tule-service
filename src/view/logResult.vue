@@ -71,6 +71,7 @@
                         <tr>
                           <th width="60">序号</th>
                           <th style="text-align: left">规则</th>
+                          <th style="text-align: left">别名</th>
                           <th width="60"></th>
                           <th width="200" style="text-align: left">审核结果</th>
                         </tr>
@@ -83,7 +84,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: center">
+                          <td colspan="5" style="text-align: center">
                             暂无数据
                           </td>
                         </tr>
@@ -100,6 +101,9 @@
                             @click="ruleClick(item.ruleType, n, i)"
                           >
                             {{ n.ruleName }}
+                          </td>
+                          <td style="text-align: left">
+                            {{ n.aliasName }}
                           </td>
                           <td
                             style="text-align: center"
@@ -132,6 +136,7 @@
                         <tr>
                           <th width="60">序号</th>
                           <th style="text-align: left">规则</th>
+                          <th style="text-align: left">别名</th>
                           <th width="60"></th>
                           <th width="200" style="text-align: left">审核结果</th>
                         </tr>
@@ -154,6 +159,9 @@
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
                           <td style="text-align: left">{{ n.ruleName }}</td>
+                          <td style="text-align: left">
+                            {{ n.aliasName }}
+                          </td>
                           <td style="text-align: center">
                             <Icon
                               type="md-checkmark-circle"
@@ -182,15 +190,17 @@
                     <div flex>{{ row.warnRank.grade }}</div>
                   </template>
                   <template slot="ruleName" slot-scope="{ row }">
-                    <div flex>
+                    <!-- <div flex> -->
                       {{ row.ruleName }}
+                    <!-- </div> -->
+                  </template>
+                  <template slot="retIcon" slot-scope="{ row }">
                       <Icon
                         type="ios-information-circle"
                         size="18"
                         :color="row.warnRank.color"
                         style="margin-left: 60%"
                       />
-                    </div>
                   </template>
                   <template slot="message" slot-scope="{ row }">
                     {{ row.message ? row.message : "——" }}
@@ -739,8 +749,14 @@ export default {
           slot: "ruleName",
         },
         {
+          title: " ",
+          slot: "retIcon",
+          width: 50,
+        },
+        {
           title: "审核结果",
           slot: "message",
+          width: 200,
         },
       ],
       tabsInvoiceIndex: 0,

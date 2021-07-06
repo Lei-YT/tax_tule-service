@@ -5,7 +5,7 @@ import logJson from '@/dataJson/log2.json'
 import loginJson from '@/dataJson/login.json'
 import userAuth from '@/dataJson/user-auth.json'
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result13.json'
+import resultJson from '@/dataJson/result6.json'
 import mangeUser from '@/dataJson/mangeUser.json'
 import importData from '@/dataJson/import.json'
 import station from '@/dataJson/station.json'
