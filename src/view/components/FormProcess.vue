@@ -371,6 +371,7 @@ export default {
       let showShareMode = true;
       switch (Number(code)) {
         case 0:
+          disableShareNode = false;
           showShareMode = false;
           break;
         case 1:
@@ -434,7 +435,7 @@ export default {
         isNew = row.share_mode !== 0;
         s = row.share_mode === MODE_SINGLE ? 1 : 2;
       } else if (row.node_share.length === 2) {
-        if (row.share_mode === row.biz_mode) {
+        if (row.share_mode === row.biz_mode && row.share_mode !== 0) {
           s = row.share_mode === MODE_SINGLE ? 3 : 4;
         } else {
           if (row.share_mode === 0 || row.biz_mode === 0) {
