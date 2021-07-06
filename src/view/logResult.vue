@@ -70,10 +70,26 @@
                       <thead>
                         <tr>
                           <th width="60">序号</th>
-                          <th style="text-align: left">规则</th>
+                          <th v-if="item.showRuleName" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleName')"></Button>
+                          </th>
+                          <th v-else width="80" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleName')"></Button>
+                          </th>
                           <th style="text-align: left">别名</th>
                           <th width="60"></th>
-                          <th width="200" style="text-align: left">审核结果</th>
+                          <th v-if="item.showRuleMsg" width="200" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsg')"></Button>
+                            </th>
+                          <th v-else width="100" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsg')"></Button>
+                            </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -100,7 +116,9 @@
                             style="text-align: left"
                             @click="ruleClick(item.ruleType, n, i)"
                           >
+                          <template v-if="item.showRuleName">
                             {{ n.ruleName }}
+                          </template>
                           </td>
                           <td style="text-align: left">
                             {{ n.aliasName }}
@@ -119,7 +137,10 @@
                             style="text-align: left"
                             @click="ruleResultClick(item.ruleType, n, i)"
                           >
+                          <template v-if="item.showRuleMsg">
                             {{ n.message ? n.message : "——" }}
+                          </template>
+
                           </td>
                         </tr>
                       </tbody>
@@ -1111,6 +1132,11 @@ export default {
                 // });
               });
             });
+            _this.allData.data.map(rule => {
+              rule.showRuleName = true;
+              rule.showRuleMsg = true;
+              return rule;
+            })
             _this.handelAllImage();
           }
         })
@@ -1118,7 +1144,10 @@ export default {
           console.log(err);
         });
     },
-
+    handleOnRuleColumnToggle(rule, key){
+      rule[key] = !rule[key];
+      this.$forceUpdate();
+    },
     getMessageInfo(imageIds) {
       const _this = this;
       let data = this.allData.imageInfo;
