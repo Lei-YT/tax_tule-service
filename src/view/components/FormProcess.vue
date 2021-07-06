@@ -140,7 +140,7 @@
           </Table>
         </div>
         <div class="footBox">
-          <div class="totalBox">合计：{{ tableData.length }}条</div>
+          <div class="totalBox">合计：{{ page.totalElement }}条</div>
           <el-row class="paginationStyle">
             <el-button @click="currentChange(1)" type="text" size="small"
               >首页</el-button
@@ -382,32 +382,30 @@ export default {
       let node_share = [];
       let share_mode = 0;
       let biz_mode = 0;
-      let disableBizNode = true;
+      let disableBizNode = false;
       let disableShareNode = true;
       let showBizMode = false;
       let showShareMode = true;
       switch (Number(code)) {
         case 0:
+          disableBizNode = true;
           disableShareNode = false;
           showShareMode = false;
           break;
         case 1:
           node_share = [_NODE_SHARE_ONLY];
-          disableBizNode = true;
           disableShareNode = false;
           showBizMode = false;
           share_mode = MODE_SINGLE;
           break;
         case 2:
           node_share = [_NODE_SHARE_ONLY];
-          disableBizNode = true;
           disableShareNode = false;
           showBizMode = false;
           share_mode = MODE_MULTI;
           break;
         case 3:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
-          disableBizNode = false;
           disableShareNode = true;
           showBizMode = true;
           share_mode = MODE_SINGLE;
@@ -415,7 +413,6 @@ export default {
           break;
         case 4:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
-          disableBizNode = false;
           disableShareNode = true;
           showBizMode = true;
           share_mode = MODE_MULTI;
@@ -423,7 +420,6 @@ export default {
           break;
         case 5:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
-          disableBizNode = false;
           disableShareNode = true;
           showBizMode = true;
           share_mode = MODE_SINGLE;
@@ -431,7 +427,6 @@ export default {
           break;
         case 6:
           node_share = [_NODE_SHARE_ONLY, _NODE_SHARE_BIZ];
-          disableBizNode = false;
           disableShareNode = true;
           showBizMode = true;
           share_mode = MODE_MULTI;
