@@ -123,7 +123,7 @@
           </Table>
         </div>
         <div class="footBox">
-          <div class="totalBox">合计：{{ tableData.length }}条</div>
+          <div class="totalBox">合计：{{ page.totalElement }}条</div>
           <el-row class="paginationStyle">
             <el-button @click="currentChange(1)" type="text" size="small"
               >首页</el-button
