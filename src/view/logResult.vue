@@ -79,7 +79,7 @@
                             @click="handleOnRuleColumnToggle(item, 'showRuleName')"></Button>
                           </th>
                           <th style="text-align: left">别名</th>
-                          <th width="60"></th>
+                          <th :width="item.showRuleMsg ? 60 : 0"></th>
                           <th v-if="item.showRuleMsg" width="200" style="text-align: left">
                             审核结果
                             <Button type="text" shape="circle" icon="ios-arrow-forward"
@@ -127,7 +127,7 @@
                             style="text-align: center"
                             @click="ruleResultClick(item.ruleType, n, i)"
                           >
-                            <Icon
+                            <Icon v-if="item.showRuleMsg"
                               type="md-close-circle"
                               size="25"
                               color="#E02020"
@@ -156,10 +156,26 @@
                       <thead>
                         <tr>
                           <th width="60">序号</th>
-                          <th style="text-align: left">规则</th>
+                          <th v-if="item.showRuleNameC" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleNameC')"></Button>
+                          </th>
+                          <th v-else width="80" style="text-align: left">规则
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleNameC')"></Button>
+                          </th>
                           <th style="text-align: left">别名</th>
-                          <th width="60"></th>
-                          <th width="200" style="text-align: left">审核结果</th>
+                          <th :width="item.showRuleMsgC ? 60 : 0"></th>
+                          <th v-if="item.showRuleMsgC" width="200" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-forward"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsgC')"></Button>
+                            </th>
+                          <th v-else width="100" style="text-align: left">
+                            审核结果
+                            <Button type="text" shape="circle" icon="ios-arrow-back"
+                            @click="handleOnRuleColumnToggle(item, 'showRuleMsgC')"></Button>
+                            </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -179,18 +195,22 @@
                           v-bind:key="i"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
-                          <td style="text-align: left">{{ n.ruleName }}</td>
+                          <td style="text-align: left">
+                          <template v-if="item.showRuleNameC">
+                            {{ n.ruleName }}
+                          </template></td>
                           <td style="text-align: left">
                             {{ n.aliasName }}
                           </td>
                           <td style="text-align: center">
-                            <Icon
+                            <Icon v-if="item.showRuleMsgC"
                               type="md-checkmark-circle"
                               size="25"
                               color="#6DD400"
                             />
                           </td>
-                          <td style="text-align: left">通过</td>
+                          <td style="text-align: left">
+                          <template v-if="item.showRuleMsgC">通过</template> </td>
                         </tr>
                       </tbody>
                     </table>
@@ -1135,6 +1155,8 @@ export default {
             _this.allData.data.map(rule => {
               rule.showRuleName = true;
               rule.showRuleMsg = true;
+              rule.showRuleNameC = true;
+              rule.showRuleMsgC = true;
               return rule;
             })
             _this.handelAllImage();
