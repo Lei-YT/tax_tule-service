@@ -327,7 +327,7 @@ Mock.mock(/\/api\/bill\/updateFlowStatus/i, 'post', (req, res) => {
 import formflowJson from '@/dataJson/formflow.json';
 import formflowJson2 from '@/dataJson/formflow2.json';
 Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
-  console.log('req', req, formflowJson2)
-  return Mock.mock(Encrypt(JSON.stringify(formflowJson2)))
+  console.log('req', req, formflowJson)
+  return Mock.mock(Encrypt(JSON.stringify(formflowJson)))
 })
 

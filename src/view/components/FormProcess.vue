@@ -74,103 +74,53 @@
           </FormItem>
         </Form>
         <div class="tableList">
-          <el-table
-            ref="formFlowTable"
-            :data="tableData"
-            border
-            stripe
-            style="width: 100%"
-            empty-text="暂无数据"
-            :header-cell-style="{ background: '#eef1f6' }"
-            @selection-change="handleSelectionChange"
+          <Table border stripe ref="formFlowTable" :columns="columns4" :data="tableData"
+            style="width: 100%" no-data-text="暂无数据" @on-selection-change="handleSelectionChange"
           >
-            <el-table-column
-              type="selection"
-              width="40"
-              fixed="left"
-            ></el-table-column>
-            <el-table-column
-              type="index"
-              label="序号"
-              align="center"
-              width="50"
-            />
-            <el-table-column
-              prop="form_name"
-              label="表单"
-              align="center"
-              width="150"
-            />
-            <el-table-column label="节点选择" align="center" width="280">
-              <template slot-scope="scope">
+              <template  slot-scope="{ row }" slot="node_share">
                 <Select
                   transfer
                   multiple
-                  v-model="scope.row.node_share"
-                  @on-select="(v) => handleSelectNode(scope.row, v)"
+                  v-model="row.node_share"
+                  @on-select="(v) => handleSelectNode(row, v)"
                 >
                   <Option
                     :value="2"
                     key="2"
-                    :disabled="scope.row.disableBizNode"
+                    :disabled="row.disableBizNode"
                     >业务审批节点</Option
                   >
                   <Option
                     :value="1"
                     key="1"
-                    :disabled="scope.row.disableShareNode"
+                    :disabled="row.disableShareNode"
                     >共享中心审批节点</Option
                   >
                 </Select>
               </template>
-            </el-table-column>
-            <el-table-column
-              label="业务审批节点模式"
-              width="200"
-              align="center"
-            >
-              <template slot-scope="scope">
+              <template slot-scope="{ row }" slot="biz_mode">
                 <Select
                   transfer
-                  v-if="scope.row.showBizMode"
-                  v-model="scope.row.biz_mode"
-                  @on-change="(v) => handleSelectBizMode(scope.row, v)"
+                  v-if="row.showBizMode"
+                  v-model="row.biz_mode"
+                  @on-change="(v) => handleSelectBizMode(row, v)"
                 >
                   <Option :value="MODE_SINGLE">单通过模式</Option>
                   <Option :value="MODE_MULTI">通过、驳回、转人工模式</Option>
                 </Select>
               </template>
-            </el-table-column>
-            <el-table-column
-              label="共享中心审批节点模式"
-              width="200"
-              align="center"
-            >
-              <template slot-scope="scope">
+              <template slot-scope="{ row }" slot="share_mode">
                 <Select
                   transfer
-                  v-if="scope.row.showShareMode"
-                  v-model="scope.row.share_mode"
-                  @on-change="(v) => handleSelectShareMode(scope.row, v)"
+                  v-if="row.showShareMode"
+                  v-model="row.share_mode"
+                  @on-change="(v) => handleSelectShareMode(row, v)"
                 >
                   <Option :value="MODE_SINGLE">单通过模式</Option>
                   <Option :value="MODE_MULTI">通过、驳回、转人工模式</Option>
                 </Select>
               </template>
-            </el-table-column>
-            <el-table-column
-              prop="create_date_text"
-              label="创建时间"
-              width="160"
-              align="center"
-            />
-            <el-table-column
-              prop="update_date_text"
-              label="修改时间"
-              width="160"
-              align="center"
-            />
-          </el-table>
+          </Table>
         </div>
         <div class="footBox">
           <div class="totalBox">合计：{{ tableData.length }}条</div>
@@ -248,6 +198,16 @@ export default {
       addFormRules: {
         formName: [{ required: true, message: "请输入表单名称" }],
       },
+      columns4: [
+        { type: 'selection', width: 50, align: 'left' },
+        { title:'序号', type: 'index', width: 70, align: 'center' },
+        { title:'表单', key: 'form_name', width: 280, align: 'center' },
+        { title:'节点选择', slot: 'node_share', width: 280, align: 'center' },
+        { title:'业务审批节点模式', slot: 'biz_mode', width: 200, align: 'center' },
+        { title:'共享中心审批节点模式', slot: 'share_mode', width: 200, align: 'center' },
+        { title:'创建时间', key: 'create_date_text', width: 180, align: 'center' },
+        { title:'修改时间', key: 'update_date_text', width: 180, align: 'center' },
+      ],
     };
   },
   mounted() {
@@ -408,8 +368,11 @@ export default {
       let disableBizNode = true;
       let disableShareNode = true;
       let showBizMode = false;
-      let showShareMode = false;
+      let showShareMode = true;
       switch (Number(code)) {
+        case 0:
+          showShareMode = false;
+          break;
         case 1:
           node_share = [_NODE_SHARE_ONLY];
           disableBizNode = true;
@@ -491,6 +454,10 @@ export default {
     },
     handleSelectNode(row, v) {
       row.node_share = v;
+      row.disableBizNode = !v.includes(_NODE_SHARE_ONLY);
+      row.disableShareNode = v.includes(_NODE_SHARE_BIZ);
+      row.showBizMode = row.disableShareNode;
+      row.showShareMode = !row.disableBizNode;
       this.convertSelectionToStatus(row);
     },
     handleSelectShareMode(row, v) {
@@ -560,5 +527,16 @@ export default {
 }
 /deep/.ivu-select-multiple .ivu-tag i {
   display: none;
+}
+/deep/.ivu-table{
+  font-size: 14px;
+  th,td{
+    padding: 12px 0;
+  }
+  th{
+    background: #eef1f6;
+    color: #909399;
+    font-weight: bold;
+  }
 }
 </style>
