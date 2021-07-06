@@ -117,11 +117,11 @@
                           })"
                           v-bind:key="i"
                           class="hover-primary"
+                          @click="ruleClick(item.ruleType, n, i)"
                         >
                           <td style="text-align: center">{{ i + 1 }}</td>
                           <td
                             style="text-align: left"
-                            @click="ruleClick(item.ruleType, n, i)"
                           >
                           <template v-if="item.showRuleName">
                             {{ n.ruleName }}
@@ -240,6 +240,7 @@
                       return obj.correct == false;
                     })
                   "
+                  @on-row-click="(r, c) => ruleResultClick(item.ruleType,r)"
                 >
                   <template slot="grade" slot-scope="{ row }">
                     <div flex>{{ row.warnRank.grade }}</div>
@@ -252,7 +253,7 @@
                   <template slot="retIcon" slot-scope="{ row }">
                       <Icon
                         type="ios-information-circle"
-                        size="18"
+                        size="25"
                         :color="row.warnRank.color"
                         style="margin-left: 60%"
                       />
@@ -789,30 +790,11 @@ export default {
         },
       ],
       columns1: [
-        {
-          title: "序号",
-          type: "index",
-          width: 65,
-        },
-        {
-          title: "预警等级",
-          slot: "grade",
-          width: 90,
-        },
-        {
-          title: "规则",
-          slot: "ruleName",
-        },
-        {
-          title: " ",
-          slot: "retIcon",
-          width: 50,
-        },
-        {
-          title: "审核结果",
-          slot: "message",
-          width: 200,
-        },
+        {title: "序号",type: "index",width: 65,},
+        {title: "预警等级",slot: "grade",width: 100,},
+        {title: "规则",slot: "ruleName",},
+        {title: " ",slot: "retIcon",width: 50,},
+        {title: "审核结果",slot: "message",width: 170,},
       ],
       tabsInvoiceIndex: 0,
       showbigimg: false,
@@ -1983,5 +1965,19 @@ export default {
 }
 /deep/.imgBox .rightImg .index-icon.red-index {
   background-color: rgba(254, 61, 61, 0.6);
+}
+/deep/.ivu-table{
+  font-size: 13px;
+  th,td{
+    padding: 12px 0;
+  }
+  th{
+    background: #eee;
+    color: #303133;
+    font-weight: bold;
+  }
+  .ivu-icon{
+    font-size: 25px;
+  }
 }
 </style>
