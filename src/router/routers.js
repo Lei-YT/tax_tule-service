@@ -64,7 +64,7 @@ export default [
     name: 'manageUser',
     meta: {
       hideInBread: true,
-      icon: 'ios-person-add-outline',
+      icon: '_18zhiyudiceng',
       title: '权限管理'
     },
     component: Main,

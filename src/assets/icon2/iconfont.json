@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17652734",
+      "name": "17置于顶层",
+      "font_class": "17zhiyudingceng",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "17652735",
+      "name": "18置于底层",
+      "font_class": "18zhiyudiceng",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "22383680",
+      "name": "下移一层",
+      "font_class": "xiayiyiceng",
+      "unicode": "edfe",
+      "unicode_decimal": 60926
+    },
+    {
       "icon_id": "339471",
       "name": "分销",
       "font_class": "fenxiao",
