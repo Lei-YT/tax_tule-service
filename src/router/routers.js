@@ -134,8 +134,19 @@ export default [
         path: homePath,
         name: 'auditLogIndex2',
         meta: {
-          icon: '_bianji',
+          icon: '_15',
           title: '智能填单',
+          keepAlive: true,
+          isBack: false
+        },
+        component: () => import('@/view/auditLog.vue')
+      },
+      {
+        path: homePath,
+        name: 'auditLogIndex3',
+        meta: {
+          icon: '_qiandai',
+          title: '资金支付',
           keepAlive: true,
           isBack: false
         },
