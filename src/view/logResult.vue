@@ -1937,4 +1937,13 @@ export default {
     font-size: 25px;
   }
 }
+/deep/.el-table{
+  position: relative;
+  .el-table__body-wrapper{
+    height: calc(~"100% - 48px");
+    .el-table__body{
+      height: 100%;
+    }
+  }
+}
 </style>
