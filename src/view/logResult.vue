@@ -280,6 +280,8 @@
               v-model="showbigimg"
               draggable
               scrollable
+              reset-drag-position
+              sticky
               :closable="true"
               :footer-hide="true"
               @on-cancel="showbigimg = false"
@@ -598,6 +600,8 @@
       v-model="ruleRowtoggle"
       draggable
       scrollable
+      reset-drag-position
+      sticky
       :closable="true"
       :footer-hide="true"
       width="1000"
