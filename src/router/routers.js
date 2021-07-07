@@ -34,33 +34,25 @@ export default [
     component: Main,
     meta: {
       notCache: true,
-      hideInBread: true
+      hideInBread: true,
+      icon: '_jiqiren1',
+      title: '机器人控制台'
     },
     children: [
       {
         path: homePath,
         name: 'robotDataMonitor',
         meta: {
-          icon: 'ios-navigate',
+          icon: '_shuju',
           title: '机器人数据监控'
         },
         component: () => import('@/view/robotDataMonitor.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'robotProcess',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [
+      },
       {
         path: homePath,
         name: 'robotProcessIndex',
         meta: {
-          icon: 'md-crop',
+          icon: '_xingzhuangjiehe',
           title: '机器人流程监控'
         },
         component: () => import('@/view/robotProcess.vue')
@@ -69,78 +61,48 @@ export default [
   },
   {
     path: '/',
-    name: 'auditLog',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'auditLogIndex',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '机器人审单日志',
-          keepAlive: true,
-          isBack: false
-        },
-        component: () => import('@/view/auditLog.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'logResult',
-    meta: {
-      hideInBread: true,
-      hideInMenu: true
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'logResultIndex',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '机器人审单日志 / 机器人审核结果页'
-        },
-        component: () => import('@/view/logResult.vue')
-      },
-    ]
-  },
-  {
-    path: '/',
     name: 'manageUser',
     meta: {
-      hideInBread: true
+      hideInBread: true,
+      icon: 'ios-person-add-outline',
+      title: '权限管理'
     },
     component: Main,
     children: [
+      {
+        path: homePath,
+        name: 'institutionsMange',
+        meta: {
+          icon: '_custom-department',
+          title: '机构管理'
+        },
+        component: () => import('@/view/institutions.vue')
+      },
       {
         path: homePath,
         name: 'manageUserIndex',
         meta: {
-          icon: 'ios-person-add-outline',
+          icon: '_iconfontloginuser',
           title: '用户管理'
         },
         component: () => import('@/view/manageUser.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'addWorks',
-    meta: {
-      hideInBread: true,
-      hideInMenu: true
-    },
-    component: Main,
-    children: [
+      },
+      {
+        path: homePath,
+        name: 'workPermiss',
+        meta: {
+          icon: '_qunzhong',
+          title: '岗位权限管理'
+        },
+        component: () => import('@/view/workPermiss.vue')
+      },
       {
         path: homePath,
         name: 'addWorks',
         meta: {
-          icon: 'ios-nuclear',
+          hideInBread: true,
+          hideInMenu: true,
+          icon: '_qunzhong',
           title: '岗位权限管理'
         },
         component: () => import('@/view/addWorks.vue')
@@ -149,61 +111,49 @@ export default [
   },
   {
     path: '/',
-    name: 'workPermiss',
+    name: 'auditLog',
     meta: {
-      hideInBread: true
+      hideInBread: true,
+      icon: '_15',
+      title: '人机协同',
     },
     component: Main,
     children: [
       {
         path: homePath,
-        name: 'workPermiss',
+        name: 'auditLogIndex',
         meta: {
-          icon: 'ios-nuclear',
-          title: '岗位权限管理'
+          icon: '_shenpi',
+          title: '智能审单',
+          keepAlive: true,
+          isBack: false
         },
-        component: () => import('@/view/workPermiss.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'institutionsMange',
-    meta: {
-      hideInBread: true
-    },
-    component: Main,
-    children: [
+        component: () => import('@/view/auditLog.vue')
+      },
       {
         path: homePath,
-        name: 'institutionsMange',
+        name: 'auditLogIndex2',
         meta: {
-          icon: 'ios-podium',
-          title: '机构管理'
+          icon: '_bianji',
+          title: '智能填单',
+          keepAlive: true,
+          isBack: false
         },
-        component: () => import('@/view/institutions.vue')
-      }
+        component: () => import('@/view/auditLog.vue')
+      },
+      {
+        path: homePath,
+        name: 'logResultIndex',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '机器人审单日志 / 机器人审核结果页',
+          hideInBread: true,
+          hideInMenu: true
+        },
+        component: () => import('@/view/logResult.vue')
+      },
     ]
   },
-  // {
-  //   path: '/',
-  //   name: 'user',
-  //   meta: {
-  //     hideInBread: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: homePath,
-  //       name: 'userIndex',
-  //       meta: {
-  //         icon: 'ios-contacts-outline',
-  //         title: '权限管理'
-  //       },
-  //       component: () => import('@/view/user.vue')
-  //     }
-  //   ]
-  // },
   {
     path: '/logResult/shareResult',
     name: 'shareResult',

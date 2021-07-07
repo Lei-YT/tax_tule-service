@@ -7,7 +7,6 @@
       :active-name="activeName"
       :open-names="openedNames"
       :accordion="accordion"
-      :theme="theme"
       width="auto"
       @on-select="handleSelect"
     >
@@ -22,7 +21,7 @@
             v-else
             :name="getNameOrHref(item, true)"
             :key="`menu-${item.children[0].name}`"
-            ><common-icon :type="item.children[0].icon || ''" /><span>{{
+            ><common-icon :type="item.children[0].icon || ''" :size="15" /><span>{{
               showTitle(item.children[0])
             }}</span></menu-item
           >
@@ -37,7 +36,7 @@
             v-else
             :name="getNameOrHref(item)"
             :key="`menu-${item.name}`"
-            ><common-icon :type="item.icon || ''" /><span>{{
+            ><common-icon :type="item.icon || ''" :size="15" /><span>{{
               showTitle(item)
             }}</span></menu-item
           >
