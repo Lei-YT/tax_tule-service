@@ -1268,10 +1268,10 @@ export default {
         let fieldsImgs = findRet.imageData.find(
           (ee) => ee.imageId === findImgId
         );
-        let fieldsInvoice = fieldsImgs.infos.find(
+        let fieldsInvoice = fieldsImgs ? fieldsImgs.infos.find(
           (ei) => ei.invoiceId === invoiceIdP
-        );
-        _this.currentInvoiceErrorFields = fieldsInvoice.fields || [];
+        ) : undefined;
+        _this.currentInvoiceErrorFields = fieldsInvoice ? fieldsInvoice.fields : [];
         _this.setCurrentInvoiceErrorFields(_this.currentInvoiceErrorFields);
       } else {
         findImgId = _this.imageId;
@@ -1290,10 +1290,10 @@ export default {
       _this.editFieldsItems = editFieldsItems;
       _this.setEditFields([]);
       _this.setEditFieldsItems([]);
-      const loadingInstance = Loading.service({
-        fullscreen: true,
-        background: "hsla(0,0%,100%,.2)",
-      });
+      // const loadingInstance = Loading.service({
+      //   fullscreen: true,
+      //   background: "hsla(0,0%,100%,.2)",
+      // });
       axios
         .request({
           method: "post",
@@ -1301,7 +1301,7 @@ export default {
           data: request,
         })
         .then((resp) => {
-          loadingInstance.close();
+          // loadingInstance.close();
           let data = resp.data;
           if (data.code === 20000) {
             _this.invoiceIsFirstEdit = data.data.isFirstEdit;
@@ -1355,7 +1355,7 @@ export default {
           console.log(err);
         })
         .finally(() => {
-          loadingInstance.close();
+          // loadingInstance.close();
         });
     },
     getFieldError(vo, currentKey, currentVal) {
