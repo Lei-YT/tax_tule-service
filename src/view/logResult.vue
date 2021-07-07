@@ -712,42 +712,13 @@ export default {
   components: { ImagePreview },
   data() {
     return {
-      // invoiceFieldsSetting: [],
       currentInvoiceType: "",
       editInvoiceType: "",
       invoiceTypeData: invoiceTypeData,
       selectedInvoiceType: [],
       showFormRet: false,
       showImageRet: false,
-      formColumnsB: [
-        {
-          title: "表单",
-          align: "center",
-          // children: [],
-          childrenBak: [
-            {
-              title: "序号",
-              type: "index",
-              width: 65,
-            },
-          ],
-        },
-      ],
       formColumnsChildren: [],
-      imageColumns: [
-        {
-          title: "影像",
-          align: "center",
-          // children: [],
-          childrenBak: [
-            {
-              title: "序号",
-              type: "index",
-              width: 65,
-            },
-          ],
-        },
-      ],
       imageColumnsChildren: [],
       resultFormDataRaw: [],
       resultFormData: [],
@@ -769,26 +740,6 @@ export default {
       errorMessage: [],
       errorFieldCnt: 0,
       billNumber: "",
-      columns: [
-        {
-          title: "序号",
-          type: "index",
-          width: 65,
-        },
-        {
-          title: "规则",
-          slot: "ruleName",
-        },
-        {
-          title: " ",
-          slot: "icon",
-          width: 65,
-        },
-        {
-          title: "审核结果",
-          slot: "message",
-        },
-      ],
       columns1: [
         {title: "序号",type: "index",width: 65,},
         {title: "预警等级",slot: "grade",width: 100,},
@@ -928,8 +879,6 @@ export default {
         });
         this.imgHasError = ids;
         this.setImageData(ids, vo.imageData[0].infos[0].invoiceId);
-        console.log("image", vo);
-        // _this.invoiceId = vo.imageData[0].infos[0].invoiceId;
       } else {
         Notification.closeAll();
         Notification({
@@ -1040,7 +989,9 @@ export default {
               });
             });
             if (xx.length > 0) {
-              const newArray = xx[0].map((col, i) => xx.map((row) => row[i]));
+              const subLength = xx.map(ii => ii.length);
+              const maxI = subLength.indexOf(Math.max(...subLength));
+              const newArray = xx[maxI].map((col, i) => xx.map((row) => row[i]));
               const parr = JSON.parse(JSON.stringify(newArray)).filter(
                 (s) => s
               );
@@ -1066,7 +1017,9 @@ export default {
               });
             });
             if (tt.length > 0) {
-              const newArray2 = tt[0].map((col, i) => tt.map((row) => row[i]));
+              const subLength = tt.map(ii => ii.length);
+              const maxI = subLength.indexOf(Math.max(...subLength));
+              const newArray2 = tt[maxI].map((col, i) => tt.map((row) => row[i]));
               const parr2 = JSON.parse(JSON.stringify(newArray2));
               _this.resultImageData = clubArray(parr2)
                 .map((x) => removeEmptyOrNull(x))

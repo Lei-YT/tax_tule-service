@@ -1,0 +1,56 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "image": [
+      {
+        "keyName": "资金支付审批单-收款方账号*",
+        "jsonPath": "$.images.fundApproval[*].accountNo",
+        "data": [],
+        "valueData": []
+      },
+      {
+        "keyName": "发票-销售方信息-开户行及账号*",
+        "jsonPath": "$.images.invoice[*].sellerBankAccount",
+        "data": [
+          {
+            "index": 1,
+            "data": "中国银行股份有限公司拉萨市康昂多路支行 138809826030"
+          }
+        ],
+        "valueData": [
+          {
+            "index": 1,
+            "value": "中国银行股份有限公司拉萨市康昂多路支行 138809826030",
+            "highLight": true
+          }
+        ]
+      }
+    ],
+    "form": [
+      {
+        "keyName": "资--*",
+        "jsonPath": "$.images.fundApproval[*].accountNo",
+        "data": [],
+        "valueData": []
+      },
+      {
+        "keyName": "头信息-收款方账号",
+        "jsonPath": "$.head.payeeAccount",
+        "data": [
+          {
+            "index": 1,
+            "data": "135809826030"
+          }
+        ],
+        "valueData": [
+          {
+            "index": 1,
+            "value": "135809826030",
+            "highLight": false
+          }
+        ]
+      }
+    ]
+  }
+}
