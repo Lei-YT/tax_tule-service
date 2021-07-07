@@ -8,7 +8,44 @@
     <FormItem prop="adminNo">
       <div class="inpBox">
         <img src="@/assets/images/users.png" class="users" />
-        <Input v-model="form.adminNo" placeholder="请输入登录ID" class="inp" />
+        <Poptip placement="bottom" width="250" v-model="visibleSaved">
+          <Input
+            v-model="form.adminNo"
+            placeholder="请输入登录ID"
+            class="inp"
+          />
+          <div class="api" slot="content">
+            <Card :bordered="false">
+              <div slot="title" class="cardHead">
+                <p>保存的密码</p>
+              </div>
+              <Button type="text" long
+                v-for="(a, ii) in saveAccount"
+                :key="a.adminNo"
+                @click="onSelectSaved(ii)"
+              >
+                <!-- style="display: flex; justify-content: space-between;" -->
+              <Row
+                type="flex"
+                justify="space-between"
+              >
+                <Col>{{ a.adminNo }}</Col>
+                <Col>••••••</Col>
+              </Row>
+              </Button>
+              <!-- <Row
+                type="flex"
+                justify="space-between"
+                v-for="(a, i) in saveAccount"
+                :key="a.adminNo"
+                @click.native="onSelectSaved(i)"
+              >
+                <Col>{{ a.adminNo }}</Col>
+                <Col>••••••</Col>
+              </Row> -->
+            </Card>
+          </div>
+        </Poptip>
       </div>
     </FormItem>
     <FormItem prop="password">
@@ -23,6 +60,9 @@
       </div>
     </FormItem>
     <FormItem>
+      <Checkbox v-model="remember">记住密码</Checkbox>
+    </FormItem>
+    <FormItem>
       <Button @click="handleSubmit" type="primary" long class="btns"
         >登录</Button
       >
@@ -30,6 +70,7 @@
   </Form>
 </template>
 <script>
+import { readSaved } from "@/libs/util";
 export default {
   name: "LoginForm",
   props: {
@@ -52,6 +93,9 @@ export default {
         adminNo: "",
         password: "",
       },
+      remember: false,
+      visibleSaved: false,
+      saveAccount: readSaved(),
     };
   },
   computed: {
@@ -70,9 +114,15 @@ export default {
           this.$emit("on-success-valid", {
             adminNo: this.form.adminNo,
             password: this.form.password,
+            remember: this.remember,
           });
         }
       });
+    },
+    onSelectSaved(i){
+      this.visibleSaved = false;
+      this.form.adminNo = this.saveAccount[i].adminNo
+      this.form.password = this.saveAccount[i].password
     },
   },
 };
@@ -91,7 +141,43 @@ export default {
 .inp {
   background: transparent;
 }
-
+/deep/.ivu-checkbox-input,
+/deep/.ivu-checkbox-inner {
+  border-radius: 0;
+  border: 1px solid #20a3f5;
+  background: transparent;
+}
+/deep/.ivu-poptip {
+  width: 100%;
+  .ivu-poptip-rel {
+    width: inherit;
+  }
+  .ivu-poptip-body {
+    padding: 0;
+  }
+  .ivu-poptip-arrow,
+  .ivu-poptip-arrow::after {
+    content: "";
+    border: none;
+  }
+  .ivu-card-head {
+    border-radius: 4px 4px 0 0;
+    background: #1991dd;
+    p {
+      color: #fff;
+      font-weight: 400;
+    }
+  }
+  .ivu-card-body {
+    color: #000;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    .ivu-row-flex{
+      padding: 0.5em 0;
+    }
+  }
+}
 /deep/.ivu-input {
   flex: 1;
   background: transparent;
@@ -99,7 +185,8 @@ export default {
   border: 0;
   color: #fff;
 }
-/deep/.ivu-input::-webkit-input-placeholder {
+/deep/.ivu-input::-webkit-input-placeholder,
+/deep/.ivu-form-item-content {
   color: #fff;
 }
 /deep/.ivu-input-default {
@@ -116,6 +203,6 @@ export default {
   background: #20a3f5;
   color: #fff;
   letter-spacing: 3px;
-  margin-top: 45px;
+  // margin-top: 45px;
 }
 </style>
