@@ -54,7 +54,7 @@
         <el-table-column prop="created_at" label="创建时间" align="center" />
       </el-table>
       <div class="pageCon">
-        <div class="showCon">显示 1-10 条，共 {{ page.totalElement }} 条</div>
+        <div class="showCon">共 {{ page.totalElement }} 条</div>
         <div class="paginationStyle">
           <el-button @click="currentChange(1)" type="text" size="small"
             >首页</el-button

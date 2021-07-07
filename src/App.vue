@@ -36,4 +36,16 @@ body {
 #app {
   .size;
 }
+.ivu-page-item,
+.ivu-page-item-jump-next {
+  display: none !important;
+}
+.ivu-page-prev,
+.ivu-page-next {
+  border: 1px solid #dcdee2 !important;
+}
+.ivu-page-prev a,
+.ivu-page-next a {
+  margin: 0 6px!important;
+}
 </style>
