@@ -8,7 +8,7 @@
           class="flow-form-inline"
           ref="formInline"
         >
-          <div v-if="hasPerm('proce_search')">
+          <div v-if="hasPerm('bill_search')">
             <FormItem label="表单名称" prop="formName">
               <Input v-model="formName" placeholder="请输入表单名称" />
             </FormItem>
@@ -56,7 +56,7 @@
               >
             </FormItem>
           </div>
-          <FormItem :label-width="0" class="flow-form-action" v-if="hasPerm('proce_operate')">
+          <FormItem :label-width="0" class="flow-form-action" v-if="hasPerm('bill_operate')">
             <el-button
               @click="deleteSelected"
               type="danger"
@@ -77,8 +77,8 @@
           <Table border stripe ref="formFlowTable" :columns="columns4" :data="tableData"
             style="width: 100%" no-data-text="暂无数据" @on-selection-change="handleSelectionChange"
           >
-              <template  slot-scope="{ row }" slot="node_share">
-                <Select v-if="hasPerm('proce_operate')"
+              <template slot-scope="{ row }" slot="node_share">
+                <Select v-if="hasPerm('bill_operate')"
                   transfer
                   multiple
                   v-model="row.node_share"
@@ -99,12 +99,12 @@
                 </Select>
                 <div v-else>
                 {{ row.node_share.includes(2) ? "共享中心审批节点" : ''}}
-                <Divider v-if="scope.row.node_share.length > 1" type="vertical"/>
+                <Divider v-if="row.node_share.length > 1" type="vertical"/>
                 {{ row.node_share.includes(1) ? "业务审批节点" : ''}}
                 </div>
               </template>
               <template slot-scope="{ row }" slot="biz_mode">
-                <template v-if="hasPerm('proce_operate')">
+                <template v-if="hasPerm('bill_operate')">
                 <Select
                   transfer
                   v-if="row.showBizMode"
@@ -121,7 +121,7 @@
                 </div>
               </template>
               <template slot-scope="{ row }" slot="share_mode">
-                <template v-if="hasPerm('proce_operate')">
+                <template v-if="hasPerm('bill_operate')">
                 <Select
                   transfer
                   v-if="row.showShareMode"

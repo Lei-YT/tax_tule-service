@@ -126,7 +126,7 @@ export default [
       hideInBread: true,
       icon: '_15',
       title: '人机协同',
-      perms: ['bill','proce',],
+      perms: ['bill',],
       showAlways: true,
     },
     component: Main,
