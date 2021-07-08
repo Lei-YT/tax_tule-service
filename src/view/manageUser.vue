@@ -90,9 +90,13 @@
               align="center"
               width="60"
             />
-            <el-table-column prop="name" label="姓名" align="center" />
+            <el-table-column prop="name" label="姓名" align="center" width="120"/>
             <el-table-column prop="adminNo" label="账号" align="center" />
-            <el-table-column prop="organ" label="所属机构" align="center" />
+            <el-table-column prop="organ" label="所属机构" align="center" width="200" >
+              <template slot-scope="scope">
+                {{ scope.row.organ.OrgName }}
+              </template>
+              </el-table-column>
             <el-table-column label="用户状态" align="center">
               <template slot-scope="scope">
                 <el-button
@@ -114,12 +118,7 @@
             </el-table-column>
             <el-table-column prop="phone" label="手机号" align="center" />
             <el-table-column prop="email" label="邮箱" align="center" />
-            <el-table-column
-              prop="created_at"
-              label="创建时间"
-              align="center"
-              width="160"
-            />
+            <el-table-column prop="created_at" label="创建时间" align="center" width="160" />
           </el-table>
           <div class="pageCon" v-if="userBySearch">
             <div class="showCon">共 {{ page.totalElement }} 条</div>
