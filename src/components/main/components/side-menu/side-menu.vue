@@ -68,7 +68,7 @@
     <div class="menu-collapsed" v-show="collapsed" :list="menuList">
       <template v-for="item in menuList">
         <collapsed-menu
-          v-if="item.children && item.children.length > 1"
+          v-if="item.children"
           @on-click="handleSelect"
           hide-title
           :root-icon-size="rootIconSize"
