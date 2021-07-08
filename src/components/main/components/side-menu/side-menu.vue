@@ -6,10 +6,10 @@
       v-show="!collapsed"
       :active-name="activeName"
       :open-names="openedNames"
-      :accordion="accordion"
       width="auto"
       @on-select="handleSelect"
     >
+      <!-- :accordion="accordion" -->
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
           <side-menu-item
@@ -168,7 +168,10 @@ export default {
       type: Number,
       default: 16,
     },
-    accordion: Boolean,
+    accordion: {
+      type: Boolean,
+      default: false,
+    },
     activeName: {
       type: String,
       default: "",
@@ -205,16 +208,16 @@ export default {
   },
   watch: {
     activeName(name) {
-      if (this.accordion)
-        this.openedNames = this.getOpenedNamesByActiveName(name);
-      else
-        this.openedNames = getUnion(
-          this.openedNames,
-          this.getOpenedNamesByActiveName(name)
-        );
+      // if (this.accordion)
+        // this.openedNames = this.getOpenedNamesByActiveName(name);
+      // else
+      //   this.openedNames = getUnion(
+      //     this.openedNames,
+      //     this.getOpenedNamesByActiveName(name)
+      //   );
     },
     openNames(newNames) {
-      this.openedNames = newNames;
+      // this.openedNames = newNames;
     },
     openedNames() {
       this.$nextTick(() => {
@@ -223,10 +226,11 @@ export default {
     },
   },
   mounted() {
-    this.openedNames = getUnion(
-      this.openedNames,
-      this.getOpenedNamesByActiveName(name)
-    );
+    this.openedNames = this.menuList.map(i => i.name);
+    // this.openedNames = getUnion(
+    //   this.openedNames,
+    //   this.getOpenedNamesByActiveName(name)
+    // );
   },
 };
 </script>
