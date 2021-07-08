@@ -1,0 +1,198 @@
+{
+  "id": "2590175",
+  "name": "tax-rule",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "17652734",
+      "name": "17置于顶层",
+      "font_class": "17zhiyudingceng",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "17652735",
+      "name": "18置于底层",
+      "font_class": "18zhiyudiceng",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "22383680",
+      "name": "下移一层",
+      "font_class": "xiayiyiceng",
+      "unicode": "edfe",
+      "unicode_decimal": 60926
+    },
+    {
+      "icon_id": "339471",
+      "name": "分销",
+      "font_class": "fenxiao",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "667209",
+      "name": "修改",
+      "font_class": "15",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "739100",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "979233",
+      "name": "钱包",
+      "font_class": "qianbao",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "979234",
+      "name": "钱袋",
+      "font_class": "qiandai",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "1012087",
+      "name": "用户锁定",
+      "font_class": "iconfontloginuser",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "5482369",
+      "name": "审批模型-数据",
+      "font_class": "custom-data",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    },
+    {
+      "icon_id": "5864777",
+      "name": "审批模型-部门",
+      "font_class": "custom-department",
+      "unicode": "e6a2",
+      "unicode_decimal": 59042
+    },
+    {
+      "icon_id": "6789075",
+      "name": "待审批列表",
+      "font_class": "daishenpiliebiao-",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "7171163",
+      "name": "财务月报表审批",
+      "font_class": "shenpi",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "7450653",
+      "name": "用户设置",
+      "font_class": "yonghushezhi",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "8407724",
+      "name": "审计",
+      "font_class": "shenji",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "14152458",
+      "name": "审批",
+      "font_class": "shenpi1",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "15289814",
+      "name": "监控",
+      "font_class": "xingzhuangjiehe",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "17124312",
+      "name": "数据",
+      "font_class": "shuju",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "17334989",
+      "name": "群众",
+      "font_class": "qunzhong",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "20017454",
+      "name": "机器人",
+      "font_class": "jiqiren1",
+      "unicode": "e85b",
+      "unicode_decimal": 59483
+    },
+    {
+      "icon_id": "18991719",
+      "name": "robot",
+      "font_class": "robot",
+      "unicode": "e878",
+      "unicode_decimal": 59512
+    },
+    {
+      "icon_id": "7588130",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "18311575",
+      "name": "设 置",
+      "font_class": "shezhi01",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "19934852",
+      "name": "用户",
+      "font_class": "yonghu1",
+      "unicode": "e700",
+      "unicode_decimal": 59136
+    },
+    {
+      "icon_id": "13533360",
+      "name": "sae Serverless 应用引擎",
+      "font_class": "saeServerlessyingyongyinqing",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "13592728",
+      "name": "sae Serverless 应用引擎",
+      "font_class": "saeServerlessyingyongyinqing1",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "16323142",
+      "name": "机器人",
+      "font_class": "jiqiren",
+      "unicode": "e70e",
+      "unicode_decimal": 59150
+    }
+  ]
+}

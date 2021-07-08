@@ -3,7 +3,7 @@ import {
   logout,
   useraccess,
 } from '@/api/user'
-import { setPerms, setId, getId, setToken, getToken, setUserName, getUserName } from '@/libs/util'
+import { setPerms, setId, getId, setToken, getToken, setUserName, getUserName, savaPW } from '@/libs/util'
 import { Notification } from 'element-ui'
 
 export default {
@@ -29,6 +29,9 @@ export default {
     setPermission(state, perms) {
       state.permission = perms;
       setPerms(perms);
+    },
+    saveAccount(state, account){
+      savaPW(account);
     },
     setIsNewUser(state, isNew) {
       state.isNewUser = isNew;
@@ -92,7 +95,7 @@ export default {
   },
   actions: {
     // 登录
-    handleLogin({ commit }, { adminNo, password }) {
+    handleLogin({ commit }, { adminNo, password, remember }) {
       adminNo = adminNo.trim()
       return new Promise((resolve, reject) => {
         login({
@@ -117,6 +120,7 @@ export default {
               commit('setAdminNo', res.data.data.adminNo)
               commit('setAccess', res.data.data.adminNo)
               commit('setStationName', res.data.data.stationName)
+              if (remember) commit('saveAccount', {adminNo, password})
             }
             resolve(res.data.data)
           }

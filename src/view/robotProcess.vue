@@ -211,12 +211,8 @@
       <div class="conTwo" v-if="cur == 1">
         <InfoManage></InfoManage>
       </div>
-      <!-- 表单流程管理 -->
-      <div class="conThr" v-if="cur == 2">
-        <FormProcess></FormProcess>
-      </div>
       <!-- 操作日志 -->
-      <div class="conThr" v-if="cur == 3">
+      <div class="conThr" v-if="cur == 2">
         <OperationLog></OperationLog>
       </div>
     </div>
@@ -234,12 +230,10 @@ import {
 } from "@/api/user";
 import InfoManage from "./components/InfoManage";
 import OperationLog from "./components/OperationLog";
-import FormProcess from "./components/FormProcess";
 export default {
   components: {
     InfoManage,
     OperationLog,
-    FormProcess,
   },
   data() {
     return {
@@ -263,9 +257,6 @@ export default {
         },
         {
           type: "信息管理",
-        },
-        {
-          type: "表单流程管理",
         },
         {
           type: "操作日志",

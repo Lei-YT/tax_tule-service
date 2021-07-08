@@ -6,11 +6,10 @@
       v-show="!collapsed"
       :active-name="activeName"
       :open-names="openedNames"
-      :accordion="accordion"
-      :theme="theme"
       width="auto"
       @on-select="handleSelect"
     >
+      <!-- :accordion="accordion" -->
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
           <side-menu-item
@@ -22,7 +21,7 @@
             v-else
             :name="getNameOrHref(item, true)"
             :key="`menu-${item.children[0].name}`"
-            ><common-icon :type="item.children[0].icon || ''" /><span>{{
+            ><common-icon :type="item.children[0].icon || ''" :size="15" /><span>{{
               showTitle(item.children[0])
             }}</span></menu-item
           >
@@ -37,7 +36,7 @@
             v-else
             :name="getNameOrHref(item)"
             :key="`menu-${item.name}`"
-            ><common-icon :type="item.icon || ''" /><span>{{
+            ><common-icon :type="item.icon || ''" :size="15" /><span>{{
               showTitle(item)
             }}</span></menu-item
           >
@@ -69,7 +68,7 @@
     <div class="menu-collapsed" v-show="collapsed" :list="menuList">
       <template v-for="item in menuList">
         <collapsed-menu
-          v-if="item.children && item.children.length > 1"
+          v-if="item.children"
           @on-click="handleSelect"
           hide-title
           :root-icon-size="rootIconSize"
@@ -169,7 +168,10 @@ export default {
       type: Number,
       default: 16,
     },
-    accordion: Boolean,
+    accordion: {
+      type: Boolean,
+      default: false,
+    },
     activeName: {
       type: String,
       default: "",
@@ -206,16 +208,16 @@ export default {
   },
   watch: {
     activeName(name) {
-      if (this.accordion)
-        this.openedNames = this.getOpenedNamesByActiveName(name);
-      else
-        this.openedNames = getUnion(
-          this.openedNames,
-          this.getOpenedNamesByActiveName(name)
-        );
+      // if (this.accordion)
+        // this.openedNames = this.getOpenedNamesByActiveName(name);
+      // else
+      //   this.openedNames = getUnion(
+      //     this.openedNames,
+      //     this.getOpenedNamesByActiveName(name)
+      //   );
     },
     openNames(newNames) {
-      this.openedNames = newNames;
+      // this.openedNames = newNames;
     },
     openedNames() {
       this.$nextTick(() => {
@@ -224,10 +226,11 @@ export default {
     },
   },
   mounted() {
-    this.openedNames = getUnion(
-      this.openedNames,
-      this.getOpenedNamesByActiveName(name)
-    );
+    this.openedNames = this.menuList.map(i => i.name);
+    // this.openedNames = getUnion(
+    //   this.openedNames,
+    //   this.getOpenedNamesByActiveName(name)
+    // );
   },
 };
 </script>

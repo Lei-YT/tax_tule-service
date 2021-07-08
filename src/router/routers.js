@@ -35,37 +35,28 @@ export default [
     meta: {
       notCache: true,
       hideInBread: true,
+      icon: '_jiqiren1',
       perms: ['data','data_search', 'data_count'],
+      title: '机器人控制台'
     },
     children: [
       {
         path: homePath,
         name: 'robotDataMonitor',
         meta: {
-          icon: 'ios-navigate',
-          title: '机器人数据监控',
+          icon: '_shuju',
           perms: ['data','data_search', 'data_count'],
+          title: '机器人数据监控'
         },
         component: () => import('@/view/robotDataMonitor.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'robotProcess',
-    meta: {
-      hideInBread: true,
-      perms: ['proce', 'proce_search', 'proce_operate',]
-    },
-    component: Main,
-    children: [
+      },
       {
         path: homePath,
         name: 'robotProcessIndex',
         meta: {
-          icon: 'md-crop',
-          title: '机器人流程监控',
-          perms: ['proce', 'proce_search', 'proce_operate',]
+          icon: '_xingzhuangjiehe',
+          perms: ['proce', 'proce_search', 'proce_operate',],
+          title: '机器人监控'
         },
         component: () => import('@/view/robotProcess.vue')
       }
@@ -73,119 +64,12 @@ export default [
   },
   {
     path: '/',
-    name: 'auditLog',
-    meta: {
-      hideInBread: true,
-      perms: ['bill','bill_search','bill_operate',]
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'auditLogIndex',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '机器人审单日志',
-          keepAlive: true,
-          isBack: false,
-          perms: ['bill','bill_search','bill_operate',]
-        },
-        component: () => import('@/view/auditLog.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'logResult',
-    meta: {
-      hideInBread: true,
-      hideInMenu: true,
-      perms: ['bill','bill_search','bill_operate',]
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'logResultIndex',
-        meta: {
-          icon: 'ios-create-outline',
-          title: '机器人审单日志 / 机器人审核结果页',
-          perms: ['bill','bill_search','bill_operate',]
-        },
-        component: () => import('@/view/logResult.vue')
-      },
-    ]
-  },
-  {
-    path: '/',
     name: 'manageUser',
     meta: {
       hideInBread: true,
-      perms: ['user','user_search','user_operate',]
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'manageUserIndex',
-        meta: {
-          icon: 'ios-person-add-outline',
-          title: '用户管理',
-          perms: ['user','user_search','user_operate',]
-        },
-        component: () => import('@/view/manageUser.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'addWorks',
-    meta: {
-      hideInBread: true,
-      hideInMenu: true,
-      perms: ['station','station_search','station_operate',]
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'addWorks',
-        meta: {
-          icon: 'ios-nuclear',
-          title: '岗位权限管理',
-          perms: ['station','station_search','station_operate',]
-        },
-        component: () => import('@/view/addWorks.vue')
-      },
-    ]
-  },
-  {
-    path: '/',
-    name: 'workPermiss',
-    meta: {
-      hideInBread: true,
-      perms: ['station','station_search','station_operate',]
-    },
-    component: Main,
-    children: [
-      {
-        path: homePath,
-        name: 'workPermiss',
-        meta: {
-          icon: 'ios-nuclear',
-          title: '岗位权限管理',
-          perms: ['station','station_search','station_operate',]
-        },
-        component: () => import('@/view/workPermiss.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'institutionsMange',
-    meta: {
-      hideInBread: true,
-      perms: ['organ','organ_search','organ_operate',]
+      icon: '_18zhiyudiceng',
+      title: '权限管理',
+      perms: ['organ','organ_search','organ_operate','station','user'],
     },
     component: Main,
     children: [
@@ -193,12 +77,82 @@ export default [
         path: homePath,
         name: 'institutionsMange',
         meta: {
-          icon: 'ios-podium',
-          title: '机构管理',
-          perms: ['organ','organ_search','organ_operate',]
+          icon: '_custom-department',
+          perms: ['organ','organ_search','organ_operate',],
+          title: '机构管理'
         },
         component: () => import('@/view/institutions.vue')
-      }
+      },
+      {
+        path: homePath,
+        name: 'manageUserIndex',
+        meta: {
+          icon: '_iconfontloginuser',
+          perms: ['user','user_search','user_operate',],
+          title: '用户管理'
+        },
+        component: () => import('@/view/manageUser.vue')
+      },
+      {
+        path: homePath,
+        name: 'workPermiss',
+        meta: {
+          icon: '_qunzhong',
+          title: '岗位权限管理',
+          perms: ['station','station_search','station_operate',]
+        },
+        component: () => import('@/view/workPermiss.vue')
+      },
+      {
+        path: homePath,
+        name: 'addWorks',
+        meta: {
+          hideInBread: true,
+          hideInMenu: true,
+          icon: '_qunzhong',
+          perms: ['station','station_search','station_operate',],
+          title: '岗位权限管理'
+        },
+        component: () => import('@/view/addWorks.vue')
+      },
+    ]
+  },
+  {
+    path: '/',
+    name: 'auditLog',
+    meta: {
+      hideInBread: true,
+      icon: '_15',
+      title: '人机协同',
+      perms: ['bill','bill_search','bill_operate',],
+      showAlways: true,
+    },
+    component: Main,
+    children: [
+      {
+        path: homePath,
+        name: 'auditLogIndex',
+        meta: {
+          icon: '_shenpi',
+          title: '智能审单',
+          perms: ['bill','bill_search','bill_operate',],
+          keepAlive: true,
+          isBack: false
+        },
+        component: () => import('@/view/auditLog.vue')
+      },
+      {
+        path: homePath,
+        name: 'logResultIndex',
+        meta: {
+          icon: 'ios-create-outline',
+          title: '机器人审单日志 / 机器人审核结果页',
+          perms: ['bill','bill_search','bill_operate',],
+          hideInBread: true,
+          hideInMenu: true
+        },
+        component: () => import('@/view/logResult.vue')
+      },
     ]
   },
   {

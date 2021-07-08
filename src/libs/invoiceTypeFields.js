@@ -9,7 +9,6 @@ export const getInvoiceFields = (invoiceType) => {
           { label: '发票类型', key: 'invoiceType', col: 8 },
           { label: '发票代码', key: 'invoiceCode', col: 8 },
           { label: '发票号码', key: 'invoiceNo', col: 8 },
-          { label: '发票抬头', key: 'invoiceTitle', col: 24 },
           { label: '起始站', key: 'startCity', col: 12 },
           { label: '终点站', key: 'terminus', col: 12 },
           { label: '出行日期', key: 'invoiceDate', col: 12 },
@@ -195,9 +194,6 @@ const base = {
       { label: '价税合计（小写）', key: 'amountWithTax', col: 12 },
       { label: '金额', key: 'invoiceAmount', col: 12 },
       { label: '票据归属地', key: 'invoiceAddress', col: 12, width: 100 },
-    ],
-    [
-      { label: '发票抬头', key: 'invoiceTitle', col: 24 },
     ],
     [
       { label: '乙方', key: 'partyB', col: 24 },

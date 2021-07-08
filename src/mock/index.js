@@ -1,27 +1,33 @@
 import { Encrypt, Decrypt } from "@/libs/aes";
 
 import Mock from 'mockjs'
-import logJson from '@/dataJson/log2.json'
+
 import loginJson from '@/dataJson/login.json'
 import userAuth from '@/dataJson/user-auth.json'
+
 import process from "@/dataJson/process.json";
-import resultJson from '@/dataJson/result6.json'
+import infoMange from "@/dataJson/infoMange2.json";
+import logslist from "@/dataJson/logslist.json";
+
 import mangeUser from '@/dataJson/mangeUser.json'
 import importData from '@/dataJson/import.json'
 import station from '@/dataJson/station.json'
-import resultDataJson2 from '@/dataJson/result-data8.json'
-import isFirstEdit from '@/dataJson/isFirstEdit.json'
-import userJson from '@/dataJson/user.json'
 import userOrganJson from '@/dataJson/user-organ.json'
 import userOrganChild from '@/dataJson/user-organ-c.json'
 import userStation from '@/dataJson/user-station.json'
 import organStation from '@/dataJson/organ-station.json'
 import stationPower from '@/dataJson/station-power.json'
 import powerList from '@/dataJson/power-list.json'
+import userJson from '@/dataJson/user.json'
+
+import logJson from '@/dataJson/log2.json'
+import resultJson from '@/dataJson/result6.json'
+import resultDataJson2 from '@/dataJson/result-data9.json'
+import isFirstEdit from '@/dataJson/isFirstEdit.json'
+
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
-import infoMange from "@/dataJson/infoMange2.json";
-import logslist from "@/dataJson/logslist.json";
+
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
 })

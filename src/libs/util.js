@@ -5,6 +5,26 @@ import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 const { title, cookieExpires, useI18n } = config
 
 export const TOKEN_KEY = 'token'
+export const ACCOUNT_KEY = '__save_crtg'
+
+export const savaPW = (obj) => {
+  const o = localStorage.getItem(ACCOUNT_KEY);
+  let oArr = [];
+  if (o) oArr = JSON.parse(o);
+  const update = oArr.findIndex(e => e.adminNo===obj.adminNo);
+  if (update > -1) {
+    oArr[update] = obj;
+  } else {
+    oArr.push(obj);
+  }
+  localStorage.setItem(ACCOUNT_KEY, JSON.stringify(oArr));
+}
+export const readSaved = () => {
+  const o = localStorage.getItem(ACCOUNT_KEY);
+  let oArr = [];
+  if (o) oArr = JSON.parse(o);
+  return oArr;
+}
 
 export const setPerms = (arr) => {
   localStorage.setItem('permissions', JSON.stringify( arr))

@@ -1,14 +1,15 @@
-.login{
+.login {
     width: 100%;
     height: 100%;
-    background: url('../../assets/images/login-bg.jpg') rgba(128,207,247, .5);
+    background: url('../../assets/images/login-bg.jpg') rgba(128, 207, 247, .5);
     background-size: cover;
     background-position: center;
     background-blend-mode: multiply;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    .header{
+
+    .header {
         position: fixed;
         top: 0;
         width: 100%;
@@ -16,62 +17,74 @@
         background: #fff;
         display: flex;
         align-items: center;
-        .compyLogo{
+
+        .compyLogo {
             width: 341px;
             height: 50px;
             position: absolute;
             left: 15%;
         }
     }
-    .footer{
-      position:fixed;
-      bottom: 0;width: 100%;height:70px;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content:center;
-      p{
-        font-size:14px;
-        color:#666;
-      }
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 70px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        p {
+            font-size: 14px;
+            color: #666;
+        }
     }
-    .leftImg{
+
+    .leftImg {
         width: 50%;
         height: 600px;
         position: fixed;
         z-index: 99;
         bottom: 0;
         left: 0;
-        .shouImg{
+
+        .shouImg {
             width: 100%;
             height: 100%;
         }
     }
-    .rightCon{
+
+    .rightCon {
         display: flex;
         flex-direction: column;
         align-items: center;
         position: fixed;
         top: 20%;
         left: 50%;
-        .topLogo{
+
+        .topLogo {
             display: flex;
             align-items: center;
             margin-bottom: 46px;
-            .logImg{
+
+            .logImg {
                 width: 50px;
                 height: 45px;
                 margin-right: 16px;
             }
-            >p{
+
+            >p {
                 color: #fff;
                 font-size: 26px;
                 letter-spacing: 7px;
             }
         }
-        
+
     }
-    &-con{
+
+    &-con {
         width: 436px;
         height: 364px;
         background: url('../../assets/images/logBj.png');
@@ -79,5 +92,42 @@
         background-position: center;
         padding: 89px 40px 54px 40px;
         box-sizing: border-box;
+    }
+
+    .modify-con {
+        width: 436px;
+        height: 364px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        .modify-header {
+            position: relative;
+
+            .headImg {
+                width: 100%;
+            }
+
+            .headTitle {
+                color: #fff;
+                position: absolute;
+                top: 1em;
+                left: 1em;
+            }
+        }
+
+        .modify-form {
+            background-color: #fff;
+            padding: 16px 16px 0 16px;
+            .el-form-item__label{
+              line-height: 1.25em;
+            }
+        }
+        .dialog-footer{
+          background-color: #fff;
+          padding: 16px;
+          display: flex;
+          justify-content: center;
+        }
     }
 }

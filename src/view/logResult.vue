@@ -280,6 +280,8 @@
               v-model="showbigimg"
               draggable
               scrollable
+              reset-drag-position
+              sticky
               :closable="true"
               :footer-hide="true"
               @on-cancel="showbigimg = false"
@@ -598,6 +600,8 @@
       v-model="ruleRowtoggle"
       draggable
       scrollable
+      reset-drag-position
+      sticky
       :closable="true"
       :footer-hide="true"
       width="1000"
@@ -712,42 +716,13 @@ export default {
   components: { ImagePreview },
   data() {
     return {
-      // invoiceFieldsSetting: [],
       currentInvoiceType: "",
       editInvoiceType: "",
       invoiceTypeData: invoiceTypeData,
       selectedInvoiceType: [],
       showFormRet: false,
       showImageRet: false,
-      formColumnsB: [
-        {
-          title: "表单",
-          align: "center",
-          // children: [],
-          childrenBak: [
-            {
-              title: "序号",
-              type: "index",
-              width: 65,
-            },
-          ],
-        },
-      ],
       formColumnsChildren: [],
-      imageColumns: [
-        {
-          title: "影像",
-          align: "center",
-          // children: [],
-          childrenBak: [
-            {
-              title: "序号",
-              type: "index",
-              width: 65,
-            },
-          ],
-        },
-      ],
       imageColumnsChildren: [],
       resultFormDataRaw: [],
       resultFormData: [],
@@ -769,26 +744,6 @@ export default {
       errorMessage: [],
       errorFieldCnt: 0,
       billNumber: "",
-      columns: [
-        {
-          title: "序号",
-          type: "index",
-          width: 65,
-        },
-        {
-          title: "规则",
-          slot: "ruleName",
-        },
-        {
-          title: " ",
-          slot: "icon",
-          width: 65,
-        },
-        {
-          title: "审核结果",
-          slot: "message",
-        },
-      ],
       columns1: [
         {title: "序号",type: "index",width: 65,},
         {title: "预警等级",slot: "grade",width: 100,},
@@ -928,8 +883,6 @@ export default {
         });
         this.imgHasError = ids;
         this.setImageData(ids, vo.imageData[0].infos[0].invoiceId);
-        console.log("image", vo);
-        // _this.invoiceId = vo.imageData[0].infos[0].invoiceId;
       } else {
         Notification.closeAll();
         Notification({
@@ -1040,7 +993,9 @@ export default {
               });
             });
             if (xx.length > 0) {
-              const newArray = xx[0].map((col, i) => xx.map((row) => row[i]));
+              const subLength = xx.map(ii => ii.length);
+              const maxI = subLength.indexOf(Math.max(...subLength));
+              const newArray = xx[maxI].map((col, i) => xx.map((row) => row[i]));
               const parr = JSON.parse(JSON.stringify(newArray)).filter(
                 (s) => s
               );
@@ -1066,7 +1021,9 @@ export default {
               });
             });
             if (tt.length > 0) {
-              const newArray2 = tt[0].map((col, i) => tt.map((row) => row[i]));
+              const subLength = tt.map(ii => ii.length);
+              const maxI = subLength.indexOf(Math.max(...subLength));
+              const newArray2 = tt[maxI].map((col, i) => tt.map((row) => row[i]));
               const parr2 = JSON.parse(JSON.stringify(newArray2));
               _this.resultImageData = clubArray(parr2)
                 .map((x) => removeEmptyOrNull(x))
@@ -1311,10 +1268,10 @@ export default {
         let fieldsImgs = findRet.imageData.find(
           (ee) => ee.imageId === findImgId
         );
-        let fieldsInvoice = fieldsImgs.infos.find(
+        let fieldsInvoice = fieldsImgs ? fieldsImgs.infos.find(
           (ei) => ei.invoiceId === invoiceIdP
-        );
-        _this.currentInvoiceErrorFields = fieldsInvoice.fields || [];
+        ) : undefined;
+        _this.currentInvoiceErrorFields = fieldsInvoice ? fieldsInvoice.fields : [];
         _this.setCurrentInvoiceErrorFields(_this.currentInvoiceErrorFields);
       } else {
         findImgId = _this.imageId;
@@ -1333,10 +1290,10 @@ export default {
       _this.editFieldsItems = editFieldsItems;
       _this.setEditFields([]);
       _this.setEditFieldsItems([]);
-      const loadingInstance = Loading.service({
-        fullscreen: true,
-        background: "hsla(0,0%,100%,.2)",
-      });
+      // const loadingInstance = Loading.service({
+      //   fullscreen: true,
+      //   background: "hsla(0,0%,100%,.2)",
+      // });
       axios
         .request({
           method: "post",
@@ -1344,7 +1301,7 @@ export default {
           data: request,
         })
         .then((resp) => {
-          loadingInstance.close();
+          // loadingInstance.close();
           let data = resp.data;
           if (data.code === 20000) {
             _this.invoiceIsFirstEdit = data.data.isFirstEdit;
@@ -1398,7 +1355,7 @@ export default {
           console.log(err);
         })
         .finally(() => {
-          loadingInstance.close();
+          // loadingInstance.close();
         });
     },
     getFieldError(vo, currentKey, currentVal) {
@@ -1978,6 +1935,15 @@ export default {
   }
   .ivu-icon{
     font-size: 25px;
+  }
+}
+/deep/.el-table{
+  position: relative;
+  .el-table__body-wrapper{
+    height: calc(~"100% - 48px");
+    .el-table__body{
+      height: 100%;
+    }
   }
 }
 </style>
