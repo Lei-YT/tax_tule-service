@@ -1,6 +1,24 @@
 <template>
   <div class="wraps">
-    <div id="list">
+    <div class="tabBox">
+      <Card>
+        <div class="tabList">
+          <p
+            :class="cur == index ? 'cur' : ''"
+            v-for="(item, index) in tabList"
+            :key="index"
+            @click="changeCur(index)"
+          >
+            {{ item.type }}
+          </p>
+        </div>
+      </Card>
+    </div>
+      <!-- 表单流程管理 -->
+      <div class="conThr" v-show="cur == 1">
+        <FormProcess></FormProcess>
+      </div>
+    <div id="list" v-show="cur == 0">
       <Card style="width: 100%">
         <Form
           :inline="true"
@@ -599,10 +617,23 @@
 </template>
 <script>
 import axios from "@/libs/api.request";
+import FormProcess from "./components/FormProcess";
 import axios2 from 'axios';
 export default {
+  components: {
+    FormProcess,
+  },
   data() {
     return {
+      cur: 0,
+      tabList: [
+        {
+          type: "机器人审单日志",
+        },
+        {
+          type: "表单流程管理",
+        },
+      ],
       dialogFormVisible: false,
       page: {
         totalElement: 0, // 总页数
@@ -680,6 +711,9 @@ export default {
   //   this.$route.meta.isBack=false
   // },
   methods: {
+    changeCur(index) {
+      this.cur = index;
+    },
     format(percentage) {
       if (percentage == 100) {
         return `${percentage}%`;
@@ -974,6 +1008,30 @@ export default {
 };
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
+.tabBox {
+  width: 100%;
+  height: 66px;
+  margin-bottom: 20px;
+}
+.tabList {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid #999;
+  p {
+    height: 30px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+}
+.cur {
+  color: #1991dd;
+  border-bottom: 2px solid #1991dd;
+}
+.curCard {
+  box-shadow: 0 0 0 2px rgba(6, 116, 243, 0.856);
+}
 .numCount {
   display: flex;
 }

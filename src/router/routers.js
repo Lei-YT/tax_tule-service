@@ -53,7 +53,7 @@ export default [
         name: 'robotProcessIndex',
         meta: {
           icon: '_xingzhuangjiehe',
-          title: '机器人流程监控'
+          title: '机器人监控'
         },
         component: () => import('@/view/robotProcess.vue')
       }
@@ -116,6 +116,7 @@ export default [
       hideInBread: true,
       icon: '_15',
       title: '人机协同',
+      showAlways: true,
     },
     component: Main,
     children: [
@@ -125,28 +126,6 @@ export default [
         meta: {
           icon: '_shenpi',
           title: '智能审单',
-          keepAlive: true,
-          isBack: false
-        },
-        component: () => import('@/view/auditLog.vue')
-      },
-      {
-        path: homePath,
-        name: 'auditLogIndex2',
-        meta: {
-          icon: '_15',
-          title: '智能填单',
-          keepAlive: true,
-          isBack: false
-        },
-        component: () => import('@/view/auditLog.vue')
-      },
-      {
-        path: homePath,
-        name: 'auditLogIndex3',
-        meta: {
-          icon: '_qiandai',
-          title: '资金支付',
           keepAlive: true,
           isBack: false
         },
