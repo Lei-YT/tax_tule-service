@@ -177,15 +177,29 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["handleLogin"]),
+    ...mapActions(["handleLogin", "getUserPerms"]),
     ...mapMutations(["setShowPWModify"]),
     handleSubmit({ adminNo, password, remember }) {
       const _this = this;
       this.handleLogin({ adminNo, password, remember }).then((res) => {
         _this.adminNo = adminNo;
         if (_this.$store.state.user.isNewUser === 0) {
-          this.$router.push({
-            name: "home",
+          _this.getUserPerms(res).then((perms) => {
+            if (perms.length > 0) {
+              let firstPage = _this.$store.getters.menuList[0].name;
+              if (_this.$store.getters.menuList[0].children.length) {
+                firstPage = _this.$store.getters.menuList[0].children[0].name;
+              }
+              _this.$router.replace({
+                name: firstPage,
+              });
+            } else {
+              _this.$notify({
+                title: "温馨提示",
+                type: "warning",
+                message: '未获取到登入权限',
+              });
+            }
           });
         } else {
           this.$Modal.warning({

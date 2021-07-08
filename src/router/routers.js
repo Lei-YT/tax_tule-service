@@ -36,7 +36,8 @@ export default [
       notCache: true,
       hideInBread: true,
       icon: '_jiqiren1',
-      perms: ['data','data_search', 'data_count'],
+      perms: ['data','proce'],
+      showAlways: true,
       title: '机器人控制台'
     },
     children: [
@@ -69,7 +70,8 @@ export default [
       hideInBread: true,
       icon: '_18zhiyudiceng',
       title: '权限管理',
-      perms: ['organ','organ_search','organ_operate','station','user'],
+      perms: ['organ','station','user'],
+      showAlways: true,
     },
     component: Main,
     children: [
@@ -124,7 +126,7 @@ export default [
       hideInBread: true,
       icon: '_15',
       title: '人机协同',
-      perms: ['bill','bill_search','bill_operate',],
+      perms: ['bill','proce',],
       showAlways: true,
     },
     component: Main,

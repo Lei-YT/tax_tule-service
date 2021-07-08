@@ -26,7 +26,7 @@
             }}</span></menu-item
           >
         </template>
-        <template v-else>
+        <template v-else-if="item.children && item.children.length > 0">
           <side-menu-item
             v-if="showChildren(item)"
             :key="`menu-${item.name}`"
