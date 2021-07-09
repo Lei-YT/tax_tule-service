@@ -32,7 +32,21 @@
               <Input v-model="formInline.code" placeholder="请输入单据编号" />
             </FormItem>
             <FormItem label="业务名称:" prop="type">
-              <Input v-model="formInline.type" placeholder="请输入业务名称" />
+              <Select v-if="formNameOptions.length > 0"
+                clearable
+                placeholder="请选择业务名称"
+                v-model="formInline.type"
+              >
+                <!-- @on-change="onFormNameChange" -->
+                <!-- <Option value="">全部</Option> -->
+                <Option
+                  :value="item.name"
+                  v-for="item in formNameOptions"
+                  v-bind:key="item.id"
+                  >{{ item.name }}</Option
+                >
+              </Select>
+              <Input v-else v-model="formInline.type" placeholder="请输入业务名称" />
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
@@ -77,7 +91,20 @@
               <!-- <Input placeholder="审核结果" /> -->
             </FormItem>
             <FormItem label="预警风险:" prop="earlyWarning">
-              <Input placeholder="预警风险" />
+              <Select v-if="warnOptions.length > 0"
+                clearable
+                v-model="formInline.earlyWarning"
+              >
+                <!-- @on-change="onWarnChange" -->
+                <!-- <Option value="">全部</Option> -->
+                <Option
+                  :value="item.grade"
+                  v-for="item in warnOptions"
+                  v-bind:key="item.id"
+                  >{{ item.grade }}</Option
+                >
+              </Select>
+              <Input v-else v-model="formInline.earlyWarning" placeholder="预警风险" />
             </FormItem>
 
             <FormItem label="金额区间:" prop="cname">
@@ -547,6 +574,8 @@
             </div>
           </el-table>
         </div>
+        <div class="footBox">
+          <div class="totalBox">合计：{{ page.totalElement }}条</div>
         <el-row class="paginationStyle">
           <el-button @click="currentChange(1)" type="text" size="small"
             >首页</el-button
@@ -556,6 +585,7 @@
             @on-page-size-change="sizeChange"
             :current="page.currentPage"
             :total="page.totalElement"
+            :page-size-opts="[10,20,30,40,100,200]"
             prev-text="< 上一页"
             next-text="下一页 >"
             show-elevator
@@ -563,6 +593,7 @@
             class-name="page-box"
           />
         </el-row>
+        </div>
       </Card>
     </div>
     <!-- 弹框 -->
@@ -682,6 +713,9 @@ export default {
         rulesDateAvg: 0,
         totalDateAvg: 0,
       },
+      warnOptions: [],
+      formNameOptions: [],
+      selectedFormName: '',
     };
   },
   created() {
@@ -694,6 +728,8 @@ export default {
   mounted() {
     this.adjustWidth();
     window.addEventListener("resize", this.adjustWidth.bind(this));
+    this.getWarning();
+    this.getFormNameList();
     this.query();
   },
   // activated() {
@@ -711,6 +747,44 @@ export default {
   //   this.$route.meta.isBack=false
   // },
   methods: {
+    getFormNameList() {
+      const _this = this;
+      axios
+        .request({
+          method: "post",
+          url: `/api/bill/findall`,
+        })
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 20000) {
+            _this.formNameOptions = data.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getWarning(){
+      const _this = this;
+      axios
+        .request({
+          method: "post",
+          url: `/api/bill/warnlist`,
+        })
+        .then((resp) => {
+          let data = resp.data;
+          if (data.status === 200) {
+            _this.warnOptions = data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onFormNameChange(val) {
+      const _this = this;
+      _this.selectedFormName = val;
+    },
     changeCur(index) {
       this.cur = index;
     },
@@ -1061,12 +1135,23 @@ export default {
   font-size: 12px !important;
   display: none;
 }
-.paginationStyle {
+.footBox {
+  width: 100%;
+  height: 70px;
   display: flex;
-  justify-content: flex-end;
-}
-.paginationStyle > .el-button {
-  margin-right: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  .totalBox {
+    font-weight: 550;
+  }
+  .paginationStyle {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+  .paginationStyle > .el-button {
+    margin-right: 1rem;
+  }
 }
 
 .sum_footer {

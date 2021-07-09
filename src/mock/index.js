@@ -146,6 +146,31 @@ Mock.mock(/\/api\/server\/qlresult/, 'post', (req, res) => {
   console.log('mock res api/server/result', req, resultJson)
   return Mock.mock(Encrypt(JSON.stringify(resultJson)))
 })
+Mock.mock(/\/api\/bill\/warnlist/, 'post', (req, res) => {
+  // console.log('mock res api/bill/warnlist', req, resultJson)
+  return Mock.mock(Encrypt(JSON.stringify({
+    "status": 200,
+    "message": "成功",
+    "data": [
+        {
+            "id": 14,
+            "projectId": 68,
+            "grade": "二级",
+            "weight": 2.0,
+            "color": "#F9E31C",
+            "enabled": true
+        },
+        {
+            "id": 15,
+            "projectId": 68,
+            "grade": "一级",
+            "weight": 1.0,
+            "color": "#EA1A1A",
+            "enabled": true
+        }
+    ]
+})))
+})
 Mock.mock(/\/api\/bill\/qlresult/, 'post', (req, res) => {
   console.log('mock res api/ql/result', req, resultJson)
   return Mock.mock(Encrypt(JSON.stringify(resultJson)))
