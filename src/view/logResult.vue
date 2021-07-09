@@ -1097,6 +1097,15 @@ export default {
           let data = resp.data;
           if (data.status == 200) {
             _this.allData = data.data;
+            if (!_this.allData.imageInfo) {
+              _this.allData.imageInfo = [];
+            }
+            if (!_this.allData.data) {
+              _this.allData.data = [];
+            }
+            if (!_this.allData.errors) {
+              _this.allData.errors = [];
+            }
             _this.allData.imageInfo.map((img) => {
               return img.invoices.map((invo) => {
                 const taxRate = Number(
@@ -1131,6 +1140,9 @@ export default {
     },
     getMessageInfo(imageIds) {
       const _this = this;
+      if (this.allData.imageInfo.length === 0) {
+        return false;
+      }
       let data = this.allData.imageInfo;
       let allInvoice = [];
       let filterInvoices = [];
@@ -1228,6 +1240,9 @@ export default {
           need: ["invoiceItems", "invoiceFlights", "fpItems"],
         },
       ];
+      if (this.allData.imageInfo.length === 0) {
+        return false;
+      }
       let allInvoice = [];
       this.allData.imageInfo.map((dd) => {
         allInvoice = allInvoice.concat(dd.invoices);
