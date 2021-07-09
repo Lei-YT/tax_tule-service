@@ -128,7 +128,9 @@
                           </template>
                           </td>
                           <td style="text-align: left">
+                          <template v-if="item.showAlias">
                             {{ n.aliasName }}
+                          </template>
                           </td>
                           <td
                             style="text-align: center"
@@ -214,7 +216,9 @@
                             {{ n.ruleName }}
                           </template></td>
                           <td style="text-align: left">
+                          <template v-if="item.showAliasC">
                             {{ n.aliasName }}
+                          </template>
                           </td>
                           <td style="text-align: center">
                             <Icon v-if="item.showRuleMsgC"

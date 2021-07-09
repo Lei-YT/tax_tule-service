@@ -1003,6 +1003,11 @@ export default {
 .treeCon {
   margin-top: 17px;
 }
+/deep/.ivu-tree-title{
+  width: calc(~"100% - 16px");
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /deep/.ghostHeader .ivu-card-head {
   background: #fff;
 }
