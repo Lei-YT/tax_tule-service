@@ -1275,7 +1275,7 @@ export default {
         let fieldsInvoice = fieldsImgs ? fieldsImgs.infos.find(
           (ei) => ei.invoiceId === invoiceIdP
         ) : undefined;
-        _this.currentInvoiceErrorFields = fieldsInvoice ? fieldsInvoice.fields : [];
+        _this.currentInvoiceErrorFields = fieldsInvoice && fieldsInvoice.hasOwnProperty('fields') ? fieldsInvoice.fields : [];
         _this.setCurrentInvoiceErrorFields(_this.currentInvoiceErrorFields);
       } else {
         findImgId = _this.imageId;
