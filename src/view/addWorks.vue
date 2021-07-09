@@ -35,20 +35,6 @@
           </Form>
           <p style="margin: 0">权限配置：</p>
           <div class="rootCon">
-            <div class="rootSearch">
-              <Input
-                v-model="rootName"
-                placeholder="请输入权限名称"
-                style="width: 250px"
-              />
-              <Button
-                type="primary"
-                icon="ios-search"
-                style="margin-left: 15px"
-                @click="getPowerList"
-                >查询</Button
-              >
-            </div>
             <div class="collapseBox">
               <Collapse v-model="value2" accordion>
                 <Panel
