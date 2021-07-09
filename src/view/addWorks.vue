@@ -3,11 +3,11 @@
     <Card :bordered="false">
       <div slot="title" class="cardHead">
         <Icon type="ios-nuclear-outline" color="#fff" size="22" />
-        <p>岗位信息</p>
+        <p>添加岗位</p>
       </div>
       <!-- 添加岗位 -->
       <div class="addWorks">
-        <div class="adds" v-if="type == 'jobs'">添加岗位</div>
+        <!-- <div class="adds" v-if="type == 'jobs'">添加岗位</div> -->
         <div class="workCon">
           <Form
             v-if="type == 'jobs'"
@@ -36,17 +36,16 @@
           <p style="margin: 0">权限配置：</p>
           <div class="rootCon">
             <div class="collapseBox">
-              <Collapse v-model="value2" accordion>
+              <Collapse v-model="value2" simple>
                 <Panel
-                  v-for="powerGroup in powerList"
-                  :key="powerGroup.id"
-                  :name="powerGroup.name"
+                  name="菜单权限"
                 >
-                  {{ powerGroup.name }}
+                  菜单权限
                   <Tree
                     slot="content"
-                    :data="powerGroup.tree"
+                    :data="powerList"
                     show-checkbox
+                    check-directly
                     multiple
                     @on-check-change="onCheckPower"
                   ></Tree>
@@ -67,56 +66,6 @@
           >
         </div>
       </div>
-      <!-- 权限·配置· -->
-      <!-- <div class="addWorks" v-else>
-        <div class="adds">权限配置</div>
-        <div class="workCon">
-          <div class="rootCon">
-            <div class="rootSearch">
-              权限名称：
-              <Input
-                v-model="rootName"
-                placeholder="请输入权限名称"
-                style="width: 250px"
-              />
-              <Button type="primary" icon="ios-search" style="margin-left: 15px"
-                >查询</Button
-              >
-            </div>
-            <div class="collapseBox">
-              <Collapse v-model="value2" accordion>
-                <Panel name="1">
-                  史蒂夫·乔布斯
-                  <p slot="content">
-                    史蒂夫·乔布斯（Steve
-                    Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。
-                  </p>
-                </Panel>
-                <Panel name="2">
-                  斯蒂夫·盖瑞·沃兹尼亚克
-                  <p slot="content">
-                    斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary
-                    Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC
-                    Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。
-                  </p>
-                </Panel>
-                <Panel name="3">
-                  乔纳森·伊夫
-                  <p slot="content">
-                    乔纳森·伊夫是一位工业设计师，现任Apple公司设计师兼资深副总裁，英国爵士。他曾参与设计了iPod，iMac，iPhone，iPad等众多苹果产品。除了乔布斯，他是对苹果那些著名的产品最有影响力的人。
-                  </p>
-                </Panel>
-              </Collapse>
-            </div>
-          </div>
-        </div>
-        <div class="footers">
-          <Button type="primary" ghost @click="resetForm()">取消</Button>
-          <Button type="primary" @click="submitForm()" style="margin-left: 15px"
-            >提交</Button
-          >
-        </div>
-      </div> -->
     </Card>
   </div>
 </template>
@@ -130,7 +79,7 @@ export default {
       rootName: "",
       type: "",
       stationId: 0,
-      value2: "",
+      value2: ["菜单权限"],
       powerList: [],
       powerTree: [],
       selectedPower: [],
@@ -169,11 +118,10 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            // _this.powerList = data.data;
-            _this.powerList = data.data.map((p) => ({
-              ...p,
-              tree: [_this.parseTree(p)],
-            }));
+            const allPower = data.data.map((p) => _this.parseTree(p));
+            _this.powerList = [
+              { title: "全选", children: allPower, expand: true },
+            ];
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -189,7 +137,6 @@ export default {
       const _this = this;
       const o = { ...obj };
       o.title = o.name;
-      // o.selected = true;
       o.expand = true;
       if (o.powerchilds)
         o.children = o.powerchilds.map((ch) => _this.parseTree(ch));
@@ -198,12 +145,10 @@ export default {
     onCheckPower(selected, current) {
       this.selectedPower = selected;
     },
-    addPost() {},
-    sureDel() {},
     submitForm(formName) {
       const _this = this;
       const r = {
-        stationId: this.stationId, // ? 新增岗位哪来的id
+        // stationId: this.stationId, // ? 新增岗位哪来的id
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
         describe: this.ruleForm.desc.replace(/\s*/g, "") || "",
         powerIdArr: this.selectedPower.map((e) => e.id),
@@ -241,36 +186,6 @@ export default {
             return false;
           }
         });
-      } else {
-        if (this.selectedPower.length === 0) {
-          _this.$Notice.warning({
-            title: "请勾选需要配置的权限",
-          });
-          return false;
-        }
-        editStation(r)
-          .then((resp) => {
-            let data = resp.data;
-            if (data.code === 0) {
-              _this.$message({
-                message: `${data.msg}`, // ${data.message}
-                type: "success",
-                duration: 1500,
-              });
-              _this.$router.push({
-                name: "workPermiss",
-              });
-            } else {
-              _this.$notify({
-                title: "温馨提示",
-                type: "warning",
-                message: data.msg,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       }
     },
     resetForm(formName) {
@@ -316,8 +231,8 @@ export default {
   margin-bottom: 15px;
 }
 .rootCon {
-  border: 1px solid #999;
-  padding: 15px 20px;
+  // border: 1px solid #999;
+  padding: 15px 0;
   box-sizing: border-box;
   margin-top: 15px;
 }
