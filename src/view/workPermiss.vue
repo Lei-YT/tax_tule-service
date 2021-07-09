@@ -74,80 +74,23 @@
       </div>
     </Card>
     <!-- 下 -->
-    <Card :bordered="false" style="margin-top: 15px">
-      <div class="searchCon">
-        <div class="leftCon">
-          <Button
-            type="primary"
-            icon="md-add"
-            @click="addPost('root')"
-            style="margin-right: 15px"
-            >添加授权</Button
-          >
-          <Button type="error" v-if="authorData.length > 0" @click="handel('2')"
-            >删除授权</Button
-          >
-          <Button type="error" icon="md-trash" ghost v-else>删除授权</Button>
-        </div>
-        <!-- <div class="rightCon">
-          <Button type="primary" @click="submit">提交</Button>
-        </div> -->
-      </div>
-      <el-table
-        :data="tableData2"
-        stripe
-        border
-        empty-text="暂无数据"
-        @selection-change="handleAuthorChange"
-        :header-cell-style="{
-          background: '#eef1f6',
-          color: '#606266',
-          fontWeight: 'normal',
-          fontSize: '12px',
-        }"
-      >
-        <el-table-column type="selection" align="center" width="55" />
-        <el-table-column type="index" label="序号" align="center" width="60" />
-        <el-table-column prop="pName" label="权限名称" align="left" />
-        <el-table-column prop="name" label="子权限" align="left" />
-      </el-table>
+    <Card :bordered="false" style="" class="ghostHeader">
+      <p slot="title" style="font-size: 16px">权限配置</p>
+      <Button slot="extra" type="primary" @click="onSubPower">提交</Button>
+      <Collapse v-model="openPanel" simple>
+        <Panel name="菜单权限">
+          菜单权限
+          <Tree
+            slot="content"
+            :data="allPower"
+            show-checkbox
+            check-directly
+            multiple
+            @on-check-change="onCheckPower"
+          ></Tree>
+        </Panel>
+      </Collapse>
     </Card>
-    <!-- 添加添加机构 -->
-    <el-dialog title="添加机构" :visible.sync="centerFormVisible" width="30%">
-      <div class="centerCon">
-        <div>机构：</div>
-        <div>
-          <Input
-            v-model="searchVal"
-            placeholder="请输入机构编号"
-            style="width: 250px"
-          />
-          <p>备注：从中间库导入机构</p>
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <Button type="primary" @click="centerDialogVisible = false" ghost
-          >取 消</Button
-        >
-        <Button type="primary" @click="handleImport" style="margin-left: 20px"
-          >导 入</Button
-        >
-      </span>
-    </el-dialog>
-    <!-- 删除授权/岗位弹框 -->
-    <el-dialog title="确认提示" :visible.sync="centerDialogVisible" width="30%">
-      <span style="display: flex; justify-content: center; margin: 50px 0">{{
-        delCon
-      }}</span>
-      <span slot="footer" class="dialog-footer">
-        <Button type="primary" @click="centerDialogVisible = false" ghost
-          >取 消</Button
-        >
-        <Button type="primary" @click="sureDel" style="margin-left: 20px"
-          >确 定</Button
-        >
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -155,6 +98,7 @@
 import {
   getStation, // 岗位列表
   getStationPower,
+  editStation,
   deleteStation,
   deleteStationPower,
 } from "@/api/mangeUser";
@@ -162,9 +106,6 @@ export default {
   components: {},
   data() {
     return {
-      centerFormVisible: false,
-      centerDialogVisible: false,
-      delCon: "",
       searchVal: "",
       postLength: [],
       authorData: [],
@@ -175,13 +116,28 @@ export default {
       },
       tableData1: [],
       currentJob: {},
-      tableData2: [],
+      allPower: [],
+      selectedPower: [],
+      openPanel: ["菜单权限"],
     };
   },
   created() {
     this.query();
   },
   methods: {
+    parseTree(obj) {
+      const _this = this;
+      const o = { ...obj };
+      o.title = o.name;
+      o.checked = Number(o.stationpowers_count) === 1;
+      o.expand = true;
+      if (o.powerchilds)
+        o.children = o.powerchilds.map((ch) => _this.parseTree(ch));
+      return o;
+    },
+    onCheckPower(selected, current) {
+      this.selectedPower = selected;
+    },
     query() {
       const _this = this;
       let params = {
@@ -194,18 +150,16 @@ export default {
           _this.tableData1 = res.data.data;
           _this.page.totalElement = res.data.totalcount;
           _this.currentJob = {};
+          _this.allPower = [];
+          _this.selectedPower = [];
         } else {
           _this.$Notice.warning({
             title: "温馨提示",
-            desc: data.message,
+            desc: data.msg,
           });
         }
       });
     },
-    addUser() {
-      this.centerDialogVisible = true;
-    },
-    submit() {},
     onJobsClick(currentJob) {
       this.currentJob = currentJob;
       this.getStationPowerList(currentJob);
@@ -226,47 +180,12 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.$Notice.success({
-              title: data.message,
-              desc: data.data.info,
+            _this.$message({
+              message: `${data.msg}`,
+              type: "success",
+              duration: 1500,
             });
             _this.query();
-            _this.tableData2 = [];
-          } else {
-            _this.$Notice.warning({
-              title: "温馨提示",
-              desc: data.message,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    handleAuthorChange(val) {
-      this.authorData = val;
-    },
-    deletePower(selectedPower) {
-      const _this = this;
-      if (selectedPower.length === 0) {
-        _this.$Notice.warning({
-          title: "请勾选需要删除的授权",
-        });
-        return false;
-      }
-      const r = {
-        stationId: this.currentJob.id,
-        delpowerIdArr: selectedPower.map((row) => row.id),
-      };
-      deleteStationPower(r)
-        .then((resp) => {
-          let data = resp.data;
-          if (data.code === 0) {
-            _this.$Notice.success({
-              title: data.message,
-              desc: data.msg,
-            });
-            _this.getStationPowerList(_this.currentJob);
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -293,12 +212,9 @@ export default {
         name: "addWorks",
         params: {
           type,
-          stationId: _this.currentJob.id,
+          // stationId: _this.currentJob.id,
         },
       });
-    },
-    handleImport(row) {
-      this.centerDialogVisible = false;
     },
     handel(type) {
       const _this = this;
@@ -314,22 +230,16 @@ export default {
             // _this.$Message.info("取消");
           },
         });
-      } else if (type === "2") {
-        this.$Modal.confirm({
-          title: "确认",
-          content: "您是否要删除该岗位的此项授权？",
-          onOk: () => {
-            _this.deletePower(_this.authorData);
-          },
-          onCancel: () => {
-            // _this.$Message.info("取消");
-          },
-        });
       }
       return false;
     },
-    sureDel() {},
     getStationPowerList(job) {
+      if (
+        job === null ||
+        Object.keys(job).length === 0
+      ) {
+        return false;
+      }
       const _this = this;
       const r = {
         station_id: job.id,
@@ -342,17 +252,83 @@ export default {
           let data = resp.data;
           if (data.code === 0) {
             const reducePower = data.data.reduce((acc, cv, ci) => {
-              cv.powerchilds.map(c => {
+              cv.powerchilds.map((c) => {
                 c.pName = cv.name;
                 return c;
-              })
+              });
               return acc.concat(cv.powerchilds);
             }, []);
-            _this.tableData2 = reducePower.filter(a =>Number(a.stationpowers_count)===1);
+            const selectedRoot = data.data.filter(r => Number(r.stationpowers_count)===1);
+            const selectedChild = reducePower.filter(r => Number(r.stationpowers_count)===1);
+            _this.selectedPower = selectedRoot.concat(selectedChild);
+            const allPower = data.data.map((p) => _this.parseTree(p));
+            _this.allPower = [
+              { title: "全选", children: allPower, expand: true },
+            ];
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
               desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onSubPower() {
+      const _this = this;
+      const r = {
+        stationId: this.currentJob.id,
+        powerIdArr: this.selectedPower.map((e) => e.id),
+      };
+      if (
+        this.currentJob === null ||
+        Object.keys(this.currentJob).length === 0
+      ) {
+        _this.$Notice.warning({
+          title: "请先选中一个岗位",
+        });
+        return false;
+      }
+      if (this.selectedPower.length === 0) {
+        this.$Modal.confirm({
+          title: "注意",
+          content: "<p>未勾选任何权限</p><p>点击确认将删除该岗位的所有权限</p>",
+          okText: "确认",
+          cancelText: "取消",
+          onOk: () => {
+            r.powerIdArr = [];
+            _this.subModifyPower(r);
+          },
+          onCancel: () => {
+            _this.$Message.info("操作已取消");
+          },
+        });
+        return false;
+      } else {
+        _this.subModifyPower(r);
+      }
+    },
+    subModifyPower(r) {
+      const _this = this;
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
+      editStation(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.$message({
+              message: `${data.msg}`, // ${data.message}
+              type: "success",
+              duration: 1500,
+            });
+          } else {
+            _this.$notify({
+              title: "温馨提示",
+              type: "warning",
+              message: data.msg,
             });
           }
         })
@@ -385,6 +361,15 @@ export default {
   p {
     color: #fff;
     font-weight: 400;
+  }
+}
+/deep/.ghostHeader {
+  margin-top: 15px;
+  .ivu-card-head {
+    background: #fff;
+    p {
+      color: #515a6e;
+    }
   }
 }
 .cardHead {
@@ -437,7 +422,10 @@ export default {
   justify-content: center;
 }
 /deep/.el-table__body tr.current-row > td,
-/deep/.el-table--striped .el-table__body tr.el-table__row--striped.current-row td {
+/deep/.el-table--striped
+  .el-table__body
+  tr.el-table__row--striped.current-row
+  td {
   background-color: #b2e2fa;
 }
 </style>
