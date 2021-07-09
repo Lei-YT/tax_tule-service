@@ -564,7 +564,7 @@ export default {
       const r = {
         pageindex: this.ouPage.currentPage,
         pagesize: this.ouPage.size,
-        organ: currentNode.id,
+        organid: currentNode.OrgID,
         username: this.searchName.replace(/\s*/g, "") || "",
       };
       getOrganUserList(r)
