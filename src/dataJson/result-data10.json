@@ -1,0 +1,44 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+      "image": [
+          {
+              "keyName": "影像银行回单-收款方账号",
+              "jsonPath": "$.images.bankReceipt[*].accountNo",
+              "data": [
+                  {
+                      "index": 1,
+                      "data": "249475501482.00"
+                  }
+              ],
+              "valueData": [
+                  {
+                      "index": 1,
+                      "value": "249475501482.00",
+                      "highLight": true
+                  }
+              ]
+          }
+      ],
+      "form": [
+          {
+              "keyName": "头信息-收款方账号",
+              "jsonPath": "$.head.payeeAccount",
+              "data": [
+                  {
+                      "index": 1,
+                      "data": "249475501482"
+                  }
+              ],
+              "valueData": [
+                  {
+                      "index": 1,
+                      "value": "249475501482",
+                      "highLight": true
+                  }
+              ]
+          }
+      ]
+  }
+}

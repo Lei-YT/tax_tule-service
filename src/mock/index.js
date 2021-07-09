@@ -21,8 +21,8 @@ import powerList from '@/dataJson/power-list.json'
 import userJson from '@/dataJson/user.json'
 
 import logJson from '@/dataJson/log2.json'
-import resultJson from '@/dataJson/result6.json'
-import resultDataJson2 from '@/dataJson/result-data9.json'
+import resultJson from '@/dataJson/result14.json'
+import resultDataJson2 from '@/dataJson/result-data10.json'
 import isFirstEdit from '@/dataJson/isFirstEdit.json'
 
 import selectDataJson from '@/dataJson/select.json'
