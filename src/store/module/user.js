@@ -163,6 +163,9 @@ export default {
             })
             return false
           } else {
+            if (!res.data.hasOwnProperty('powerarr')) {
+              resolve([]);
+            }
             const powerarr = Object.values(res.data.powerarr);
             const powerUrl = powerarr.reduce((acc, val, ind) => {
               val.map((child) => {

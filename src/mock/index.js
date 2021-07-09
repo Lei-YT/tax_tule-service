@@ -3,7 +3,7 @@ import { Encrypt, Decrypt } from "@/libs/aes";
 import Mock from 'mockjs'
 
 import loginJson from '@/dataJson/login.json'
-import userAuth from '@/dataJson/user-auth.json'
+import userAuth from '@/dataJson/user-auth2.json'
 
 import process from "@/dataJson/process.json";
 import infoMange from "@/dataJson/infoMange2.json";
