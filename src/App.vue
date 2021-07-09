@@ -48,4 +48,9 @@ body {
 .ivu-page-next a {
   margin: 0 6px!important;
 }
+.ivu-tree-title{
+  width: calc(~"100% - 16px");
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
