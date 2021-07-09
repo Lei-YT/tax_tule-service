@@ -89,7 +89,7 @@
             <el-table-column prop="adminNo" label="账号" align="center" />
             <el-table-column prop="organ" label="所属机构" align="center" width="200" >
               <template slot-scope="scope">
-                {{ scope.row.organ.OrgName }}
+                {{ scope.row.organ && scope.row.organ.OrgName }}
               </template>
               </el-table-column>
             <el-table-column label="用户状态" align="center">

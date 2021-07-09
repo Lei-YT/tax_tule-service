@@ -8,7 +8,7 @@
     <FormItem prop="adminNo">
       <div class="inpBox">
         <img src="@/assets/images/users.png" class="users" />
-        <Poptip placement="bottom" width="250" v-model="visibleSaved">
+        <Poptip placement="bottom" width="250" v-model="visibleSaved" :disabled="savedEmpty" >
           <Input
             v-model="form.adminNo"
             placeholder="请输入登录ID"
@@ -104,6 +104,9 @@ export default {
         adminNo: this.userNameRules,
         password: this.passwordRules,
       };
+    },
+    savedEmpty(){
+      return this.saveAccount.length === 0;
     },
   },
   methods: {
