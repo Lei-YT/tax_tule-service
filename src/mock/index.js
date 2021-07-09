@@ -174,9 +174,6 @@ Mock.mock(/\/api\/user\/addlist/, 'post', (req, res) => {
   console.log('import list', importData)
   return Mock.mock(Encrypt(JSON.stringify(importData)))
 })
-Mock.mock(/\/api\/user\/station/, 'post', (req, res) => {
-  return Mock.mock(Encrypt(JSON.stringify(station)))
-})
 Mock.mock(/\/api\/user\/organlist/, 'post', (req, res) => {
   console.log('organ organlist mock res', req, userOrganJson)
   return Mock.mock(Encrypt(JSON.stringify(userOrganJson)))
@@ -204,6 +201,9 @@ Mock.mock(/\/api\/user\/organstationlist/, 'post', (req, res) => {
 Mock.mock(/\/api\/user\/stationpower/, 'post', (req, res) => {
   console.log('stationpower mock res', req, stationPower)
   return Mock.mock(Encrypt(JSON.stringify(stationPower)))
+})
+Mock.mock(/\/api\/user\/station/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify(station)))
 })
 Mock.mock(/\/api\/user\/addorgan/, 'post', (req, res) => {
   console.log('mock add organ')

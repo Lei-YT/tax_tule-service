@@ -108,8 +108,8 @@
       >
         <el-table-column type="selection" align="center" width="55" />
         <el-table-column type="index" label="序号" align="center" width="60" />
-        <el-table-column prop="name" label="权限名称" align="center" />
-        <el-table-column prop="name" label="子权限" align="center" />
+        <el-table-column prop="pName" label="权限名称" align="left" />
+        <el-table-column prop="name" label="子权限" align="left" />
       </el-table>
     </Card>
     <!-- 添加添加机构 -->
@@ -341,7 +341,14 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.tableData2 = data.data;
+            const reducePower = data.data.reduce((acc, cv, ci) => {
+              cv.powerchilds.map(c => {
+                c.pName = cv.name;
+                return c;
+              })
+              return acc.concat(cv.powerchilds);
+            }, []);
+            _this.tableData2 = reducePower.filter(a =>Number(a.stationpowers_count)===1);
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
