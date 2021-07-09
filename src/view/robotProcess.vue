@@ -66,7 +66,7 @@
                 >
                   <Form
                     :inline="true"
-                    :label-width="70"
+                    :label-width="80"
                     class="demo-form-inline"
                     ref="formInline"
                   >
@@ -75,7 +75,6 @@
                         <Date-picker
                           placeholder="选择日期"
                           type="date"
-                          size="large"
                           style="width: '150px'"
                           :options="disabledDate1"
                           :value="checkBeginDate"
@@ -89,7 +88,6 @@
                         <Date-picker
                           placeholder="选择日期"
                           type="date"
-                          size="large"
                           :options="disabledDate2"
                           :value="checkEndDate"
                           format="yyyy-MM-dd"
@@ -122,7 +120,7 @@
                         >本日</el-button
                       >
                     </FormItem>
-                    <FormItem :label-width="50">
+                    <FormItem :label-width="0">
                       <el-button
                         type="primary"
                         @click="getCheckdate()"

@@ -6,14 +6,14 @@
           <Form
             :inline="true"
             :model="formInline"
-            :label-width="120"
+            :label-width="140"
             class="demo-form-inline"
             ref="formInline"
           >
             <FormItem label="机器人名称或标签：" prop="name">
               <Input v-model="formInline.name" placeholder="请输入" />
             </FormItem>
-            <FormItem>
+            <FormItem :label-width="20">
               <el-button
                 type="primary"
                 @click="searchData()"

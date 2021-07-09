@@ -40,7 +40,7 @@
               </div>
             </FormItem>
 
-            <FormItem>
+            <FormItem :label-width="0">
               <el-button
                 type="primary"
                 @click="searchData()"
