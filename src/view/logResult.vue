@@ -286,6 +286,7 @@
               scrollable
               reset-drag-position
               sticky
+              :mask="false"
               :closable="true"
               :footer-hide="true"
               @on-cancel="showbigimg = false"
@@ -606,6 +607,7 @@
       scrollable
       reset-drag-position
       sticky
+      :mask="false"
       :closable="true"
       :footer-hide="true"
       width="1000"
