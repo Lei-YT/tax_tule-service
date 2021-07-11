@@ -1,0 +1,284 @@
+{
+  "code": 0,
+  "msg": "操作成功",
+  "powerarr": {
+    "1": [
+      {
+        "id": 1,
+        "name": "机器人数据监控",
+        "pid": 0,
+        "describe": "",
+        "url": "",
+        "sceneId": null,
+        "created_at": "2018-12-18 18:23:11",
+        "updated_at": "2018-12-18 18:23:13",
+        "deleted_at": null,
+        "stationpowers_count": 0,
+        "powerchilds": [
+          {
+            "id": 2,
+            "name": "机器人数据监控-查看",
+            "pid": 1,
+            "describe": "页面查看",
+            "url": "data",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:23:30",
+            "updated_at": "2018-12-18 18:23:32",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          },
+          {
+            "id": 3,
+            "name": "机器人数据监控-查询",
+            "pid": 1,
+            "describe": "数据监控-查询操作",
+            "url": "data_search",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:23:51",
+            "updated_at": "2018-12-18 18:23:53",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          },
+          {
+            "id": 4,
+            "name": "机器人数据监控-统计",
+            "pid": 1,
+            "describe": "数据监控-统计操作",
+            "url": "data_count",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:24:08",
+            "updated_at": "2018-12-18 18:24:10",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "name": "账号管理",
+        "pid": 0,
+        "describe": null,
+        "url": "user",
+        "sceneId": null,
+        "created_at": "2018-12-18 18:27:00",
+        "updated_at": "2018-12-18 18:27:02",
+        "deleted_at": null,
+        "stationpowers_count": 1,
+        "powerchilds": [
+          {
+            "id": 11,
+            "name": "账号管理页面查看",
+            "pid": 10,
+            "describe": "账号管理页面查看",
+            "url": "user",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:27:18",
+            "updated_at": "2018-12-18 18:27:20",
+            "deleted_at": null,
+            "stationpowers_count": 1
+          },
+          {
+            "id": 12,
+            "name": "账号添加",
+            "pid": 10,
+            "describe": "账号添加",
+            "url": "user_operate",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:27:52",
+            "updated_at": "2018-12-18 18:27:54",
+            "deleted_at": null,
+            "stationpowers_count": 1
+          },
+          {
+            "id": 13,
+            "name": "账号编辑",
+            "pid": 10,
+            "describe": "账号编辑",
+            "url": "user_operate",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:28:18",
+            "updated_at": "2018-12-18 18:28:20",
+            "deleted_at": null,
+            "stationpowers_count": 1
+          },
+          {
+            "id": 14,
+            "name": "账号权限设置",
+            "pid": 10,
+            "describe": "账号权限设置",
+            "url": "user_operate",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:28:36",
+            "updated_at": "2018-12-18 18:28:38",
+            "deleted_at": null,
+            "stationpowers_count": 1
+          },
+          {
+            "id": 15,
+            "name": "账号启停",
+            "pid": 10,
+            "describe": "账号启停",
+            "url": "user_operate",
+            "sceneId": null,
+            "created_at": "2018-12-18 19:02:45",
+            "updated_at": "2018-12-18 19:02:47",
+            "deleted_at": null,
+            "stationpowers_count": 1
+          },
+          {
+            "id": 16,
+            "name": "账号删除",
+            "pid": 10,
+            "describe": "账号删除",
+            "url": "user_operate",
+            "sceneId": null,
+            "created_at": "2018-12-18 19:03:35",
+            "updated_at": "2018-12-18 19:03:37",
+            "deleted_at": null,
+            "stationpowers_count": 1
+          }
+        ]
+      }
+    ],
+    "2": [
+      {
+        "id": 1,
+        "name": "业务流程监控",
+        "pid": 0,
+        "describe": null,
+        "url": "proce",
+        "sceneId": null,
+        "created_at": "2018-12-18 18:23:11",
+        "updated_at": "2018-12-18 18:23:13",
+        "deleted_at": null,
+        "stationpowers_count": 0,
+        "powerchilds": [
+          {
+            "id": 2,
+            "name": "业务流程监控",
+            "pid": 1,
+            "describe": "页面查看",
+            "url": "proce",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:23:30",
+            "updated_at": "2018-12-18 18:23:32",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          },
+          {
+            "id": 21,
+            "name": "业务流程监控",
+            "pid": 1,
+            "describe": "页面查看",
+            "url": "proce_operate",
+            "sceneId": null,
+            "created_at": "2018-12-18 18:23:30",
+            "updated_at": "2018-12-18 18:23:32",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "name": "岗位权限管理",
+        "pid": 0,
+        "describe": "",
+        "url": "",
+        "sceneId": null,
+        "created_at": "2018-12-18 19:05:02",
+        "updated_at": "2018-12-18 19:05:04",
+        "deleted_at": null,
+        "stationpowers_count": 0,
+        "powerchilds": [
+          {
+            "id": 22,
+            "name": "岗位权限管理-查看",
+            "pid": 21,
+            "describe": "页面查看",
+            "url": "station",
+            "sceneId": null,
+            "created_at": "2018-12-18 19:05:18",
+            "updated_at": "2018-12-18 19:05:20",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          },
+          {
+            "id": 23,
+            "name": "岗位权限管理-查询",
+            "pid": 21,
+            "describe": "岗位权限管理-查询",
+            "url": "station_search",
+            "sceneId": null,
+            "created_at": "2018-12-18 19:05:32",
+            "updated_at": "2018-12-18 19:05:35",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          },
+          {
+            "id": 24,
+            "name": "岗位权限管理-操作",
+            "pid": 21,
+            "describe": "岗位权限管理-操作",
+            "url": "station_operate",
+            "sceneId": null,
+            "created_at": "2018-12-18 19:05:48",
+            "updated_at": "2018-12-18 19:05:50",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          }
+        ]
+      },
+      {
+        "id": 31,
+        "name": "机构管理",
+        "pid": 0,
+        "describe": null,
+        "url": "",
+        "sceneId": null,
+        "created_at": "2019-01-14 17:26:48",
+        "updated_at": "2019-01-14 17:26:56",
+        "deleted_at": null,
+        "stationpowers_count": 0,
+        "powerchilds": [
+          {
+            "id": 32,
+            "name": "机构管理-查看",
+            "pid": 31,
+            "describe": "页面查看",
+            "url": "organ",
+            "sceneId": null,
+            "created_at": "2019-01-14 17:26:51",
+            "updated_at": "2019-01-14 17:26:58",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          },
+          {
+            "id": 33,
+            "name": "机构管理-查询",
+            "pid": 31,
+            "describe": "机构管理-查询",
+            "url": "organ_search",
+            "sceneId": null,
+            "created_at": "2019-01-14 17:26:53",
+            "updated_at": "2019-01-14 17:27:00",
+            "deleted_at": null,
+            "stationpowers_count": 0
+          },
+          {
+            "id": 1690,
+            "name": "机构管理-操作",
+            "pid": 31,
+            "describe": "机构管理-操作",
+            "url": "organ_operate",
+            "sceneId": null,
+            "created_at": null,
+            "updated_at": null,
+            "deleted_at": null,
+            "stationpowers_count": 0
+          }
+        ]
+      }
+    ]
+  }
+}
