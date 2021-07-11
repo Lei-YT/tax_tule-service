@@ -190,8 +190,8 @@
         class="ghostHeader"
         v-if="!isCustom"
       >
-        <div slot="title" class="cardHeads">
-          <div class="leftCon" v-if="hasPerm('user_operate')">
+        <div slot="title" class="cardHeads" v-if="hasPerm('user_operate')">
+          <div class="leftCon" >
             <Button
               type="primary"
               icon="md-add"

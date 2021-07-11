@@ -75,8 +75,8 @@
     </Card>
     <!-- 下 -->
     <Card :bordered="false" style="" class="ghostHeader">
-      <p slot="title" style="font-size: 16px">权限配置</p>
-      <Button slot="extra" type="primary" @click="onSubPower">提交</Button>
+      <p slot="title" style="font-size: 16px" >权限配置</p>
+      <Button slot="extra" type="primary" @click="onSubPower" v-if="hasPerm('station_operate')">提交</Button>
       <Collapse v-model="openPanel" simple>
         <Panel name="菜单权限">
           菜单权限
@@ -130,6 +130,7 @@ export default {
       const o = { ...obj };
       o.title = o.name;
       o.checked = Number(o.stationpowers_count) === 1;
+      o.disabled = !_this.hasPerm('station_operate');
       o.expand = true;
       if (o.powerchilds)
         o.children = o.powerchilds.map((ch) => _this.parseTree(ch));
@@ -263,7 +264,9 @@ export default {
             _this.selectedPower = selectedRoot.concat(selectedChild);
             const allPower = data.data.map((p) => _this.parseTree(p));
             _this.allPower = [
-              { title: "全选", children: allPower, expand: true },
+              { title: "全选", children: allPower, expand: true,
+                disabled: !_this.hasPerm('station_operate'),
+              },
             ];
           } else {
             _this.$Notice.warning({
