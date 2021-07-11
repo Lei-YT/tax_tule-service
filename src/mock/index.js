@@ -21,7 +21,7 @@ import powerList from '@/dataJson/power-list.json'
 import userJson from '@/dataJson/user.json'
 
 import logJson from '@/dataJson/log2.json'
-import resultJson from '@/dataJson/result14.json'
+import resultJson from '@/dataJson/result15.json'
 import resultDataJson2 from '@/dataJson/result-data10.json'
 import isFirstEdit from '@/dataJson/isFirstEdit.json'
 
@@ -146,6 +146,31 @@ Mock.mock(/\/api\/server\/qlresult/, 'post', (req, res) => {
   console.log('mock res api/server/result', req, resultJson)
   return Mock.mock(Encrypt(JSON.stringify(resultJson)))
 })
+Mock.mock(/\/api\/bill\/warnlist/, 'post', (req, res) => {
+  // console.log('mock res api/bill/warnlist', req, resultJson)
+  return Mock.mock(Encrypt(JSON.stringify({
+    "status": 200,
+    "message": "成功",
+    "data": [
+        {
+            "id": 14,
+            "projectId": 68,
+            "grade": "二级",
+            "weight": 2.0,
+            "color": "#F9E31C",
+            "enabled": true
+        },
+        {
+            "id": 15,
+            "projectId": 68,
+            "grade": "一级",
+            "weight": 1.0,
+            "color": "#EA1A1A",
+            "enabled": true
+        }
+    ]
+})))
+})
 Mock.mock(/\/api\/bill\/qlresult/, 'post', (req, res) => {
   console.log('mock res api/ql/result', req, resultJson)
   return Mock.mock(Encrypt(JSON.stringify(resultJson)))
@@ -174,9 +199,6 @@ Mock.mock(/\/api\/user\/addlist/, 'post', (req, res) => {
   console.log('import list', importData)
   return Mock.mock(Encrypt(JSON.stringify(importData)))
 })
-Mock.mock(/\/api\/user\/station/, 'post', (req, res) => {
-  return Mock.mock(Encrypt(JSON.stringify(station)))
-})
 Mock.mock(/\/api\/user\/organlist/, 'post', (req, res) => {
   console.log('organ organlist mock res', req, userOrganJson)
   return Mock.mock(Encrypt(JSON.stringify(userOrganJson)))
@@ -201,9 +223,19 @@ Mock.mock(/\/api\/user\/organstationlist/, 'post', (req, res) => {
   console.log('organ station mock res', req, organStation)
   return Mock.mock(Encrypt(JSON.stringify(organStation)))
 })
+Mock.mock(/\/api\/user\/organstation$/, 'post', (req, res) => {
+  // console.log('organ add station mock res', req, organStation)
+  return Mock.mock(Encrypt(JSON.stringify({
+    'code': 0,
+    'msg': '操作成功.'
+  })))
+})
 Mock.mock(/\/api\/user\/stationpower/, 'post', (req, res) => {
   console.log('stationpower mock res', req, stationPower)
   return Mock.mock(Encrypt(JSON.stringify(stationPower)))
+})
+Mock.mock(/\/api\/user\/station/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify(station)))
 })
 Mock.mock(/\/api\/user\/addorgan/, 'post', (req, res) => {
   console.log('mock add organ')
@@ -244,6 +276,21 @@ Mock.mock(/\/api\/user\/del/, 'post', (req, res) => {
   })))
 })
 Mock.mock(/\/api\/user\/add/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    "code":0,
+    "msg":"添加成功",
+    "data":{
+        "adminNo":"xiaoying",
+        "name":"小英",
+        " phone ":"",
+        " email ":"",
+        "id":17
+    }
+}
+)))
+})
+Mock.mock(/\/api\/user/, 'post', (req, res) => {
+  console.log('mock user common', req)
   return Mock.mock(Encrypt(JSON.stringify({
     'code': 0,
     'msg': '操作成功.'

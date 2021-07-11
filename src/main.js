@@ -9,7 +9,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import iView from 'iview'
+import iView from 'view-design'
 import i18n from '@/locale'
 import config from '@/config'
 import importDirective from '@/directive'
@@ -24,6 +24,7 @@ import TreeTable from 'tree-table-vue'
 import VOrgTree from 'v-org-tree'
 import 'v-org-tree/dist/v-org-tree.css'
 import ElementUI from 'element-ui'
+import 'view-design/dist/styles/iview.css';
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 

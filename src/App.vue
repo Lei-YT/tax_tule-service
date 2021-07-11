@@ -12,7 +12,7 @@ export default {
   name: "App",
   created() {
     console.log(
-      `%c Build %c v1.3.7 %c`,
+      `%c Build %c v1.4.0 %c`,
       "background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff",
       "background:#41b883 ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff",
       "background:transparent"
@@ -47,5 +47,10 @@ body {
 .ivu-page-prev a,
 .ivu-page-next a {
   margin: 0 6px!important;
+}
+.ivu-tree-title{
+  width: calc(~"100% - 16px");
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

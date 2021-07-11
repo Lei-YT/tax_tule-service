@@ -1,0 +1,67 @@
+{
+  "status": 200,
+  "message": "成功",
+  "data": {
+    "billType": "CRTG_现金管理及银行调户单",
+    "taskId": "1413385465213034498",
+    "billNo": "2021070917107B242004961420",
+    "versionName": "版本-5.0",
+    "imageInfo": null,
+    "errors": [],
+    "data": [
+      {
+        "ruleCount": 1,
+        "errorCount": 1,
+        "ruleType": "IMAGES",
+        "color": null,
+        "result": [
+          {
+            "ruleId": "ZX2213386563",
+            "aliasName": "",
+            "ruleName": "表单.主表.财务信息.业务类别=存现\/提现时，表单.主表.财务信息.金额=影像.回单\/回执.金额",
+            "correct": false,
+            "message": "请人工确认表单与回单金额是否一致",
+            "ruleType": "IMAGE"
+          }
+        ]
+      },
+      {
+        "ruleCount": 3,
+        "errorCount": 1,
+        "ruleType": "OTHERS",
+        "color": null,
+        "result": [
+          {
+            "ruleId": "CS4881459818",
+            "aliasName": "列账及时性判断",
+            "ruleName": "系统当前日期月数-表单.财务信息.制证日期月数≤3个月",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "QU9802303639",
+            "aliasName": "",
+            "ruleName": "表单.主表.财务信息.收款方账号≠财务信息.本方账号",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "QX7819534325",
+            "aliasName": "",
+            "ruleName": "表单.主表.财务信息.业务类别=存现\/提现，必备：影像.回单\/回执",
+            "correct": false,
+            "message": "缺少回单\/影像",
+            "ruleType": "BILLS"
+          }
+        ]
+      },
+      {
+        "ruleCount": 0,
+        "errorCount": null,
+        "ruleType": "WARNING",
+        "color": null,
+        "result": []
+      }
+    ]
+  }
+}

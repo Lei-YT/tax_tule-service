@@ -15,7 +15,7 @@
             class="inp"
           />
           <div class="api" slot="content">
-            <Card :bordered="false">
+            <Card :bordered="false" dis-hover>
               <div slot="title" class="cardHead">
                 <p>保存的密码</p>
               </div>
@@ -166,6 +166,8 @@ export default {
   .ivu-card-head {
     border-radius: 4px 4px 0 0;
     background: #1991dd;
+    padding-top: 10px;
+    padding-bottom: 10px;
     p {
       color: #fff;
       font-weight: 400;
@@ -173,12 +175,15 @@ export default {
   }
   .ivu-card-body {
     color: #000;
-    padding: 0;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     .ivu-row-flex{
       padding: 0.5em 0;
     }
+  }
+  .ivu-btn>i, .ivu-btn>span{
+    display: block;
   }
 }
 /deep/.ivu-input {

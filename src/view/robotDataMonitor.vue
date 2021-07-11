@@ -5,7 +5,7 @@
         <div style="display: flex; justify-content: space-between">
           <Form
             :inline="true"
-            :label-width="80"
+            :label-width="85"
             class="demo-form-inline"
             ref="formInline"
           >
@@ -28,6 +28,7 @@
               <div class="numCount">
                 <Date-picker
                   placeholder="选择日期"
+                  style="width: 160px"
                   type="date"
                   :options="disabledDate1"
                   :value="checkBeginDate"
@@ -38,6 +39,7 @@
                 <span style="margin: 0 5px">—</span>
                 <Date-picker
                   placeholder="选择日期"
+                  style="width: 160px"
                   type="date"
                   :options="disabledDate2"
                   :value="checkEndDate"
@@ -54,7 +56,7 @@
               </div>
             </FormItem>
 
-            <FormItem>
+            <FormItem :label-width="0">
               <el-button
                 type="primary"
                 @click="checkyear()"

@@ -240,6 +240,7 @@ export default {
   background: #ffffff;
   border-radius: 3px;
   font-weight: 400;
+  font-size: 12px;
   color: #1991dd;
   padding: 0.2rem 0.5rem;
 }

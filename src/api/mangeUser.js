@@ -169,6 +169,14 @@ export const organStation = (params) => {
     method: 'POST'
   })
 }
+// 机构绑定岗位
+export const organAddStation = (params) => {
+  return axios.request({
+    url: `/api/user/organstation`,
+    data: params,
+    method: 'POST'
+  })
+}
 // 用户+机构岗位
 export const userAddOrganS = (params) => {
   return axios.request({

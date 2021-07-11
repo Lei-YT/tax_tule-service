@@ -115,7 +115,7 @@ export const getInvoiceFields = (invoiceType) => {
       getBase = imgBase;
       getItems = fpItems;
       break;
-    case '税收完税证明':
+    case '完税证明':
       imgBase.fields = (fields3);
       getBase = imgBase;
       getItems = fpItems;

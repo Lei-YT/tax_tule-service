@@ -17,9 +17,9 @@
         <Button type="primary" icon="ios-search" @click="getTreeData" />
       </div>
       <div class="treeCon">
+          <!-- expand-node -->
         <Tree
           :data="TreeData"
-          expand-node
           @on-select-change="onTreeNodeClick"
           @on-toggle-expand="onTreeToggle"
         />
@@ -48,7 +48,7 @@
             <div class="rigthWrap" v-if="hasPerm('user_operate')">
               <Button
                 type="error"
-                v-if="chooseLength.length > 0"
+                v-if="chooseUser.length > 0"
                 @click="handel('1')"
                 >确认删除</Button
               >
@@ -120,26 +120,7 @@
             <el-table-column prop="email" label="邮箱" align="center" />
             <el-table-column prop="created_at" label="创建时间" align="center" width="160" />
           </el-table>
-          <div class="pageCon" v-if="userBySearch">
-            <div class="showCon">共 {{ page.totalElement }} 条</div>
-            <div class="paginationStyle">
-              <el-button @click="currentChange(1)" type="text" size="small"
-                >首页</el-button
-              >
-              <Page
-                @on-change="currentChange"
-                @on-page-size-change="sizeChange"
-                :current="page.currentPage"
-                :total="page.totalElement"
-                prev-text="< 上一页"
-                next-text="下一页 >"
-                show-elevator
-                show-sizer
-                class-name="page-box"
-              />
-            </div>
-          </div>
-          <div class="pageCon" v-else>
+          <div class="pageCon" >
             <div class="showCon">共 {{ ouPage.totalElement }} 条</div>
             <div class="paginationStyle">
               <el-button
@@ -216,54 +197,23 @@
               icon="md-add"
               @click="addPost"
               style="margin-right: 15px"
-              >添加岗位</Button
+              >机构岗位绑定</Button
             >
-            <Button
-              type="error"
-              v-if="postLength.length > 0"
-              @click="handel('2')"
-              >确认删除</Button
-            >
-            <Button type="error" icon="md-trash" ghost v-else>删除岗位</Button>
           </div>
-          <!-- <div class="subCon">
-            <Button type="primary">提交</Button>
-          </div> -->
+          <div class="subCon">
+            <Button type="primary" @click="onModifyUserStation">提交</Button>
+          </div>
         </div>
-        <el-table
-          :data="tableData2"
-          stripe
-          border
-          height="290"
-          @selection-change="handlePostChange"
-          empty-text="暂无数据"
-          :header-cell-style="{
-            background: '#eef1f6',
-            color: '#606266',
-            fontWeight: 'normal',
-            fontSize: '12px',
-            marginTop: '10px',
-          }"
-        >
-          <el-table-column v-if="hasPerm('user_operate')" type="selection" align="center" width="55" />
-          <el-table-column
-            type="index"
-            label="序号"
-            align="center"
-            width="60"
+          <Table
+            border
+            stripe
+            ref="organTable1"
+            :columns="columns4"
+            :data="tableData2"
+            style="width: 100%"
+            no-data-text="暂无数据"
+            @on-selection-change="handlePostChange"
           />
-          <el-table-column label="姓名" align="center">
-            <template v-if="tableData2.length>0">
-              {{ currentUser.name }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="organ.OrgSName"
-            label="所属机构"
-            align="center"
-          />
-          <el-table-column prop="station.name" label="岗位" align="center" />
-        </el-table>
       </Card>
     </div>
 
@@ -305,19 +255,41 @@
             style="margin-top: 15px"
           >
             <el-table-column type="selection" align="center" width="55" />
-            <el-table-column prop="station.name" label="岗位名称" align="center" />
-            <el-table-column prop="station.number" label="岗位编号" align="center" />
+            <el-table-column prop="name" label="岗位名称" align="center" />
+            <el-table-column prop="number" label="岗位编号" align="center" />
           </el-table>
+          <div class="pageCon" >
+            <div class="showCon">共 {{ stationPage.totalElement }} 条</div>
+            <div class="paginationStyle">
+              <el-button
+                @click="currentStationChange(1)"
+                type="text"
+                size="small"
+                >首页</el-button
+              >
+              <Page
+                @on-change="currentStationChange"
+                @on-page-size-change="stationSizeChange"
+                :current="stationPage.currentPage"
+                :total="stationPage.totalElement"
+                prev-text="< 上一页"
+                next-text="下一页 >"
+                show-elevator
+                show-sizer
+                class-name="page-box"
+              />
+            </div>
+          </div>
           <div class="choosedCon">
             <div>已选机构和岗位：</div>
             <div class="mechanism">
               <template v-for="ss in selectedOrganStation">
-                <p :key="'on' + ss.id">{{ ss.organ.OrgSName }}</p>
+                <p :key="'on' + ss.id">{{ ss.organ.OrgName }}</p>
               </template>
             </div>
             <div class="postName">
               <template v-for="ss in selectedOrganStation">
-                <p :key="'os' + ss.id">{{ ss.station.name }}</p>
+                <p :key="'os' + ss.id">{{ ss.name }}</p>
               </template>
             </div>
           </div>
@@ -327,7 +299,7 @@
             >
             <Button
               type="primary"
-              @click="submitUserAddOS"
+              @click="submitOrganAddStation"
               style="margin-left: 15px"
               >提交</Button
             >
@@ -390,7 +362,6 @@
 
 <script>
 import {
-  getUserList, // 账号列表
   addUser, // 新增
   getAddlist, // 添加导入用户查询接口
   delUsers, // 删除账号
@@ -402,6 +373,7 @@ import {
   getOrganChildren,
   userOrgan,
   organStation,
+  organAddStation,
   userWithOrgan,
   userAddOrganS,
   getStation,
@@ -415,9 +387,9 @@ export default {
       delCon: "",
       delType: "",
       centerDialogVisible: false,
-      chooseLength: [],
+      chooseUser: [],
       idArr: [],
-      postLength: [],
+      chooseStation: [],
       isCustom: false,
       dialogTableVisible: false,
       searchVal: "",
@@ -459,8 +431,13 @@ export default {
       userInfo: null,
       currentUser: {},
       selectedOrganStation: [],
-      userBySearch: false,
-      userOrganStation: [],
+      columns4: [
+        { type: 'selection', width: 55, align: 'left' },
+        { title:'序号', type: 'index', width: 70, align: 'center' },
+        { title: '姓名', key: 'user_name', minWidth: 200, align: 'center'},
+        { title: '所属机构', key: 'organ_name', minWidth: 200, align: 'center'},
+        { title: '岗位', key: 'station_name', minWidth: 200, align: 'center'},
+      ],
     };
   },
   created() {
@@ -483,7 +460,6 @@ export default {
             _this.TreeData = data.data.map((row) =>
               _this.parseOrganTree(row, "twolevel")
             );
-            // _this.TreeData[0].selected = true;
             if (data.data.length > 0) {
               _this.currentOrgan = _this.TreeData[0];
               _this.getCurrenOrganUseList(_this.TreeData[0]);
@@ -518,9 +494,14 @@ export default {
       }
       return o;
     },
+    onTreeToggle(currentNode) {
+      const _this = this;
+      if (Number(currentNode.IsLowest) === 0) {
+        this.getCurrentOrganChildren(currentNode);
+      }
+    },
     onTreeNodeClick(currentTree, currentNode) {
       const _this = this;
-      // _this.TreeData[0].selected = false;
       _this.currentOrgan = currentNode;
       if (this.addPostCon === false && this.isCustom === false) {
         this.tableData1 = [];
@@ -530,8 +511,10 @@ export default {
           this.getCurrentOrganChildren(currentNode);
         }
       } else if (this.addPostCon === true) {
-        this.postTableData = [];
-        this.getUserOrganStation(this.currentUser);
+        this.selectedOrganStation = this.selectedOrganStation.map(s => ({
+          ...s,
+          organ: currentNode
+        }));
       }
     },
     getCurrentOrganChildren(currentNode) {
@@ -571,7 +554,6 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.userBySearch = false;
             _this.tableData1 = data.data;
             _this.ouPage.totalElement = data.totalcount;
           } else {
@@ -584,37 +566,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    /**
-     * @deprecated
-     */
-    getCurrentOrganStation() {
-      const _this = this;
-      const r = {
-        orgid: this.currentOrgan.id,
-      };
-      organStation(r)
-        .then((resp) => {
-          let data = resp.data;
-          if (data.code === 0) {
-            _this.postTableData = data.data;
-            _this.searchStation = "";
-          } else {
-            _this.$Notice.warning({
-              title: "温馨提示",
-              desc: data.msg,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    onTreeToggle(currentNode) {
-      const _this = this;
-      if (Number(currentNode.IsLowest) === 0) {
-        this.getCurrentOrganChildren(currentNode);
-      }
     },
     getList() {
       const _this = this;
@@ -640,7 +591,7 @@ export default {
         case 1:
           // 删除该用户
           r = {
-            idarr: this.chooseLength.map((u) => u.id),
+            idarr: this.chooseUser.map((u) => u.id),
           };
           delUsers(r)
             .then((res) => {
@@ -664,7 +615,7 @@ export default {
           // 删除用户的岗位
           r = {
             userid: this.currentUser.id,
-            osIdArr: this.postLength.map((r) => r.id),
+            osIdArr: this.chooseStation.map((r) => r.id),
           };
           deleteUserOrgan(r)
             .then((res) => {
@@ -688,7 +639,7 @@ export default {
         case 3:
           // 禁用账户,单行
           r = {
-            idarr: this.chooseLength.map((u) => u.id),
+            idarr: this.chooseUser.map((u) => u.id),
             isEnable: 1,
           };
           enableUser(r)
@@ -712,7 +663,7 @@ export default {
         case 4:
           // 启用账户, 勾选的多个
           r = {
-            idarr: this.chooseLength.map((u) => u.id),
+            idarr: this.chooseUser.map((u) => u.id),
             isEnable: 0,
           };
           enableUser(r)
@@ -742,7 +693,13 @@ export default {
     handel(type, row) {
       if (row) {
         this.userInfo = row;
-        this.chooseLength = [{ ...row }];
+        this.chooseUser = [{ ...row }];
+      }
+      if (this.chooseUser.length === 0) {
+        this.$Notice.warning({
+          title: "请先选中一个用户",
+        });
+        return false;
       }
       this.delType = type;
       if (type == 1) {
@@ -757,25 +714,50 @@ export default {
       this.centerDialogVisible = true;
     },
     handlePostChange(val) {
-      this.postLength = val;
+      this.chooseStation = val;
+    },
+    onModifyUserStation(){
+      const _this = this;
+      const r = {
+        userid: this.currentUser.id,
+        osIdArr: this.chooseStation.map((s) => s.id),
+      };
+      userAddOrganS(r)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 0) {
+            _this.$message({
+              message: data.msg,
+              type: "success",
+              duration: 1500,
+            });
+            _this.getUserOrganStation(_this.currentUser);
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.msg,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     handleSelectionChange(val) {
-      this.chooseLength = val;
-      let idArr = [];
-      val.map((item, index) => {
-        return idArr.push(item.id);
-      });
-      this.idArr = idArr;
+      this.chooseUser = val;
+      this.idArr = val.map((item) => item.id);
     },
     handleOnUserClick(currentUser) {
       this.currentUser = currentUser;
       this.getUserOrganStation(currentUser);
     },
     getUserOrganStation(user) {
+      const _this = this;
       if (user===null || Object.keys(user).length===0) {
+        _this.tableData2 = [];
+        _this.chooseStation = [];
         return false;
       }
-      const _this = this;
       const r = {
         userid: user.id,
         org_id: this.currentOrgan.id
@@ -784,12 +766,15 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
+            _this.tableData2 = data.data.map(row => {
+              row._checked = Number(row.userorgan_count)===1;
+              row.user_name = _this.currentUser.name;
+              row.organ_name = row.organ.OrgName;
+              row.station_name = row.station.name;
+              return row;
+            });
             const is_user_organ_station = data.data.filter(os => Number(os.userorgan_count)===1);
-            _this.tableData2 = is_user_organ_station;
-            _this.userOrganStation = is_user_organ_station;
-            const not_user_organ_station = data.data.filter(os => Number(os.userorgan_count)!==1);
-            _this.postTableData = not_user_organ_station;
-            // _this.tableData2 = data.data;
+            _this.chooseStation = is_user_organ_station;
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -821,7 +806,7 @@ export default {
               _this.isCustom = false;
               const newUser = res.data.data;
               _this.boundUserToOrgan(newUser);
-              _this.getCurrenOrganUseList(_this.currentOrgan);
+              // _this.getCurrenOrganUseList(_this.currentOrgan);
             } else {
               _this.$Notice.warning({
                 title: "温馨提示",
@@ -838,20 +823,29 @@ export default {
       const _this = this;
       this.selectedOrganStation = val.map((s) => ({
         ...s,
-        organName: _this.currentOrgan.OrgSName,
+        organ: _this.currentOrgan,
       }));
+    },
+    currentStationChange(current) {
+      this.stationPage.currentPage = current;
+      this.searchStationList();
+    },
+    stationSizeChange(size) {
+      this.stationPage.size = size;
+      this.currentStationChange(1);
     },
     searchStationList() {
       const _this = this;
       let params = {
         name: this.searchStation.replace(/\s*/g, "") || "",
-        pageindex: this.stationPage.currentPage,
+        pageindex: 1, // this.stationPage.currentPage,
         pagesize: this.stationPage.size,
       };
       getStation(params).then((res) => {
         if (res.data.code == 0) {
           _this.postTableData = res.data.data;
           _this.stationPage.totalElement = res.data.totalcount;
+          _this.selectedOrganStation = [];
         } else {
           _this.$Notice.warning({
             title: "温馨提示",
@@ -860,13 +854,19 @@ export default {
         }
       });
     },
-    submitUserAddOS() {
+    submitOrganAddStation() {
       const _this = this;
+      if (this.selectedOrganStation.length === 0) {
+        this.$Notice.warning({
+          title: "请先勾选岗位",
+        });
+        return false;
+      }
       const r = {
-        userid: this.currentUser.id,
-        osIdArr: this.selectedOrganStation.map((s) => s.id),
+        orgid: this.currentOrgan.id,
+        stationid: this.selectedOrganStation.map((s) => s.id),
       };
-      userAddOrganS(r)
+      organAddStation(r)
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
@@ -908,16 +908,7 @@ export default {
       this.dialogTableVisible = true;
     },
     addPost() {
-      if (
-        this.currentUser === null ||
-        Object.keys(this.currentUser).length === 0
-      ) {
-        this.$Notice.warning({
-          title: "请先选中一个用户",
-        });
-        return false;
-      }
-      this.getUserOrganStation(this.currentUser);
+      this.searchStationList();
       this.addPostCon = true;
     },
     handleImport(row) {
@@ -948,7 +939,7 @@ export default {
       };
       userWithOrgan(r).then((res) => {
         if (res.data.code == 0) {
-          _this.getCurrenOrganUseList();
+          _this.getCurrenOrganUseList(_this.currentOrgan);
         } else {
           _this.$Notice.warning({
             title: "温馨提示",
@@ -1077,5 +1068,16 @@ export default {
   tr.el-table__row--striped.current-row
   td {
   background-color: #b2e2fa;
+}
+/deep/.ivu-table{
+  font-size: 14px;
+  th,td{
+    padding: 12px 0;
+  }
+  th{
+    background: #eef1f6;
+    color: #606266; // #909399;
+    font-weight: normal;
+  }
 }
 </style>

@@ -4,7 +4,7 @@
       <Card style="width: 100%">
         <Form
           :inline="true"
-          :label-width="70"
+          :label-width="80"
           class="flow-form-inline"
           ref="formInline"
         >
@@ -17,8 +17,7 @@
                 <Date-picker
                   placeholder="选择日期"
                   type="date"
-                  size="large"
-                  style="width: '150px'"
+                  style="width: 130px"
                   :options="disabledDate1"
                   :value="beginDate"
                   format="yyyy-MM-dd"
@@ -28,8 +27,8 @@
                 <span style="margin: 0 5px">—</span>
                 <Date-picker
                   placeholder="选择日期"
+                  style="width: 130px"
                   type="date"
-                  size="large"
                   :options="disabledDate2"
                   :value="endDate"
                   format="yyyy-MM-dd"
@@ -216,7 +215,7 @@ export default {
         formName: [{ required: true, message: "请输入表单名称" }],
       },
       columns4: [
-        { type: 'selection', width: 50, align: 'left' },
+        { type: 'selection', width: 55, align: 'left' },
         { title:'序号', type: 'index', width: 70, align: 'center' },
         { title:'表单', key: 'form_name', minWidth: 280, align: 'center' },
         { title:'节点选择', slot: 'node_share', minWidth: 280, align: 'center' },
