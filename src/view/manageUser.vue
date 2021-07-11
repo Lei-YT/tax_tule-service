@@ -97,7 +97,7 @@
                 {{ scope.row.organ && scope.row.organ.OrgName }}
               </template>
               </el-table-column>
-            <el-table-column label="用户状态" align="center">
+            <el-table-column label="用户状态" align="center" v-if="hasPerm('user_operate')">
               <template slot-scope="scope">
                 <el-button
                   v-if="scope.row.isEnable == 1"
