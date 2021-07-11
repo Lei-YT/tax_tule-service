@@ -19,7 +19,6 @@
       <div class="treeCon">
         <Tree
           :data="TreeData"
-          expand-node
           @on-select-change="onTreeNodeClick"
           @on-toggle-expand="onTreeToggle"
         />
