@@ -133,6 +133,15 @@ export default [
       },
       {
         path: homePath,
+        name: 'trainingIndex',
+        meta: {
+          icon: '_shenpi',
+          title: '新增训练学习样本',
+        },
+        component: () => import('@/view/trainingSamples.vue')
+      },
+      {
+        path: homePath,
         name: 'logResultIndex',
         meta: {
           icon: 'ios-create-outline',
