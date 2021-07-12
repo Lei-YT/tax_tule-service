@@ -80,7 +80,7 @@
               align="center" width="160"
             />
           </el-table>
-          <!-- <div class="pageCon">
+          <div class="pageCon">
             <div class="showCon">共 {{ page.totalElement }} 条</div>
             <div class="paginationStyle">
               <el-button @click="currentChange(1)" type="text" size="small"
@@ -98,7 +98,7 @@
                 class-name="page-box"
               />
             </div>
-          </div> -->
+          </div>
         </div>
       </Card>
     </div>
@@ -164,6 +164,19 @@ export default {
     this.getTreeData();
   },
   methods: {
+    currentChange(current) {
+      this.page.currentPage = current;
+      this.tableData1 = this.currentPageData(this.tableData1, current);
+    },
+    sizeChange(size) {
+      this.page.size = size;
+      this.currentChange(1);
+    },
+    currentPageData(allData, pageIndex = 1) {
+      const start = (pageIndex - 1) * this.page.size;
+      const end = pageIndex * this.page.size;
+      return allData.slice(start, end);
+    },
     getTreeData() {
       const _this = this;
       const r = {
@@ -212,7 +225,8 @@ export default {
       const _this = this;
       if (currentNode.children[0].hasOwnProperty("title")) {
         if (updateTable) {
-          _this.tableData1 = currentNode.children;
+          _this.tableData1 = _this.currentPageData(currentNode.children);
+          _this.page.totalElement = currentNode.children.length;
         }
         return false;
       }
@@ -226,7 +240,8 @@ export default {
               _this.parseOrganTree(row, 'twolevel')
             );
             if (updateTable) {
-              _this.tableData1 = data.data;
+              _this.tableData1 = _this.currentPageData(data.data);
+              _this.page.totalElement = data.data.length;
             }
           } else {
             _this.$Notice.warning({
@@ -290,15 +305,6 @@ export default {
           return false;
         }
       });
-    },
-    currentChange(current) {
-      this.page.currentPage = current;
-      this.query();
-    },
-    sizeChange(size) {
-      this.page.size = size;
-      this.currentChange(1);
-      // this.query();
     },
   },
 };
