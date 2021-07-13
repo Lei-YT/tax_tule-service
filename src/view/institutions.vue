@@ -50,35 +50,10 @@
             }"
             style="margin-top: 15px"
           >
-            <el-table-column
-              type="index"
-              label="序号"
-              align="center"
-              width="60"
-            />
+            <el-table-column type="index" label="序号" align="center" width="60" />
             <el-table-column prop="OrgName" label="机构名称" align="center" width="200" />
             <el-table-column prop="OrgCode" label="机构编号" align="center" />
-            <el-table-column prop="OrgForm" label="业务分组" align="center" />
-            <el-table-column label="业务类型" align="center">
-              <template slot-scope="scope">
-                <!-- <el-button v-if="scope.row.result == 0" type="text" size="small"
-                  >启用</el-button
-                >
-                <el-button
-                  v-else
-                  type="text"
-                  size="small"
-                  style="color: #e02020"
-                  >禁用</el-button
-                > -->
-              </template>
-            </el-table-column>
-            <el-table-column prop="name" label="描述" align="center" />
-            <el-table-column
-              prop="created_at"
-              label="创建时间"
-              align="center" width="160"
-            />
+            <el-table-column prop="created_at" label="创建时间" align="center" width="160" />
           </el-table>
           <!-- <div class="pageCon">
             <div class="showCon">共 {{ page.totalElement }} 条</div>
