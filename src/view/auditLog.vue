@@ -344,67 +344,13 @@
               width="130"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.earlyWarning == '一级预警'">
+                <span v-if="scope.row.warningColor">
                   <Icon
                     type="md-information-circle"
                     size="18"
-                    color="#ff0000"
+                    :color="scope.row.warningColor"
                     style="margin-left: 3%"
                   />
-                  {{ scope.row.earlyWarning }}
-                </span>
-                <span v-else-if="scope.row.earlyWarning == '二级预警'">
-                  <Icon
-                    type="md-information-circle"
-                    size="18"
-                    color="#ff8c00"
-                    style="margin-left: 3%"
-                  />
-                  {{ scope.row.earlyWarning }}
-                </span>
-                <span v-else-if="scope.row.earlyWarning == '三级预警'">
-                  <Icon
-                    type="md-information-circle"
-                    size="18"
-                    color="#ffff00"
-                    style="margin-left: 3%"
-                  />
-                  {{ scope.row.earlyWarning }}
-                </span>
-                <span v-else-if="scope.row.earlyWarning == '四级预警'">
-                  <Icon
-                    type="md-information-circle"
-                    size="18"
-                    color="#1e90ff"
-                    style="margin-left: 3%"
-                  />
-                  {{ scope.row.earlyWarning }}
-                </span>
-                <span v-else-if="scope.row.earlyWarning == '五级预警'">
-                  <Icon
-                    type="md-information-circle"
-                    size="18"
-                    color="#483d8b"
-                    style="margin-left: 3%"
-                  />
-                  {{ scope.row.earlyWarning }}
-                </span>
-                <span v-else-if="scope.row.earlyWarning == '六级预警'">
-                  <Icon
-                    type="md-information-circle"
-                    size="18"
-                    color="#696969"
-                    style="margin-left: 3%"
-                  />
-                  {{ scope.row.earlyWarning }}
-                </span>
-                <span v-else>
-                  <!-- <Icon
-                    type="md-information-circle"
-                    size="18"
-                    color="#696969"
-                    style="margin-left: 3%"
-                  /> -->
                   {{ scope.row.earlyWarning }}
                 </span>
               </template>
@@ -649,7 +595,6 @@
 <script>
 import axios from "@/libs/api.request";
 import FormProcess from "./components/FormProcess";
-import axios2 from 'axios';
 export default {
   components: {
     FormProcess,
@@ -875,9 +820,12 @@ export default {
         .then(function (response) {
           let data = response.data;
           if (data.code == 20000) {
-            _this.tableData = data.data.data;
+            _this.tableData = data.data.data.map(row => {
+              const findC = _this.warnOptions.find(w => w.grade===row.earlyWarning);
+              row.warningColor = findC ? findC.color : '';
+              return row;
+            });
             _this.page.totalElement = data.data.total;
-            // this.tableData = data.data.data;
           }
           _this.adjustWidth();
         })
