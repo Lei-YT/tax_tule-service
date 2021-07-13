@@ -81,7 +81,8 @@
                   transfer
                   multiple
                   v-model="row.node_share"
-                  @on-select="(v) => handleSelectNode(row, v)"
+                  @on-change="(v) => handleSelectNode(row, v)"
+                  @on-open-change="allowedChange"
                 >
                   <Option
                     :value="2"
@@ -224,6 +225,7 @@ export default {
         { title:'创建时间', key: 'create_date_text', width: 180, align: 'center' },
         { title:'修改时间', key: 'update_date_text', width: 180, align: 'center' },
       ],
+      isUpdate: false,
     };
   },
   mounted() {
@@ -464,13 +466,19 @@ export default {
       }
       return { val: s, isNew: isNew };
     },
+    allowedChange(v){
+      this.isUpdate = v;
+    },
     handleSelectNode(row, v) {
-      row.node_share = v;
-      row.disableBizNode = !v.includes(_NODE_SHARE_ONLY);
-      row.disableShareNode = v.includes(_NODE_SHARE_BIZ);
-      row.showBizMode = row.disableShareNode;
-      row.showShareMode = !row.disableBizNode;
-      this.convertSelectionToStatus(row);
+      const _this = this;
+      if (this.isUpdate===true) {
+        row.node_share = v;
+        row.disableBizNode = !v.includes(_NODE_SHARE_ONLY);
+        row.disableShareNode = v.includes(_NODE_SHARE_BIZ);
+        row.showBizMode = row.disableShareNode;
+        row.showShareMode = !row.disableBizNode;
+        _this.convertSelectionToStatus(row);
+      }
     },
     handleSelectShareMode(row, v) {
       this.convertSelectionToStatus(row);

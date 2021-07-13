@@ -236,7 +236,7 @@
               type="primary"
               icon="ios-search"
               style="margin-left: 15px"
-              @click="searchStationList"
+              @click="currentStationChange(1)"
               >查询</Button
             >
           </div>
@@ -333,7 +333,7 @@
       >
         <el-table-column property="UserName" label="姓名" align="center" />
         <el-table-column property="UserCode" label="账号" align="center" />
-        <el-table-column property="organ" label="所属机构" align="center" />
+        <el-table-column property="OrgName" label="所属机构" align="center" />
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleImport(scope.row)" type="text" size="small"
@@ -461,8 +461,8 @@ export default {
               _this.parseOrganTree(row, "twolevel")
             );
             if (data.data.length > 0) {
-              _this.currentOrgan = _this.TreeData[0];
-              _this.getCurrenOrganUseList(_this.TreeData[0]);
+              // _this.currentOrgan = _this.TreeData[0];
+              _this.getCurrenOrganUseList();
               const firstRoot = data.data.findIndex(
                 (ee) => Number(ee.IsLowest) === 0
               );
@@ -502,20 +502,18 @@ export default {
     },
     onTreeNodeClick(currentTree, currentNode) {
       const _this = this;
+      _this.isSearch = false;
       _this.currentOrgan = currentNode;
-      if (this.addPostCon === false && this.isCustom === false) {
-        this.tableData1 = [];
-        this.tableData2 = [];
-        this.getCurrenOrganUseList(currentNode);
-        if (Number(currentNode.IsLowest) === 0) {
-          this.getCurrentOrganChildren(currentNode);
-        }
-      } else if (this.addPostCon === true) {
-        this.selectedOrganStation = this.selectedOrganStation.map(s => ({
-          ...s,
-          organ: currentNode
-        }));
+      this.tableData1 = [];
+      this.tableData2 = [];
+      this.getCurrenOrganUseList(currentNode);
+      if (Number(currentNode.IsLowest) === 0) {
+        this.getCurrentOrganChildren(currentNode);
       }
+      this.selectedOrganStation = this.selectedOrganStation.map(s => ({
+        ...s,
+        organ: currentNode
+      }));
     },
     getCurrentOrganChildren(currentNode) {
       const _this = this;
@@ -547,9 +545,17 @@ export default {
       const r = {
         pageindex: this.ouPage.currentPage,
         pagesize: this.ouPage.size,
-        organid: currentNode.OrgID,
         username: this.searchName.replace(/\s*/g, "") || "",
       };
+      if (currentNode) {
+        r.organid = currentNode ? currentNode.OrgID : '';
+      }
+      if (this.isSearch===true) {
+        delete r.organid;
+      }
+      Object.keys(r).forEach(
+        (key) => (r[key] == null || r[key] == "") && delete r[key]
+      );
       getOrganUserList(r)
         .then((resp) => {
           let data = resp.data;
@@ -838,7 +844,7 @@ export default {
       const _this = this;
       let params = {
         name: this.searchStation.replace(/\s*/g, "") || "",
-        pageindex: 1, // this.stationPage.currentPage,
+        pageindex: this.stationPage.currentPage,
         pagesize: this.stationPage.size,
       };
       getStation(params).then((res) => {
@@ -856,6 +862,15 @@ export default {
     },
     submitOrganAddStation() {
       const _this = this;
+      if (
+        this.currentOrgan === null ||
+        Object.keys(this.currentOrgan).length === 0
+      ) {
+        this.$Notice.warning({
+          title: "请选择机构",
+        });
+        return false;
+      }
       if (this.selectedOrganStation.length === 0) {
         this.$Notice.warning({
           title: "请先勾选岗位",
@@ -962,6 +977,7 @@ export default {
       this.currentOrganUserChange(1);
     },
     searchData() {
+      this.isSearch = true;
       this.currentOrganUserChange(1);
     },
   },
