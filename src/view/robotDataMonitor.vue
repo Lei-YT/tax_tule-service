@@ -203,14 +203,11 @@ export default {
     // this.initChart();
     this.getSelectlist();
     this.getCheckdate();
-    this.handleDatepicker();
+    this.checktoday();
   },
-  created() {
-    // this.query();
-  },
+  created() {},
   methods: {
     getShowSelected(val) {
-      console.log("1212", val);
       const _this = this;
 
       if (val == 0) {
@@ -281,38 +278,32 @@ export default {
       return [year, month, day].join("-");
     },
     checkyear() {
-      // var now_year = new Date().getFullYear();
-      // let begindate = new Date(now_year, 0, 1);
-
-      // this.checkBeginDate=this.formatDate(begindate);
-
-      // // var YearEnd = new Date((new Date(now_year + 1, 0, 1)).getTime() - 1000 * 60 * 60* 24);
-      // this.checkEndDate=this.formatDate(new Date());
+      var now_year = new Date().getFullYear();
+      let begindate = new Date(now_year, 0, 1);
+      this.checkBeginDate=this.formatDate(begindate);
+      const now1 = new Date();
+      now1.setDate(now1.getDate()+1);
+      this.checkEndDate=this.formatDate(now1);
       this.status = 1;
     },
     checkmonth() {
-      // var date=new Date();
-      // date.setDate(1);
+      var date=new Date();
+      date.setDate(1);
+      this.checkBeginDate=this.formatDate(date);
+      const now1 = new Date();
+      now1.setDate(now1.getDate()+1);
 
-      // this.checkBeginDate=this.formatDate(date);
-
-      // // date=new Date();
-      // // var currentMonth=date.getMonth();
-      // // var nextMonth=++currentMonth;
-      // // var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
-      // // var oneDay=1000*60*60*24;
-      // // let enddatestr =new Date(nextMonthFirstDay-oneDay);
-
-      // this.checkEndDate=this.formatDate(new Date());
+      this.checkEndDate=this.formatDate(now1);
       this.status = 2;
     },
     checktoday() {
-      // var now = new Date()
+      var now = new Date()
+      const now1 = new Date();
+      now1.setDate(now1.getDate()+1);
 
-      // this.checkBeginDate=this.formatDate(now);
-      // this.checkEndDate=this.formatDate(now);
+      this.checkBeginDate=this.formatDate(now);
+      this.checkEndDate=this.formatDate(now1);
       this.status = 3;
-      // return Promise.resolve();
     },
     getTypeSelected(val) {
       // console.log(val)
@@ -546,11 +537,8 @@ export default {
         });
     },
     handleDatepicker(dateValue, dataKey) {
-      // console.log(dateValue, dataKey)
       this.$set(this, dataKey, dateValue);
       this.status = "";
-      // if (dataKey==='checkBeginDate') {
-
       const bb = new Date();
       bb.setFullYear(bb.getFullYear() - 1);
       let lastyear = bb;
@@ -558,7 +546,6 @@ export default {
 
       let begindate = new Date(this.checkBeginDate);
       let enddate = new Date(this.checkEndDate);
-      // console.log(lastyear,begindate)
       this.disabledDate1 = {
         disabledDate(date) {
           return (
@@ -575,25 +562,6 @@ export default {
           );
         },
       };
-      // }
-      // if (dataKey==='checkEndDate') {
-      //   let now_year = (new Date(this.checkEndDate)).getFullYear();
-      //   let now_month = (new Date(this.checkEndDate)).getMonth();
-      //   let now_day = (new Date(this.checkEndDate)).getDate() ;
-      //   let now_time = (new Date(this.checkEndDate)).getTime() ;
-      //   let disabledDate1 =new Date((new Date(now_year - 1, now_month, now_day)).getTime() );
-      //   this.disabledDate1 = {
-      //     disabledDate: function (date) {
-      //       return (date && date.valueOf() < disabledDate1.getTime())
-      //         || (date && date.valueOf()>now_time);
-      //     }
-      //   }
-      //   this.disabledDate2 = {
-      //     disabledDate: function (date) {
-      //       return false;
-      //     }
-      //   }
-      // }
     },
   },
 };
