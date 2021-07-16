@@ -888,6 +888,16 @@ export default {
       "setEditFieldsItems",
       "setCurrentInvoiceErrorFields",
     ]),
+    parseSourceValue(v){
+      const sourceMap = {
+        0: 'OCR识别',
+        1: 'OCR+航信',
+        2: '机打号码+航信',
+        3: '二维码',
+        4: 'OCR+中间库',
+      };
+      return sourceMap[Number(v)];
+    },
     handelAllImage() {
       const _this = this;
       // 有字段的报错图片
