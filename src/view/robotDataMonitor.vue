@@ -24,6 +24,21 @@
                 >
               </Select>
             </FormItem>
+            <FormItem label="机器人分类：" prop="name">
+              <Select
+                style="width: 200px"
+                v-model="selected"
+                @on-change="getTypeSelected"
+              >
+                <Option value="全部">全部</Option>
+                <Option
+                  :value="item.name"
+                  v-for="item in options"
+                  v-bind:key="item.id"
+                  >{{ item.name }}</Option
+                >
+              </Select>
+            </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
                 <Date-picker
@@ -108,28 +123,28 @@
             <img src="@/assets/images/icon1.png" class="icon" />
             <div class="counts">
               <p>单据总数（单）</p>
-              <p>{{ successnum + failnum + timeoutnum }}</p>
+              <p>{{ artificialnum + rejectnum + undonenum }}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon2.png" class="icon" />
             <div class="counts">
-              <p>审核通过单量（单）</p>
-              <p>{{ successnum }} {{ successnumP }}</p>
+              <p>审核转人工量（单）</p>
+              <p>{{ artificialnum }} {{ artificialnumP }}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon3.png" class="icon" />
             <div class="counts">
-              <p>审核不通过单量（单）</p>
-              <p>{{ failnum }} {{ failnumP }} </p>
+              <p>审核驳回单量（单）</p>
+              <p>{{ rejectnum }} {{ rejectnumP }} </p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon4.png" class="icon" />
             <div class="counts">
-              <p>超时单量（单）</p>
-              <p>{{ timeoutnum }}  {{timeoutnumP}} </p>
+              <p>未完成任务（单）</p>
+              <p>{{ undonenum }}  {{undonenumP}} </p>
             </div>
           </div>
           <div class="listItem">
@@ -180,6 +195,12 @@ export default {
       },
       options: [],
       selected: "全部",
+      artificialnum: 0, // 转人工
+      artificialnumP:'',
+      rejectnum: 0, // 驳回
+      rejectnumP:'',
+      undonenum: 0, // 未完成
+      undonenumP:'',
       failnum: 0, //审核不通过单量
       avgBillDatenum: 0, //平均每单审核时长  单位秒(s)
       successnum: 0, // 审核通过单量
