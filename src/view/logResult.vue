@@ -238,7 +238,86 @@
                 </el-collapse-item>
               </el-collapse>
               <el-collapse v-else>
-                <Table
+                <table style="width: 100%" class="rule-table td-wrap">
+                  <thead>
+                    <tr>
+                      <th width="60">序号</th>
+                      <th width="100">预警等级</th>
+                      <th v-if="item.showRuleNameW" style="text-align: left">规则
+                        <Button type="text" shape="circle" icon="ios-arrow-forward"
+                        @click="handleOnRuleColumnToggle(item, 'showRuleNameW')"></Button>
+                      </th>
+                      <th v-else width="80" style="text-align: left">规则
+                        <Button type="text" shape="circle" icon="ios-arrow-back"
+                        @click="handleOnRuleColumnToggle(item, 'showRuleNameW')"></Button>
+                      </th>
+                      <th v-if="item.showAliasW" style="text-align: left">别名
+                        <Button type="text" shape="circle" icon="ios-arrow-forward"
+                        @click="handleOnRuleColumnToggle(item, 'showAliasW')"></Button>
+                      </th>
+                      <th v-else width="80" style="text-align: left">别名
+                        <Button type="text" shape="circle" icon="ios-arrow-back"
+                        @click="handleOnRuleColumnToggle(item, 'showAliasW')"></Button>
+                      </th>
+                      <th :width="item.showRuleMsgW ? 60 : 0"></th>
+                      <th v-if="item.showRuleMsgW" width="150" style="text-align: left">
+                        审核结果
+                        <Button type="text" shape="circle" icon="ios-arrow-forward"
+                        @click="handleOnRuleColumnToggle(item, 'showRuleMsgW')"></Button>
+                        </th>
+                      <th v-else width="100" style="text-align: left">
+                        审核结果
+                        <Button type="text" shape="circle" icon="ios-arrow-back"
+                        @click="handleOnRuleColumnToggle(item, 'showRuleMsgW')"></Button>
+                        </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-if="
+                        item.result.filter((obj) => {
+                          return obj.correct == false;
+                        }).length === 0
+                      "
+                    >
+                      <td colspan="4" style="text-align: true">暂无数据</td>
+                    </tr>
+                    <tr
+                      v-for="(n, i) in item.result.filter((obj) => {
+                        return obj.correct == false;
+                      })"
+                      v-bind:key="i"
+                    >
+                      <td style="text-align: center">{{ i + 1 }}</td>
+                      <td style="text-align: left">{{ n.warnRank.grade }}</td>
+                      <td style="text-align: left">
+                      <template v-if="item.showRuleNameW">
+                        {{ n.ruleName }}
+                      </template></td>
+                      <td style="text-align: left">
+                      <template v-if="item.showAliasW">
+                        {{ n.aliasName }}
+                      </template>
+                      </td>
+                      <td style="text-align: center">
+                        <Icon v-if="item.showRuleMsgW"
+                          type="ios-information-circle"
+                          size="25"
+                          :color="n.warnRank.color"
+                          style="margin-left: 60%"
+                        />
+                        <!-- <Icon v-if="item.showRuleMsgW"
+                          type="md-checkmark-circle"
+                          size="25"
+                          color="#6DD400"
+                        /> -->
+                      </td>
+                      <td style="text-align: left">
+                      <template v-if="item.showRuleMsgW">{{ n.message || '' }}</template> </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <Table
                   size="small"
                   :columns="columns1"
                   :data="
@@ -252,9 +331,7 @@
                     <div flex>{{ row.warnRank.grade }}</div>
                   </template>
                   <template slot="ruleName" slot-scope="{ row }">
-                    <!-- <div flex> -->
                       {{ row.ruleName }}
-                    <!-- </div> -->
                   </template>
                   <template slot="retIcon" slot-scope="{ row }">
                       <Icon
@@ -267,7 +344,7 @@
                   <template slot="message" slot-scope="{ row }">
                     {{ row.message ? row.message : "——" }}
                   </template>
-                </Table>
+                </Table> -->
               </el-collapse>
             </Card>
           </div>
@@ -1128,9 +1205,14 @@ export default {
               rule.showRuleName = false;
               rule.showAlias = true;
               rule.showRuleMsg = true;
+
               rule.showRuleNameC = false;
               rule.showAliasC = true;
               rule.showRuleMsgC = true;
+
+              rule.showRuleNameW = false;
+              rule.showAliasW = true;
+              rule.showRuleMsgW = true;
               return rule;
             })
             _this.handelAllImage();
