@@ -115,21 +115,21 @@
             <img src="@/assets/images/icon2.png" class="icon" />
             <div class="counts">
               <p>审核通过单量（单）</p>
-              <p>{{ successnum }}</p>
+              <p>{{ successnum }} {{ successnumP }}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon3.png" class="icon" />
             <div class="counts">
               <p>审核不通过单量（单）</p>
-              <p>{{ failnum }}</p>
+              <p>{{ failnum }} {{ failnumP }} </p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon4.png" class="icon" />
             <div class="counts">
               <p>超时单量（单）</p>
-              <p>{{ timeoutnum }}</p>
+              <p>{{ timeoutnum }}  {{timeoutnumP}} </p>
             </div>
           </div>
           <div class="listItem">
@@ -184,6 +184,9 @@ export default {
       avgBillDatenum: 0, //平均每单审核时长  单位秒(s)
       successnum: 0, // 审核通过单量
       timeoutnum: 0, // 超时单量
+      failnumP: '',
+      successnumP: '',
+      timeoutnumP: '',
       checkBeginDate: "",
       checkEndDate: "",
       disabledDate1: {},
@@ -496,6 +499,10 @@ export default {
             _this.avgBillDatenum = (data.data.avgBillDate / 60).toFixed(2);
             _this.successnum = data.data.success;
             _this.timeoutnum = data.data.timeout;
+            const sumNum = Number(data.data.fail) + Number(data.data.success) + Number(data.data.timeout);
+            _this.failnumP = `(${_this.failnum / sumNum * 100}%)`;
+            _this.successnumP = `(${_this.successnum / sumNum * 100}%)`;
+            _this.timeoutnumP = `(${_this.timeoutnum / sumNum * 100}%)`;
 
             let dates = [];
             let rules = [];
