@@ -15,6 +15,8 @@
 
         <p>单据类型：{{ allData.billType }}</p>
         <p>单据编号：{{ allData.billNo }}</p>
+        <p>审核日期：{{ urlParams.checkDate }}</p>
+        <p>金额：{{ urlParams.money }}</p>
       </Card>
       <!-- 内容 -->
       <div class="conBox">
@@ -749,6 +751,7 @@ export default {
       errorFieldCode: [],
       errorMessage: [],
       errorFieldCnt: 0,
+      urlParams: {},
       billNumber: "",
       columns1: [
         {title: "序号",type: "index",width: 65,},
@@ -784,6 +787,7 @@ export default {
     };
   },
   mounted() {
+    this.urlParams = this.$route.params || this.$route.query
     this.billNumber =
       this.$route.params.billNumber || this.$route.query.billNumber;
     this.query();
@@ -1548,6 +1552,7 @@ export default {
   /deep/.ivu-card-body {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     p {
       width: 300px;
       color: #1991dd;

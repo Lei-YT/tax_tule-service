@@ -896,6 +896,8 @@ export default {
         name: "logResultIndex",
         params: {
           billNumber: row.taskId,
+          checkDate: row.checkDate,
+          money: row.money
         },
       });
     },
