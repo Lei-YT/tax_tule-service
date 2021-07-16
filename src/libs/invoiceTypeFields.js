@@ -135,6 +135,8 @@ export const getInvoiceFields = (invoiceType) => {
     case '交款单':
     case '借款单':
     case '领款单':
+    case '出库单':
+    case '未提账单清单':
       imgBase.fields = (fields8);
       getBase = imgBase;
       getItems = fpItems;
@@ -172,6 +174,11 @@ export const getInvoiceFields = (invoiceType) => {
     imgBase.fields = (fields10);
     getBase = imgBase;
     getItems = fpItems3;
+  }
+  if (/^(低值易耗品|周转材料)/.test(invoiceType)) {
+    imgBase.fields = (fields9);
+    getBase = imgBase;
+    getItems = fpItems;
   }
   return [getBase, buyer, getSeller, getItems, other];
 }
@@ -392,6 +399,15 @@ const fields8 = [
     { label: '领款人', key: 'payee', col: 12 },
 
   ],
+  // 出库单
+  // 未提账单清单
+  [
+    { label: '金额合计', key: 'amountTotal', col: 12 },
+    { label: '金额', key: 'amountOfMoney', col: 12 },
+    { label: '供货单位', key: 'supplier', col: 12 },
+    { label: '供货单位', key: 'supplier', col: 12 },
+    { label: '合计', key: 'fpAmount', col: 12 },
+  ],
 ]
 const fields9 = [
   // 低值易耗品摊销表
@@ -402,6 +418,7 @@ const fields9 = [
     { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '本期摊销额合计', key: 'amortizationAmount', col: 12, width: 120 },
     { label: '合计餐数合计金额', key: 'totalValue', col: 12, width: 120 },
+    { label: '合计(领用金额)', key: 'totalCollectionAmount', col: 12, width: 120 },
   ],
 ]
 const fields10 = [
