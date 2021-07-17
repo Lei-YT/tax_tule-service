@@ -241,7 +241,7 @@ const seller = {
 const other = {
   label: '其他', prename: 'otherInfo-', checkField: 'specialSeal', fields: [
     [
-      { label: '是否有发票专用章', key: 'specialSeal', col: 10, width: 120 },
+      { label: '是否有发票专用章', key: 'specialSeal', col: 10, width: 140 },
       { label: '备注', key: 'remarks', col: 14 },
     ],
   ]

@@ -242,12 +242,12 @@
                   <thead>
                     <tr>
                       <th width="60">序号</th>
-                      <th width="100">预警等级</th>
+                      <th width="70" style="text-align: left">预警等级</th>
                       <th v-if="item.showRuleNameW" style="text-align: left">规则
                         <Button type="text" shape="circle" icon="ios-arrow-forward"
                         @click="handleOnRuleColumnToggle(item, 'showRuleNameW')"></Button>
                       </th>
-                      <th v-else width="80" style="text-align: left">规则
+                      <th v-else width="70" style="text-align: left">规则
                         <Button type="text" shape="circle" icon="ios-arrow-back"
                         @click="handleOnRuleColumnToggle(item, 'showRuleNameW')"></Button>
                       </th>
@@ -255,7 +255,7 @@
                         <Button type="text" shape="circle" icon="ios-arrow-forward"
                         @click="handleOnRuleColumnToggle(item, 'showAliasW')"></Button>
                       </th>
-                      <th v-else width="80" style="text-align: left">别名
+                      <th v-else width="70" style="text-align: left">别名
                         <Button type="text" shape="circle" icon="ios-arrow-back"
                         @click="handleOnRuleColumnToggle(item, 'showAliasW')"></Button>
                       </th>
@@ -265,7 +265,7 @@
                         <Button type="text" shape="circle" icon="ios-arrow-forward"
                         @click="handleOnRuleColumnToggle(item, 'showRuleMsgW')"></Button>
                         </th>
-                      <th v-else width="100" style="text-align: left">
+                      <th v-else width="96" style="text-align: left">
                         审核结果
                         <Button type="text" shape="circle" icon="ios-arrow-back"
                         @click="handleOnRuleColumnToggle(item, 'showRuleMsgW')"></Button>
@@ -289,7 +289,7 @@
                       v-bind:key="i"
                     >
                       <td style="text-align: center">{{ i + 1 }}</td>
-                      <td style="text-align: left">{{ n.warnRank.grade }}</td>
+                      <td style="text-align: left">{{ n.warnRank && n.warnRank.grade }}</td>
                       <td style="text-align: left">
                       <template v-if="item.showRuleNameW">
                         {{ n.ruleName }}
@@ -304,7 +304,6 @@
                           type="ios-information-circle"
                           size="25"
                           :color="n.warnRank.color"
-                          style="margin-left: 60%"
                         />
                         <!-- <Icon v-if="item.showRuleMsgW"
                           type="md-checkmark-circle"
@@ -602,7 +601,7 @@
                                 <Col
                                   :key="fi.label"
                                   :span="ifield.col"
-                                  style="flex: 1 0 auto"
+                                  style="flex: 1 0 auto;"
                                   v-if="
                                     vo[ifield.key] !== undefined &&
                                     ifield.key !== 'invoiceType'
@@ -2063,5 +2062,17 @@ export default {
       height: 100%;
     }
   }
+}
+/deep/.ivu-col-span-8{
+  max-width: unset;
+  width: 33.33333333%;
+}
+/deep/.ivu-col-span-12{
+  max-width: unset;
+  width: 50%;
+}
+/deep/.ivu-col-span-10{
+  max-width: unset;
+  width: 41.66666667%;
 }
 </style>
