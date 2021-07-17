@@ -316,34 +316,6 @@
                     </tr>
                   </tbody>
                 </table>
-                <!-- <Table
-                  size="small"
-                  :columns="columns1"
-                  :data="
-                    item.result.filter((obj) => {
-                      return obj.correct == false;
-                    })
-                  "
-                  @on-row-click="(r, c) => ruleResultClick(item.ruleType,r)"
-                >
-                  <template slot="grade" slot-scope="{ row }">
-                    <div flex>{{ row.warnRank.grade }}</div>
-                  </template>
-                  <template slot="ruleName" slot-scope="{ row }">
-                      {{ row.ruleName }}
-                  </template>
-                  <template slot="retIcon" slot-scope="{ row }">
-                      <Icon
-                        type="ios-information-circle"
-                        size="25"
-                        :color="row.warnRank.color"
-                        style="margin-left: 60%"
-                      />
-                  </template>
-                  <template slot="message" slot-scope="{ row }">
-                    {{ row.message ? row.message : "——" }}
-                  </template>
-                </Table> -->
               </el-collapse>
             </Card>
           </div>
@@ -464,7 +436,6 @@
                       >学习样本纠偏</Button
                     >
                   </template>
-                  <!-- <template v-else> 结构化数据 </template> -->
 
                   <span class="text-primary pr-1"
                     >报错信息: {{ currentInvoiceErrorFields.length }}条</span
@@ -1251,6 +1222,11 @@ export default {
         );
         return true;
       });
+      allInvoice.map((dd) => {
+        const sourceV = dd.hasOwnProperty('checkWay') ? dd.checkWay : 0;
+        dd.checkWayText = _this.parseSourceValue(sourceV);
+        return dd;
+      });
       this.tabsInvoiceIndex = allInvoice.findIndex(
         (i) => i.invoiceId === _this.invoiceId
       );
@@ -1292,6 +1268,11 @@ export default {
         filterImages.map((a) => {
           filterInvoices = filterInvoices.concat(a.invoices);
           return true;
+        });
+        filterInvoices.map((dd) => {
+          const sourceV = dd.hasOwnProperty('checkWay') ? dd.checkWay : 0;
+          dd.checkWayText = _this.parseSourceValue(sourceV);
+          return dd;
         });
         this.tabsInvoiceIndex = filterInvoices.findIndex(
           (i) => i.invoiceId === _this.invoiceId
@@ -1936,7 +1917,7 @@ export default {
 }
 /deep/.el-collapse-item__header::after {
   content: " ";
-  width: calc(100% - 20rem);
+  width: calc(~"100% - 6.5rem");
   border-top: 1px solid #999;
   position: absolute;
   // right: 2.5rem;
