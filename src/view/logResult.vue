@@ -487,6 +487,7 @@
                     <el-collapse
                       style="width: 100%; padding-left: 10px"
                       v-model="dataPanelOpen"
+                      v-if="showDataFields || showInvoiceRaw"
                     >
                       <template v-for="iset in invoiceFieldsSetting">
                         <template
@@ -614,6 +615,7 @@
                           </Row>
                         </el-collapse-item>
                       </template>
+                    </el-collapse>
                       <Row
                         v-if="editable && !showInvoiceRaw"
                         type="flex"
@@ -635,7 +637,6 @@
                           >
                         </Col>
                       </Row>
-                    </el-collapse>
                   </Form>
                 </template>
               </div>
@@ -840,6 +841,9 @@ export default {
     },
     editable: function () {
       return this.invoiceIsFirstEdit && this.showInvoiceRaw === false;
+    },
+    showDataFields: function () {
+      return this.messageInfo.invoices[this.tabsInvoiceIndex].invoiceType === this.editInvoice.invoiceType;
     },
     invoiceFieldsSetting() {
       return this.showInvoiceRaw
@@ -1488,6 +1492,7 @@ export default {
       this.showImgData.push(this.imageData[this.imgIndex]);
     },
     handleSubmitData(formRef, formData) {
+      const _this = this;
       const changeField = [
         ...new Set([...this.correctData.map((t) => t.fieldKeyName)]),
       ];
@@ -1521,8 +1526,13 @@ export default {
           }
         });
       });
-      console.log([...changeFieldObj, ...changeItemFieldObj]);
-      const postEditData = [...changeFieldObj, ...changeItemFieldObj];
+      let postEditData;
+      if (this.showDataFields !== true) {
+        postEditData = changeFieldObj.filter((v) => v.fieldKeyName==='invoiceType') ;
+      } else {
+        const newChangeFieldObj = changeFieldObj.filter((v) => v.fieldKeyName!=='invoiceType') ;
+        postEditData = [...newChangeFieldObj, ...changeItemFieldObj];
+      }
       if (postEditData.length === 0) {
         Notification.closeAll();
         Notification({
@@ -1532,7 +1542,6 @@ export default {
         });
         return false;
       }
-      const _this = this;
       const loadingInstance = Loading.service({
         fullscreen: true,
         background: "hsla(0,0%,100%,.2)",

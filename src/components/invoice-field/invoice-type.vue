@@ -64,7 +64,7 @@ const findIndexArray = (data, id, indexArray) => {
     }
     arr.pop();
   }
-  return [];
+  return false;
 };
 
 export default {
@@ -79,7 +79,7 @@ export default {
         invoiceTypeData,
         this.defaultKeyValue,
         []
-      ),
+      ) || [],
     };
   },
   methods: {
