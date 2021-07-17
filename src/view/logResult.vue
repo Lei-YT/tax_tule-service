@@ -305,11 +305,6 @@
                           size="25"
                           :color="n.warnRank.color"
                         />
-                        <!-- <Icon v-if="item.showRuleMsgW"
-                          type="md-checkmark-circle"
-                          size="25"
-                          color="#6DD400"
-                        /> -->
                       </td>
                       <td style="text-align: left">
                       <template v-if="item.showRuleMsgW">{{ n.message || '' }}</template> </td>

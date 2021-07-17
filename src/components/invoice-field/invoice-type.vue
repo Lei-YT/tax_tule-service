@@ -64,7 +64,7 @@ const findIndexArray = (data, id, indexArray) => {
     }
     arr.pop();
   }
-  return false;
+  return [];
 };
 
 export default {
