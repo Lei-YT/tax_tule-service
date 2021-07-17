@@ -1626,7 +1626,7 @@ export default {
     align-items: center;
     justify-content: flex-start;
     p {
-      width: 300px;
+      flex: 1 1 auto;
       color: #1991dd;
       margin: 0 15px;
     }
