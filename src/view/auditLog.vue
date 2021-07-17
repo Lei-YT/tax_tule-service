@@ -54,25 +54,23 @@
                   placeholder="选择日期"
                   type="date"
                   :value="formInline.checkBeginDate"
+                  :options="disabledDate1"
                   format="yyyy-MM-dd"
-                  @on-change="formInline.checkBeginDate = $event"
+                  @on-change="handleDatepicker($event, 'checkBeginDate')"
                 >
+                  <!-- @on-change="formInline.checkBeginDate = $event" -->
                 </Date-picker>
                 <span style="margin: 0 5px">—</span>
                 <Date-picker
                   placeholder="选择日期"
                   type="date"
                   :value="formInline.checkEndDate"
+                  :options="disabledDate2"
                   format="yyyy-MM-dd"
-                  @on-change="formInline.checkEndDate = $event"
+                  @on-change="handleDatepicker($event, 'checkEndDate')"
                 >
+                  <!-- @on-change="formInline.checkEndDate = $event" -->
                 </Date-picker>
-                <!-- <Input
-                  v-model="formInline.checkBeginDate"
-                  placeholder="请输入"
-                /> -->
-                <!-- <span style="margin: 0 15px">——</span> -->
-                <!-- <Input v-model="formInline.checkEndDate" placeholder="请输入" /> -->
               </div>
             </FormItem>
           </div>
@@ -88,15 +86,12 @@
                 <Option value="3">不通过</Option>
                 <Option value="4">超时</Option>
               </Select>
-              <!-- <Input placeholder="审核结果" /> -->
             </FormItem>
             <FormItem label="预警风险:" prop="earlyWarning">
               <Select v-if="warnOptions.length > 0"
                 clearable
                 v-model="formInline.earlyWarning"
               >
-                <!-- @on-change="onWarnChange" -->
-                <!-- <Option value="">全部</Option> -->
                 <Option
                   :value="item.grade"
                   v-for="item in warnOptions"
@@ -149,11 +144,6 @@
               size="small"
               >设置</el-button
             >
-            <!-- <Button @click="handleReset('formInline')" icon="md-refresh" style="margin-left: 15px" -->
-            <!-- >重置</Button -->
-            <!-- > -->
-            <!-- <Button @click="exported" icon="ios-cloud-upload-outline" style="margin: 0 15px"><Icon type="ios-cloud-upload-outline" />导出</Button> -->
-            <!-- <Button @click="setting"><Icon custom="iconfont icon-setting" :size="18"/>设置</Button> -->
           </div>
         </Form>
       </Card>
@@ -623,6 +613,8 @@ export default {
         earlyWarning: "",
         checkBeginDate: "",
         checkEndDate: "",
+        disabledDate1: {},
+        disabledDate2: {},
         beginMoney: "",
         endMoney: "",
         // orderField: "",
@@ -692,6 +684,32 @@ export default {
   //   this.$route.meta.isBack=false
   // },
   methods: {
+    handleDatepicker(dateValue, dataKey) {
+      this.$set(this.formInline, dataKey, dateValue);
+      const bb = new Date();
+      bb.setFullYear(bb.getFullYear() - 1);
+      let lastyear = bb;
+      let today = new Date();
+
+      let begindate = new Date(this.formInline.checkBeginDate);
+      let enddate = new Date(this.formInline.checkEndDate);
+      this.disabledDate1 = {
+        disabledDate(date) {
+          return (
+            (date && date.valueOf() <= lastyear) ||
+            (date && date.valueOf() >= enddate)
+          );
+        },
+      };
+      this.disabledDate2 = {
+        disabledDate(date) {
+          return (
+            (date && date.valueOf() <= begindate) ||
+            (date && date.valueOf() >= today)
+          );
+        },
+      };
+    },
     getFormNameList() {
       const _this = this;
       axios

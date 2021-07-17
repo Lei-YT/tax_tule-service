@@ -305,32 +305,25 @@ export default {
       var now_year = new Date().getFullYear();
       let begindate = new Date(now_year, 0, 1);
       this.checkBeginDate=this.formatDate(begindate);
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(new Date());
       this.status = 1;
     },
     checkmonth() {
       var date=new Date();
       date.setDate(1);
       this.checkBeginDate=this.formatDate(date);
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
 
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(new Date());
       this.status = 2;
     },
     checktoday() {
       var now = new Date()
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
 
       this.checkBeginDate=this.formatDate(now);
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(now);
       this.status = 3;
     },
     getTypeSelected(val) {
-      // console.log(val)
       const _this = this;
       _this.selected = val;
     },
