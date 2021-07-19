@@ -463,6 +463,7 @@ export default {
               );
               _this.getCurrentOrganChildren(_this.TreeData[firstRoot]);
             }
+            _this.currentOrgan = {};
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -651,6 +652,7 @@ export default {
                   type: "success",
                   duration: 1200,
                 });
+                _this.getCurrenOrganUseList(_this.currentOrgan);
               }
             })
             .catch(() => {
@@ -675,6 +677,7 @@ export default {
                   type: "success",
                   duration: 1200,
                 });
+                _this.getCurrenOrganUseList(_this.currentOrgan);
               }
             })
             .catch(() => {
@@ -761,7 +764,7 @@ export default {
       }
       const r = {
         userid: user.id,
-        org_id: this.currentOrgan.id
+        org_id: (user.organ===null || Object.keys(user.organ).length===0) ? 0 : user.organ.id
       };
       userOrgan(r)
         .then((resp) => {
