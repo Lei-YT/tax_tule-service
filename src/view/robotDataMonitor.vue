@@ -31,9 +31,9 @@
                 @on-change="handleRobotSelect"
               >
                 <Option
-                  v-for="item in robotOption"
-                  :value="item"
-                  v-bind:key="item"
+                  v-for="(item, key) in robotOption"
+                  :value="key"
+                  v-bind:key="key"
                   >{{ item }}</Option
                 >
                 <Option value="全部">全部</Option>
@@ -498,7 +498,7 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
-            _this.robotOption = data.data.list;
+            _this.robotOption = data.data;
           }
         })
         .catch((err) => {
