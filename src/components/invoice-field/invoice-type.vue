@@ -79,7 +79,7 @@ export default {
         invoiceTypeData,
         this.defaultKeyValue,
         []
-      ),
+      ) || [],
     };
   },
   methods: {

@@ -318,27 +318,20 @@ export default {
       var now_year = new Date().getFullYear();
       let begindate = new Date(now_year, 0, 1);
       this.checkBeginDate=this.formatDate(begindate);
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(new Date());
     },
     checkmonth() {
       var date=new Date();
       date.setDate(1);
       this.checkBeginDate=this.formatDate(date);
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
 
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(new Date());
     },
     checktoday() {
       var now = new Date()
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
 
       this.checkBeginDate=this.formatDate(now);
-      this.checkEndDate=this.formatDate(now1);
-      // return Promise.resolve();
+      this.checkEndDate=this.formatDate(now);
     },
     formatDate(date) {
       var d = new Date(date),

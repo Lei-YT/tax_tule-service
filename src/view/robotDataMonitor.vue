@@ -24,6 +24,21 @@
                 >
               </Select>
             </FormItem>
+            <FormItem label="机器人分类：" prop="name" :label-width="100">
+              <Select
+                style="width: 150px"
+                v-model="selectedRobot"
+                @on-change="handleRobotSelect"
+              >
+                <Option
+                  :value="item.value"
+                  v-for="item in robotOption"
+                  v-bind:key="item.value"
+                  >{{ item.label }}</Option
+                >
+                <Option value="全部">全部</Option>
+              </Select>
+            </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
                 <Date-picker
@@ -47,12 +62,6 @@
                   @on-change="handleDatepicker($event, 'checkEndDate')"
                 >
                 </Date-picker>
-                <!-- <Input
-                    v-model="formInline.checkBeginDate"
-                    placeholder="请输入"
-                  /> -->
-                <!-- <span style="margin: 0 15px">——</span> -->
-                <!-- <Input v-model="formInline.checkEndDate" placeholder="请输入" /> -->
               </div>
             </FormItem>
 
@@ -108,28 +117,28 @@
             <img src="@/assets/images/icon1.png" class="icon" />
             <div class="counts">
               <p>单据总数（单）</p>
-              <p>{{ successnum + failnum + timeoutnum }}</p>
+              <p>{{ artificialnum + rejectnum + undonenum }}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon2.png" class="icon" />
             <div class="counts">
-              <p>审核通过单量（单）</p>
-              <p>{{ successnum }}</p>
+              <p>审核转人工量（单）</p>
+              <p>{{ artificialnum }} {{ artificialnumP }}</p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon3.png" class="icon" />
             <div class="counts">
-              <p>审核不通过单量（单）</p>
-              <p>{{ failnum }}</p>
+              <p>审核驳回单量（单）</p>
+              <p>{{ rejectnum }} {{ rejectnumP }} </p>
             </div>
           </div>
           <div class="listItem">
             <img src="@/assets/images/icon4.png" class="icon" />
             <div class="counts">
-              <p>超时单量（单）</p>
-              <p>{{ timeoutnum }}</p>
+              <p>未完成任务（单）</p>
+              <p>{{ undonenum }}  {{undonenumP}} </p>
             </div>
           </div>
           <div class="listItem">
@@ -170,9 +179,17 @@ import * as echarts from "echarts";
 import store from "@/store";
 import { Notification, Loading } from "element-ui";
 import axios from "@/libs/api.request";
+const robotOption = [
+  { label: "小铁1", value: "XT1"},
+  { label: "小铁2", value: "XT2"},
+  { label: "小铁3", value: "XT3"},
+  { label: "小铁4", value: "XT4"},
+];
 export default {
   data() {
     return {
+      robotOption: robotOption,
+      selectedRobot: '全部',
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
@@ -180,10 +197,19 @@ export default {
       },
       options: [],
       selected: "全部",
+      artificialnum: 0, // 转人工
+      artificialnumP:'',
+      rejectnum: 0, // 驳回
+      rejectnumP:'',
+      undonenum: 0, // 未完成
+      undonenumP:'',
       failnum: 0, //审核不通过单量
       avgBillDatenum: 0, //平均每单审核时长  单位秒(s)
       successnum: 0, // 审核通过单量
       timeoutnum: 0, // 超时单量
+      failnumP: '',
+      successnumP: '',
+      timeoutnumP: '',
       checkBeginDate: "",
       checkEndDate: "",
       disabledDate1: {},
@@ -260,6 +286,7 @@ export default {
     },
     handleReset() {
       this.selected = "";
+      this.selectedRobot = "";
 
       this.checkBeginDate = "";
 
@@ -281,34 +308,30 @@ export default {
       var now_year = new Date().getFullYear();
       let begindate = new Date(now_year, 0, 1);
       this.checkBeginDate=this.formatDate(begindate);
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(new Date());
       this.status = 1;
     },
     checkmonth() {
       var date=new Date();
       date.setDate(1);
       this.checkBeginDate=this.formatDate(date);
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
 
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(new Date());
       this.status = 2;
     },
     checktoday() {
       var now = new Date()
-      const now1 = new Date();
-      now1.setDate(now1.getDate()+1);
 
       this.checkBeginDate=this.formatDate(now);
-      this.checkEndDate=this.formatDate(now1);
+      this.checkEndDate=this.formatDate(now);
       this.status = 3;
     },
     getTypeSelected(val) {
-      // console.log(val)
       const _this = this;
       _this.selected = val;
+    },
+    handleRobotSelect(val) {
+      this.selectedRobot = val;
     },
     initChart() {
       let myChart = echarts.init(document.getElementById("charts"));
@@ -496,6 +519,10 @@ export default {
             _this.avgBillDatenum = (data.data.avgBillDate / 60).toFixed(2);
             _this.successnum = data.data.success;
             _this.timeoutnum = data.data.timeout;
+            const sumNum = Number(data.data.fail) + Number(data.data.success) + Number(data.data.timeout);
+            _this.failnumP = `(${_this.failnum / sumNum * 100}%)`;
+            _this.successnumP = `(${_this.successnum / sumNum * 100}%)`;
+            _this.timeoutnumP = `(${_this.timeoutnum / sumNum * 100}%)`;
 
             let dates = [];
             let rules = [];

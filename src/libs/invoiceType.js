@@ -129,4 +129,5 @@ export default [
       },
     ]
   },
+  { label: '其他', value: '其他', children: [] },
 ];

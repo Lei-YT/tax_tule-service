@@ -2,6 +2,7 @@ export const getInvoiceFields = (invoiceType) => {
   let getBase = _.cloneDeep(base);
   let getSeller = _.cloneDeep(seller);
   let getItems = _.cloneDeep(itemDetail);
+  let getOthers = _.cloneDeep(other);
   switch (invoiceType) {
     case '客运票':
       getBase.fields = [
@@ -135,6 +136,8 @@ export const getInvoiceFields = (invoiceType) => {
     case '交款单':
     case '借款单':
     case '领款单':
+    case '出库单':
+    case '未提账单清单':
       imgBase.fields = (fields8);
       getBase = imgBase;
       getItems = fpItems;
@@ -173,7 +176,12 @@ export const getInvoiceFields = (invoiceType) => {
     getBase = imgBase;
     getItems = fpItems3;
   }
-  return [getBase, buyer, getSeller, getItems, other];
+  if (/^(低值易耗品|周转材料)/.test(invoiceType)) {
+    imgBase.fields = (fields9);
+    getBase = imgBase;
+    getItems = fpItems;
+  }
+  return [getBase, buyer, getSeller, getItems, getOthers];
 }
 const base = {
   label: '基本信息', prename: 'baseInfo-', checkField: 'invoiceType', fields: [
@@ -232,11 +240,12 @@ const seller = {
   ]
 }
 const other = {
-  label: '其他', prename: 'otherInfo-', checkField: 'specialSeal', fields: [
+  label: '其他', prename: 'otherInfo-', checkField: 'checkWayText', fields: [
     [
-      { label: '是否有发票专用章', key: 'specialSeal', col: 10, width: 120 },
-      { label: '备注', key: 'remarks', col: 14 },
+      { label: '是否有发票专用章', key: 'specialSeal', col: 12, width: 140 },
+      { label: '备注', key: 'remarks', col: 12 },
     ],
+    [{ label: '验真数据来源', key: 'checkWayText', col: 24, width: 120 }],
   ]
 }
 const itemDetail = {
@@ -392,6 +401,15 @@ const fields8 = [
     { label: '领款人', key: 'payee', col: 12 },
 
   ],
+  // 出库单
+  // 未提账单清单
+  [
+    { label: '金额合计', key: 'amountTotal', col: 12 },
+    { label: '金额', key: 'amountOfMoney', col: 12 },
+    { label: '供货单位', key: 'supplier', col: 12 },
+    { label: '供货单位', key: 'supplier', col: 12 },
+    { label: '合计', key: 'fpAmount', col: 12 },
+  ],
 ]
 const fields9 = [
   // 低值易耗品摊销表
@@ -402,26 +420,27 @@ const fields9 = [
     { label: '发票类型', key: 'invoiceType', col: 8 },
     { label: '本期摊销额合计', key: 'amortizationAmount', col: 12, width: 120 },
     { label: '合计餐数合计金额', key: 'totalValue', col: 12, width: 120 },
+    { label: '合计(领用金额)', key: 'totalCollectionAmount', col: 12, width: 120 },
   ],
 ]
 const fields10 = [
   [
-    {label: '影像类型', key: 'invoiceType', col: 12 },
-    {label:'银行', key: 'fpBankName', col: 12 },
-    {label:'摘要', key: 'fpSummary', col: 12 },
-    {label:'付款人户名', key: 'payerName', col: 12 },
-    {label:'收款人户名', key: 'accountName', col: 12 },
-    {label:'付款人账号', key: 'accountNumber', col: 12 },
-    {label:'收款人账号', key: 'accountNo', col: 12 },
-    {label:'付款人开户银行', key: 'fpPayerBank', col: 12 },
-    {label:'收款人开户银行', key: 'fpBeneficiaryBank', col: 12 },
-    {label:'金额 ', key: 'amountWithoutTax', col: 12 },
-    {label:'大写金额 ', key: 'fpCapitalAmount', col: 12 },
-    {label:'用途', key: 'fpPurpose', col: 24 },
+    { label: '影像类型', key: 'invoiceType', col: 12 },
+    { label: '银行', key: 'fpBankName', col: 12 },
+    { label: '摘要', key: 'fpSummary', col: 12 },
+    { label: '付款人户名', key: 'payerName', col: 12 },
+    { label: '收款人户名', key: 'accountName', col: 12 },
+    { label: '付款人账号', key: 'accountNumber', col: 12 },
+    { label: '收款人账号', key: 'accountNo', col: 12 },
+    { label: '付款人开户银行', key: 'fpPayerBank', col: 12 },
+    { label: '收款人开户银行', key: 'fpBeneficiaryBank', col: 12 },
+    { label: '金额 ', key: 'amountWithoutTax', col: 12 },
+    { label: '大写金额 ', key: 'fpCapitalAmount', col: 12 },
+    { label: '用途', key: 'fpPurpose', col: 24 },
     // {label:'客户定制化附件', key: 'fpType', col: 12 },
     // {label:'银行回单', key: 'fpSubType', col: 12 },
     // {label:'表头日期', key: 'Date', col: 12 },
-    {label:'是否有电子银行专用章', key: 'bankSeal', col: 24, width: 140 },
+    { label: '是否有电子银行专用章', key: 'bankSeal', col: 24, width: 140 },
   ],
 ]
 

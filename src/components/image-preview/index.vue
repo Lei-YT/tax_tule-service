@@ -62,7 +62,7 @@ export default {
       });
     },
     initImage() {
-      this.imageUrl = this.items[0]["imageURL"];
+      this.imageUrl = this.items[0] ? this.items[0]["imageURL"] : '';
       this.imageIndex = 0;
     },
   },
