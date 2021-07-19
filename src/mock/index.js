@@ -78,7 +78,7 @@ Mock.mock(/\/api\/bill\/billstatuscount/, 'post', (req, res) => {
     }
   })))
 })
-Mock.mock(/\/api\/bill\/robot/, 'post', (req, res) => {
+Mock.mock(/\/api\/bill\/robot$/, 'post', (req, res) => {
   // console.log('mock res', req, process)
   // console.log('mock res robot', req)
   return Mock.mock(Encrypt(JSON.stringify({
@@ -152,24 +152,24 @@ Mock.mock(/\/api\/bill\/warnlist/, 'post', (req, res) => {
     "status": 200,
     "message": "成功",
     "data": [
-        {
-            "id": 14,
-            "projectId": 68,
-            "grade": "二级",
-            "weight": 2.0,
-            "color": "#F9E31C",
-            "enabled": true
-        },
-        {
-            "id": 15,
-            "projectId": 68,
-            "grade": "一级",
-            "weight": 1.0,
-            "color": "#EA1A1A",
-            "enabled": true
-        }
+      {
+        "id": 14,
+        "projectId": 68,
+        "grade": "二级",
+        "weight": 2.0,
+        "color": "#F9E31C",
+        "enabled": true
+      },
+      {
+        "id": 15,
+        "projectId": 68,
+        "grade": "一级",
+        "weight": 1.0,
+        "color": "#EA1A1A",
+        "enabled": true
+      }
     ]
-})))
+  })))
 })
 Mock.mock(/\/api\/bill\/qlresult/, 'post', (req, res) => {
   console.log('mock res api/ql/result', req, resultJson)
@@ -277,17 +277,17 @@ Mock.mock(/\/api\/user\/del/, 'post', (req, res) => {
 })
 Mock.mock(/\/api\/user\/add/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify({
-    "code":0,
-    "msg":"添加成功",
-    "data":{
-        "adminNo":"xiaoying",
-        "name":"小英",
-        " phone ":"",
-        " email ":"",
-        "id":17
+    "code": 0,
+    "msg": "添加成功",
+    "data": {
+      "adminNo": "xiaoying",
+      "name": "小英",
+      " phone ": "",
+      " email ": "",
+      "id": 17
     }
-}
-)))
+  }
+  )))
 })
 Mock.mock(/\/api\/user/, 'post', (req, res) => {
   console.log('mock user common', req)
@@ -357,9 +357,9 @@ Mock.mock(/\/api\/bill\/addflow/i, 'post', (req, res) => {
       "code": 20000,
       "message": "成功",
       "data": {
-          "info": "插入成功1条"
+        "info": "插入成功1条"
       }
-  }
+    }
 
   )))
 })
@@ -384,3 +384,44 @@ Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify(formflowJson)))
 })
 
+Mock.mock(/\/api\/bill\/robotname/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+      "list": [
+        "小铁1",
+        "小铁2",
+        "小铁3",
+        "小铁4"
+      ]
+    }
+  })))
+})
+
+
+Mock.mock(/\/api\/bill\/robotdatailsdata/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+      "unfinished": 0,
+      "list": [
+        {
+          "num": 1796,
+          "status": 1
+        },
+        {
+          "num": 968,
+          "status": 2
+        },
+        {
+          "num": 332,
+          "status": 3
+        }
+      ]
+    }
+  })));
+});
