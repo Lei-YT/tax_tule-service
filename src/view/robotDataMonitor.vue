@@ -24,19 +24,19 @@
                 >
               </Select>
             </FormItem>
-            <FormItem label="机器人分类：" prop="name">
+            <FormItem label="机器人分类：" prop="name" :label-width="100">
               <Select
-                style="width: 200px"
-                v-model="selected"
-                @on-change="getTypeSelected"
+                style="width: 150px"
+                v-model="selectedRobot"
+                @on-change="handleRobotSelect"
               >
-                <Option value="全部">全部</Option>
                 <Option
-                  :value="item.name"
-                  v-for="item in options"
-                  v-bind:key="item.id"
-                  >{{ item.name }}</Option
+                  :value="item.value"
+                  v-for="item in robotOption"
+                  v-bind:key="item.value"
+                  >{{ item.label }}</Option
                 >
+                <Option value="全部">全部</Option>
               </Select>
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
@@ -62,12 +62,6 @@
                   @on-change="handleDatepicker($event, 'checkEndDate')"
                 >
                 </Date-picker>
-                <!-- <Input
-                    v-model="formInline.checkBeginDate"
-                    placeholder="请输入"
-                  /> -->
-                <!-- <span style="margin: 0 15px">——</span> -->
-                <!-- <Input v-model="formInline.checkEndDate" placeholder="请输入" /> -->
               </div>
             </FormItem>
 
@@ -185,9 +179,17 @@ import * as echarts from "echarts";
 import store from "@/store";
 import { Notification, Loading } from "element-ui";
 import axios from "@/libs/api.request";
+const robotOption = [
+  { label: "小铁1", value: "XT1"},
+  { label: "小铁2", value: "XT2"},
+  { label: "小铁3", value: "XT3"},
+  { label: "小铁4", value: "XT4"},
+];
 export default {
   data() {
     return {
+      robotOption: robotOption,
+      selectedRobot: '全部',
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
@@ -284,6 +286,7 @@ export default {
     },
     handleReset() {
       this.selected = "";
+      this.selectedRobot = "";
 
       this.checkBeginDate = "";
 
@@ -326,6 +329,9 @@ export default {
     getTypeSelected(val) {
       const _this = this;
       _this.selected = val;
+    },
+    handleRobotSelect(val) {
+      this.selectedRobot = val;
     },
     initChart() {
       let myChart = echarts.init(document.getElementById("charts"));
