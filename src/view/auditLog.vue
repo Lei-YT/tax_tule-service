@@ -609,6 +609,8 @@ export default {
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
+      disabledDate1: {},
+      disabledDate2: {},
       formInline: {
         code: "",
         type: "",
@@ -616,8 +618,6 @@ export default {
         earlyWarning: "",
         checkBeginDate: "",
         checkEndDate: "",
-        disabledDate1: {},
-        disabledDate2: {},
         beginMoney: "",
         endMoney: "",
         // orderField: "",

@@ -97,22 +97,25 @@
                 {{ scope.row.organ && scope.row.organ.OrgName }}
               </template>
               </el-table-column>
-            <el-table-column label="用户状态" align="center" v-if="hasPerm('user_operate')">
+            <el-table-column label="用户状态" align="center" >
               <template slot-scope="scope">
                 <el-button
                   v-if="scope.row.isEnable == 1"
                   type="text"
                   size="small"
+                  style="color: #e02020"
+                  :disabled="!hasPerm('user_operate')"
                   @click="handel('4', scope.row)"
-                  >启用</el-button
+                  >禁用</el-button
                 >
                 <el-button
                   v-else
                   type="text"
                   size="small"
-                  style="color: #e02020"
+                  style="color: #409EFF"
+                  :disabled="!hasPerm('user_operate')"
                   @click="handel('3', scope.row)"
-                  >禁用</el-button
+                  >启用</el-button
                 >
               </template>
             </el-table-column>
@@ -200,7 +203,7 @@
               >机构岗位绑定</Button
             >
           </div>
-          <div class="subCon">
+          <div class="subCon"  v-if="hasPerm('user_operate')">
             <Button type="primary" @click="onModifyUserStation">提交</Button>
           </div>
         </div>

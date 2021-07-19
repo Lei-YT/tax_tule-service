@@ -8,7 +8,7 @@
           class="flow-form-inline"
           ref="formInline"
         >
-          <div v-if="hasPerm('bill_search')">
+          <div v-if="hasPerm('manage_search')">
             <FormItem label="表单名称" prop="formName">
               <Input v-model="formName" placeholder="请输入表单名称" />
             </FormItem>
@@ -55,7 +55,7 @@
               >
             </FormItem>
           </div>
-          <FormItem :label-width="0" class="flow-form-action" v-if="hasPerm('bill_operate')">
+          <FormItem :label-width="0" class="flow-form-action" v-if="hasPerm('manage_operate')">
             <el-button
               @click="deleteSelected"
               type="danger"
@@ -77,7 +77,7 @@
             style="width: 100%" no-data-text="暂无数据" @on-selection-change="handleSelectionChange"
           >
               <template slot-scope="{ row }" slot="node_share">
-                <Select v-if="hasPerm('bill_operate')"
+                <Select v-if="hasPerm('manage_operate')"
                   transfer
                   multiple
                   v-model="row.node_share"
@@ -104,7 +104,7 @@
                 </div>
               </template>
               <template slot-scope="{ row }" slot="biz_mode">
-                <template v-if="hasPerm('bill_operate')">
+                <template v-if="hasPerm('manage_operate')">
                 <Select
                   transfer
                   v-if="row.showBizMode"
@@ -121,7 +121,7 @@
                 </div>
               </template>
               <template slot-scope="{ row }" slot="share_mode">
-                <template v-if="hasPerm('bill_operate')">
+                <template v-if="hasPerm('manage_operate')">
                 <Select
                   transfer
                   v-if="row.showShareMode"

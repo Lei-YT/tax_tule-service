@@ -10,7 +10,9 @@
             :key="index"
             @click="changeCur(index)"
           >
+          <template v-if="hasPerm(item.perm)">
             {{ item.type }}
+          </template>
           </p>
         </div>
       </Card>
@@ -56,7 +58,7 @@
             <Card style="width: 100%; display:block;" class="topConTitle">
               <div slot="title" style="display: flex; flex-direction: row;flex-wrap: wrap;">
                 <p style="flex:1 0;">Hi,{{ rightData.name }}为您服务</p>
-                <div v-if="hasPerm('proce_search')"
+                <div v-if="hasPerm('control_search')"
                   style="
                     flex: 0 0 825px;
                     display: flex;
@@ -138,7 +140,7 @@
                     </FormItem>
                   </Form>
                 </div>
-                <div class="titBtn" v-if="hasPerm('proce_operate')">
+                <div class="titBtn" v-if="hasPerm('control_operate')">
                   <el-button
                     type="primary"
                     size="small"
@@ -252,12 +254,15 @@ export default {
       tabList: [
         {
           type: "控制台",
+          perm: 'control_search'
         },
         {
           type: "信息管理",
+          perm: 'info_search'
         },
         {
           type: "操作日志",
+          perm: 'log_search'
         },
       ],
       checkBeginDate: "",

@@ -36,7 +36,7 @@ export default [
       notCache: true,
       hideInBread: true,
       icon: '_jiqiren1',
-      perms: ['data','proce'],
+      perms: ['data_search', 'control_search', 'control_operate', 'info_search', 'info_operate', 'log_search'],
       showAlways: true,
       title: '机器人控制台'
     },
@@ -46,7 +46,7 @@ export default [
         name: 'robotDataMonitor',
         meta: {
           icon: '_shuju',
-          perms: ['data','data_search', 'data_count'],
+          perms: ['data_search'],
           title: '机器人数据监控'
         },
         component: () => import('@/view/robotDataMonitor.vue')
@@ -56,7 +56,7 @@ export default [
         name: 'robotProcessIndex',
         meta: {
           icon: '_xingzhuangjiehe',
-          perms: ['proce', 'proce_search', 'proce_operate',],
+          perms: ['control_search', 'control_operate', 'info_search', 'info_operate', 'log_search'],
           title: '机器人监控'
         },
         component: () => import('@/view/robotProcess.vue')
@@ -70,7 +70,7 @@ export default [
       hideInBread: true,
       icon: '_18zhiyudiceng',
       title: '权限管理',
-      perms: ['organ','station','user'],
+      perms: ['organ_search','organ_operate','user_search','user_operate', 'station_search', 'station_operate'],
       showAlways: true,
     },
     component: Main,
@@ -80,7 +80,7 @@ export default [
         name: 'institutionsMange',
         meta: {
           icon: '_custom-department',
-          perms: ['organ','organ_search','organ_operate',],
+          perms: ['organ_search','organ_operate',],
           title: '机构管理'
         },
         component: () => import('@/view/institutions.vue')
@@ -90,7 +90,7 @@ export default [
         name: 'manageUserIndex',
         meta: {
           icon: '_iconfontloginuser',
-          perms: ['user','user_search','user_operate',],
+          perms: ['user_search','user_operate',],
           title: '用户管理'
         },
         component: () => import('@/view/manageUser.vue')
@@ -101,7 +101,7 @@ export default [
         meta: {
           icon: '_qunzhong',
           title: '岗位权限管理',
-          perms: ['station','station_search','station_operate',]
+          perms: ['station_search','station_operate',]
         },
         component: () => import('@/view/workPermiss.vue')
       },
@@ -112,7 +112,7 @@ export default [
           hideInBread: true,
           hideInMenu: true,
           icon: '_qunzhong',
-          perms: ['station','station_search','station_operate',],
+          perms: ['station_search','station_operate',],
           title: '岗位权限管理'
         },
         component: () => import('@/view/addWorks.vue')
@@ -126,7 +126,7 @@ export default [
       hideInBread: true,
       icon: '_15',
       title: '人机协同',
-      perms: ['bill',],
+      perms: ['bill_search','bill_operate','manage_search', 'manage_operate'],
       showAlways: true,
     },
     component: Main,
@@ -137,7 +137,7 @@ export default [
         meta: {
           icon: '_shenpi',
           title: '智能审单',
-          perms: ['bill','bill_search','bill_operate',],
+          perms: ['bill_search','bill_operate','manage_search', 'manage_operate'],
           keepAlive: true,
           isBack: false
         },
@@ -149,7 +149,7 @@ export default [
         meta: {
           icon: 'ios-create-outline',
           title: '机器人审单日志 / 机器人审核结果页',
-          perms: ['bill','bill_search','bill_operate',],
+          perms: ['bill_search','bill_operate',],
           hideInBread: true,
           hideInMenu: true
         },

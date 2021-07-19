@@ -2,7 +2,7 @@
   <div class="wraps">
     <div id="list">
       <Card style="width: 100%">
-        <div v-if="hasPerm('proce_search')" style="display: flex; justify-content: space-between">
+        <div v-if="hasPerm('log_search')" style="display: flex; justify-content: space-between">
           <Form
             :inline="true"
             :model="formInline"
@@ -27,7 +27,7 @@
                   @on-change="formInline.beginTime = $event"
                 >
                 </Date-picker>
-                <span style="margin: 0 10px">——</span>
+                <span style="margin: 0 10px">—</span>
                 <Date-picker
                   placeholder="选择日期"
                   style="width: 160px"

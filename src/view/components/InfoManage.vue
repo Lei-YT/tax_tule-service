@@ -3,7 +3,7 @@
     <div id="list">
       <Card style="width: 100%">
         <div style="display: flex; justify-content: space-between">
-          <Form v-if="hasPerm('proce_search')"
+          <Form v-if="hasPerm('info_search')"
             :inline="true"
             :model="formInline"
             :label-width="140"
@@ -30,7 +30,7 @@
               >
             </FormItem>
           </Form>
-          <div class="addBox" v-if="hasPerm('proce_operate')">
+          <div class="addBox" v-if="hasPerm('info_operate')">
             <el-button
               type="primary"
               @click="handleClick('add', '')"
@@ -69,7 +69,7 @@
               width="220"
             />
             <el-table-column prop="describe" label="字段描述" align="center" />
-            <el-table-column label="操作" width="250" align="left" v-if="hasPerm('proce_operate')">
+            <el-table-column label="操作" width="250" align="left" v-if="hasPerm('info_operate')">
               <template slot-scope="scope">
                 <el-button
                   type="text"
