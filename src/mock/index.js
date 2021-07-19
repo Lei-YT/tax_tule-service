@@ -78,7 +78,7 @@ Mock.mock(/\/api\/bill\/billstatuscount/, 'post', (req, res) => {
     }
   })))
 })
-Mock.mock(/\/api\/bill\/robot/, 'post', (req, res) => {
+Mock.mock(/\/api\/bill\/robot$/, 'post', (req, res) => {
   // console.log('mock res', req, process)
   // console.log('mock res robot', req)
   return Mock.mock(Encrypt(JSON.stringify({
@@ -382,5 +382,21 @@ import formflowJson2 from '@/dataJson/formflow2.json';
 Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
   console.log('req', req, formflowJson)
   return Mock.mock(Encrypt(JSON.stringify(formflowJson)))
+})
+
+Mock.mock(/\/api\/bill\/robotname/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify({
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+        "list": [
+            "小铁1",
+            "小铁2",
+            "小铁3",
+            "小铁4"
+        ]
+    }
+})))
 })
 

@@ -31,10 +31,10 @@
                 @on-change="handleRobotSelect"
               >
                 <Option
-                  :value="item.value"
                   v-for="item in robotOption"
-                  v-bind:key="item.value"
-                  >{{ item.label }}</Option
+                  :value="item"
+                  v-bind:key="item"
+                  >{{ item }}</Option
                 >
                 <Option value="全部">全部</Option>
               </Select>
@@ -176,19 +176,12 @@
 </template>
 <script>
 import * as echarts from "echarts";
-import store from "@/store";
 import { Notification, Loading } from "element-ui";
 import axios from "@/libs/api.request";
-const robotOption = [
-  { label: "小铁1", value: "XT1"},
-  { label: "小铁2", value: "XT2"},
-  { label: "小铁3", value: "XT3"},
-  { label: "小铁4", value: "XT4"},
-];
 export default {
   data() {
     return {
-      robotOption: robotOption,
+      robotOption: [],
       selectedRobot: '全部',
       page: {
         totalElement: 0, // 总页数
@@ -228,6 +221,7 @@ export default {
   mounted() {
     // this.initChart();
     this.getSelectlist();
+    this.getRobotList();
     this.getCheckdate();
     this.checktoday();
   },
@@ -472,6 +466,23 @@ export default {
           let data = resp.data;
           if (data.code === 20000) {
             _this.options = data.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getRobotList() {
+      const _this = this;
+      axios
+        .request({
+          method: "post",
+          url: `/api/bill/robotname`,
+        })
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 20000) {
+            _this.robotOption = data.data.list;
           }
         })
         .catch((err) => {
