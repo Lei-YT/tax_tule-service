@@ -175,7 +175,7 @@ export default {
         });
         return false;
       }
-      const r = selectJobs.map((row) => row.id);
+      const r = { idarr: selectJobs.map((row) => row.id) };
       deleteStation(r)
         .then((resp) => {
           let data = resp.data;
