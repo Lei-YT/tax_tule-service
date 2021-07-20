@@ -386,16 +386,59 @@ Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
 
 Mock.mock(/\/api\/bill\/robotname/, 'post', (req, res) => {
   return Mock.mock(Encrypt(JSON.stringify({
-    "success": true,
-    "code": 20000,
-    "message": "成功",
-    "data": {
-        "XT1": "小铁1",
-        "XT3": "小铁3",
-        "XT2": "小铁2",
-        "XT4": "小铁4"
-    }
-})))
+    "code": 0,
+    "msg": "查询成功",
+    "data": [
+        {
+            "id": 335,
+            "machineId": 1,
+            "sceneNo": 1,
+            "name": "小 铁1",
+            "label": "标签1",
+            "describe": "描述1",
+            "ip": "10.15.196.132",
+            "created_at": "2021-04-23 10:50:22",
+            "updated_at": "2021-04-23 10:50:22",
+            "deleted_at": null
+        },
+        {
+            "id": 340,
+            "machineId": null,
+            "sceneNo": null,
+            "name": "测试小铁6号",
+            "label": null,
+            "describe": null,
+            "ip": null,
+            "created_at": "2021-05-25 16:20:49",
+            "updated_at": "2021-05-25 16:20:49",
+            "deleted_at": null
+        },
+        {
+            "id": 338,
+            "machineId": null,
+            "sceneNo": null,
+            "name": "机器人小铁4",
+            "label": null,
+            "describe": null,
+            "ip": null,
+            "created_at": "2021-05-20 17:58:28",
+            "updated_at": "2021-05-20 17:58:28",
+            "deleted_at": null
+        }
+    ]
+}
+// {
+//     "success": true,
+//     "code": 20000,
+//     "message": "成功",
+//     "data": {
+//         "XT1": "小铁1",
+//         "XT3": "小铁3",
+//         "XT2": "小铁2",
+//         "XT4": "小铁4"
+//     }
+// }
+)))
 })
 
 
