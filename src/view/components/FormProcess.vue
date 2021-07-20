@@ -70,13 +70,37 @@
               size="small"
               >添加表单</el-button
             >
+            <el-button
+              v-if="!editMode"
+              @click="editMode = true"
+              type="primary"
+              icon="el-icon-edit-outline"
+              size="small"
+              >编辑</el-button
+            >
+            <el-button
+              v-if="editMode"
+              type="primary"
+              icon="el-icon-receiving"
+              size="small"
+              @click="saveBatch"
+              >保存</el-button
+            >
           </FormItem>
         </Form>
         <div class="tableList">
-          <Table border stripe ref="formFlowTable" :columns="columns4" :data="tableData"
-            style="width: 100%" no-data-text="暂无数据" @on-selection-change="handleSelectionChange"
+          <Table
+            border
+            stripe
+            ref="formFlowTable"
+            :columns="columns4"
+            :data="tableData"
+            style="width: 100%"
+            no-data-text="暂无数据"
+            @on-selection-change="handleSelectionChange"
           >
-              <template  slot-scope="{ row }" slot="node_share">
+            <template slot-scope="{ row }" slot="node_share">
+              <template v-if="editMode">
                 <Select
                   transfer
                   multiple
@@ -84,21 +108,22 @@
                   @on-change="(v) => handleSelectNode(row, v)"
                   @on-open-change="allowedChange"
                 >
-                  <Option
-                    :value="2"
-                    key="2"
-                    :disabled="row.disableBizNode"
+                  <Option :value="2" key="2" :disabled="row.disableBizNode"
                     >业务审批节点</Option
                   >
-                  <Option
-                    :value="1"
-                    key="1"
-                    :disabled="row.disableShareNode"
+                  <Option :value="1" key="1" :disabled="row.disableShareNode"
                     >共享中心审批节点</Option
                   >
                 </Select>
               </template>
-              <template slot-scope="{ row }" slot="biz_mode">
+              <div v-else>
+                {{ row.node_share.includes(2) ? "共享中心审批节点" : "" }}
+                <Divider v-if="row.node_share.length > 1" type="vertical" />
+                {{ row.node_share.includes(1) ? "业务审批节点" : "" }}
+              </div>
+            </template>
+            <template slot-scope="{ row }" slot="biz_mode">
+              <template v-if="editMode">
                 <Select
                   transfer
                   v-if="row.showBizMode"
@@ -109,7 +134,15 @@
                   <Option :value="MODE_MULTI">通过、驳回、转人工模式</Option>
                 </Select>
               </template>
-              <template slot-scope="{ row }" slot="share_mode">
+              <div v-else>
+                {{ row.biz_mode === MODE_SINGLE ? "单通过模式" : "" }}
+                {{
+                  row.biz_mode === MODE_MULTI ? "通过、驳回、转人工模式" : ""
+                }}
+              </div>
+            </template>
+            <template slot-scope="{ row }" slot="share_mode">
+              <template v-if="editMode">
                 <Select
                   transfer
                   v-if="row.showShareMode"
@@ -120,6 +153,25 @@
                   <Option :value="MODE_MULTI">通过、驳回、转人工模式</Option>
                 </Select>
               </template>
+              <div v-else>
+                {{ row.share_mode === MODE_SINGLE ? "单通过模式" : "" }}
+                {{
+                  row.share_mode === MODE_MULTI ? "通过、驳回、转人工模式" : ""
+                }}
+              </div>
+            </template>
+            <template slot-scope="{ row }" slot="is_online">
+              <el-switch
+                :disabled="!editMode"
+                v-model="row.is_online"
+                :active-value="1"
+                :inactive-value="0"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @change="(v) => handleModifyRow(row, v)"
+              >
+              </el-switch>
+            </template>
           </Table>
         </div>
         <div class="footBox">
@@ -142,7 +194,7 @@
         </div>
       </Card>
     </div>
-    <el-dialog title="添加表单" :visible.sync="showAddModal"  width="35%">
+    <el-dialog title="添加表单" :visible.sync="showAddModal" width="35%">
       <el-form
         ref="addformflowf"
         :model="addForm"
@@ -171,12 +223,13 @@ const MODE_MULTI = 2;
 import {
   getFormProcess,
   deleteFormProcess,
-  updateFormProcess,
+  updateFormFlowBatch,
   addFormProcess,
 } from "@/api/processMonitor";
 export default {
   data() {
     return {
+      editMode: false,
       NODE_SHARE_ONLY: _NODE_SHARE_ONLY,
       NODE_SHARE_BIZ: _NODE_SHARE_BIZ,
       MODE_SINGLE: MODE_SINGLE,
@@ -199,16 +252,48 @@ export default {
         formName: [{ required: true, message: "请输入表单名称" }],
       },
       columns4: [
-        { type: 'selection', width: 55, align: 'left' },
-        { title:'序号', type: 'index', width: 70, align: 'center' },
-        { title:'表单', key: 'form_name', minWidth: 280, align: 'center' },
-        { title:'节点选择', slot: 'node_share', minWidth: 280, align: 'center' },
-        { title:'业务审批节点模式', slot: 'biz_mode', width: 220, align: 'center' },
-        { title:'共享中心审批节点模式', slot: 'share_mode', width: 220, align: 'center' },
-        { title:'创建时间', key: 'create_date_text', width: 180, align: 'center' },
-        { title:'修改时间', key: 'update_date_text', width: 180, align: 'center' },
+        { type: "selection", width: 55, align: "left" },
+        { title: "序号", type: "index", width: 70, align: "center" },
+        { title: "表单", key: "form_name", minWidth: 280, align: "center" },
+        {
+          title: "节点选择",
+          slot: "node_share",
+          minWidth: 280,
+          align: "center",
+        },
+        {
+          title: "业务审批节点模式",
+          slot: "biz_mode",
+          width: 220,
+          align: "center",
+        },
+        {
+          title: "共享中心审批节点模式",
+          slot: "share_mode",
+          width: 220,
+          align: "center",
+        },
+        {
+          title: "是否允许访问外网",
+          slot: "is_online",
+          width: 180,
+          align: "center",
+        },
+        {
+          title: "创建时间",
+          key: "create_date_text",
+          width: 180,
+          align: "center",
+        },
+        {
+          title: "修改时间",
+          key: "update_date_text",
+          width: 180,
+          align: "center",
+        },
       ],
       isUpdate: false,
+      modifyData: {},
     };
   },
   mounted() {
@@ -230,7 +315,7 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.beginDate);
-      begindate.setDate(begindate.getDate()-1);
+      begindate.setDate(begindate.getDate() - 1);
       let enddate = new Date(this.endDate);
       this.disabledDate1 = {
         disabledDate(date) {
@@ -269,7 +354,7 @@ export default {
         beginDate: this.beginDate,
         endDate: this.endDate,
         pageSize: this.page.size,
-        currentPage: this.page.currentPage
+        currentPage: this.page.currentPage,
       };
       Object.keys(r).forEach(
         (key) => (r[key] == null || r[key] == "") && delete r[key]
@@ -280,12 +365,17 @@ export default {
           if (data.code === 20000) {
             _this.tableData = data.data.list.map((row) => {
               const tmp = _this.convertStatusToSelection(row.status);
-              row = {...tmp, ...row};
-              row.create_date_text = String(row.create_date).substring(0, String(row.create_date).indexOf('.000')).replace('T', ' ');
-              row.update_date_text = String(row.update_date).substring(0, String(row.update_date).indexOf('.000')).replace('T', ' ');
+              row = { ...tmp, ...row };
+              row.create_date_text = String(row.create_date)
+                .substring(0, String(row.create_date).indexOf(".000"))
+                .replace("T", " ");
+              row.update_date_text = String(row.update_date)
+                .substring(0, String(row.update_date).indexOf(".000"))
+                .replace("T", " ");
               return row;
             });
             _this.page.totalElement = data.data.sum;
+            _this.editMode = false;
           } else {
             _this.$Notice.warning({
               title: "温馨提示",
@@ -344,6 +434,46 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
+            _this.$Notice.success({
+              title: data.message,
+              desc: data.data.info,
+            });
+            _this.query();
+          } else {
+            _this.$Notice.warning({
+              title: "温馨提示",
+              desc: data.message,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleModifyRow(row, v) {
+      this.modifyData[row.id] = _.cloneDeep(row);
+    },
+    saveBatch(){
+      const _this = this;
+      const postBody = Object.values(this.modifyData).map(r => ({
+          id: r.id,
+          isOnline: r.is_online || 0,
+          status: r.status
+        })
+      );
+      if (postBody.length === 0) {
+        _this.$Notice.warning({
+          title: "温馨提示",
+          desc: '无更新数据',
+        });
+        _this.editMode = false;
+        return false;
+      }
+      updateFormFlowBatch(postBody)
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 20000) {
+            _this.modifyData = {};
             _this.$Notice.success({
               title: data.message,
               desc: data.data.info,
@@ -421,7 +551,15 @@ export default {
         default:
           break;
       }
-      return { node_share,disableBizNode, disableShareNode, share_mode, biz_mode, showBizMode, showShareMode };
+      return {
+        node_share,
+        disableBizNode,
+        disableShareNode,
+        share_mode,
+        biz_mode,
+        showBizMode,
+        showShareMode,
+      };
     },
     convertSelectionToStatus(row) {
       let s = row.status;
@@ -446,16 +584,17 @@ export default {
           id: row.id,
           status: s,
         };
-        this.updateFormFlow(r);
+        row.status = s;
+        this.handleModifyRow(row);
       }
       return { val: s, isNew: isNew };
     },
-    allowedChange(v){
+    allowedChange(v) {
       this.isUpdate = v;
     },
     handleSelectNode(row, v) {
       const _this = this;
-      if (this.isUpdate===true) {
+      if (this.isUpdate === true) {
         row.node_share = v;
         row.disableBizNode = !v.includes(_NODE_SHARE_ONLY);
         row.disableShareNode = v.includes(_NODE_SHARE_BIZ);
@@ -469,27 +608,6 @@ export default {
     },
     handleSelectBizMode(row, v) {
       this.convertSelectionToStatus(row);
-    },
-    updateFormFlow(r) {
-      const _this = this;
-      updateFormProcess(r)
-        .then((resp) => {
-          let data = resp.data;
-          if (data.code === 20000) {
-            _this.$Notice.success({
-              title: data.message,
-              desc: data.data.info,
-            });
-          } else {
-            _this.$Notice.warning({
-              title: "温馨提示",
-              desc: data.message,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
 };
@@ -532,12 +650,13 @@ export default {
 /deep/.ivu-select-multiple .ivu-tag i {
   display: none;
 }
-/deep/.ivu-table{
+/deep/.ivu-table {
   font-size: 14px;
-  th,td{
+  th,
+  td {
     padding: 12px 0;
   }
-  th{
+  th {
     background: #eef1f6;
     color: #909399;
     font-weight: bold;

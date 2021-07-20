@@ -70,7 +70,7 @@ export const deleteFormProcess = (params) => {
   })
 }
 
-export const updateFormProcess = (params) => {
+export const updateFormFlowBatch = (params) => {
   return axios.request({
     url: `/api/bill/updateflowstatus`,
     data: params,
