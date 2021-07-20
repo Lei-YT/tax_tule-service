@@ -123,7 +123,7 @@
                   type="text"
                   size="small"
                   @click="handel('4', scope.row)"
-                  >启用</el-button
+                  >禁用</el-button
                 >
                 <el-button
                   v-else
@@ -131,7 +131,7 @@
                   size="small"
                   style="color: #e02020"
                   @click="handel('3', scope.row)"
-                  >禁用</el-button
+                  >启用</el-button
                 >
               </template>
             </el-table-column>
