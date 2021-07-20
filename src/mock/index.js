@@ -308,7 +308,7 @@ Mock.mock(/\/api\/bill\/checkdatechart/, 'post', (req, res) => {
 })
 
 // Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
-  console.log('req', req, isFirstEdit)
+  // console.log('req', req, isFirstEdit)
 //   return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
 // })
 Mock.mock(/\/api\/server\/isfirstedit/, 'post', (req, res) => {
