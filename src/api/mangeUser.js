@@ -40,6 +40,16 @@ export const delUsers = (id) => {
   })
 }
 
+// 重置密码
+export const resetUser = (params) => {
+  return axios.request({
+    url: `/api/user/resetpassword`,
+    data: params,
+    method: 'POST'
+  })
+}
+
+
 // 账号新增
 export const addUser = (params) => {
   return axios.request({
