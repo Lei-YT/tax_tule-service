@@ -708,6 +708,7 @@ export default {
         line-height: 1.5;
         p:last-child {
           font-size: 18px;
+          font-weight: normal;
         }
       }
     }
