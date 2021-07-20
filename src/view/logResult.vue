@@ -204,7 +204,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: true">暂无数据</td>
+                          <td colspan="5" style="text-align: true">暂无数据</td>
                         </tr>
                         <tr
                           v-for="(n, i) in item.result.filter((obj) => {
@@ -280,7 +280,7 @@
                         }).length === 0
                       "
                     >
-                      <td colspan="4" style="text-align: true">暂无数据</td>
+                      <td colspan="6" style="text-align: true">暂无数据</td>
                     </tr>
                     <tr
                       v-for="(n, i) in item.result.filter((obj) => {
@@ -303,7 +303,7 @@
                         <Icon v-if="item.showRuleMsgW"
                           type="ios-information-circle"
                           size="25"
-                          :color="n.warnRank.color"
+                          :color="(n.warnRank && n.warnRank.color) || item.color"
                         />
                       </td>
                       <td style="text-align: left">
