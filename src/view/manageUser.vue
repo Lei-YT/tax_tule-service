@@ -879,6 +879,15 @@ export default {
     },
     submitForm(formName) {
       const _this = this;
+      if (
+        this.currentOrgan === null ||
+        Object.keys(this.currentOrgan).length === 0
+      ) {
+        this.$Notice.warning({
+          title: "请先选中一个机构",
+        });
+        return false;
+      }
       let params = {
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
         account: this.ruleForm.account.replace(/\s*/g, "") || "",
@@ -996,15 +1005,6 @@ export default {
       this.searchOrgan = "";
     },
     addUserBtn() {
-      if (
-        this.currentOrgan === null ||
-        Object.keys(this.currentOrgan).length === 0
-      ) {
-        this.$Notice.warning({
-          title: "请先选中一个机构",
-        });
-        return false;
-      }
       this.dialogTableVisible = true;
     },
     addPost() {
