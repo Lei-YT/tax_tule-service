@@ -37,6 +37,7 @@ body {
   .size;
 }
 .ivu-page-item,
+.ivu-page-item-jump-prev,
 .ivu-page-item-jump-next {
   display: none !important;
 }

@@ -32,7 +32,7 @@
               >
                 <Option
                   v-for="(item) in robotOption"
-                  :value="item.name"
+                  :value="item.id"
                   v-bind:key="item.id"
                   >{{ item.name }}</Option
                 >
@@ -514,7 +514,7 @@ export default {
           data: {
             beginDate: _this.checkBeginDate,
             endDate: _this.checkEndDate,
-            robot: _this.selectedRobot.replace("全部", ""),
+            robot: String(_this.selectedRobot).replace("全部", ""),
           },
         })
         .then((resp) => {

@@ -47,7 +47,8 @@
             </div>
             <div class="rigthWrap" v-if="hasPerm('user_operate')" style="flex-shrink: 0">
               <Button
-                type="error" ghost
+                type="error"
+                ghost
                 v-if="chooseUser.length > 0"
                 @click="handel('1')"
                 >确认删除</Button
@@ -62,7 +63,11 @@
                 @click="handel('4')"
                 >启用</Button
               >
-              <Button type="primary" icon="md-add" @click="addUserBtn" style="margin: 0 15px"
+              <Button
+                type="primary"
+                icon="md-add"
+                @click="addUserBtn"
+                style="margin: 0 15px"
                 >添加用户</Button
               >
               <Button
@@ -108,24 +113,15 @@
             </el-table-column>
             <el-table-column label="用户状态" align="center" >
               <template slot-scope="scope">
-                <el-button
-                  v-if="scope.row.isEnable == 1"
-                  type="text"
-                  size="small"
-                  style="color: #e02020"
-                  :disabled="!hasPerm('user_operate')"
-                  @click="handel('4', scope.row)"
-                  >禁用</el-button
+                <el-switch
+                  v-model="scope.row.isEnable"
+                  :active-value="0"
+                  :inactive-value="1"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  @change="(v) => handleUserState(v, scope.row)"
                 >
-                <el-button
-                  v-else
-                  type="text"
-                  size="small"
-                  style="color: #409EFF"
-                  :disabled="!hasPerm('user_operate')"
-                  @click="handel('3', scope.row)"
-                  >启用</el-button
-                >
+                </el-switch>
               </template>
             </el-table-column>
             <el-table-column prop="phone" label="手机号" align="center" />
@@ -733,6 +729,31 @@ export default {
       }
       this.centerDialogVisible = false;
     },
+    handleUserState(v, row) {
+      const _this = this;
+      let newState = v;
+      const r = {
+        idarr: [row.id],
+        isEnable: newState,
+      };
+      enableUser(r)
+        .then((res) => {
+          if (res.data.code == 0) {
+            _this.$message({
+              message: res.data.msg,
+              type: "success",
+              duration: 1200,
+            });
+            _this.getCurrenOrganUseList(_this.currentOrgan);
+          }
+        })
+        .catch(() => {
+          _this.$message({
+            type: "info",
+            message: res.data.msg,
+          });
+        });
+    },
     handel(type, row) {
       if (row) {
         this.userInfo = row;
@@ -838,6 +859,15 @@ export default {
     },
     submitForm(formName) {
       const _this = this;
+      if (
+        this.currentOrgan === null ||
+        Object.keys(this.currentOrgan).length === 0
+      ) {
+        this.$Notice.warning({
+          title: "请先选中一个机构",
+        });
+        return false;
+      }
       let params = {
         name: this.ruleForm.name.replace(/\s*/g, "") || "",
         account: this.ruleForm.account.replace(/\s*/g, "") || "",
@@ -955,15 +985,6 @@ export default {
       this.searchOrgan = "";
     },
     addUserBtn() {
-      if (
-        this.currentOrgan === null ||
-        Object.keys(this.currentOrgan).length === 0
-      ) {
-        this.$Notice.warning({
-          title: "请先选中一个机构",
-        });
-        return false;
-      }
       this.dialogTableVisible = true;
     },
     addPost() {

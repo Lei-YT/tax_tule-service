@@ -88,7 +88,7 @@
                             <Button type="text" shape="circle" icon="ios-arrow-back"
                             @click="handleOnRuleColumnToggle(item, 'showAlias')"></Button>
                           </th>
-                          <th :width="item.showRuleMsg ? 60 : 0"></th>
+                          <th :width="item.showRuleMsg ? 30 : 0"></th>
                           <th v-if="item.showRuleMsg" width="150" style="text-align: left">
                             审核结果
                             <Button type="text" shape="circle" icon="ios-arrow-forward"
@@ -183,7 +183,7 @@
                             <Button type="text" shape="circle" icon="ios-arrow-back"
                             @click="handleOnRuleColumnToggle(item, 'showAliasC')"></Button>
                           </th>
-                          <th :width="item.showRuleMsgC ? 60 : 0"></th>
+                          <th :width="item.showRuleMsgC ? 30 : 0"></th>
                           <th v-if="item.showRuleMsgC" width="150" style="text-align: left">
                             审核结果
                             <Button type="text" shape="circle" icon="ios-arrow-forward"
@@ -204,7 +204,7 @@
                             }).length === 0
                           "
                         >
-                          <td colspan="4" style="text-align: true">暂无数据</td>
+                          <td colspan="5" style="text-align: true">暂无数据</td>
                         </tr>
                         <tr
                           v-for="(n, i) in item.result.filter((obj) => {
@@ -247,7 +247,7 @@
                         <Button type="text" shape="circle" icon="ios-arrow-forward"
                         @click="handleOnRuleColumnToggle(item, 'showRuleNameW')"></Button>
                       </th>
-                      <th v-else width="70" style="text-align: left">规则
+                      <th v-else width="75" style="text-align: left">规则
                         <Button type="text" shape="circle" icon="ios-arrow-back"
                         @click="handleOnRuleColumnToggle(item, 'showRuleNameW')"></Button>
                       </th>
@@ -255,12 +255,12 @@
                         <Button type="text" shape="circle" icon="ios-arrow-forward"
                         @click="handleOnRuleColumnToggle(item, 'showAliasW')"></Button>
                       </th>
-                      <th v-else width="70" style="text-align: left">别名
+                      <th v-else width="75" style="text-align: left">别名
                         <Button type="text" shape="circle" icon="ios-arrow-back"
                         @click="handleOnRuleColumnToggle(item, 'showAliasW')"></Button>
                       </th>
-                      <th :width="item.showRuleMsgW ? 60 : 0"></th>
-                      <th v-if="item.showRuleMsgW" width="150" style="text-align: left">
+                      <th :width="item.showRuleMsgW ? 30 : 0"></th>
+                      <th v-if="item.showRuleMsgW" width="100" style="text-align: left">
                         审核结果
                         <Button type="text" shape="circle" icon="ios-arrow-forward"
                         @click="handleOnRuleColumnToggle(item, 'showRuleMsgW')"></Button>
@@ -280,7 +280,7 @@
                         }).length === 0
                       "
                     >
-                      <td colspan="4" style="text-align: true">暂无数据</td>
+                      <td colspan="6" style="text-align: true">暂无数据</td>
                     </tr>
                     <tr
                       v-for="(n, i) in item.result.filter((obj) => {
@@ -303,7 +303,7 @@
                         <Icon v-if="item.showRuleMsgW"
                           type="ios-information-circle"
                           size="25"
-                          :color="n.warnRank.color"
+                          :color="(n.warnRank && n.warnRank.color) || item.color"
                         />
                       </td>
                       <td style="text-align: left">
