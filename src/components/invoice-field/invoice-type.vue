@@ -31,19 +31,6 @@
       :clearable="false"
       :render-format="invoiceTypeFormatter"
     ></Cascader>
-      <!-- trigger="hover" -->
-    <!-- <el-cascader
-      v-else
-      placeholder="请选择"
-      @change="handlePickInvoiceType"
-      v-model="selectedInvoiceType"
-      transfer
-      :clearable="true"
-      :filterable="true"
-      :show-all-levels="false"
-      :options="invoiceTypeData"
-      :props="{ expandTrigger: 'hover' }"
-    ></el-cascader> -->
   </FormItem>
 </template>
 

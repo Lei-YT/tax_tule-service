@@ -36,16 +36,16 @@
         <div class="userTables" v-if="!isCustom">
           <div class="searchWarp">
             <div class="leftWrap" v-if="hasPerm('user_search')">
-              <Input v-model="searchName" placeholder="请输入关键字查询" />
+              <Input v-model="searchName" placeholder="请输入关键字查询" style="width: 150px" />
               <Button
                 type="primary"
                 @click="searchData()"
                 icon="ios-search"
-                style="margin-left: 15px"
+                style="margin-left: 15px; "
                 >查询</Button
               >
             </div>
-            <div class="rigthWrap" v-if="hasPerm('user_operate')" style="flex-shrink: 0">
+            <div class="rigthWrap" v-if="hasPerm('user_operate')" style="flex:1 0; display: flex; justify-content: flex-end;">
               <Button
                 type="error"
                 ghost
@@ -59,7 +59,7 @@
               <Button
                 type="primary"
                 icon="ios-ionic-outline"
-                style="margin: 0 15px"
+                style="margin: 0 0 0 15px"
                 @click="handel('4')"
                 >启用</Button
               >

@@ -245,7 +245,9 @@ const other = {
       { label: '是否有发票专用章', key: 'specialSeal', col: 12, width: 140 },
       { label: '备注', key: 'remarks', col: 12 },
     ],
-    [{ label: '验真数据来源', key: 'checkWayText', col: 24, width: 120 }],
+    [
+      { label: '验真数据来源', key: 'checkWay', col: 24, width: 120 },
+    ],
   ]
 }
 const itemDetail = {
@@ -328,10 +330,10 @@ const fields3 = [
   // 税收完税证明
   [
     { label: '影像类型', key: 'invoiceType', col: 8 },
-    { label: '金额合计（小写）', key: 'amountTotal', col: 12, width: 100 },
-    { label: '金额合计（大写）', key: 'fpCapitalAmount', col: 12, width: 100 },
-    { label: '填发日期', key: 'fpDate', col: 12, width: 100 },
-    { label: '税务机关', key: 'fpTaxAuthority', col: 12, width: 100 },
+    { label: '金额合计（小写）', key: 'amountTotal', col: 12 },
+    { label: '金额合计（大写）', key: 'fpCapitalAmount', col: 12 },
+    { label: '填发日期', key: 'fpDate', col: 12 },
+    { label: '税务机关', key: 'fpTaxAuthority', col: 12 },
     { label: '纳税人识别号', key: 'fpPayerID', col: 12, width: 100 },
   ],
 ]
@@ -351,11 +353,11 @@ const fields5 = [
     { label: '收款方户名', key: 'accountName', col: 12 },
     { label: '收款方账号', key: 'accountNo', col: 12 },
     { label: '支付金额', key: 'payment', col: 12 },
-    { label: '申请单位', key: 'fpApplicantUnit', col: 12, width: 120 },
-    { label: '款项性质', key: 'fpSummary', col: 12, width: 120 },
-    { label: '开户名称', key: 'fpBeneficiaryName', col: 12, width: 120 },
-    { label: '开户银行', key: 'fpBeneficiaryBank', col: 12, width: 120 },
-    { label: '银行账号', key: 'fpBeneficiaryAccount', col: 12, width: 120 },
+    { label: '申请单位', key: 'fpApplicantUnit', col: 12 },
+    { label: '款项性质', key: 'fpSummary', col: 12 },
+    { label: '开户名称', key: 'fpBeneficiaryName', col: 12 },
+    { label: '开户银行', key: 'fpBeneficiaryBank', col: 12 },
+    { label: '银行账号', key: 'fpBeneficiaryAccount', col: 12 },
     { label: '本次申请支付金额（大写）', key: 'fpApplicantCapitalAmount', col: 12, width: 120 },
     { label: '本次申请支付金额（小写）', key: 'fpApplicantAmount', col: 12, width: 120 },
   ],

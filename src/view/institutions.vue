@@ -51,8 +51,8 @@
             style="margin-top: 15px"
           >
             <el-table-column type="index" label="序号" align="center" width="60" />
-            <el-table-column prop="OrgName" label="机构名称" align="center" width="200" />
-            <el-table-column prop="OrgCode" label="机构编号" align="center" />
+            <el-table-column prop="OrgName" label="机构名称" align="center"  />
+            <el-table-column prop="OrgCode" label="机构编号" align="center" width="200"/>
             <el-table-column prop="created_at" label="创建时间" align="center" width="160" />
           </el-table>
           <!-- <div class="pageCon">

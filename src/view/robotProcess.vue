@@ -60,7 +60,6 @@
                 <p style="flex:1 0;">Hi,{{ rightData.name }}为您服务</p>
                 <div v-if="hasPerm('control_search')"
                   style="
-                    flex: 0 0 825px;
                     display: flex;
                     flex-direction: row;
                     justify-content: flex-end;
