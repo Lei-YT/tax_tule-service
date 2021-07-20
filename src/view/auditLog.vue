@@ -33,7 +33,7 @@
             </FormItem>
             <FormItem label="业务名称:" prop="type">
               <Select v-if="formNameOptions.length > 0"
-                clearable
+                clearable filterable
                 placeholder="请选择业务名称"
                 v-model="formInline.type"
               >
@@ -606,6 +606,8 @@ export default {
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
+      disabledDate1: {},
+      disabledDate2: {},
       formInline: {
         code: "",
         type: "",
@@ -613,8 +615,6 @@ export default {
         earlyWarning: "",
         checkBeginDate: "",
         checkEndDate: "",
-        disabledDate1: {},
-        disabledDate2: {},
         beginMoney: "",
         endMoney: "",
         // orderField: "",
@@ -692,20 +692,21 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.formInline.checkBeginDate);
+      begindate.setDate(begindate.getDate()-1);
       let enddate = new Date(this.formInline.checkEndDate);
       this.disabledDate1 = {
         disabledDate(date) {
           return (
-            (date && date.valueOf() <= lastyear) ||
-            (date && date.valueOf() >= enddate)
+            (date && date.valueOf() < lastyear) ||
+            (date && date.valueOf() > enddate)
           );
         },
       };
       this.disabledDate2 = {
         disabledDate(date) {
           return (
-            (date && date.valueOf() <= begindate) ||
-            (date && date.valueOf() >= today)
+            (date && date.valueOf() < begindate) ||
+            (date && date.valueOf() > today)
           );
         },
       };

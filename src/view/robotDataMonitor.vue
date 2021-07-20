@@ -10,7 +10,7 @@
             ref="formInline"
           >
             <FormItem label="表单名称：" prop="name">
-              <Select
+              <Select filterable
                 style="width: 200px"
                 v-model="selected"
                 @on-change="getTypeSelected"
@@ -25,16 +25,16 @@
               </Select>
             </FormItem>
             <FormItem label="机器人分类：" prop="name" :label-width="100">
-              <Select
+              <Select filterable
                 style="width: 120px"
                 v-model="selectedRobot"
                 @on-change="handleRobotSelect"
               >
                 <Option
-                  v-for="(item, key) in robotOption"
-                  :value="key"
-                  v-bind:key="key"
-                  >{{ item }}</Option
+                  v-for="(item) in robotOption"
+                  :value="item.name"
+                  v-bind:key="item.id"
+                  >{{ item.name }}</Option
                 >
                 <Option value="全部">全部</Option>
               </Select>
@@ -497,7 +497,7 @@ export default {
         })
         .then((resp) => {
           let data = resp.data;
-          if (data.code === 20000) {
+          if (data.code === 0) {
             _this.robotOption = data.data;
           }
         })
@@ -652,20 +652,21 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.checkBeginDate);
+      begindate.setDate(begindate.getDate()-1);
       let enddate = new Date(this.checkEndDate);
       this.disabledDate1 = {
         disabledDate(date) {
           return (
-            (date && date.valueOf() <= lastyear) ||
-            (date && date.valueOf() >= enddate)
+            (date && date.valueOf() < lastyear) ||
+            (date && date.valueOf() > enddate)
           );
         },
       };
       this.disabledDate2 = {
         disabledDate(date) {
           return (
-            (date && date.valueOf() <= begindate) ||
-            (date && date.valueOf() >= today)
+            (date && date.valueOf() < begindate) ||
+            (date && date.valueOf() > today)
           );
         },
       };
@@ -708,6 +709,7 @@ export default {
         line-height: 1.5;
         p:last-child {
           font-size: 18px;
+          font-weight: normal;
         }
       }
     }

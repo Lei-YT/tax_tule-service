@@ -17,7 +17,7 @@
         <Button type="primary" icon="ios-search" @click="getTreeData" />
       </div>
       <div class="treeCon">
-          <!-- expand-node -->
+        <!-- expand-node -->
         <Tree
           :data="TreeData"
           @on-select-change="onTreeNodeClick"
@@ -45,9 +45,9 @@
                 >查询</Button
               >
             </div>
-            <div class="rigthWrap">
+            <div class="rigthWrap" style="flex-shrink: 0">
               <Button
-                type="error"
+                type="error" ghost
                 v-if="chooseUser.length > 0"
                 @click="handel('1')"
                 >确认删除</Button
@@ -62,9 +62,18 @@
                 @click="handel('4')"
                 >启用</Button
               >
-              <Button type="primary" icon="md-add" @click="addUserBtn"
+              <Button type="primary" icon="md-add" @click="addUserBtn" style="margin: 0 15px"
                 >添加用户</Button
               >
+              <Button
+                type="error"
+                v-if="chooseUser.length > 0"
+                @click="handel('5')"
+                >确认重置</Button
+              >
+              <Button v-else type="primary" icon="ios-lock-outline"
+                >重置密码
+              </Button>
             </div>
           </div>
           <el-table
@@ -84,14 +93,29 @@
             style="margin-top: 15px"
           >
             <el-table-column type="selection" align="center" width="55" />
-            <el-table-column type="index" label="序号" align="center" width="60" />
-            <el-table-column prop="name" label="姓名" align="center" width="120" />
+            <el-table-column
+              type="index"
+              label="序号"
+              align="center"
+              width="60"
+            />
+            <el-table-column
+              prop="name"
+              label="姓名"
+              align="center"
+              width="120"
+            />
             <el-table-column prop="adminNo" label="账号" align="center" />
-            <el-table-column prop="organ" label="所属机构" align="center" width="200" >
+            <el-table-column
+              prop="organ"
+              label="所属机构"
+              align="center"
+              width="200"
+            >
               <template slot-scope="scope">
                 {{ scope.row.organ && scope.row.organ.OrgName }}
               </template>
-              </el-table-column>
+            </el-table-column>
             <el-table-column label="用户状态" align="center">
               <template slot-scope="scope">
                 <el-button
@@ -99,7 +123,7 @@
                   type="text"
                   size="small"
                   @click="handel('4', scope.row)"
-                  >启用</el-button
+                  >禁用</el-button
                 >
                 <el-button
                   v-else
@@ -107,15 +131,20 @@
                   size="small"
                   style="color: #e02020"
                   @click="handel('3', scope.row)"
-                  >禁用</el-button
+                  >启用</el-button
                 >
               </template>
             </el-table-column>
             <el-table-column prop="phone" label="手机号" align="center" />
             <el-table-column prop="email" label="邮箱" align="center" />
-            <el-table-column prop="created_at" label="创建时间" align="center" width="160" />
+            <el-table-column
+              prop="created_at"
+              label="创建时间"
+              align="center"
+              width="160"
+            />
           </el-table>
-          <div class="pageCon" >
+          <div class="pageCon">
             <div class="showCon">共 {{ ouPage.totalElement }} 条</div>
             <div class="paginationStyle">
               <el-button
@@ -199,16 +228,16 @@
             <Button type="primary" @click="onModifyUserStation">提交</Button>
           </div>
         </div>
-          <Table
-            border
-            stripe
-            ref="organTable1"
-            :columns="columns4"
-            :data="tableData2"
-            style="width: 100%"
-            no-data-text="暂无数据"
-            @on-selection-change="handlePostChange"
-          />
+        <Table
+          border
+          stripe
+          ref="organTable1"
+          :columns="columns4"
+          :data="tableData2"
+          style="width: 100%"
+          no-data-text="暂无数据"
+          @on-selection-change="handlePostChange"
+        />
       </Card>
     </div>
 
@@ -253,7 +282,7 @@
             <el-table-column prop="name" label="岗位名称" align="center" />
             <el-table-column prop="number" label="岗位编号" align="center" />
           </el-table>
-          <div class="pageCon" >
+          <div class="pageCon">
             <div class="showCon">共 {{ stationPage.totalElement }} 条</div>
             <div class="paginationStyle">
               <el-button
@@ -362,6 +391,7 @@ import {
   delUsers, // 删除账号
   deleteUserOrgan,
   enableUser,
+  resetUser,
   importAddUser,
   getOrganUserList, // 机构用户列表
   getOrganList, // 机构列表
@@ -427,11 +457,16 @@ export default {
       currentUser: {},
       selectedOrganStation: [],
       columns4: [
-        { type: 'selection', width: 55, align: 'left' },
-        { title:'序号', type: 'index', width: 70, align: 'center' },
-        { title: '姓名', key: 'user_name', minWidth: 200, align: 'center'},
-        { title: '所属机构', key: 'organ_name', minWidth: 200, align: 'center'},
-        { title: '岗位', key: 'station_name', minWidth: 200, align: 'center'},
+        { type: "selection", width: 55, align: "left" },
+        { title: "序号", type: "index", width: 70, align: "center" },
+        { title: "姓名", key: "user_name", minWidth: 200, align: "center" },
+        {
+          title: "所属机构",
+          key: "organ_name",
+          minWidth: 200,
+          align: "center",
+        },
+        { title: "岗位", key: "station_name", minWidth: 200, align: "center" },
       ],
     };
   },
@@ -506,9 +541,9 @@ export default {
       if (Number(currentNode.IsLowest) === 0) {
         this.getCurrentOrganChildren(currentNode);
       }
-      this.selectedOrganStation = this.selectedOrganStation.map(s => ({
+      this.selectedOrganStation = this.selectedOrganStation.map((s) => ({
         ...s,
-        organ: currentNode
+        organ: currentNode,
       }));
     },
     getCurrentOrganChildren(currentNode) {
@@ -544,9 +579,9 @@ export default {
         username: this.searchName.replace(/\s*/g, "") || "",
       };
       if (currentNode) {
-        r.organid = currentNode ? currentNode.OrgID : '';
+        r.organid = currentNode ? currentNode.OrgID : "";
       }
-      if (this.isSearch===true) {
+      if (this.isSearch === true) {
         delete r.organid;
       }
       Object.keys(r).forEach(
@@ -686,7 +721,28 @@ export default {
                 message: res.data.msg,
               });
             });
-
+          break;
+        case 5: // 重置密码
+          r = {
+            userid: this.chooseUser.map((u) => u.id),
+          };
+          resetUser(r)
+            .then((res) => {
+              if (res.data.code == 0) {
+                _this.$message({
+                  message: res.data.msg,
+                  type: "success",
+                  duration: 1200,
+                });
+                // _this.getCurrenOrganUseList(_this.currentOrgan);
+              }
+            })
+            .catch(() => {
+              _this.$message({
+                type: "info",
+                message: res.data.msg,
+              });
+            });
           break;
 
         default:
@@ -714,13 +770,15 @@ export default {
         this.delCon = "您是否要启用该用户？";
       } else if (type == 3) {
         this.delCon = "您是否要禁用该用户？";
+      } else if (type == 5) {
+        this.delCon = "您是否要重置已选择的用户的密码？";
       }
       this.centerDialogVisible = true;
     },
     handlePostChange(val) {
       this.chooseStation = val;
     },
-    onModifyUserStation(){
+    onModifyUserStation() {
       const _this = this;
       const r = {
         userid: this.currentUser.id,
@@ -757,27 +815,32 @@ export default {
     },
     getUserOrganStation(user) {
       const _this = this;
-      if (user===null || Object.keys(user).length===0) {
+      if (user === null || Object.keys(user).length === 0) {
         _this.tableData2 = [];
         _this.chooseStation = [];
         return false;
       }
       const r = {
         userid: user.id,
-        org_id: (user.organ===null || Object.keys(user.organ).length===0) ? 0 : user.organ.id
+        org_id:
+          user.organ === null || Object.keys(user.organ).length === 0
+            ? 0
+            : user.organ.id,
       };
       userOrgan(r)
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
-            _this.tableData2 = data.data.map(row => {
-              row._checked = Number(row.userorgan_count)===1;
+            _this.tableData2 = data.data.map((row) => {
+              row._checked = Number(row.userorgan_count) === 1;
               row.user_name = _this.currentUser.name;
               row.organ_name = row.organ.OrgName;
               row.station_name = row.station.name;
               return row;
             });
-            const is_user_organ_station = data.data.filter(os => Number(os.userorgan_count)===1);
+            const is_user_organ_station = data.data.filter(
+              (os) => Number(os.userorgan_count) === 1
+            );
             _this.chooseStation = is_user_organ_station;
           } else {
             _this.$Notice.warning({
@@ -1013,7 +1076,7 @@ export default {
 .treeCon {
   margin-top: 17px;
 }
-/deep/.ivu-tree-title{
+/deep/.ivu-tree-title {
   width: calc(~"100% - 16px");
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1083,12 +1146,13 @@ export default {
   td {
   background-color: #b2e2fa;
 }
-/deep/.ivu-table{
+/deep/.ivu-table {
   font-size: 14px;
-  th,td{
+  th,
+  td {
     padding: 12px 0;
   }
-  th{
+  th {
     background: #eef1f6;
     color: #606266; // #909399;
     font-weight: normal;
