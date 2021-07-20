@@ -303,12 +303,12 @@ Mock.mock(/\/api\/bill\/findall/, 'post', (req, res) => {
 
 // Mock.mock(/\/bill\/checkDateChart/, 'post', (req, res) => {
 Mock.mock(/\/api\/bill\/checkdatechart/, 'post', (req, res) => {
-  console.log('req', req, checkdateJson)
+  // console.log('req', req, checkdateJson)
   return Mock.mock(Encrypt(JSON.stringify(checkdateJson)))
 })
 
 // Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
-//   console.log('req', req, isFirstEdit)
+  console.log('req', req, isFirstEdit)
 //   return Mock.mock(Encrypt(JSON.stringify(isFirstEdit)))
 // })
 Mock.mock(/\/api\/server\/isfirstedit/, 'post', (req, res) => {
@@ -319,7 +319,7 @@ Mock.mock(/\/api\/server\/isfirstedit/, 'post', (req, res) => {
 })
 
 Mock.mock(/\/sample\/save/, 'post', (req, res) => {
-  console.log('req', req, isFirstEdit)
+  // console.log('req', req, isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(
     {
       "success": true,
@@ -328,7 +328,7 @@ Mock.mock(/\/sample\/save/, 'post', (req, res) => {
     })))
 })
 Mock.mock(/\/api\/server\/save/, 'post', (req, res) => {
-  console.log('req', req, isFirstEdit)
+  // console.log('req', req, isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(
     {
       "success": true,
@@ -337,7 +337,7 @@ Mock.mock(/\/api\/server\/save/, 'post', (req, res) => {
     })))
 })
 Mock.mock(/\/api\/bill\/delflow/i, 'post', (req, res) => {
-  console.log('req', req, isFirstEdit)
+  // console.log('req', req, isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(
     {
       "success": true,
@@ -350,7 +350,7 @@ Mock.mock(/\/api\/bill\/delflow/i, 'post', (req, res) => {
   )))
 })
 Mock.mock(/\/api\/bill\/addflow/i, 'post', (req, res) => {
-  console.log('req', req, isFirstEdit)
+  // console.log('req', req, isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(
     {
       "success": true,
@@ -364,7 +364,7 @@ Mock.mock(/\/api\/bill\/addflow/i, 'post', (req, res) => {
   )))
 })
 Mock.mock(/\/api\/bill\/updateFlowStatus/i, 'post', (req, res) => {
-  console.log('req', req, isFirstEdit)
+  // console.log('req', req, isFirstEdit)
   return Mock.mock(Encrypt(JSON.stringify(
     {
       "success": true,
@@ -380,7 +380,7 @@ Mock.mock(/\/api\/bill\/updateFlowStatus/i, 'post', (req, res) => {
 import formflowJson from '@/dataJson/formflow.json';
 import formflowJson2 from '@/dataJson/formflow2.json';
 Mock.mock(/\/api\/bill\/getrobotformflow/, 'post', (req, res) => {
-  console.log('req', req, formflowJson)
+  // console.log('req', req, formflowJson)
   return Mock.mock(Encrypt(JSON.stringify(formflowJson)))
 })
 
