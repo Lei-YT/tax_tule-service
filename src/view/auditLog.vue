@@ -33,7 +33,7 @@
             </FormItem>
             <FormItem label="业务名称:" prop="type">
               <Select v-if="formNameOptions.length > 0"
-                clearable
+                clearable filterable
                 placeholder="请选择业务名称"
                 v-model="formInline.type"
               >

@@ -10,7 +10,7 @@
             ref="formInline"
           >
             <FormItem label="表单名称：" prop="name">
-              <Select
+              <Select filterable
                 style="width: 200px"
                 v-model="selected"
                 @on-change="getTypeSelected"
@@ -25,7 +25,7 @@
               </Select>
             </FormItem>
             <FormItem label="机器人分类：" prop="name" :label-width="100">
-              <Select
+              <Select filterable
                 style="width: 120px"
                 v-model="selectedRobot"
                 @on-change="handleRobotSelect"
