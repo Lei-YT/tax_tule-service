@@ -292,20 +292,21 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.checkBeginDate);
+      begindate.setDate(begindate.getDate()-1);
       let enddate = new Date(this.checkEndDate);
       this.disabledDate1 = {
         disabledDate(date) {
           return (
-            (date && date.valueOf() <= lastyear) ||
-            (date && date.valueOf() >= enddate)
+            (date && date.valueOf() < lastyear) ||
+            (date && date.valueOf() > enddate)
           );
         },
       };
       this.disabledDate2 = {
         disabledDate(date) {
           return (
-            (date && date.valueOf() <= begindate) ||
-            (date && date.valueOf() >= today)
+            (date && date.valueOf() < begindate) ||
+            (date && date.valueOf() > today)
           );
         },
       };

@@ -6,7 +6,7 @@
           <Form
             :inline="true"
             :model="formInline"
-            :label-width="120"
+            :label-width="100"
             class="demo-form-inline"
             ref="formInline"
           >
@@ -23,8 +23,9 @@
                   style="width: 160px"
                   type="date"
                   :value="formInline.beginTime"
+                  :options="disabledDate1"
                   format="yyyy-MM-dd"
-                  @on-change="formInline.beginTime = $event"
+                  @on-change="handleDatepicker($event, 'beginTime')"
                 >
                 </Date-picker>
                 <span style="margin: 0 10px">—</span>
@@ -33,8 +34,9 @@
                   style="width: 160px"
                   type="date"
                   :value="formInline.endTime"
+                  :options="disabledDate2"
                   format="yyyy-MM-dd"
-                  @on-change="formInline.endTime = $event"
+                  @on-change="handleDatepicker($event, 'endTime')"
                 >
                 </Date-picker>
               </div>
@@ -123,6 +125,8 @@ export default {
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
+      disabledDate1: {},
+      disabledDate2: {},
       formInline: {
         sceneName: "",
         operate: "",
@@ -137,6 +141,33 @@ export default {
     this.query();
   },
   methods: {
+    handleDatepicker(dateValue, dataKey) {
+      this.$set(this.formInline, dataKey, dateValue);
+      const bb = new Date();
+      bb.setFullYear(bb.getFullYear() - 1);
+      let lastyear = bb;
+      let today = new Date();
+
+      let begindate = new Date(this.formInline.beginTime);
+      begindate.setDate(begindate.getDate()-1);
+      let enddate = new Date(this.formInline.endTime);
+      this.disabledDate1 = {
+        disabledDate(date) {
+          return (
+            (date && date.valueOf() < lastyear) ||
+            (date && date.valueOf() > enddate)
+          );
+        },
+      };
+      this.disabledDate2 = {
+        disabledDate(date) {
+          return (
+            (date && date.valueOf() < begindate) ||
+            (date && date.valueOf() > today)
+          );
+        },
+      };
+    },
     query() {
       let params = {
         sceneId: "",
