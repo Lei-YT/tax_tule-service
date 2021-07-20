@@ -45,7 +45,7 @@
                 >查询</Button
               >
             </div>
-            <div class="rigthWrap">
+            <div class="rigthWrap" style="flex-shrink: 0">
               <Button
                 type="error" ghost
                 v-if="chooseUser.length > 0"
