@@ -18,6 +18,7 @@
           {"url": "rpa"},
           {"url": "rule"},
           {"url": "bill_search"},
+          {"url": "manage_operate"},
           {"url": "manage_search"},
           {"url": "user_search"},
           {"url": "log_search"},
