@@ -574,7 +574,7 @@
                                     ifield.key !== 'invoiceType'
                                   "
                                 >
-                                  <defaultC
+                                  <defaultC v-if="ifield.key !== 'checkWay'"
                                     :key="ifield.key + '0'"
                                     :fieldKey="ifield.key"
                                     :fieldName="ifield.label"
@@ -584,6 +584,16 @@
                                     :isReadonly="true"
                                     :isRaw="true"
                                     @on-icon-click="getFieldError"
+                                  />
+                                  <checkWay v-else
+                                    :key="ifield.key + '0'"
+                                    :fieldKey="ifield.key"
+                                    :fieldName="ifield.label"
+                                    :defaultKeyValue="vo[ifield.key]"
+                                    :labelWidth="ifield.width"
+                                    :invoiceData="vo"
+                                    :isReadonly="true"
+                                    :isRaw="true"
                                   />
                                 </Col>
                               </template>
@@ -597,7 +607,7 @@
                                     ifield.key !== 'invoiceType'
                                   "
                                 >
-                                  <defaultC
+                                  <defaultC v-if="ifield.key !== 'checkWay' "
                                     :key="ifield.key + '1'"
                                     :fieldKey="ifield.key"
                                     :fieldName="ifield.label"
@@ -608,6 +618,17 @@
                                     :isRaw="false"
                                     @on-input-change="handleCorrectField"
                                     @on-icon-click="getFieldError"
+                                  />
+                                  <checkWay v-else
+                                    :key="ifield.key + '1'"
+                                    :fieldKey="ifield.key"
+                                    :fieldName="ifield.label"
+                                    :defaultKeyValue="editInvoice[ifield.key]"
+                                    :labelWidth="ifield.width"
+                                    :invoiceData="editInvoice"
+                                    :isReadonly="!editable"
+                                    :isRaw="false"
+                                    @on-input-change="handleCorrectField"
                                   />
                                 </Col>
                               </template>
@@ -1223,6 +1244,7 @@ export default {
       });
       allInvoice.map((dd) => {
         const sourceV = dd.hasOwnProperty('checkWay') ? dd.checkWay : 0;
+        dd.checkWay = sourceV;
         dd.checkWayText = _this.parseSourceValue(sourceV);
         return dd;
       });
@@ -1908,6 +1930,7 @@ export default {
   padding-left: 100%;
 }
 // , fieldset[disabled] .ivu-input
+/deep/.ivu-select-disabled .ivu-select-selected-value,
 /deep/.ivu-input[readonly] {
   color: #333;
   background-color: #f3f3f3;

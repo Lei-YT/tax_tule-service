@@ -245,7 +245,9 @@ const other = {
       { label: '是否有发票专用章', key: 'specialSeal', col: 12, width: 140 },
       { label: '备注', key: 'remarks', col: 12 },
     ],
-    [{ label: '验真数据来源', key: 'checkWayText', col: 24, width: 120 }],
+    [
+      { label: '验真数据来源', key: 'checkWay', col: 24, width: 120 },
+    ],
   ]
 }
 const itemDetail = {
