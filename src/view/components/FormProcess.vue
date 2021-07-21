@@ -242,8 +242,16 @@ export default {
       },
       beginDate: "",
       endDate: "",
-      disabledDate1: {},
-      disabledDate2: {},
+      disabledDate1: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
+      disabledDate2: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
       formName: "",
       selectedRow: [],
       showAddModal: false,
@@ -321,7 +329,8 @@ export default {
         disabledDate(date) {
           return (
             (date && date.valueOf() < lastyear) ||
-            (date && date.valueOf() > enddate)
+            (date && date.valueOf() > enddate) ||
+            (date && date.valueOf() > today)
           );
         },
       };
@@ -453,18 +462,17 @@ export default {
     handleModifyRow(row, v) {
       this.modifyData[row.id] = _.cloneDeep(row);
     },
-    saveBatch(){
+    saveBatch() {
       const _this = this;
-      const postBody = Object.values(this.modifyData).map(r => ({
-          id: r.id,
-          isOnline: r.is_online || 0,
-          status: r.status
-        })
-      );
+      const postBody = Object.values(this.modifyData).map((r) => ({
+        id: r.id,
+        isOnline: r.is_online || 0,
+        status: r.status,
+      }));
       if (postBody.length === 0) {
         _this.$Notice.warning({
           title: "温馨提示",
-          desc: '无更新数据',
+          desc: "无更新数据",
         });
         _this.editMode = false;
         return false;

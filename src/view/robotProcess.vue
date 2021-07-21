@@ -261,8 +261,16 @@ export default {
       ],
       checkBeginDate: "",
       checkEndDate: "",
-      disabledDate1: {},
-      disabledDate2: {},
+      disabledDate1: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
+      disabledDate2: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
     };
   },
   beforeDestroy() {
