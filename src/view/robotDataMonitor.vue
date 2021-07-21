@@ -10,7 +10,8 @@
             ref="formInline"
           >
             <FormItem label="表单名称：" prop="name">
-              <Select filterable
+              <Select
+                filterable
                 style="width: 200px"
                 v-model="selected"
                 @on-change="getTypeSelected"
@@ -25,13 +26,14 @@
               </Select>
             </FormItem>
             <FormItem label="机器人分类：" prop="name" :label-width="100">
-              <Select filterable
+              <Select
+                filterable
                 style="width: 120px"
                 v-model="selectedRobot"
                 @on-change="handleRobotSelect"
               >
                 <Option
-                  v-for="(item) in robotOption"
+                  v-for="item in robotOption"
                   :value="item.id"
                   v-bind:key="item.id"
                   >{{ item.name }}</Option
@@ -165,14 +167,14 @@
               <Option value="0">全部</Option>
             </Select>
           </div>
-          <div class="listItem" style="flex: 0 0 20%;">
+          <div class="listItem" style="flex: 0 0 20%">
             <img src="@/assets/images/undone.png" class="icon" />
             <div class="counts">
               <p>未完成任务（单）</p>
               <p>{{ undonenum }} {{ undonenumP }}</p>
             </div>
           </div>
-          <div class="listItem" style="flex: 0 0 20%;">
+          <div class="listItem" style="flex: 0 0 20%">
             <img src="@/assets/images/icon5.png" class="icon" />
             <div class="counts">
               <p>平均每单审核时长 (分钟)</p>
@@ -575,58 +577,47 @@ export default {
         _this.checkBeginDate = _this.formatDate(now);
         _this.checkEndDate = _this.formatDate(now);
         _this.checkDateData();
+        _this.getListData();
         _this.getRobotData();
         return false;
       }
       _this.checkDateData();
+      _this.getListData();
       _this.getRobotData();
     },
-    checkDateData() {
+    getListData() {
       const _this = this;
-      let selected = "";
-      if (_this.selected == "全部") {
-        selected = "";
-      } else {
-        selected = _this.selected;
-      }
+      let selected = String(_this.selected).replace("全部", "");
       axios
         .request({
           method: "post",
-          url: `/api/bill/checkdatechart`,
+          url: `/api/bill/robotdimensiondata`,
           data: {
-            type: selected,
+            // type: selected,
+            // status: _this.status,
             checkBeginDate: _this.checkBeginDate,
             checkEndDate: _this.checkEndDate,
-            status: _this.status,
+            robot: String(_this.selectedRobot).replace("全部", ""),
           },
         })
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
-            // _this.failnum = data.data.fail;
-            _this.avgBillDatenum = (data.data.avgBillDate / 60).toFixed(2);
-            // _this.successnum = data.data.success;
-            // _this.timeoutnum = data.data.timeout;
-            // const sumNum = Number(data.data.fail) + Number(data.data.success) + Number(data.data.timeout);
-            // _this.failnumP = `(${_this.failnum / sumNum * 100}%)`;
-            // _this.successnumP = `(${_this.successnum / sumNum * 100}%)`;
-            // _this.timeoutnumP = `(${_this.timeoutnum / sumNum * 100}%)`;
-
             let dates = [];
             let rules = [];
             let totals = [];
             let warnings = [];
             let successarr = [];
 
-            data.data.data.forEach(function (value, key, iterable) {
+            data.data.list.forEach(function (value, key, iterable) {
               dates.push(value.date);
-              let rulesCount = value.rulesCount / 100;
+              let rulesCount = value.rules_count / 100;
               rules.push(rulesCount);
-              totals.push(value.totalCount);
-              warnings.push(value.earlyWarning);
+              totals.push(value.count);
+              warnings.push(value.early_warning);
 
               let successdata = (
-                (value.successCount / value.totalCount) *
+                (value.success_count / value.count) *
                 100
               ).toFixed(2);
               successarr.push(successdata);
@@ -651,6 +642,42 @@ export default {
           console.log(err);
         });
     },
+    checkDateData() {
+      const _this = this;
+      let selected = "";
+      if (_this.selected == "全部") {
+        selected = "";
+      } else {
+        selected = _this.selected;
+      }
+      axios
+        .request({
+          method: "post",
+          url: `/api/bill/checkdatechart`,
+          data: {
+            type: selected,
+            checkBeginDate: _this.checkBeginDate,
+            checkEndDate: _this.checkEndDate,
+            status: _this.status,
+          },
+        })
+        .then((resp) => {
+          let data = resp.data;
+          if (data.code === 20000) {
+            _this.avgBillDatenum = (data.data.avgBillDate / 60).toFixed(2);
+          } else {
+            Notification.closeAll();
+            Notification({
+              message: data.msg || data.message,
+              type: "warning",
+              duration: 2000,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     handleDatepicker(dateValue, dataKey) {
       this.$set(this, dataKey, dateValue);
       this.status = "";
@@ -660,7 +687,7 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.checkBeginDate);
-      begindate.setDate(begindate.getDate()-1);
+      begindate.setDate(begindate.getDate() - 1);
       let enddate = new Date(this.checkEndDate);
       this.disabledDate1 = {
         disabledDate(date) {

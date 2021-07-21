@@ -27,6 +27,7 @@ import isFirstEdit from '@/dataJson/isFirstEdit.json'
 
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
+import dimensiondata from '@/dataJson/robotdimensiondata.json'
 
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
@@ -305,6 +306,9 @@ Mock.mock(/\/api\/bill\/findall/, 'post', (req, res) => {
 Mock.mock(/\/api\/bill\/checkdatechart/, 'post', (req, res) => {
   // console.log('req', req, checkdateJson)
   return Mock.mock(Encrypt(JSON.stringify(checkdateJson)))
+})
+Mock.mock(/\/api\/bill\/robotdimensiondata/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify(dimensiondata)))
 })
 
 // Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
