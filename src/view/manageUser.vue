@@ -47,13 +47,23 @@
             </div>
             <div class="rigthWrap" style="flex:1 0; display: flex; justify-content: flex-end;">
               <Button
+                type="primary" ghost
+                v-if="chooseUser.length > 0"
+                @click="handel('6')"
+                >确认绑定</Button
+              >
+              <Button type="primary" icon="md-git-branch" ghost v-else
+                >绑定机构</Button
+              >
+              <Button
                 type="error"
                 ghost
                 v-if="chooseUser.length > 0"
+                style="margin: 0 0 0 15px"
                 @click="handel('1')"
                 >确认删除</Button
               >
-              <Button type="error" icon="md-trash" ghost v-else
+              <Button type="error" icon="md-trash" ghost v-else style="margin: 0 0 0 15px"
                 >删除用户</Button
               >
               <Button
@@ -795,6 +805,17 @@ export default {
       } else if (type == 3) {
         this.delCon = "您是否要禁用该用户？";
       } else if (type == 5) {
+        this.delCon = "您是否要重置已选择的用户的密码？";
+      } else if (type == 6) {
+        if (
+          this.currentOrgan === null ||
+          Object.keys(this.currentOrgan).length === 0
+        ) {
+          this.$Notice.warning({
+            title: "请先选中一个机构",
+          });
+          return false;
+        }
         this.delCon = "您是否要重置已选择的用户的密码？";
       }
       this.centerDialogVisible = true;
