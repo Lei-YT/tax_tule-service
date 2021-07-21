@@ -14,10 +14,10 @@
         </div>
       </Card>
     </div>
-      <!-- 表单流程管理 -->
-      <div class="conThr" v-show="cur == 1">
-        <FormProcess></FormProcess>
-      </div>
+    <!-- 表单流程管理 -->
+    <div class="conThr" v-show="cur == 1">
+      <FormProcess></FormProcess>
+    </div>
     <div id="list" v-show="cur == 0">
       <Card style="width: 100%">
         <Form
@@ -32,8 +32,10 @@
               <Input v-model="formInline.code" placeholder="请输入单据编号" />
             </FormItem>
             <FormItem label="业务名称:" prop="type">
-              <Select v-if="formNameOptions.length > 0"
-                clearable filterable
+              <Select
+                v-if="formNameOptions.length > 0"
+                clearable
+                filterable
                 placeholder="请选择业务名称"
                 v-model="formInline.type"
               >
@@ -46,7 +48,11 @@
                   >{{ item.name }}</Option
                 >
               </Select>
-              <Input v-else v-model="formInline.type" placeholder="请输入业务名称" />
+              <Input
+                v-else
+                v-model="formInline.type"
+                placeholder="请输入业务名称"
+              />
             </FormItem>
             <FormItem label="审核日期:" prop="checkBeginDate">
               <div class="numCount">
@@ -88,7 +94,8 @@
               </Select>
             </FormItem>
             <FormItem label="预警风险:" prop="earlyWarning">
-              <Select v-if="warnOptions.length > 0"
+              <Select
+                v-if="warnOptions.length > 0"
                 clearable
                 v-model="formInline.earlyWarning"
               >
@@ -99,7 +106,11 @@
                   >{{ item.grade }}</Option
                 >
               </Select>
-              <Input v-else v-model="formInline.earlyWarning" placeholder="预警风险" />
+              <Input
+                v-else
+                v-model="formInline.earlyWarning"
+                placeholder="预警风险"
+              />
             </FormItem>
 
             <FormItem label="金额区间:" prop="cname">
@@ -162,13 +173,11 @@
               fontWeight: 'normal',
               fontSize: '12px',
             }"
-            @selection-change="handleSelectionChange"
             show-summary
             sum-text="x"
             :summary-method="calculateSummary"
             @sort-change="sortChange"
           >
-            <el-table-column type="selection" width="55" align="center" />
             <el-table-column
               type="index"
               label="序号"
@@ -408,7 +417,6 @@
               <div class="sum_footer xiaoji" ref="sum_xiaoji">
                 <div class="sum_footer_unit center">合计</div>
                 <div class="sum_footer_unit"></div>
-                <div class="sum_footer_unit"></div>
                 <div
                   class="sum_footer_unit"
                   v-if="form.type.includes('单据编号')"
@@ -455,7 +463,6 @@
                 <div class="sum_footer_unit center">
                   {{ tableData.length }}条
                 </div>
-                <div class="sum_footer_unit"></div>
                 <div class="sum_footer_unit"></div>
                 <div
                   class="sum_footer_unit"
@@ -512,23 +519,23 @@
         </div>
         <div class="footBox">
           <div class="totalBox">合计：{{ page.totalElement }}条</div>
-        <el-row class="paginationStyle">
-          <el-button @click="currentChange(1)" type="text" size="small"
-            >首页</el-button
-          >
-          <Page
-            @on-change="currentChange"
-            @on-page-size-change="sizeChange"
-            :current="page.currentPage"
-            :total="page.totalElement"
-            :page-size-opts="[10,20,30,40,100,200]"
-            prev-text="< 上一页"
-            next-text="下一页 >"
-            show-elevator
-            show-sizer
-            class-name="page-box"
-          />
-        </el-row>
+          <el-row class="paginationStyle">
+            <el-button @click="currentChange(1)" type="text" size="small"
+              >首页</el-button
+            >
+            <Page
+              @on-change="currentChange"
+              @on-page-size-change="sizeChange"
+              :current="page.currentPage"
+              :total="page.totalElement"
+              :page-size-opts="[10, 20, 30, 40, 100, 200]"
+              prev-text="< 上一页"
+              next-text="下一页 >"
+              show-elevator
+              show-sizer
+              class-name="page-box"
+            />
+          </el-row>
         </div>
       </Card>
     </div>
@@ -660,7 +667,7 @@ export default {
       },
       warnOptions: [],
       formNameOptions: [],
-      selectedFormName: '',
+      selectedFormName: "",
     };
   },
   created() {
@@ -700,7 +707,7 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.formInline.checkBeginDate);
-      begindate.setDate(begindate.getDate()-1);
+      begindate.setDate(begindate.getDate() - 1);
       let enddate = new Date(this.formInline.checkEndDate);
       this.disabledDate1 = {
         disabledDate(date) {
@@ -736,7 +743,7 @@ export default {
           console.log(err);
         });
     },
-    getWarning(){
+    getWarning() {
       const _this = this;
       axios
         .request({
@@ -768,13 +775,6 @@ export default {
     handleChange(value) {
       this.form.type = value;
       // this.adjustWidth();
-    },
-    handleSelectionChange(val) {
-      let idArr = [];
-      val.map((item, index) => {
-        return idArr.push(item.id);
-      });
-      this.idArr = idArr;
     },
     sortChange(val) {
       this.formInline.orderField = val.prop;
@@ -847,9 +847,11 @@ export default {
         .then(function (response) {
           let data = response.data;
           if (data.code == 20000) {
-            _this.tableData = data.data.data.map(row => {
-              const findC = _this.warnOptions.find(w => w.grade===row.earlyWarning);
-              row.warningColor = findC ? findC.color : '';
+            _this.tableData = data.data.data.map((row) => {
+              const findC = _this.warnOptions.find(
+                (w) => w.grade === row.earlyWarning
+              );
+              row.warningColor = findC ? findC.color : "";
               return row;
             });
             _this.page.totalElement = data.data.total;
@@ -862,23 +864,33 @@ export default {
     },
     // 导出
     exported() {
-      let idArr = this.idArr;
-      if (idArr.length == 0) {
-        // this.$Message.info({
-        //     content: '请勾选后再导出',
-        //     top: '305',
-        //     // duration: 10,
-        //     // closable: true
-        // });
-        // return;
-        this.tableData.map((item, index) => {
-          idArr.push(item.id);
-        });
-      }
-      // console.log('ids',idArr)
+      const _this = this;
       axios
         .request({
-          url: `/api/bill/export`, data: idArr,
+          url: `/api/bill/export`,
+          method: "POST",
+          data: {
+            current: _this.page.currentPage,
+            size: _this.page.size,
+            code: _this.formInline.code || "",
+            type: _this.formInline.type || "",
+            checkResult: _this.formInline.checkResult || "",
+            earlyWarning: _this.formInline.earlyWarning || "",
+            checkBeginDate: _this.formInline.checkBeginDate || "",
+            checkEndDate: _this.formInline.checkEndDate || "",
+            beginMoney: _this.formInline.beginMoney || "",
+            endMoney: _this.formInline.endMoney || "",
+            // orderField: _this.formInline.orderField || "",
+            // orderType: _this.formInline.orderType || "",
+            orderCode: _this.formInline.orderCode || "",
+            orderType: _this.formInline.orderType || "",
+            orderMoney: _this.formInline.orderMoney || "",
+            orderCheckDate: _this.formInline.orderCheckDate || "",
+            orderRpaDate: _this.formInline.orderRpaDate || "",
+            orderOcrDate: _this.formInline.orderOcrDate || "",
+            orderRulesDate: _this.formInline.orderRulesDate || "",
+            orderTotalDate: _this.formInline.orderTotalDate || "",
+          },
           responseType: "blob",
         })
         .then(function (response) {
@@ -924,7 +936,7 @@ export default {
         params: {
           billNumber: row.taskId,
           checkDate: row.checkDate,
-          money: row.money
+          money: row.money,
         },
       });
     },
