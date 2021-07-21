@@ -354,10 +354,10 @@
           fontSize: '12px',
         }"
       >
-        <el-table-column property="UserName" label="姓名" align="center" />
-        <el-table-column property="UserCode" label="账号" align="center" />
+        <el-table-column property="UserName" label="姓名" align="center"  width="100" />
+        <el-table-column property="UserCode" label="账号" align="center"  width="100" />
         <el-table-column property="OrgName" label="所属机构" align="center" />
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" width="80">
           <template slot-scope="scope">
             <el-button @click="handleImport(scope.row)" type="text" size="small"
               >导入</el-button
