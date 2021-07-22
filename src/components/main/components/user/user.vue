@@ -33,7 +33,11 @@
         <DropdownItem name="logout">退出登录</DropdownItem>
       </DropdownMenu>
     </Dropdown>
-    <el-dialog title="修改密码" :visible.sync="centerDialogVisible" width="45%">
+    <el-dialog title="修改密码" :visible.sync="centerDialogVisible" width="500px">
+      <div slot="title" style="color: #2d8cf0;">
+        <Icon type="ios-lock-outline" size="20" style="font-weight: 600;" />
+        <span style="margin-left: .5em;">修改密码</span>
+      </div>
       <div class="centerCon">
         <el-form
           class="modify-form"
@@ -44,10 +48,10 @@
           ref="pwModify"
         >
           <el-form-item label="原密码：" prop="oldpassword">
-            <el-input v-model="pwModify.oldpassword" size="medium" />
+            <el-input v-model="pwModify.oldpassword" size="medium" placeholder="请输入原密码" />
           </el-form-item>
           <el-form-item label="新密码：" prop="password">
-            <el-input v-model="pwModify.password" show-password size="medium" />
+            <el-input v-model="pwModify.password" show-password size="medium" placeholder="请输入新密码" />
             <Row
               v-if="pwModify.password !== ''"
               :gutter="16"
@@ -69,7 +73,7 @@
             <el-input
               v-model="pwModify.passwordConfirm"
               show-password
-              size="medium"
+              size="medium" placeholder="请再次输入新密码"
             />
           </el-form-item>
         </el-form>

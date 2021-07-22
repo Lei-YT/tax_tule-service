@@ -452,21 +452,28 @@ Mock.mock(/\/api\/bill\/robotdatailsdata/, 'post', (req, res) => {
     "code": 20000,
     "message": "成功",
     "data": {
-      "unfinished": 0,
-      "list": [
-        {
-          "num": 1796,
-          "status": 1
+        "averageAuditTime": {
+            "rulesAvgTime": 34.4585,
+            "rpaAvgTime": 33.7147,
+            "ocrAvgTime": 34.6889,
+            "totalAvgTime": 125.8123,
+            "convertAvgTime": 13.2857
         },
-        {
-          "num": 968,
-          "status": 2
-        },
-        {
-          "num": 332,
-          "status": 3
-        }
-      ]
+        "unfinished": 48,
+        "list": [
+            {
+                "num": 869,
+                "status": 1
+            },
+            {
+                "num": 360,
+                "status": 2
+            },
+            {
+                "num": 85,
+                "status": 3
+            }
+        ]
     }
-  })));
+})));
 });

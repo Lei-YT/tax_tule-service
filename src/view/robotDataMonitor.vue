@@ -517,21 +517,27 @@ export default {
     },
     getRobotData() {
       const _this = this;
+      const r = {
+        beginDate: _this.checkBeginDate,
+        endDate: _this.checkEndDate,
+        robot: String(_this.selectedRobot).replace("全部", ""),
+        type: String(_this.selected).replace("全部", "")
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] === null || r[key] === "" || r[key] === undefined) && delete r[key]
+      );
       axios
         .request({
           method: "post",
           url: `/api/bill/robotdatailsdata`,
-          data: {
-            beginDate: _this.checkBeginDate,
-            endDate: _this.checkEndDate,
-            robot: String(_this.selectedRobot).replace("全部", ""),
-          },
+          data: r,
         })
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
             const detailData = data.data.list;
             _this.undonenum = data.data.unfinished;
+            _this.avgBillDatenum = (data.data.averageAuditTime.totalAvgTime / 60).toFixed(2);
             // 1 通过、2驳回、3转热工、4超时 如果没有数据就为0
             const success = detailData.find((row) => row.status == 1);
             _this.successnum = success ? success.num : 0;
@@ -569,36 +575,33 @@ export default {
     getCheckdate() {
       const _this = this;
       if (!_this.checkBeginDate && !_this.checkEndDate) {
-        // _this.checktoday().then((resp) => {
-        //   _this.checkDateData()
-        // })
         var now = new Date();
 
         _this.checkBeginDate = _this.formatDate(now);
         _this.checkEndDate = _this.formatDate(now);
-        _this.checkDateData();
         _this.getListData();
         _this.getRobotData();
         return false;
       }
-      _this.checkDateData();
       _this.getListData();
       _this.getRobotData();
     },
     getListData() {
       const _this = this;
-      let selected = String(_this.selected).replace("全部", "");
+      const r = {
+        beginDate: _this.checkBeginDate,
+        endDate: _this.checkEndDate,
+        robot: String(_this.selectedRobot).replace("全部", ""),
+        type: String(_this.selected).replace("全部", "")
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] === null || r[key] === "" || r[key] === undefined) && delete r[key]
+      );
       axios
         .request({
           method: "post",
           url: `/api/bill/robotdimensiondata`,
-          data: {
-            // type: selected,
-            // status: _this.status,
-            checkBeginDate: _this.checkBeginDate,
-            checkEndDate: _this.checkEndDate,
-            robot: String(_this.selectedRobot).replace("全部", ""),
-          },
+          data: r,
         })
         .then((resp) => {
           let data = resp.data;
@@ -629,42 +632,6 @@ export default {
             this.warnings = warnings;
             this.successarr = successarr;
             this.initChart();
-          } else {
-            Notification.closeAll();
-            Notification({
-              message: data.msg || data.message,
-              type: "warning",
-              duration: 2000,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    checkDateData() {
-      const _this = this;
-      let selected = "";
-      if (_this.selected == "全部") {
-        selected = "";
-      } else {
-        selected = _this.selected;
-      }
-      axios
-        .request({
-          method: "post",
-          url: `/api/bill/checkdatechart`,
-          data: {
-            type: selected,
-            checkBeginDate: _this.checkBeginDate,
-            checkEndDate: _this.checkEndDate,
-            status: _this.status,
-          },
-        })
-        .then((resp) => {
-          let data = resp.data;
-          if (data.code === 20000) {
-            _this.avgBillDatenum = (data.data.avgBillDate / 60).toFixed(2);
           } else {
             Notification.closeAll();
             Notification({
