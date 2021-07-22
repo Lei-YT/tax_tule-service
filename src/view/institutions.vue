@@ -79,7 +79,7 @@
     </div>
 
     <!-- 添加添加机构 -->
-    <el-dialog title="添加机构" :visible.sync="centerDialogVisible" width="30%">
+    <el-dialog title="添加机构" :visible.sync="centerDialogVisible" width="400px">
       <div class="centerCon">
         <Form
           :model="organForm"

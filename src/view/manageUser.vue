@@ -340,7 +340,7 @@
     </div>
 
     <!-- 添加用户弹框 -->
-    <el-dialog title="添加用户" :visible.sync="dialogTableVisible">
+    <el-dialog title="添加用户" :visible.sync="dialogTableVisible" width="450px">
       <div class="userBox">
         用户：<Input
           v-model="userName"
@@ -385,7 +385,7 @@
       </el-table>
     </el-dialog>
     <!-- 删除用户/岗位弹框 -->
-    <el-dialog title="确认提示" :visible.sync="centerDialogVisible" width="30%">
+    <el-dialog title="确认提示" :visible.sync="centerDialogVisible" width="400px">
       <span style="display: flex; justify-content: center; margin: 50px 0">{{
         delCon
       }}</span>

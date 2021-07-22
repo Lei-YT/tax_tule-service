@@ -172,7 +172,7 @@
       </Card>
     </div>
     <!-- 编辑列表资料弹框 -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="400px">
       <el-form
         :model="ruleForm"
         label-width="100px"
@@ -214,7 +214,7 @@
     </el-dialog>
 
     <!-- 单量设置弹框 -->
-    <el-dialog :title="title" :visible.sync="numFormVisible">
+    <el-dialog :title="title" :visible.sync="numFormVisible" width="400px">
       <el-form :model="ruleForm" label-width="100px" center>
         <el-form-item label="取单量：" prop="getbill">
           <Select v-model="ruleForm.getbill" placeholder="请选择取单量">

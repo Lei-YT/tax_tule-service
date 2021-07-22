@@ -540,7 +540,7 @@
       </Card>
     </div>
     <!-- 弹框 -->
-    <el-dialog title="设置" :visible.sync="dialogFormVisible">
+    <el-dialog title="设置" :visible.sync="dialogFormVisible" width="800px">
       <template slot="title">
         <div class="dialog-title">
           <svg

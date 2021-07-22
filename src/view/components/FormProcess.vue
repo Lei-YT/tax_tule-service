@@ -194,7 +194,7 @@
         </div>
       </Card>
     </div>
-    <el-dialog title="添加表单" :visible.sync="showAddModal" width="35%">
+    <el-dialog title="添加表单" :visible.sync="showAddModal" width="400px">
       <el-form
         ref="addformflowf"
         :model="addForm"
