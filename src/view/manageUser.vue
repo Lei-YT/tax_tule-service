@@ -36,16 +36,23 @@
         <div class="userTables" v-if="!isCustom">
           <div class="searchWarp">
             <div class="leftWrap">
-              <Input v-model="searchName" placeholder="请输入关键字查询" style="width: 150px" />
+              <Input
+                v-model="searchName"
+                placeholder="请输入关键字查询"
+                style="width: 150px"
+              />
               <Button
                 type="primary"
                 @click="searchData()"
                 icon="ios-search"
-                style="margin-left: 15px; "
+                style="margin-left: 15px"
                 >查询</Button
               >
             </div>
-            <div class="rigthWrap" style="flex:1 0; display: flex; justify-content: flex-end;">
+            <div
+              class="rigthWrap"
+              style="flex: 1 0; display: flex; justify-content: flex-end"
+            >
               <Button
                 type="error"
                 ghost
@@ -354,8 +361,18 @@
           fontSize: '12px',
         }"
       >
-        <el-table-column property="UserName" label="姓名" align="center"  width="100" />
-        <el-table-column property="UserCode" label="账号" align="center"  width="100" />
+        <el-table-column
+          property="UserName"
+          label="姓名"
+          align="center"
+          width="100"
+        />
+        <el-table-column
+          property="userCode"
+          label="账号"
+          align="center"
+          width="100"
+        />
         <el-table-column property="OrgName" label="所属机构" align="center" />
         <el-table-column label="操作" align="center" width="80">
           <template slot-scope="scope">
@@ -1013,7 +1030,14 @@ export default {
     },
     handleImport(row) {
       const _this = this;
-      importAddUser(row).then((res) => {
+      const r = {
+        OrgID: row.OrgID,
+        UserCode: row.userCode,
+        UserName: row.UserName,
+        IsAdmin: row.IsAdmin,
+        IsValid: row.IsValid,
+      };
+      importAddUser(r).then((res) => {
         if (res.data.code == 0) {
           _this.$message({
             message: res.data.msg,
