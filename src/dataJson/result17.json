@@ -1,0 +1,293 @@
+{
+    "status": 200,
+    "message": "成功",
+    "data": {
+        "billType": "CRTG_关联交易委托付款单-批量",
+        "taskId": "1418218315424145410",
+        "billNo": "20210722673359148005013319",
+        "versionName": "版本-6.4",
+        "imageInfo": [
+            {
+                "imageId": "1418218329960894465",
+                "billId": "1418218306275659778",
+                "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/22\/060c7b6856fb8fc7dc17db0adc397e62.jpg",
+                "invoices": [
+                    {
+                        "fpApplicantUnit": "河南顺和天字实业有限公司",
+                        "imageId": "1418218329960894465",
+                        "accountName": "河南顺和天字实业有限公司",
+                        "fpBeneficiaryBank": "中国建设银行汝州支行",
+                        "repeat": "",
+                        "accountNo": "41050172600800000459",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218369181831169",
+                        "payment": "120000",
+                        "invoiceSubType": "资金支付审批单4"
+                    },
+                    {
+                        "fpApplicantUnit": "东莞市建明劳务工程有限公司",
+                        "imageId": "1418218329960894465",
+                        "accountName": "东莞市建明劳务工程有限公司",
+                        "fpBeneficiaryBank": "中信银行股份有限公司东莞清溪支行",
+                        "repeat": "",
+                        "accountNo": "8114801013500080930",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218369181831169",
+                        "payment": "120000",
+                        "invoiceSubType": "资金支付审批单4"
+                    },
+                    {
+                        "fpApplicantUnit": "福州源土环保服务有限公司",
+                        "imageId": "1418218329960894465",
+                        "accountName": "福州源士环保服务有限公司",
+                        "fpBeneficiaryBank": "兴业银行福州华林支行",
+                        "repeat": "",
+                        "accountNo": "1I7130100100396647",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218369181831169",
+                        "payment": "200000",
+                        "invoiceSubType": "资金支付审批单4"
+                    },
+                    {
+                        "fpApplicantUnit": "福州电力设计院有限公司",
+                        "imageId": "1418218329960894465",
+                        "accountName": "福州电力设计院有限公司",
+                        "fpBeneficiaryBank": "|中国建设银行股份有限公司福州台江支行",
+                        "repeat": "",
+                        "accountNo": "35001884300052502986",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218369181831169",
+                        "payment": "39400",
+                        "invoiceSubType": "资金支付审批单4"
+                    }
+                ]
+            },
+            {
+                "imageId": "1418218342589943810",
+                "billId": "1418218306275659778",
+                "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/22\/e1b26206de81caba2ae99e628d43dfca.jpg",
+                "invoices": [
+                    {
+                        "fpApplicantUnit": "河南顺和天宇实业有限公司",
+                        "imageId": "1418218342589943810",
+                        "accountName": "河南顺和天宇实业有限公司",
+                        "fpBeneficiaryBank": "中国建设银行汝州支行",
+                        "repeat": "",
+                        "accountNo": "41050172600800000459",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218394402181121",
+                        "payment": "120000",
+                        "invoiceSubType": "资金支付审批单4"
+                    },
+                    {
+                        "fpApplicantUnit": "东莞市建明劳务工程有限公司",
+                        "imageId": "1418218342589943810",
+                        "accountName": "东莞市建明劳务工程有限公司",
+                        "fpBeneficiaryBank": "中信银行股份有限公司东莞清溪支行",
+                        "repeat": "",
+                        "accountNo": "8114801013500080930",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218394402181121",
+                        "payment": "120000",
+                        "invoiceSubType": "资金支付审批单4"
+                    },
+                    {
+                        "fpApplicantUnit": "福州源土环保服务有限公司",
+                        "imageId": "1418218342589943810",
+                        "accountName": "福州源土环保服务有限公司",
+                        "fpBeneficiaryBank": "兴业银行福州华林支行",
+                        "repeat": "",
+                        "accountNo": "117130100100396647",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218394402181121",
+                        "payment": "200000",
+                        "invoiceSubType": "资金支付审批单4"
+                    },
+                    {
+                        "fpApplicantUnit": "福州电力设计院有限公司",
+                        "imageId": "1418218342589943810",
+                        "accountName": "福州电力设计院有限公司",
+                        "fpBeneficiaryBank": "中国建设银行股份有限公司福州台江支行",
+                        "repeat": "",
+                        "accountNo": "35001884300052502986",
+                        "invoiceType": "资金支付审批单",
+                        "invoiceId": "1418218394402181121",
+                        "payment": "39400",
+                        "invoiceSubType": "资金支付审批单4"
+                    }
+                ]
+            }
+        ],
+        "errors": [
+            {
+                "imageId": "1418218329960894465",
+                "infos": [
+                    {
+                        "invoiceId": "1418218369181831169",
+                        "messages": [
+                            "表单支付金额与影像支付金额不符",
+                            "表单中录入的收款方户名与影像信息不符，请人工复核是否委托付款"
+                        ]
+                    }
+                ]
+            },
+            {
+                "imageId": "1418218342589943810",
+                "infos": [
+                    {
+                        "invoiceId": "1418218394402181121",
+                        "messages": [
+                            "表单支付金额与影像支付金额不符",
+                            "表单支付金额与影像金额不符"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "data": [
+            {
+                "ruleCount": 7,
+                "errorCount": 4,
+                "ruleType": "IMAGES",
+                "color": null,
+                "result": [
+                    {
+                        "ruleId": "UM1874115481",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=“网银”，且表单.子表.款项类型不包含“其他应付款”时，则表单.子表.收款方户名＝影像.资金支付审批单.收款方户名",
+                        "correct": false,
+                        "message": "表单中录入的收款方户名与影像信息不符，请人工复核是否委托付款",
+                        "ruleType": "IMAGE",
+                        "imageData": [
+                            {
+                                "imageId": "1418218329960894465",
+                                "infos": [
+                                    {
+                                        "invoiceId": "1418218369181831169"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "ruleId": "AL4527002954",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=网银，且表单.子表.款项类型不包含其他应付款时，则表单.子表.本次核定支付金额=影像.资金支付审批单.支付金额",
+                        "correct": false,
+                        "message": "表单支付金额与影像支付金额不符",
+                        "ruleType": "IMAGE",
+                        "imageData": [
+                            {
+                                "imageId": "1418218329960894465",
+                                "infos": [
+                                    {
+                                        "invoiceId": "1418218369181831169"
+                                    }
+                                ]
+                            },
+                            {
+                                "imageId": "1418218342589943810",
+                                "infos": [
+                                    {
+                                        "invoiceId": "1418218394402181121"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "ruleId": "XM7769025113",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=网银，且表单.子表.款项类型包含其他应付款，且影像中有报销、领款关键字，且影像.资金支付审批单存在时，则表单.子表.本次核定支付金额=影像.资金支付审批单.支付金额",
+                        "correct": false,
+                        "message": "表单支付金额与影像金额不符",
+                        "ruleType": "IMAGE",
+                        "imageData": [
+                            {
+                                "imageId": "1418218342589943810",
+                                "infos": [
+                                    {
+                                        "invoiceId": "1418218394402181121"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "ruleId": "QP6440049397",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=“网银”，且子表.对方单位≠表单.表单信息.机构名称，或子表.对方单位≠“投标保证金”，或子表.对方单位≠“暂挂款”，或子表.款项类型≠关联往来时，则表单.子表.对方单位＝表单.子表.收款方户名",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "JE4396007134",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=“网银”，且表单.子表.款项类型不包含“其他应付款”时，则表单.子表.收款方户名＝影像.资金支付审批单.收款方户名",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "TJ9552440237",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=“网银”，且表单.子表.款项类型不包含“其他应付款”时，则表单.子表.收款方账号=影像.资金支付审批单.收款方账号",
+                        "correct": true,
+                        "ruleType": "LINES"
+                    },
+                    {
+                        "ruleId": "ML2496773727",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=“网银”，且表单.子表.款项类型不包含“其他应付款”时，则表单.子表.本次核定支付金额=影像.资金支付审批单.支付金额",
+                        "correct": false,
+                        "message": "第1行:表单中支付金额与影像支付金额不符",
+                        "ruleType": "LINES"
+                    }
+                ]
+            },
+            {
+                "ruleCount": 4,
+                "errorCount": 1,
+                "ruleType": "OTHERS",
+                "color": null,
+                "result": [
+                    {
+                        "ruleId": "DU9915889250",
+                        "aliasName": "",
+                        "ruleName": "当表单..被委托方填写.结算方式=“网银”，且表单..被委托方填写.支付途径=“中铁资金”时，则影像附件不应存在银行回单",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "GP1923147469",
+                        "aliasName": "支付途经审核",
+                        "ruleName": "（关联交易委托付款-批量）当表单.被委托方填写.结算方式=“网银”，且表单..被委托方填写.支付途径≠“无需支付”",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "CB6295185402",
+                        "aliasName": "线上审批校验",
+                        "ruleName": "(关联交易委托付款单-批量)当表单.单据信息.机构名称≠中铁隧道集团有限公司B类(股份)、中铁隧道集团有限公司B类(一处)、中铁隧道集团有限公司B类(二处)、中铁隧道集团有限公司B类(三处)、中铁隧道集团有限公司B类(建设)、中铁隧道集团有限公司B类(京隧建)、中铁隧道局集团有限公司B类(市政公司)、中铁隧道集团有限公司机电公司B类、中隧三处片区指挥部、中隧一处完工项目时，表单.常用意见.节点含有“项目经理”且“项目书记”且对应意见含有“同意”",
+                        "correct": true,
+                        "ruleType": "BILLS"
+                    },
+                    {
+                        "ruleId": "ZD6903355863",
+                        "aliasName": "",
+                        "ruleName": "当表单.被委托方填写.结算方式=“网银”，且表单.子表.款项类型不包含“其他应付款”时，则表单.子表.收款方账号=影像.资金支付审批单.收款方账号",
+                        "correct": false,
+                        "message": "表单中录入的收款方账号与影像信息不符，请人工复核是否委托付款",
+                        "ruleType": "BILLS"
+                    }
+                ]
+            },
+            {
+                "ruleCount": 0,
+                "errorCount": null,
+                "ruleType": "WARNING",
+                "color": null,
+                "result": []
+            }
+        ]
+    }
+}

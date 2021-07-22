@@ -1243,7 +1243,7 @@ export default {
         return true;
       });
       allInvoice.map((dd) => {
-        const sourceV = dd.hasOwnProperty('checkWay') ? dd.checkWay : 0;
+        const sourceV = dd.hasOwnProperty('checkWay') ? String(dd.checkWay) : '0';
         dd.checkWay = sourceV;
         dd.checkWayText = _this.parseSourceValue(sourceV);
         return dd;
@@ -1291,7 +1291,7 @@ export default {
           return true;
         });
         filterInvoices.map((dd) => {
-          const sourceV = dd.hasOwnProperty('checkWay') ? dd.checkWay : 0;
+          const sourceV = dd.hasOwnProperty('checkWay') ? String(dd.checkWay) : 0;
           dd.checkWayText = _this.parseSourceValue(sourceV);
           return dd;
         });
