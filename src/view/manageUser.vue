@@ -57,10 +57,15 @@
                 type="primary"
                 ghost
                 v-if="chooseUser.length > 0"
-                @click="handel('6')"
-                >确认绑定</Button
+                @click="handleUserBoundOrgan"
+                >绑定机构</Button
               >
-              <Button type="primary" icon="md-git-branch" ghost v-else @click="emptyAction"
+              <Button
+                type="primary"
+                icon="md-git-branch"
+                ghost
+                v-else
+                @click="emptyAction"
                 >绑定机构</Button
               >
               <Button
@@ -71,7 +76,8 @@
                 @click="handel('1')"
                 >确认删除</Button
               >
-              <Button @click="emptyAction"
+              <Button
+                @click="emptyAction"
                 type="error"
                 icon="md-trash"
                 ghost
@@ -99,7 +105,11 @@
                 @click="handel('5')"
                 >确认重置</Button
               >
-              <Button v-else type="primary" icon="ios-lock-outline" @click="emptyAction"
+              <Button
+                v-else
+                type="primary"
+                icon="ios-lock-outline"
+                @click="emptyAction"
                 >重置密码
               </Button>
             </div>
@@ -356,9 +366,29 @@
     </div>
 
     <!-- 添加用户弹框 -->
-    <el-dialog title="添加用户" :visible.sync="dialogTableVisible" width="450px">
+    <el-dialog
+      title="添加用户"
+      :visible.sync="dialogTableVisible"
+      width="450px"
+    >
       <template slot="title">
-        <div class="dialog-title"><svg t="1626972000175" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14760" width="24" height="24"><path d="M886.6 777.4c-5.8-5.8-13.8-9.4-22.6-9.4h-64v-64c0-8.8-3.6-16.8-9.4-22.6-5.8-5.8-13.8-9.4-22.6-9.4s-16.8 3.6-22.6 9.4c-5.8 5.8-9.4 13.8-9.4 22.6v64h-64c-8.8 0-16.8 3.6-22.6 9.4-5.8 5.8-9.4 13.8-9.4 22.6s3.6 16.8 9.4 22.6c5.8 5.8 13.8 9.4 22.6 9.4h64v64c0 8.8 3.6 16.8 9.4 22.6 5.8 5.8 13.8 9.4 22.6 9.4s16.8-3.6 22.6-9.4c5.8-5.8 9.4-13.8 9.4-22.6v-64h64c8.8 0 16.8-3.6 22.6-9.4 5.8-5.8 9.4-13.8 9.4-22.6s-3.6-16.8-9.4-22.6zM664.5 614.6c15.5 8.4 35 2.7 43.4-12.8s2.7-35-12.8-43.4c-5.7-3.1-11.6-6.1-17.5-8.9-9.6-4.6-19.5-8.8-29.5-12.6 16.3-10.3 31.4-22.3 44.9-35.8 46.3-46.3 75-110.3 75-181s-28.7-134.7-75-181S582.7 64 512 64s-134.7 28.7-181 75-75 110.3-75 181 28.7 134.7 75 181c13.5 13.5 28.6 25.6 44.9 35.8-1.3 0.5-2.7 1-4 1.5-23.7 9.3-46.5 21-67.9 34.8-21 13.6-40.8 29.2-58.7 46.6-18 17.4-34.3 36.6-48.6 57-14.4 20.7-26.8 42.9-36.8 65.9-10.3 23.6-18.2 48.3-23.5 73.5-5.5 26.1-8.3 52.9-8.3 79.8 0 17.7 14.3 32 32 32s32-14.3 32-32c0-22.4 2.3-44.8 6.9-66.6 4.4-21 11-41.5 19.6-61.2 8.4-19.2 18.7-37.7 30.7-54.9 11.9-17.1 25.5-33.1 40.5-47.6s31.5-27.6 49-38.9c17.8-11.5 36.8-21.3 56.5-29 20.1-7.9 41-13.7 62.3-17.4 21.9-3.7 44.3-5.2 66.7-4.4 22.1 0.8 44.1 3.9 65.4 9.2 20.7 5.2 41 12.5 60.3 21.7 4.8 2.7 9.7 5.2 14.5 7.8zM320 320c0-51.3 20-99.5 56.2-135.8C412.5 148 460.7 128 512 128s99.5 20 135.8 56.2C684 220.5 704 268.7 704 320s-20 99.5-56.2 135.8C611.5 492 563.3 512 512 512s-99.5-20-135.8-56.2C340 419.5 320 371.3 320 320z" fill="#1991DD" p-id="14761"></path></svg>
+        <div class="dialog-title">
+          <svg
+            t="1626972000175"
+            class="icon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="14760"
+            width="24"
+            height="24"
+          >
+            <path
+              d="M886.6 777.4c-5.8-5.8-13.8-9.4-22.6-9.4h-64v-64c0-8.8-3.6-16.8-9.4-22.6-5.8-5.8-13.8-9.4-22.6-9.4s-16.8 3.6-22.6 9.4c-5.8 5.8-9.4 13.8-9.4 22.6v64h-64c-8.8 0-16.8 3.6-22.6 9.4-5.8 5.8-9.4 13.8-9.4 22.6s3.6 16.8 9.4 22.6c5.8 5.8 13.8 9.4 22.6 9.4h64v64c0 8.8 3.6 16.8 9.4 22.6 5.8 5.8 13.8 9.4 22.6 9.4s16.8-3.6 22.6-9.4c5.8-5.8 9.4-13.8 9.4-22.6v-64h64c8.8 0 16.8-3.6 22.6-9.4 5.8-5.8 9.4-13.8 9.4-22.6s-3.6-16.8-9.4-22.6zM664.5 614.6c15.5 8.4 35 2.7 43.4-12.8s2.7-35-12.8-43.4c-5.7-3.1-11.6-6.1-17.5-8.9-9.6-4.6-19.5-8.8-29.5-12.6 16.3-10.3 31.4-22.3 44.9-35.8 46.3-46.3 75-110.3 75-181s-28.7-134.7-75-181S582.7 64 512 64s-134.7 28.7-181 75-75 110.3-75 181 28.7 134.7 75 181c13.5 13.5 28.6 25.6 44.9 35.8-1.3 0.5-2.7 1-4 1.5-23.7 9.3-46.5 21-67.9 34.8-21 13.6-40.8 29.2-58.7 46.6-18 17.4-34.3 36.6-48.6 57-14.4 20.7-26.8 42.9-36.8 65.9-10.3 23.6-18.2 48.3-23.5 73.5-5.5 26.1-8.3 52.9-8.3 79.8 0 17.7 14.3 32 32 32s32-14.3 32-32c0-22.4 2.3-44.8 6.9-66.6 4.4-21 11-41.5 19.6-61.2 8.4-19.2 18.7-37.7 30.7-54.9 11.9-17.1 25.5-33.1 40.5-47.6s31.5-27.6 49-38.9c17.8-11.5 36.8-21.3 56.5-29 20.1-7.9 41-13.7 62.3-17.4 21.9-3.7 44.3-5.2 66.7-4.4 22.1 0.8 44.1 3.9 65.4 9.2 20.7 5.2 41 12.5 60.3 21.7 4.8 2.7 9.7 5.2 14.5 7.8zM320 320c0-51.3 20-99.5 56.2-135.8C412.5 148 460.7 128 512 128s99.5 20 135.8 56.2C684 220.5 704 268.7 704 320s-20 99.5-56.2 135.8C611.5 492 563.3 512 512 512s-99.5-20-135.8-56.2C340 419.5 320 371.3 320 320z"
+              fill="#1991DD"
+              p-id="14761"
+            ></path>
+          </svg>
           <span class="el-dialog__title">添加用户</span>
         </div>
       </template>
@@ -406,7 +436,11 @@
       </el-table>
     </el-dialog>
     <!-- 删除用户/岗位弹框 -->
-    <el-dialog title="确认提示" :visible.sync="centerDialogVisible" width="400px">
+    <el-dialog
+      title="确认提示"
+      :visible.sync="centerDialogVisible"
+      width="400px"
+    >
       <template slot="title">
         <div class="dialog-title">
           <Icon type="ios-alert-outline" />
@@ -419,6 +453,70 @@
       <span slot="footer" class="dialog-footer">
         <Button type="primary" @click="cancelAction" ghost>取 消</Button>
         <Button type="primary" @click="sureDel" style="margin-left: 20px"
+          >确 定</Button
+        >
+      </span>
+    </el-dialog>
+    <!-- 机构列表 -->
+    <el-dialog title="" :visible.sync="showOrganTable" width="600px">
+      <template slot="title">
+        <div class="dialog-title">
+          <svg
+            t="1626971687342"
+            class="icon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="13173"
+            width="24"
+            height="24"
+            fill="#1991DD"
+          >
+            <path
+              d="M911.36 888.8H872V418.4c0-38.4-31.2-69.6-69.6-69.6H620v-192c0-39.84-32.16-72-72-72H212c-39.84 0-72 32.16-72 72v732h-33.12c-16.32 0-29.76 13.44-29.76 29.76s13.44 29.76 29.76 29.76h804c16.32 0 29.76-13.44 29.76-29.76s-12.96-29.76-29.28-29.76z m-351.36 0H200v-720c0-13.44 10.56-24 24-24h312c13.44 0 24 10.56 24 24v720z m252 0H620v-480h164.16c15.36 0 27.84 12.48 27.84 27.84V888.8z"
+              p-id="13174"
+            ></path>
+            <path
+              d="M761.6 552.8h-91.2c-14.4 0-26.4 12-26.4 26.4s12 26.4 26.4 26.4h91.2c14.4 0 26.4-12 26.4-26.4s-11.52-26.4-26.4-26.4zM764 692h-96c-13.44 0-24 10.56-24 24v4.8c0 13.44 10.56 24 24 24h96c13.44 0 24-10.56 24-24V716c0-12.96-10.56-24-24-24zM492.8 586.4h-72c-13.44 0-24 10.56-24 24v4.8c0 13.44 10.56 24 24 24h72c13.44 0 24-10.56 24-24v-4.8c0-13.44-10.56-24-24-24z m-156 0h-72c-13.44 0-24 10.56-24 24v4.8c0 13.44 10.56 24 24 24h72c13.44 0 24-10.56 24-24v-4.8c0-13.44-11.04-24-24-24zM494.24 440h-72c-13.44 0-24 10.56-24 24v4.8c0 13.44 10.56 24 24 24h72c13.44 0 24-10.56 24-24V464c0-13.44-10.56-24-24-24z m-156 0h-72c-13.44 0-24 10.56-24 24v4.8c0 13.44 10.56 24 24 24h72c13.44 0 24-10.56 24-24V464c0-13.44-11.04-24-24-24z m156-146.4h-72c-13.44 0-24 10.56-24 24v4.8c0 13.44 10.56 24 24 24h72c13.44 0 24-10.56 24-24v-4.8c0-13.44-10.56-24-24-24z m-156 0h-72c-13.44 0-24 10.56-24 24v4.8c0 13.44 10.56 24 24 24h72c13.44 0 24-10.56 24-24v-4.8c0-13.44-11.04-24-24-24z"
+              p-id="13175"
+            ></path>
+          </svg>
+          <span class="el-dialog__title">用户绑定机构</span>
+        </div>
+      </template>
+      <template>
+        <div class="searchCon">
+          <Input
+            v-model="searchOrgan"
+            icon="md-close"
+            placeholder="请输入机构关键字"
+            @on-click="clearCon"
+          />
+          <Button type="primary" icon="ios-search" @click="getTreeData" />
+        </div>
+        <p style="line-height: 1.5; padding: 0.5em 0">
+          已选择: <span style="color: #1991dd">{{ pickOrgan.OrgName }}</span>
+        </p>
+        <Table
+          border
+          stripe
+          highlight-row
+          ref="organTablePick"
+          :columns="OrganTableColumns"
+          :data="tableDataFlat"
+          style="width: 100%"
+          :max-height="400"
+          no-data-text="暂无数据"
+          @on-current-change="handlePickOrgan"
+        >
+          <template slot="action">
+            <Button type="text" size="small" style="color: #1991dd; " >选择</Button>
+          </template>
+        </Table>
+      </template>
+      <span slot="footer" class="dialog-footer">
+        <Button type="primary" @click="cancelAction" ghost>取 消</Button>
+        <Button type="primary" @click="batchUserBound" style="margin-left: 20px"
           >确 定</Button
         >
       </span>
@@ -449,6 +547,15 @@ export default {
   components: {},
   data() {
     return {
+      pickOrgan: "",
+      tableDataFlat: [],
+      showOrganTable: false,
+      OrganTableColumns: [
+        { title: " ", slot: "action", width: 80, align: "center" },
+        { title: "序号", type: "index", width: 70, align: "center" },
+        { title: "机构名称", key: "OrgName", minWidth: 200, align: "center" },
+        { title: "机构编号", key: "OrgCode", minWidth: 120, align: "center" },
+      ],
       searchName: "",
       addPostCon: false,
       delCon: "",
@@ -518,6 +625,34 @@ export default {
     // this.getList();
   },
   methods: {
+    handlePickOrgan(row) {
+      console.log("pick", row);
+      this.pickOrgan = row;
+    },
+    batchUserBound() {
+      const _this = this;
+      const r = {
+        userid: this.chooseUser.map((u) => u.id), // 改为数组
+        orgname: this.pickOrgan.OrgName,
+        orgid: this.pickOrgan.OrgID,
+      };
+      userWithOrgan(r).then((res) => {
+        if (res.data.code == 0) {
+          _this.getCurrenOrganUseList();
+          _this.cancelAction();
+          _this.$message({
+            message: res.data.msg,
+            type: "success",
+            duration: 1200,
+          });
+        } else {
+          _this.$Notice.warning({
+            title: "温馨提示",
+            desc: data.msg,
+          });
+        }
+      });
+    },
     emptyAction() {
       this.$Notice.warning({
         title: "请至少勾选一个用户",
@@ -539,6 +674,10 @@ export default {
             _this.TreeData = data.data.map((row) =>
               _this.parseOrganTree(row, "twolevel")
             );
+            _this.tableDataFlat = data.data.reduce((arr, current) => {
+              arr.push(current);
+              return arr.concat(current.twolevel);
+            }, []);
             if (data.data.length > 0) {
               // _this.currentOrgan = _this.TreeData[0];
               _this.getCurrenOrganUseList();
@@ -674,6 +813,8 @@ export default {
     },
     cancelAction() {
       this.centerDialogVisible = false;
+      this.showOrganTable = false;
+      this.pickOrgan = {};
       this.$refs.userTable.clearSelection();
     },
     // 确认删除
@@ -844,6 +985,9 @@ export default {
           });
         });
     },
+    handleUserBoundOrgan() {
+      this.showOrganTable = true;
+    },
     handel(type, row) {
       if (row) {
         this.userInfo = row;
@@ -865,17 +1009,18 @@ export default {
       } else if (type == 5) {
         this.delCon = "您是否要重置已选择的用户的密码？";
       } else if (type == 6) {
-        if (
-          this.currentOrgan === null ||
-          Object.keys(this.currentOrgan).length === 0
-        ) {
-          this.$Notice.warning({
-            title: "请先选中一个机构",
-          });
-          this.lockTree = true;
-          return false;
-        }
-        this.delCon = "您是否要变更已选择的用户的机构？";
+        this.showOrganTable = true;
+        // if (
+        //   this.currentOrgan === null ||
+        //   Object.keys(this.currentOrgan).length === 0
+        // ) {
+        //   this.$Notice.warning({
+        //     title: "请先选中一个机构",
+        //   });
+        //   this.lockTree = true;
+        //   return false;
+        // }
+        // this.delCon = "您是否要变更已选择的用户的机构？";
       }
       this.centerDialogVisible = true;
     },
@@ -1121,7 +1266,7 @@ export default {
     boundUserToOrgan(user) {
       const _this = this;
       const r = {
-        userid: user.id,
+        userid: [user.id],
         orgname: this.currentOrgan.OrgName,
         orgid: this.currentOrgan.OrgID,
       };
@@ -1251,6 +1396,7 @@ export default {
 .postName {
   margin-left: 15px;
 }
+/deep/.ivu-table-row .ivu-table-row-highlight,
 /deep/.el-table__body tr.current-row > td,
 /deep/.el-table--striped
   .el-table__body
