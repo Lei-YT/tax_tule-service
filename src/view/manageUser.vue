@@ -54,12 +54,13 @@
               style="flex: 1 0; display: flex; justify-content: flex-end"
             >
               <Button
-                type="primary" ghost
+                type="primary"
+                ghost
                 v-if="chooseUser.length > 0"
                 @click="handel('6')"
                 >确认绑定</Button
               >
-              <Button type="primary" icon="md-git-branch" ghost v-else
+              <Button type="primary" icon="md-git-branch" ghost v-else @click="emptyAction"
                 >绑定机构</Button
               >
               <Button
@@ -70,7 +71,12 @@
                 @click="handel('1')"
                 >确认删除</Button
               >
-              <Button type="error" icon="md-trash" ghost v-else style="margin: 0 0 0 15px"
+              <Button @click="emptyAction"
+                type="error"
+                icon="md-trash"
+                ghost
+                v-else
+                style="margin: 0 0 0 15px"
                 >删除用户</Button
               >
               <Button
@@ -93,7 +99,7 @@
                 @click="handel('5')"
                 >确认重置</Button
               >
-              <Button v-else type="primary" icon="ios-lock-outline"
+              <Button v-else type="primary" icon="ios-lock-outline" @click="emptyAction"
                 >重置密码
               </Button>
             </div>
@@ -400,9 +406,7 @@
         delCon
       }}</span>
       <span slot="footer" class="dialog-footer">
-        <Button type="primary" @click="cancelAction" ghost
-          >取 消</Button
-        >
+        <Button type="primary" @click="cancelAction" ghost>取 消</Button>
         <Button type="primary" @click="sureDel" style="margin-left: 20px"
           >确 定</Button
         >
@@ -503,6 +507,12 @@ export default {
     // this.getList();
   },
   methods: {
+    emptyAction() {
+      this.$Notice.warning({
+        title: "请至少勾选一个用户",
+      });
+      return false;
+    },
     getTreeData() {
       const _this = this;
       const r = {
@@ -651,7 +661,7 @@ export default {
         }
       });
     },
-    cancelAction(){
+    cancelAction() {
       this.centerDialogVisible = false;
       this.$refs.userTable.clearSelection();
     },
@@ -829,9 +839,7 @@ export default {
         this.chooseUser = [{ ...row }];
       }
       if (this.chooseUser.length === 0) {
-        this.$Notice.warning({
-          title: "请先选中一个用户",
-        });
+        this.emptyAction();
         return false;
       }
       this.delType = type;
