@@ -93,6 +93,7 @@
           </div>
           <el-table
             :data="tableData1"
+            ref="userTable"
             stripe
             border
             highlight-current-row
@@ -382,7 +383,7 @@
         delCon
       }}</span>
       <span slot="footer" class="dialog-footer">
-        <Button type="primary" @click="centerDialogVisible = false" ghost
+        <Button type="primary" @click="cancelAction" ghost
           >取 消</Button
         >
         <Button type="primary" @click="sureDel" style="margin-left: 20px"
@@ -477,6 +478,7 @@ export default {
         },
         { title: "岗位", key: "station_name", minWidth: 200, align: "center" },
       ],
+      lockTree: false,
     };
   },
   created() {
@@ -544,9 +546,11 @@ export default {
       const _this = this;
       _this.isSearch = false;
       _this.currentOrgan = currentNode;
-      this.tableData1 = [];
-      this.tableData2 = [];
-      this.getCurrenOrganUseList(currentNode);
+      if (this.lockTree === false) {
+        this.tableData1 = [];
+        this.tableData2 = [];
+        this.getCurrenOrganUseList(currentNode);
+      }
       if (Number(currentNode.IsLowest) === 0) {
         this.getCurrentOrganChildren(currentNode);
       }
@@ -600,6 +604,7 @@ export default {
         .then((resp) => {
           let data = resp.data;
           if (data.code === 0) {
+            _this.lockTree = false;
             _this.tableData1 = data.data;
             _this.ouPage.totalElement = data.totalcount;
           } else {
@@ -629,13 +634,16 @@ export default {
         }
       });
     },
+    cancelAction(){
+      this.centerDialogVisible = false;
+      this.$refs.userTable.clearSelection();
+    },
     // 确认删除
     sureDel() {
       const _this = this;
       let r = {};
       switch (Number(this.delType)) {
-        case 1:
-          // 删除该用户
+        case 1: // 删除该用户
           r = {
             idarr: this.chooseUser.map((u) => u.id),
           };
@@ -657,8 +665,7 @@ export default {
               });
             });
           break;
-        case 2:
-          // 删除用户的岗位
+        case 2: // 删除用户的岗位
           r = {
             userid: this.currentUser.id,
             osIdArr: this.chooseStation.map((r) => r.id),
@@ -682,8 +689,7 @@ export default {
             });
 
           break;
-        case 3:
-          // 禁用账户,单行
+        case 3: // 禁用账户,单行
           r = {
             idarr: this.chooseUser.map((u) => u.id),
             isEnable: 1,
@@ -707,8 +713,7 @@ export default {
             });
 
           break;
-        case 4:
-          // 启用账户, 勾选的多个
+        case 4: // 启用账户, 勾选的多个
           r = {
             idarr: this.chooseUser.map((u) => u.id),
             isEnable: 0,
@@ -753,7 +758,23 @@ export default {
               });
             });
           break;
-
+        case 6: // 绑定机构
+          r = {
+            userid: this.chooseUser.map((u) => u.id), // 改为数组
+            orgname: this.currentOrgan.OrgName,
+            orgid: this.currentOrgan.OrgID,
+          };
+          userWithOrgan(r).then((res) => {
+            if (res.data.code == 0) {
+              _this.getCurrenOrganUseList(_this.currentOrgan);
+            } else {
+              _this.$Notice.warning({
+                title: "温馨提示",
+                desc: data.msg,
+              });
+            }
+          });
+          break;
         default:
           break;
       }
@@ -814,9 +835,10 @@ export default {
           this.$Notice.warning({
             title: "请先选中一个机构",
           });
+          this.lockTree = true;
           return false;
         }
-        this.delCon = "您是否要重置已选择的用户的密码？";
+        this.delCon = "您是否要变更已选择的用户的机构？";
       }
       this.centerDialogVisible = true;
     },
@@ -851,6 +873,7 @@ export default {
         });
     },
     handleSelectionChange(val) {
+      this.lockTree = val.length !== 0;
       this.chooseUser = val;
       this.idArr = val.map((item) => item.id);
     },
