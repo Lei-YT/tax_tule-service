@@ -9,7 +9,7 @@ export default {
       default: "",
     },
     defaultKeyValue: {
-      type: [String, Object, Array],
+      type: [String, Object, Array, Number],
       default: "",
     },
     labelWidth: {
