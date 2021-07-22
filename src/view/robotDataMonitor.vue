@@ -517,22 +517,24 @@ export default {
     },
     getRobotData() {
       const _this = this;
+      const r = {
+        beginDate: _this.checkBeginDate,
+        endDate: _this.checkEndDate,
+        robot: String(_this.selectedRobot).replace("全部", ""),
+        type: String(_this.selected).replace("全部", "")
+      };
       axios
         .request({
           method: "post",
           url: `/api/bill/robotdatailsdata`,
-          data: {
-            beginDate: _this.checkBeginDate,
-            endDate: _this.checkEndDate,
-            robot: String(_this.selectedRobot).replace("全部", ""),
-          },
+          data: r,
         })
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
             const detailData = data.data.list;
             _this.undonenum = data.data.unfinished;
-            _this.avgBillDatenum = data.data.averageAuditTime.totalAvgTime;
+            _this.avgBillDatenum = (data.data.averageAuditTime.totalAvgTime / 60).toFixed(2);
             // 1 通过、2驳回、3转热工、4超时 如果没有数据就为0
             const success = detailData.find((row) => row.status == 1);
             _this.successnum = success ? success.num : 0;
@@ -583,16 +585,17 @@ export default {
     },
     getListData() {
       const _this = this;
-      let selected = String(_this.selected).replace("全部", "");
+      const r = {
+        beginDate: _this.checkBeginDate,
+        endDate: _this.checkEndDate,
+        robot: String(_this.selectedRobot).replace("全部", ""),
+        type: String(_this.selected).replace("全部", "")
+      };
       axios
         .request({
           method: "post",
           url: `/api/bill/robotdimensiondata`,
-          data: {
-            beginDate: _this.checkBeginDate,
-            endDate: _this.checkEndDate,
-            robot: String(_this.selectedRobot).replace("全部", ""),
-          },
+          data: r,
         })
         .then((resp) => {
           let data = resp.data;
