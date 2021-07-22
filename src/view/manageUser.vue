@@ -90,6 +90,7 @@
           </div>
           <el-table
             :data="tableData1"
+            ref="userTable"
             stripe
             border
             highlight-current-row
@@ -389,7 +390,7 @@
         delCon
       }}</span>
       <span slot="footer" class="dialog-footer">
-        <Button type="primary" @click="centerDialogVisible = false" ghost
+        <Button type="primary" @click="cancelAction" ghost
           >取 消</Button
         >
         <Button type="primary" @click="sureDel" style="margin-left: 20px"
@@ -636,6 +637,10 @@ export default {
         }
       });
     },
+    cancelAction(){
+      this.centerDialogVisible = false;
+      this.$refs.userTable.clearSelection();
+    },
     // 确认删除
     sureDel() {
       const _this = this;
@@ -750,6 +755,7 @@ export default {
                   type: "success",
                   duration: 1200,
                 });
+                _this.cancelAction();
                 // _this.getCurrenOrganUseList(_this.currentOrgan);
               }
             })
