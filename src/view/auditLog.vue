@@ -870,8 +870,6 @@ export default {
           url: `/api/bill/export`,
           method: "POST",
           data: {
-            current: _this.page.currentPage,
-            size: _this.page.size,
             code: _this.formInline.code || "",
             type: _this.formInline.type || "",
             checkResult: _this.formInline.checkResult || "",
@@ -891,31 +889,22 @@ export default {
             orderRulesDate: _this.formInline.orderRulesDate || "",
             orderTotalDate: _this.formInline.orderTotalDate || "",
           },
-          responseType: "blob",
         })
         .then(function (response) {
-          // let data = response.data;
-          // if (data.code == 20000) {
-          //   this.$message({
-          //     message: data.message,
-          //     type: "success",
-          //     duration: 1200,
-          //   });
+          // if (!response) {
+          //   return;
           // }
-          if (!response) {
-            return;
-          }
-          let blobType = "application/vnd.ms-excel";
-          let url = window.URL.createObjectURL(
-            new Blob([response.data], { type: blobType })
-            // response.data
-          );
-          let link = document.createElement("a");
-          link.style.display = "none";
-          link.href = url;
-          link.setAttribute("download", "导出结果");
-          document.body.appendChild(link);
-          link.click();
+          // let blobType = "application/vnd.ms-excel";
+          // let url = window.URL.createObjectURL(
+          //   new Blob([response.data], { type: blobType })
+          //   // response.data
+          // );
+          // let link = document.createElement("a");
+          // link.style.display = "none";
+          // link.href = url;
+          // link.setAttribute("download", "导出结果");
+          // document.body.appendChild(link);
+          // link.click();
         })
         .catch(function (error) {
           console.log(error);
