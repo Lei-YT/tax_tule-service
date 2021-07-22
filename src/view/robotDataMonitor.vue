@@ -523,6 +523,9 @@ export default {
         robot: String(_this.selectedRobot).replace("全部", ""),
         type: String(_this.selected).replace("全部", "")
       };
+      Object.keys(r).forEach(
+        (key) => (r[key] === null || r[key] === "" || r[key] === undefined) && delete r[key]
+      );
       axios
         .request({
           method: "post",
@@ -591,6 +594,9 @@ export default {
         robot: String(_this.selectedRobot).replace("全部", ""),
         type: String(_this.selected).replace("全部", "")
       };
+      Object.keys(r).forEach(
+        (key) => (r[key] === null || r[key] === "" || r[key] === undefined) && delete r[key]
+      );
       axios
         .request({
           method: "post",
