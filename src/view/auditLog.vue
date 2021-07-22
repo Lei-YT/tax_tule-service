@@ -540,7 +540,7 @@
       </Card>
     </div>
     <!-- 弹框 -->
-    <el-dialog title="设置" :visible.sync="dialogFormVisible">
+    <el-dialog title="设置" :visible.sync="dialogFormVisible" width="600px">
       <template slot="title">
         <div class="dialog-title">
           <svg
@@ -582,10 +582,14 @@
           </el-checkbox-group>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="submit">取 消</el-button>
-        <el-button type="primary" @click="submit">确 定</el-button>
-      </div>
+      <span slot="footer" class="dialog-footer">
+        <Button type="primary" @click="submit" ghost
+          >取 消</Button
+        >
+        <Button type="primary" @click="submit" style="margin-left: 20px"
+          >确 定</Button
+        >
+      </span>
     </el-dialog>
   </div>
 </template>

@@ -33,7 +33,7 @@
         <DropdownItem name="logout">退出登录</DropdownItem>
       </DropdownMenu>
     </Dropdown>
-    <el-dialog title="修改密码" :visible.sync="centerDialogVisible" width="500px">
+    <el-dialog title="修改密码" :visible.sync="centerDialogVisible" width="480px">
       <div slot="title" style="color: #2d8cf0;">
         <Icon type="ios-lock-outline" size="20" style="font-weight: 600;" />
         <span style="margin-left: .5em;">修改密码</span>

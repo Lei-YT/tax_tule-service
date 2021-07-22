@@ -70,11 +70,11 @@
                     ref="formInline"
                   >
                     <FormItem label="审核日期:" prop="checkBeginDate">
-                      <div class="numCount">
+                      <div class="numCount" >
                         <Date-picker
                           placeholder="选择日期"
                           type="date"
-                          style="width: '150px'"
+                          style="width: 150px"
                           :options="disabledDate1"
                           :value="checkBeginDate"
                           format="yyyy-MM-dd"
@@ -87,6 +87,7 @@
                         <Date-picker
                           placeholder="选择日期"
                           type="date"
+                          style="width: 150px"
                           :options="disabledDate2"
                           :value="checkEndDate"
                           format="yyyy-MM-dd"
@@ -961,9 +962,9 @@ export default {
     }
   }
 }
-/deep/.ivu-input {
-  width: 150px;
-}
+// /deep/.ivu-input {
+//   width: 150px;
+// }
 // /deep/.ivu-form-item{
 //   margin-bottom: 1px;
 // }
