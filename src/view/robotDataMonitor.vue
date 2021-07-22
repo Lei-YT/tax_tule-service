@@ -593,10 +593,8 @@ export default {
           method: "post",
           url: `/api/bill/robotdimensiondata`,
           data: {
-            // type: selected,
-            // status: _this.status,
-            checkBeginDate: _this.checkBeginDate,
-            checkEndDate: _this.checkEndDate,
+            beginDate: _this.checkBeginDate,
+            endDate: _this.checkEndDate,
             robot: String(_this.selectedRobot).replace("全部", ""),
           },
         })
