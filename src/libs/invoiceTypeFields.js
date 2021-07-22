@@ -246,7 +246,7 @@ const other = {
       { label: '备注', key: 'remarks', col: 12 },
     ],
     [
-      { label: '验真数据来源', key: 'checkWay', col: 24, width: 120 },
+      { label: '数据验真方式', key: 'checkWay', col: 24, width: 120 },
     ],
   ]
 }
