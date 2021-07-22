@@ -12,7 +12,7 @@ export default {
   name: "App",
   created() {
     console.log(
-      `%c Build %c v0.96.10 %c`,
+      `%c Build %c v0.97.0 %c`,
       "background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff",
       "background:#41b883 ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff",
       "background:transparent"
