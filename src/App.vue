@@ -47,11 +47,39 @@ body {
 }
 .ivu-page-prev a,
 .ivu-page-next a {
-  margin: 0 6px!important;
+  margin: 0 6px !important;
 }
-.ivu-tree-title{
+.ivu-tree-title {
   width: calc(~"100% - 16px");
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.el-dialog {
+  line-height: 1;
+  .el-dialog__body {
+    padding: 20px;
+  }
+  .el-dialog__header {
+    border-bottom: 1px solid #999;
+  }
+  .dialog-title {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    i{
+      font-size: 20px;
+      color: #1991dd;
+      font-weight: 600;
+    }
+  }
+  .el-dialog__title {
+    margin-left: 0.5rem;
+    color: #1991dd;
+  }
+  .el-dialog__footer {
+    border-top: 1px solid;
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>

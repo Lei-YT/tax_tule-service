@@ -195,6 +195,11 @@
       </Card>
     </div>
     <el-dialog title="添加表单" :visible.sync="showAddModal" width="400px">
+      <template slot="title">
+        <div class="dialog-title"><svg t="1626972171645" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="14962" width="24" height="24"><path d="M616 224H560V128a64 64 0 0 0-64-64h-96a64 64 0 0 0-64 64v96h-56a40 40 0 0 0 0 80h336a40 40 0 0 0 0-80z m5.76 45.76a8.64 8.64 0 0 1-5.76 2.24h-336a8 8 0 1 1 0-16H368V128a32 32 0 0 1 32-32h96a32 32 0 0 1 32 32v128h88a8 8 0 0 1 8 8 8.64 8.64 0 0 1-2.24 5.76z" fill="#1991DD" p-id="14963"></path><path d="M448 160a8 8 0 1 1-8 8 8 8 0 0 1 8-8z m0-32a39.84 39.84 0 1 0 28.32 11.68A40 40 0 0 0 448 128z m248 288h-496a24 24 0 0 0 0 48h496a24 24 0 0 0 0-48z m-256 288h-240a24 24 0 0 0 0 48h240a24 24 0 0 0 0-48z m0-144h-240a24 24 0 0 0 0 48h240a24 24 0 0 0 0-48z" fill="#1991DD" p-id="14964"></path><path d="M480 936a24 24 0 0 1-24 24H128a64 64 0 0 1-64-64V208a64 64 0 0 1 64-64h72a24 24 0 0 1 0 48H128a16 16 0 0 0-16 16v688a16 16 0 0 0 16 16h328a24 24 0 0 1 24 24zM832 208v248a24 24 0 0 1-48 0V208a16 16 0 0 0-16-16h-72a24 24 0 0 1 0-48H768a64 64 0 0 1 64 64z" fill="#1991DD" p-id="14965"></path><path d="M737.6 515.2a64 64 0 0 1 45.28 18.72l158.4 158.4a64 64 0 0 1 0 90.56l-158.4 158.4a64 64 0 0 1-90.56 0l-158.4-158.4a64 64 0 0 1 0-90.56l158.4-158.4a64 64 0 0 1 45.28-18.72z m0 32a32 32 0 0 0-22.56 9.44l-158.4 158.4a32 32 0 0 0 0 45.12l158.4 158.4a32 32 0 0 0 45.12 0l158.4-158.4a32 32 0 0 0 0-45.12l-158.4-158.4a32 32 0 0 0-22.56-9.44z" fill="#1991DD" p-id="14966"></path><path d="M832 704H640a16 16 0 0 0 0 32h192a16 16 0 0 0 0-32z" fill="#1991DD" p-id="14967"></path><path d="M736 608a16 16 0 0 0-16 16v192a16 16 0 0 0 32 0V624a16 16 0 0 0-16-16z" fill="#1991DD" p-id="14968"></path></svg>
+          <span class="el-dialog__title">添加表单</span>
+        </div>
+      </template>
       <el-form
         ref="addformflowf"
         :model="addForm"
@@ -203,13 +208,13 @@
         center
       >
         <el-form-item label="表单名称" prop="formName">
-          <el-input v-model="addForm.formName" placeholder="请输入表单名称" />
+          <el-input size="small" v-model="addForm.formName" placeholder="请输入表单名称" />
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="showAddModal = false">取 消</el-button>
-        <el-button type="primary" @click="addFormFlow()">确 定</el-button>
+        <el-button size="small" @click="showAddModal = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="addFormFlow()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
