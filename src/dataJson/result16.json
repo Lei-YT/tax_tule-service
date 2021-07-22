@@ -2,607 +2,723 @@
   "status": 200,
   "message": "成功",
   "data": {
-      "billType": "CRTG_材料结算单(成本推送)",
-      "taskId": "1415571409162874882",
-      "billNo": "20210711109309302004964738",
-      "versionName": "版本-5.4",
-      "imageInfo": [
+    "billType": "CRTG_材料结算单(成本推送)",
+    "taskId": "1415571409162874882",
+    "billNo": "20210711109309302004964738",
+    "versionName": "版本-5.4",
+    "imageInfo": [
+      {
+        "imageId": "1415571434893549569",
+        "billId": "1415571416405057537",
+        "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/24e295b3aeb3a9673670384126abf92f.jpg",
+        "invoices": [
           {
-              "imageId": "1415571434893549569",
-              "billId": "1415571416405057537",
-              "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/24e295b3aeb3a9673670384126abf92f.jpg",
-              "invoices": [
-                  {
-                      "isLowValueConsumables": "no",
-                      "invoiceFormName": "发票联",
-                      "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
-                      "sellerName": "湖南荣晟熠物资贸易有限公司",
-                      "isDaikai": "no",
-                      "isTurnoverMaterial": "no",
-                      "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
-                      "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
-                      "isVerify": "yes",
-                      "isFixedAssets": "no",
-                      "repeat": "no",
-                      "invoiceType": "增值税专用发票",
-                      "invoiceNo": "04196551",
-                      "checkWay": "1",
-                      "amountWithoutTax": "96561.99",
-                      "imageId": "1415571434893549569",
-                      "specialSeal": "发票专用章",
-                      "invoiceDate": "2021-06-23",
-                      "invoiceCode": "4300201130",
-                      "purchaserName": "中铁隧道集团二处有限公司",
-                      "sellerTaxNo": "91430626MA4M6JRX0X",
-                      "invoiceItems": [
-                          {
-                              "itemUnitPrice": 169.40700201832,
-                              "itemName": "*非金属矿物制品*管桩",
-                              "itemQuantity": "570",
-                              "itemAmount": "96561.99",
-                              "itemModel": "AB400*95",
-                              "itemUnit": "米",
-                              "itemTaxAmount": "12553.06",
-                              "itemTaxRate": "13%"
-                          }
-                      ],
-                      "purchaserTaxNo": "91131082109309255P",
-                      "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
-                      "invoiceId": "1415571551721693186",
-                      "invoiceSubType": "",
-                      "taxAmount": "12553.06",
-                      "amountWithTax": "109115.05",
-                      "fileType": "other",
-                      "remarks": ""
-                  }
-              ]
+            "imageId": "1417805574980304897",
+            "fpAmount": "5540797.47",
+            "fpItems": [
+              {
+                "itemAmount": "122036.28",
+                "supplier": "怀化市嘉德佳物资有限公司",
+                "supplierAmount": "122036.28"
+              },
+              {
+                "itemAmount": "160629.2",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "167460.69",
+                "supplier": "恒源隧物资有限公司",
+                "supplierAmount": "327729.72"
+              },
+              {
+                "itemAmount": "160269.03",
+                "supplier": "恒源隧物资有限公司",
+                "supplierAmount": "327729.72"
+              },
+              {
+                "itemAmount": "150538.41",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "491457.98",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "164119.36",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "326442.48",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "344176.5",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "326904.78",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "336295.22",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "1354571.33",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "698414.16",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              },
+              {
+                "itemAmount": "87736.74",
+                "supplier": "限",
+                "supplierAmount": "87736.74"
+              },
+              {
+                "itemAmount": "48084.53",
+                "supplier": "深圳市佑鸿源科技发展有限",
+                "supplierAmount": "649745.27"
+              },
+              {
+                "itemAmount": "181784.07",
+                "supplier": "深圳市佑鸿源科技发展有限",
+                "supplierAmount": "649745.27"
+              },
+              {
+                "itemAmount": "189296.5",
+                "supplier": "深圳市佑鸿源科技发展有限",
+                "supplierAmount": "649745.27"
+              },
+              {
+                "itemAmount": "34795.82",
+                "supplier": "深圳市佑鸿源科技发展有限",
+                "supplierAmount": "649745.27"
+              },
+              {
+                "itemAmount": "27364.88",
+                "supplier": "深圳市佑鸿源科技发展有限",
+                "supplierAmount": "649745.27"
+              },
+              {
+                "itemAmount": "168419.47",
+                "supplier": "深圳市佑鸿源科技发展有限",
+                "supplierAmount": "649745.27"
+              },
+              {
+                "itemAmount": "0.04",
+                "supplier": "洛阳恒源隧物资有限公司",
+                "supplierAmount": "4353549.46"
+              }
+            ],
+            "repeat": "",
+            "invoiceType": "未提账单清单",
+            "invoiceId": "1417805833080995842",
+            "checkWay": "0",
+            "isVerify": ""
           },
           {
-              "imageId": "1415571447522598914",
-              "billId": "1415571416405057537",
-              "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/e1c3515b82355e175a5a6e5edc26577d.jpg",
-              "invoices": [
-                  {
-                      "isLowValueConsumables": "no",
-                      "invoiceFormName": "发票联",
-                      "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
-                      "sellerName": "湖南荣晟熠物资贸易有限公司",
-                      "isDaikai": "no",
-                      "isTurnoverMaterial": "no",
-                      "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
-                      "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
-                      "isVerify": "yes",
-                      "isFixedAssets": "no",
-                      "repeat": "no",
-                      "invoiceType": "增值税专用发票",
-                      "invoiceNo": "04196552",
-                      "checkWay": "1",
-                      "amountWithoutTax": "96561.99",
-                      "imageId": "1415571447522598914",
-                      "specialSeal": "发票专用章",
-                      "invoiceDate": "2021-06-23",
-                      "invoiceCode": "4300201130",
-                      "purchaserName": "中铁隧道集团二处有限公司",
-                      "sellerTaxNo": "91430626MA4M6JRX0X",
-                      "invoiceItems": [
-                          {
-                              "itemUnitPrice": 169.40700201832,
-                              "itemName": "*非金属矿物制品*管桩",
-                              "itemQuantity": "570",
-                              "itemAmount": "96561.99",
-                              "itemModel": "AB400*95",
-                              "itemUnit": "米",
-                              "itemTaxAmount": "12553.06",
-                              "itemTaxRate": "13%"
-                          }
-                      ],
-                      "purchaserTaxNo": "91131082109309255P",
-                      "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
-                      "invoiceId": "1415571622953558017",
-                      "invoiceSubType": "",
-                      "taxAmount": "12553.06",
-                      "amountWithTax": "109115.05",
-                      "fileType": "other",
-                      "remarks": ""
-                  }
-              ]
-          },
-          {
-              "imageId": "1415571460151648257",
-              "billId": "1415571416405057537",
-              "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/559a7da37bca1897e5d2b6da79742a40.jpg",
-              "invoices": [
-                  {
-                      "isLowValueConsumables": "no",
-                      "invoiceFormName": "发票联",
-                      "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
-                      "sellerName": "湖南荣晟熠物资贸易有限公司",
-                      "isDaikai": "no",
-                      "isTurnoverMaterial": "no",
-                      "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
-                      "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
-                      "isVerify": "yes",
-                      "isFixedAssets": "no",
-                      "repeat": "no",
-                      "invoiceType": "增值税专用发票",
-                      "invoiceNo": "04260222",
-                      "checkWay": "2",
-                      "amountWithoutTax": "96561.99",
-                      "imageId": "1415571460151648257",
-                      "specialSeal": "发票专用章",
-                      "invoiceDate": "2021-06-25",
-                      "invoiceCode": "4300201130",
-                      "purchaserName": "中铁隧道集团二处有限公司",
-                      "sellerTaxNo": "91430626MA4M6JRX0X",
-                      "invoiceItems": [
-                          {
-                              "itemUnitPrice": 169.40700201832,
-                              "itemName": "*非金属矿物制品*管桩",
-                              "itemQuantity": "570",
-                              "itemAmount": "96561.99",
-                              "itemModel": "AB400*95",
-                              "itemUnit": "米",
-                              "itemTaxAmount": "12553.06",
-                              "itemTaxRate": "13%"
-                          }
-                      ],
-                      "purchaserTaxNo": "91131082109309255P",
-                      "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
-                      "invoiceId": "1415571704901869570",
-                      "invoiceSubType": "",
-                      "taxAmount": "12553.06",
-                      "amountWithTax": "109115.05",
-                      "fileType": "other",
-                      "remarks": ""
-                  }
-              ]
-          },
-          {
-              "imageId": "1415571472780697602",
-              "billId": "1415571416405057537",
-              "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/3a2c2bb7a2debb92fd2e3bb417bac8fe.jpg",
-              "invoices": [
-                  {
-                      "isLowValueConsumables": "no",
-                      "invoiceFormName": "发票联",
-                      "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
-                      "sellerName": "湖南荣晟熠物资贸易有限公司",
-                      "isDaikai": "no",
-                      "isTurnoverMaterial": "no",
-                      "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
-                      "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
-                      "isVerify": "yes",
-                      "isFixedAssets": "no",
-                      "repeat": "no",
-                      "invoiceType": "增值税专用发票",
-                      "invoiceNo": "04260223",
-                      "checkWay": "1",
-                      "amountWithoutTax": "96561.99",
-                      "imageId": "1415571472780697602",
-                      "specialSeal": "发票专用章",
-                      "invoiceDate": "2021-06-25",
-                      "invoiceCode": "4300201130",
-                      "purchaserName": "中铁隧道集团二处有限公司",
-                      "sellerTaxNo": "91430626MA4M6JRX0X",
-                      "invoiceItems": [
-                          {
-                              "itemUnitPrice": 169.40700201832,
-                              "itemName": "*非金属矿物制品*管桩",
-                              "itemQuantity": "570",
-                              "itemAmount": "96561.99",
-                              "itemModel": "AB400*95",
-                              "itemUnit": "米",
-                              "itemTaxAmount": "12553.06",
-                              "itemTaxRate": "13%"
-                          }
-                      ],
-                      "purchaserTaxNo": "91131082109309255P",
-                      "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
-                      "invoiceId": "1415571824099794946",
-                      "invoiceSubType": "",
-                      "taxAmount": "12553.06",
-                      "amountWithTax": "109115.05",
-                      "fileType": "other",
-                      "remarks": ""
-                  }
-              ]
-          },
-          {
-              "imageId": "1415571485405552641",
-              "billId": "1415571416405057537",
-              "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/f6f95b703f2c7580e09ce1eb4fda0d67.jpg",
-              "invoices": [
-                  {
-                      "isLowValueConsumables": "no",
-                      "invoiceFormName": "发票联",
-                      "purchaserBankAccount": "中国建设银行廊坊市燕郊支行13001703648050000533",
-                      "sellerName": "湖南荣晟烟物资贸易有限公司",
-                      "isDaikai": "no",
-                      "isTurnoverMaterial": "no",
-                      "purchaserAddress": "三河市燕郊开发区学院路大街南侧0316-3362246",
-                      "isVerify": "no",
-                      "isFixedAssets": "no",
-                      "repeat": "no",
-                      "invoiceType": "增值税专用发票",
-                      "invoiceNo": "04260224",
-                      "checkWay": "0",
-                      "amountWithoutTax": "96561.99",
-                      "imageId": "1415571485405552641",
-                      "specialSeal": "发票专用章",
-                      "invoiceDate": "2021-06-25",
-                      "invoiceCode": "4300201130",
-                      "purchaserName": "中铁隧道集团二处有限公司",
-                      "sellerTaxNo": "91430626MA4M6JRX0X",
-                      "invoiceItems": [
-                          {
-                              "itemUnitPrice": 169.40700202,
-                              "itemName": "*非金属矿物制品*管桩",
-                              "itemQuantity": "570",
-                              "itemAmount": "96561.99",
-                              "itemModel": "AB400*95",
-                              "itemUnit": "米",
-                              "itemTaxAmount": "-|",
-                              "itemTaxRate": "13%"
-                          }
-                      ],
-                      "purchaserTaxNo": "91131082109309255P",
-                      "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
-                      "invoiceId": "1415571873236066305",
-                      "invoiceSubType": "",
-                      "taxAmount": "12553.06",
-                      "amountWithTax": "109115.05",
-                      "fileType": "other",
-                      "remarks": ""
-                  }
-              ]
-          },
-          {
-              "imageId": "1415571498034601985",
-              "billId": "1415571416405057537",
-              "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/1574862d4aa5ba11367ff5330a0c43ce.jpg",
-              "invoices": [
-                  {
-                      "isLowValueConsumables": "no",
-                      "invoiceFormName": "发票联",
-                      "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
-                      "sellerName": "湖南荣晟熠物资贸易有限公司",
-                      "isDaikai": "no",
-                      "isTurnoverMaterial": "no",
-                      "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
-                      "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
-                      "isVerify": "yes",
-                      "isFixedAssets": "no",
-                      "repeat": "no",
-                      "invoiceType": "增值税专用发票",
-                      "invoiceNo": "04260225",
-                      "checkWay": "1",
-                      "amountWithoutTax": "85211.72",
-                      "imageId": "1415571498034601985",
-                      "specialSeal": "发票专用章",
-                      "invoiceDate": "2021-06-25",
-                      "invoiceCode": "4300201130",
-                      "purchaserName": "中铁隧道集团二处有限公司",
-                      "sellerTaxNo": "91430626MA4M6JRX0X",
-                      "invoiceItems": [
-                          {
-                              "itemUnitPrice": 169.40699167825,
-                              "itemName": "*非金属矿物制品*管桩",
-                              "itemQuantity": "503",
-                              "itemAmount": "85211.72",
-                              "itemModel": "AB400*95",
-                              "itemUnit": "米",
-                              "itemTaxAmount": "11077.52",
-                              "itemTaxRate": "13%"
-                          }
-                      ],
-                      "purchaserTaxNo": "91131082109309255P",
-                      "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
-                      "invoiceId": "1415571991397998593",
-                      "invoiceSubType": "",
-                      "taxAmount": "11077.52",
-                      "amountWithTax": "96289.24",
-                      "fileType": "other",
-                      "remarks": ""
-                  }
-              ]
-          },
-          {
-              "imageId": "1415571510663651330",
-              "billId": "1415571416405057537",
-              "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/b41f29282f845bca148d52f3a047f822.jpg",
-              "invoices": [
-                  {
-                      "isLowValueConsumables": "no",
-                      "invoiceFormName": "发票联",
-                      "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
-                      "sellerName": "湖南荣晟熠物资贸易有限公司",
-                      "isDaikai": "no",
-                      "isTurnoverMaterial": "no",
-                      "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
-                      "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
-                      "isVerify": "yes",
-                      "isFixedAssets": "no",
-                      "repeat": "no",
-                      "invoiceType": "增值税专用发票",
-                      "invoiceNo": "04260226",
-                      "checkWay": "1",
-                      "amountWithoutTax": "28500.00",
-                      "imageId": "1415571510663651330",
-                      "specialSeal": "发票专用章",
-                      "invoiceDate": "2021-06-25",
-                      "invoiceCode": "4300201130",
-                      "purchaserName": "中铁隧道集团二处有限公司",
-                      "sellerTaxNo": "91430626MA4M6JRX0X",
-                      "invoiceItems": [
-                          {
-                              "itemUnitPrice": 95,
-                              "itemName": "*黑色金属冶炼压延品*桩尖",
-                              "itemQuantity": "300",
-                              "itemAmount": "28500.00",
-                              "itemModel": "AB400",
-                              "itemUnit": "个",
-                              "itemTaxAmount": "3705.00",
-                              "itemTaxRate": "13%"
-                          }
-                      ],
-                      "purchaserTaxNo": "91131082109309255P",
-                      "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
-                      "invoiceId": "1415572032208576513",
-                      "invoiceSubType": "",
-                      "taxAmount": "3705.00",
-                      "amountWithTax": "32205.00",
-                      "fileType": "other",
-                      "remarks": ""
-                  }
-              ]
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
+            "sellerName": "湖南荣晟熠物资贸易有限公司",
+            "isDaikai": "no",
+            "isTurnoverMaterial": "no",
+            "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
+            "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
+            "isVerify": "yes",
+            "isFixedAssets": "no",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "04196551",
+            "checkWay": "1",
+            "amountWithoutTax": "96561.99",
+            "imageId": "1415571434893549569",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-06-23",
+            "invoiceCode": "4300201130",
+            "purchaserName": "中铁隧道集团二处有限公司",
+            "sellerTaxNo": "91430626MA4M6JRX0X",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 169.40700201832,
+                "itemName": "*非金属矿物制品*管桩",
+                "itemQuantity": "570",
+                "itemAmount": "96561.99",
+                "itemModel": "AB400*95",
+                "itemUnit": "米",
+                "itemTaxAmount": "12553.06",
+                "itemTaxRate": "13%"
+              }
+            ],
+            "purchaserTaxNo": "91131082109309255P",
+            "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
+            "invoiceId": "1415571551721693186",
+            "invoiceSubType": "",
+            "taxAmount": "12553.06",
+            "amountWithTax": "109115.05",
+            "fileType": "other",
+            "remarks": ""
           }
-      ],
-      "errors": [
+        ]
+      },
+      {
+        "imageId": "1415571447522598914",
+        "billId": "1415571416405057537",
+        "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/e1c3515b82355e175a5a6e5edc26577d.jpg",
+        "invoices": [
           {
-              "imageId": "1415571485405552641",
-              "infos": [
-                  {
-                      "invoiceId": "1415571873236066305",
-                      "messages": [
-                          "发票销售方名称与表单客户名称不符"
-                      ]
-                  }
-              ]
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
+            "sellerName": "湖南荣晟熠物资贸易有限公司",
+            "isDaikai": "no",
+            "isTurnoverMaterial": "no",
+            "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
+            "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
+            "isVerify": "yes",
+            "isFixedAssets": "no",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "04196552",
+            "checkWay": "1",
+            "amountWithoutTax": "96561.99",
+            "imageId": "1415571447522598914",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-06-23",
+            "invoiceCode": "4300201130",
+            "purchaserName": "中铁隧道集团二处有限公司",
+            "sellerTaxNo": "91430626MA4M6JRX0X",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 169.40700201832,
+                "itemName": "*非金属矿物制品*管桩",
+                "itemQuantity": "570",
+                "itemAmount": "96561.99",
+                "itemModel": "AB400*95",
+                "itemUnit": "米",
+                "itemTaxAmount": "12553.06",
+                "itemTaxRate": "13%"
+              }
+            ],
+            "purchaserTaxNo": "91131082109309255P",
+            "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
+            "invoiceId": "1415571622953558017",
+            "invoiceSubType": "",
+            "taxAmount": "12553.06",
+            "amountWithTax": "109115.05",
+            "fileType": "other",
+            "remarks": ""
           }
-      ],
-      "data": [
+        ]
+      },
+      {
+        "imageId": "1415571460151648257",
+        "billId": "1415571416405057537",
+        "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/559a7da37bca1897e5d2b6da79742a40.jpg",
+        "invoices": [
           {
-              "ruleCount": 23,
-              "errorCount": 1,
-              "ruleType": "IMAGES",
-              "color": null,
-              "result": [
-                  {
-                      "ruleId": "LN7875067299",
-                      "aliasName": "发票购买方信息完整性审核",
-                      "ruleName": "当影像.发票=专票时，则影像.发票.购买方.地址、电话、开户行及账户≠空",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "JG1840972355",
-                      "aliasName": "发票销售方信息完整性审核",
-                      "ruleName": "当影像.发票=专票、普票、电子普票、机动车销售统一发票时，则影像.发票.销售方.地址、电话、开户行及账户≠空",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "FG4997980652",
-                      "aliasName": "发票专用章审核",
-                      "ruleName": "影像.发票票面无代开字样时，则需加盖发票章（新版电子发票除外）",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "QT2306654241",
-                      "aliasName": "跨期发票审核",
-                      "ruleName": "表单.财务信息.制证日期-影像.发票.发票日期＜2个自然年",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "ET1202155477",
-                      "aliasName": "进项发票联次审核",
-                      "ruleName": "当影像.发票=专票、普票、机动车销售统一发票、通用机打发票、通用手工发票时，且当发票类别=进项发票时，则影像.发票.联次=发票联",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "QT7113092883",
-                      "aliasName": "进项发票抬头审核",
-                      "ruleName": "当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，且为进项发票时，则增值税发票：影像.发票.购买方名称=表单.单据信息.所属法人",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "SB9534877427",
-                      "aliasName": "进项发票纳税人识别号审核",
-                      "ruleName": "当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，且为进项发票时，则影像.发票.纳税人识别号=表单.单据信息.所属法人的纳税人识别号（字段库）",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "MC3875947344",
-                      "aliasName": "",
-                      "ruleName": "发票金额审核~当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "YP6187416841",
-                      "aliasName": "一般计税方式发票价税合计录入审核",
-                      "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票、铁路车票、客运票时，则表单.发票信息.价税合计=影像.发票.价税合计",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "TC7536949005",
-                      "aliasName": "一般计税方式开票日期录入审核",
-                      "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票、航空运输电子客票行程单、铁路车票、客运票时，则表单.发票信息.开票日期=影像.发票.发票日期",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "JA3512031611",
-                      "aliasName": "发票信息审核",
-                      "ruleName": "发票信息应与影像一一对应",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "QH5427867540",
-                      "aliasName": "发票号码录入审核",
-                      "ruleName": "当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票时，则表单.发票信息.发票号=影像.发票.发票号",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "LM8628591663",
-                      "aliasName": "一般计税方式发票税额录入审核",
-                      "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且表单.子表或明细表.不含”年休“、”探亲“、“福利”等关键字，且当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票时，则表单.发票信息.税额=影像.发票.税额合计；",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "AM1828614221",
-                      "aliasName": "发票税收编码审核",
-                      "ruleName": "（材料结算单\/材料结算-成本）影像.发票.货物或应税劳务、服务名称≠“餐”、“住宿”、“租”、“烟”、“酒”、“茶”、“办公”、“工艺品”",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "ST7133250403",
-                      "aliasName": "发票税率审核",
-                      "ruleName": "（材料结算单\/材料结算-成本）影像.发票.税率≠5%",
-                      "correct": true,
-                      "ruleType": "IMAGE"
-                  },
-                  {
-                      "ruleId": "HR9571816484",
-                      "aliasName": "自行\/零星采购非代开发票客商名称审核",
-                      "ruleName": "（材料结算-成本）当影像.发票无代开字样，且业务信息.采购类型＝“自行采购”、“零星采购”，且业务信息.对方单位≠阿里巴巴（中国）网络技术有限公司时，则影像.发票.销售方名称=表单.业务信息.往来单位",
-                      "correct": false,
-                      "message": "发票销售方名称与表单客户名称不符",
-                      "ruleType": "IMAGE",
-                      "imageData": [
-                          {
-                              "imageId": "1415571485405552641",
-                              "infos": [
-                                  {
-                                      "invoiceId": "1415571873236066305"
-                                  }
-                              ]
-                          }
-                      ]
-                  },
-                  {
-                      "ruleId": "GP2438494329",
-                      "aliasName": "发票代码录入审核",
-                      "ruleName": "当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票时，则表单.发票信息.发票代码=影像.发票.发票代码",
-                      "correct": true,
-                      "ruleType": "FIELD"
-                  },
-                  {
-                      "ruleId": "HB9621476680",
-                      "aliasName": "",
-                      "ruleName": "发票类别判断1~当表单≠“CRTG_验工计价单”、“CRTG_其他业务收入表”、“CRTG_税费结转单”时，则表单.发票信息.发票类别=“进项发票”",
-                      "correct": true,
-                      "ruleType": "FIELD"
-                  },
-                  {
-                      "ruleId": "TA2745405143",
-                      "aliasName": "",
-                      "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票、航空运输电子客票行程单（票价+燃油费）、铁路车票、其他实名制客票时，则表单.发票信息.开票日期=影像.发票.发票日期",
-                      "correct": true,
-                      "ruleType": "LINES"
-                  },
-                  {
-                      "ruleId": "NS7504867019",
-                      "aliasName": "",
-                      "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计",
-                      "correct": true,
-                      "ruleType": "LINES"
-                  },
-                  {
-                      "ruleId": "KG2440748608",
-                      "aliasName": "",
-                      "ruleName": "当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票时，则表单.发票信息.发票代码=影像.发票.发票代码",
-                      "correct": true,
-                      "ruleType": "LINES"
-                  },
-                  {
-                      "ruleId": "ND8229647022",
-                      "aliasName": "",
-                      "ruleName": "当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票时，则表单.发票信息.发票号=影像.发票.发票号",
-                      "correct": true,
-                      "ruleType": "LINES"
-                  },
-                  {
-                      "ruleId": "DC6861968440",
-                      "aliasName": "",
-                      "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且表单.子表或明细表.不含”年休“、”探亲“、“福利”等关键字，且当表单.发票信息.发票类型=专用发票、普通发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票时，，则表单.发票信息.税额=影像.发票.税额合计",
-                      "correct": true,
-                      "ruleType": "LINES"
-                  }
-              ]
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
+            "sellerName": "湖南荣晟熠物资贸易有限公司",
+            "isDaikai": "no",
+            "isTurnoverMaterial": "no",
+            "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
+            "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
+            "isVerify": "yes",
+            "isFixedAssets": "no",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "04260222",
+            "checkWay": "2",
+            "amountWithoutTax": "96561.99",
+            "imageId": "1415571460151648257",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-06-25",
+            "invoiceCode": "4300201130",
+            "purchaserName": "中铁隧道集团二处有限公司",
+            "sellerTaxNo": "91430626MA4M6JRX0X",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 169.40700201832,
+                "itemName": "*非金属矿物制品*管桩",
+                "itemQuantity": "570",
+                "itemAmount": "96561.99",
+                "itemModel": "AB400*95",
+                "itemUnit": "米",
+                "itemTaxAmount": "12553.06",
+                "itemTaxRate": "13%"
+              }
+            ],
+            "purchaserTaxNo": "91131082109309255P",
+            "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
+            "invoiceId": "1415571704901869570",
+            "invoiceSubType": "",
+            "taxAmount": "12553.06",
+            "amountWithTax": "109115.05",
+            "fileType": "other",
+            "remarks": ""
+          }
+        ]
+      },
+      {
+        "imageId": "1415571472780697602",
+        "billId": "1415571416405057537",
+        "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/3a2c2bb7a2debb92fd2e3bb417bac8fe.jpg",
+        "invoices": [
+          {
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
+            "sellerName": "湖南荣晟熠物资贸易有限公司",
+            "isDaikai": "no",
+            "isTurnoverMaterial": "no",
+            "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
+            "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
+            "isVerify": "yes",
+            "isFixedAssets": "no",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "04260223",
+            "checkWay": "1",
+            "amountWithoutTax": "96561.99",
+            "imageId": "1415571472780697602",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-06-25",
+            "invoiceCode": "4300201130",
+            "purchaserName": "中铁隧道集团二处有限公司",
+            "sellerTaxNo": "91430626MA4M6JRX0X",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 169.40700201832,
+                "itemName": "*非金属矿物制品*管桩",
+                "itemQuantity": "570",
+                "itemAmount": "96561.99",
+                "itemModel": "AB400*95",
+                "itemUnit": "米",
+                "itemTaxAmount": "12553.06",
+                "itemTaxRate": "13%"
+              }
+            ],
+            "purchaserTaxNo": "91131082109309255P",
+            "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
+            "invoiceId": "1415571824099794946",
+            "invoiceSubType": "",
+            "taxAmount": "12553.06",
+            "amountWithTax": "109115.05",
+            "fileType": "other",
+            "remarks": ""
+          }
+        ]
+      },
+      {
+        "imageId": "1415571485405552641",
+        "billId": "1415571416405057537",
+        "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/f6f95b703f2c7580e09ce1eb4fda0d67.jpg",
+        "invoices": [
+          {
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行廊坊市燕郊支行13001703648050000533",
+            "sellerName": "湖南荣晟烟物资贸易有限公司",
+            "isDaikai": "no",
+            "isTurnoverMaterial": "no",
+            "purchaserAddress": "三河市燕郊开发区学院路大街南侧0316-3362246",
+            "isVerify": "no",
+            "isFixedAssets": "no",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "04260224",
+            "checkWay": "0",
+            "amountWithoutTax": "96561.99",
+            "imageId": "1415571485405552641",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-06-25",
+            "invoiceCode": "4300201130",
+            "purchaserName": "中铁隧道集团二处有限公司",
+            "sellerTaxNo": "91430626MA4M6JRX0X",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 169.40700202,
+                "itemName": "*非金属矿物制品*管桩",
+                "itemQuantity": "570",
+                "itemAmount": "96561.99",
+                "itemModel": "AB400*95",
+                "itemUnit": "米",
+                "itemTaxAmount": "-|",
+                "itemTaxRate": "13%"
+              }
+            ],
+            "purchaserTaxNo": "91131082109309255P",
+            "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
+            "invoiceId": "1415571873236066305",
+            "invoiceSubType": "",
+            "taxAmount": "12553.06",
+            "amountWithTax": "109115.05",
+            "fileType": "other",
+            "remarks": ""
+          }
+        ]
+      },
+      {
+        "imageId": "1415571498034601985",
+        "billId": "1415571416405057537",
+        "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/1574862d4aa5ba11367ff5330a0c43ce.jpg",
+        "invoices": [
+          {
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
+            "sellerName": "湖南荣晟熠物资贸易有限公司",
+            "isDaikai": "no",
+            "isTurnoverMaterial": "no",
+            "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
+            "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
+            "isVerify": "yes",
+            "isFixedAssets": "no",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "04260225",
+            "checkWay": "1",
+            "amountWithoutTax": "85211.72",
+            "imageId": "1415571498034601985",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-06-25",
+            "invoiceCode": "4300201130",
+            "purchaserName": "中铁隧道集团二处有限公司",
+            "sellerTaxNo": "91430626MA4M6JRX0X",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 169.40699167825,
+                "itemName": "*非金属矿物制品*管桩",
+                "itemQuantity": "503",
+                "itemAmount": "85211.72",
+                "itemModel": "AB400*95",
+                "itemUnit": "米",
+                "itemTaxAmount": "11077.52",
+                "itemTaxRate": "13%"
+              }
+            ],
+            "purchaserTaxNo": "91131082109309255P",
+            "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
+            "invoiceId": "1415571991397998593",
+            "invoiceSubType": "",
+            "taxAmount": "11077.52",
+            "amountWithTax": "96289.24",
+            "fileType": "other",
+            "remarks": ""
+          }
+        ]
+      },
+      {
+        "imageId": "1415571510663651330",
+        "billId": "1415571416405057537",
+        "imageURL": "http:\/\/fs.crtg.com:6653\/2021\/07\/15\/b41f29282f845bca148d52f3a047f822.jpg",
+        "invoices": [
+          {
+            "isLowValueConsumables": "no",
+            "invoiceFormName": "发票联",
+            "purchaserBankAccount": "中国建设银行廊坊市燕郊支行 13001703648050000533",
+            "sellerName": "湖南荣晟熠物资贸易有限公司",
+            "isDaikai": "no",
+            "isTurnoverMaterial": "no",
+            "sellerAddress": "湖南省岳阳市平江县伍市镇武莲村492号 13387312266",
+            "purchaserAddress": "三河市燕郊开发区学院路大街南侧 0316-3362246",
+            "isVerify": "yes",
+            "isFixedAssets": "no",
+            "repeat": "no",
+            "invoiceType": "增值税专用发票",
+            "invoiceNo": "04260226",
+            "checkWay": "1",
+            "amountWithoutTax": "28500.00",
+            "imageId": "1415571510663651330",
+            "specialSeal": "发票专用章",
+            "invoiceDate": "2021-06-25",
+            "invoiceCode": "4300201130",
+            "purchaserName": "中铁隧道集团二处有限公司",
+            "sellerTaxNo": "91430626MA4M6JRX0X",
+            "invoiceItems": [
+              {
+                "itemUnitPrice": 95,
+                "itemName": "*黑色金属冶炼压延品*桩尖",
+                "itemQuantity": "300",
+                "itemAmount": "28500.00",
+                "itemModel": "AB400",
+                "itemUnit": "个",
+                "itemTaxAmount": "3705.00",
+                "itemTaxRate": "13%"
+              }
+            ],
+            "purchaserTaxNo": "91131082109309255P",
+            "sellerBankAccount": "中国银行股份有限公司平江县育才路支行580771063653",
+            "invoiceId": "1415572032208576513",
+            "invoiceSubType": "",
+            "taxAmount": "3705.00",
+            "amountWithTax": "32205.00",
+            "fileType": "other",
+            "remarks": ""
+          }
+        ]
+      }
+    ],
+    "errors": [
+      {
+        "imageId": "1415571485405552641",
+        "infos": [
+          {
+            "invoiceId": "1415571873236066305",
+            "messages": [
+              "发票销售方名称与表单客户名称不符"
+            ]
+          }
+        ]
+      }
+    ],
+    "data": [
+      {
+        "ruleCount": 23,
+        "errorCount": 1,
+        "ruleType": "IMAGES",
+        "color": null,
+        "result": [
+          {
+            "ruleId": "LN7875067299",
+            "aliasName": "发票购买方信息完整性审核",
+            "ruleName": "当影像.发票=专票时，则影像.发票.购买方.地址、电话、开户行及账户≠空",
+            "correct": true,
+            "ruleType": "IMAGE"
           },
           {
-              "ruleCount": 4,
-              "errorCount": 0,
-              "ruleType": "OTHERS",
-              "color": null,
-              "result": [
-                  {
-                      "ruleId": "DC3336909421",
-                      "aliasName": "发票信息审核",
-                      "ruleName": "影像应与发票信息一一对应",
-                      "correct": true,
-                      "ruleType": "BILLS"
-                  },
-                  {
-                      "ruleId": "CS4881459818",
-                      "aliasName": "列账及时性判断",
-                      "ruleName": "系统当前日期月数-表单.财务信息.制证日期月数≤3个月",
-                      "correct": true,
-                      "ruleType": "BILLS"
-                  },
-                  {
-                      "ruleId": "RG4668662727",
-                      "aliasName": "",
-                      "ruleName": "当发票表长度不为0时，则发票行长度为0",
-                      "correct": true,
-                      "ruleType": "BILLS"
-                  },
-                  {
-                      "ruleId": "RE5772302185",
-                      "aliasName": "",
-                      "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票、铁路车票、其他实名制客票时，则表单.发票信息.价税合计=影像.发票.价税合计",
-                      "correct": true,
-                      "ruleType": "BILLS"
-                  }
-              ]
+            "ruleId": "JG1840972355",
+            "aliasName": "发票销售方信息完整性审核",
+            "ruleName": "当影像.发票=专票、普票、电子普票、机动车销售统一发票时，则影像.发票.销售方.地址、电话、开户行及账户≠空",
+            "correct": true,
+            "ruleType": "IMAGE"
           },
           {
-              "ruleCount": 1,
-              "errorCount": null,
-              "ruleType": "WARNING",
-              "color": "#EA1A1A",
-              "result": [
+            "ruleId": "FG4997980652",
+            "aliasName": "发票专用章审核",
+            "ruleName": "影像.发票票面无代开字样时，则需加盖发票章（新版电子发票除外）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "QT2306654241",
+            "aliasName": "跨期发票审核",
+            "ruleName": "表单.财务信息.制证日期-影像.发票.发票日期＜2个自然年",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "ET1202155477",
+            "aliasName": "进项发票联次审核",
+            "ruleName": "当影像.发票=专票、普票、机动车销售统一发票、通用机打发票、通用手工发票时，且当发票类别=进项发票时，则影像.发票.联次=发票联",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "QT7113092883",
+            "aliasName": "进项发票抬头审核",
+            "ruleName": "当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，且为进项发票时，则增值税发票：影像.发票.购买方名称=表单.单据信息.所属法人",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "SB9534877427",
+            "aliasName": "进项发票纳税人识别号审核",
+            "ruleName": "当影像.发票=专票、普票、电子普票、通用电子机打发票、机动车销售统一发票时，且为进项发票时，则影像.发票.纳税人识别号=表单.单据信息.所属法人的纳税人识别号（字段库）",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "MC3875947344",
+            "aliasName": "",
+            "ruleName": "发票金额审核~当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "YP6187416841",
+            "aliasName": "一般计税方式发票价税合计录入审核",
+            "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票、铁路车票、客运票时，则表单.发票信息.价税合计=影像.发票.价税合计",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "TC7536949005",
+            "aliasName": "一般计税方式开票日期录入审核",
+            "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票、航空运输电子客票行程单、铁路车票、客运票时，则表单.发票信息.开票日期=影像.发票.发票日期",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "JA3512031611",
+            "aliasName": "发票信息审核",
+            "ruleName": "发票信息应与影像一一对应",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "QH5427867540",
+            "aliasName": "发票号码录入审核",
+            "ruleName": "当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票时，则表单.发票信息.发票号=影像.发票.发票号",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "LM8628591663",
+            "aliasName": "一般计税方式发票税额录入审核",
+            "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且表单.子表或明细表.不含”年休“、”探亲“、“福利”等关键字，且当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票时，则表单.发票信息.税额=影像.发票.税额合计；",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "AM1828614221",
+            "aliasName": "发票税收编码审核",
+            "ruleName": "（材料结算单\/材料结算-成本）影像.发票.货物或应税劳务、服务名称≠“餐”、“住宿”、“租”、“烟”、“酒”、“茶”、“办公”、“工艺品”",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "ST7133250403",
+            "aliasName": "发票税率审核",
+            "ruleName": "（材料结算单\/材料结算-成本）影像.发票.税率≠5%",
+            "correct": true,
+            "ruleType": "IMAGE"
+          },
+          {
+            "ruleId": "HR9571816484",
+            "aliasName": "自行\/零星采购非代开发票客商名称审核",
+            "ruleName": "（材料结算-成本）当影像.发票无代开字样，且业务信息.采购类型＝“自行采购”、“零星采购”，且业务信息.对方单位≠阿里巴巴（中国）网络技术有限公司时，则影像.发票.销售方名称=表单.业务信息.往来单位",
+            "correct": false,
+            "message": "发票销售方名称与表单客户名称不符",
+            "ruleType": "IMAGE",
+            "imageData": [
+              {
+                "imageId": "1415571485405552641",
+                "infos": [
                   {
-                      "ruleId": "AD8552438601",
-                      "aliasName": "预警：发票验真审核",
-                      "ruleName": "当影像.发票=专票、普票、电子普票时，需真伪查验（影像识别结果与查验结果比对，是否套票）",
-                      "correct": false,
-                      "message": "发票查验失败",
-                      "ruleType": "WARNS"
+                    "invoiceId": "1415571873236066305"
                   }
-              ]
+                ]
+              }
+            ]
+          },
+          {
+            "ruleId": "GP2438494329",
+            "aliasName": "发票代码录入审核",
+            "ruleName": "当影像.发票=增值税普通发票、增值税电子普通发票、增值税专用发票、增值税电子专用发票、卷式发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、机动车销售统一发票、通用机打发票、通用手工发票、通用(电子)发票时，则表单.发票信息.发票代码=影像.发票.发票代码",
+            "correct": true,
+            "ruleType": "FIELD"
+          },
+          {
+            "ruleId": "HB9621476680",
+            "aliasName": "",
+            "ruleName": "发票类别判断1~当表单≠“CRTG_验工计价单”、“CRTG_其他业务收入表”、“CRTG_税费结转单”时，则表单.发票信息.发票类别=“进项发票”",
+            "correct": true,
+            "ruleType": "FIELD"
+          },
+          {
+            "ruleId": "TA2745405143",
+            "aliasName": "",
+            "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票、航空运输电子客票行程单（票价+燃油费）、铁路车票、其他实名制客票时，则表单.发票信息.开票日期=影像.发票.发票日期",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "NS7504867019",
+            "aliasName": "",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，则表单.发票信息.金额合计=影像.发票.金额合计",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "KG2440748608",
+            "aliasName": "",
+            "ruleName": "当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票时，则表单.发票信息.发票代码=影像.发票.发票代码",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "ND8229647022",
+            "aliasName": "",
+            "ruleName": "当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票时，则表单.发票信息.发票号=影像.发票.发票号",
+            "correct": true,
+            "ruleType": "LINES"
+          },
+          {
+            "ruleId": "DC6861968440",
+            "aliasName": "",
+            "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且表单.子表或明细表.不含”年休“、”探亲“、“福利”等关键字，且当表单.发票信息.发票类型=专用发票、普通发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票时，，则表单.发票信息.税额=影像.发票.税额合计",
+            "correct": true,
+            "ruleType": "LINES"
           }
-      ]
+        ]
+      },
+      {
+        "ruleCount": 4,
+        "errorCount": 0,
+        "ruleType": "OTHERS",
+        "color": null,
+        "result": [
+          {
+            "ruleId": "DC3336909421",
+            "aliasName": "发票信息审核",
+            "ruleName": "影像应与发票信息一一对应",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "CS4881459818",
+            "aliasName": "列账及时性判断",
+            "ruleName": "系统当前日期月数-表单.财务信息.制证日期月数≤3个月",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "RG4668662727",
+            "aliasName": "",
+            "ruleName": "当发票表长度不为0时，则发票行长度为0",
+            "correct": true,
+            "ruleType": "BILLS"
+          },
+          {
+            "ruleId": "RE5772302185",
+            "aliasName": "",
+            "ruleName": "当表单.业务信息.计税方式或项目计税方式=“计税方式-一般”或“一般计税”时，或公司计税方式=”一般纳税人“时，且当发票信息.发票类型=普通发票、专用发票、通行费增值税电子普通发票、国内旅客运输服务电子增值税普通发票、其他可抵扣票据、通用机打发票、通用(电子)发票、铁路车票、其他实名制客票时，则表单.发票信息.价税合计=影像.发票.价税合计",
+            "correct": true,
+            "ruleType": "BILLS"
+          }
+        ]
+      },
+      {
+        "ruleCount": 1,
+        "errorCount": null,
+        "ruleType": "WARNING",
+        "color": "#EA1A1A",
+        "result": [
+          {
+            "ruleId": "AD8552438601",
+            "aliasName": "预警：发票验真审核",
+            "ruleName": "当影像.发票=专票、普票、电子普票时，需真伪查验（影像识别结果与查验结果比对，是否套票）",
+            "correct": false,
+            "message": "发票查验失败",
+            "ruleType": "WARNS"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -140,7 +140,7 @@ export const getInvoiceFields = (invoiceType) => {
     case '未提账单清单':
       imgBase.fields = (fields8);
       getBase = imgBase;
-      getItems = fpItems;
+      getItems = fpItems4;
       break;
     case '低值易耗品摊销表':
     case '周转材料摊销表':
@@ -409,7 +409,6 @@ const fields8 = [
     { label: '金额合计', key: 'amountTotal', col: 12 },
     { label: '金额', key: 'amountOfMoney', col: 12 },
     { label: '供货单位', key: 'supplier', col: 12 },
-    { label: '供货单位', key: 'supplier', col: 12 },
     { label: '合计', key: 'fpAmount', col: 12 },
   ],
 ]
@@ -486,5 +485,16 @@ const fpItems3 = {
     { label: '增值税税率', key: 'vatRate', width: 80 },
     { label: '增值税进项税额', key: 'inputVat', width: 80 },
     { label: '备注', key: 'itemRemarks', width: 80 },
+  ],
+}
+const fpItems4 = {
+  label: '发票详情', prename: 'invoiceInfo-', isItems: true, checkField: 'fpItems', fields: [
+  ],
+  showSummary: false,
+  showIndex: true,
+  columns: [
+    { label: '供货单位', key: 'supplier', width: 160 },
+    { label: '金额', key: 'amountOfMoney', width: 80 },
+    // { label: '供货总额', key: 'supplierAmount', width: 80 },
   ],
 }
