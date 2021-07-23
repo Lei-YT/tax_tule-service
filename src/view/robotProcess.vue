@@ -191,16 +191,16 @@
               <!--slot="extra"
                   justify-content: space-between; -->
               <div class="chartOne">
-                <div id="countChart" style="width: 100%; height: 260px"></div>
+                <div id="countChart" ref="countChart" style="width: 100%; height: 260px"></div>
               </div>
             </Card>
           </div>
           <div class="downCon">
             <Card style="width: 49%">
-              <div id="myChartTwo" style="width: 100%; height: 500px"></div>
+              <div id="myChartTwo" ref="myChartTwo" style="width: 100%; height: 500px"></div>
             </Card>
             <Card style="width: 49%">
-              <div id="myChartThr" style="width: 100%; height: 500px"></div>
+              <div id="myChartThr" ref="myChartThr" style="width: 100%; height: 500px"></div>
             </Card>
           </div>
         </div>
@@ -221,6 +221,7 @@
 import axios from "@/libs/api.request";
 import * as echarts from "echarts";
 import { localSave, localRead } from "@/libs/util";
+import { on, off } from '@/libs/tools';
 import {
   homelist, // 列表
   changeStatus, // 改变状态
@@ -235,6 +236,9 @@ export default {
   },
   data() {
     return {
+      countChart: null,
+      myChartTwo: null,
+      myChartThr: null,
       secneName: "",
       id: "",
       dataList: [],
@@ -274,6 +278,16 @@ export default {
       },
     };
   },
+  computed:{
+    topCollapse(){
+      return this.$store.state.app.mainSideBarCollapse;
+    }
+  },
+  watch: {
+    topCollapse(v, oldv){
+      if(v !== oldv) this.resize();
+    }
+  },
   beforeDestroy() {
     clearInterval(this.timer);
     this.timer = null;
@@ -285,7 +299,15 @@ export default {
       this.query();
     }, 1800000);
   },
+  beforeDestroy () {
+    off(window, 'resize', this.resize)
+  },
   methods: {
+    resize() {
+      this.countChart.resize()
+      this.myChartTwo.resize()
+      this.myChartThr.resize()
+    },
     handleDatepicker(dateValue, dataKey) {
       this.$set(this, dataKey, dateValue);
       this.status = "";
@@ -361,9 +383,9 @@ export default {
       this.getChartsData(item.id);
     },
     getChartTwo() {
-      let myChartTwo = echarts.init(document.getElementById("myChartTwo"));
-      myChartTwo.clear();
-      myChartTwo.setOption({
+      this.myChartTwo = echarts.init(this.$refs.myChartTwo);
+      this.myChartTwo.clear();
+      this.myChartTwo.setOption({
         grid: {
           top: 0,
           bottom: 0,
@@ -414,12 +436,13 @@ export default {
           },
         ],
       });
-      myChartTwo.resize();
+      this.myChartTwo.resize();
+      on(window, 'resize', this.resize)
     },
     getChartThr() {
-      let myChartThr = echarts.init(document.getElementById("myChartThr"));
-      myChartThr.clear();
-      myChartThr.setOption({
+      this.myChartThr = echarts.init(this.$refs.myChartThr);
+      this.myChartThr.clear();
+      this.myChartThr.setOption({
         grid: {
           top: 0,
           bottom: 0,
@@ -466,7 +489,8 @@ export default {
           },
         ],
       });
-      myChartThr.resize();
+      this.myChartThr.resize();
+      on(window, 'resize', this.resize)
     },
     changeCur(index) {
       this.cur = index;
@@ -531,9 +555,9 @@ export default {
     },
     renderCountChart() {
       const _this = this;
-      let countChart = echarts.init(document.getElementById("countChart"));
-      countChart.clear();
-      countChart.setOption({
+      this.countChart = echarts.init(this.$refs.countChart);
+      this.countChart.clear();
+      this.countChart.setOption({
         grid: {
           top: 0,
           bottom: 0,
@@ -644,7 +668,8 @@ export default {
           },
         ],
       });
-      countChart.resize();
+      this.countChart.resize();
+      on(window, 'resize', this.resize)
     },
     getLeftData(data) {
       let _this = this;

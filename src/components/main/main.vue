@@ -126,6 +126,7 @@ export default {
       "setLocal",
       "setHomeRoute",
       "closeTag",
+      "setCollapse",
     ]),
     ...mapActions(["handleLogin", "getUnreadMessageCount"]),
     turnToPage(route) {
@@ -148,6 +149,7 @@ export default {
     },
     handleCollapsedChange(state) {
       this.collapsed = state;
+      this.setCollapse(state);
       localSave("collapsed", state);
     },
     handleCloseTag(res, type, route) {
