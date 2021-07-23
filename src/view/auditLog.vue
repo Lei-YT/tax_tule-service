@@ -893,22 +893,23 @@ export default {
             orderRulesDate: _this.formInline.orderRulesDate || "",
             orderTotalDate: _this.formInline.orderTotalDate || "",
           },
+          responseType: "blob",
         })
         .then(function (response) {
-          // if (!response) {
-          //   return;
-          // }
-          // let blobType = "application/vnd.ms-excel";
-          // let url = window.URL.createObjectURL(
-          //   new Blob([response.data], { type: blobType })
-          //   // response.data
-          // );
-          // let link = document.createElement("a");
-          // link.style.display = "none";
-          // link.href = url;
-          // link.setAttribute("download", "导出结果");
-          // document.body.appendChild(link);
-          // link.click();
+          if (!response) {
+            return;
+          }
+          let blobType = "application/vnd.ms-excel";
+          let url = window.URL.createObjectURL(
+            new Blob([response.data], { type: blobType })
+            // response.data
+          );
+          let link = document.createElement("a");
+          link.style.display = "none";
+          link.href = url;
+          link.setAttribute("download", "导出结果");
+          document.body.appendChild(link);
+          link.click();
         })
         .catch(function (error) {
           console.log(error);
