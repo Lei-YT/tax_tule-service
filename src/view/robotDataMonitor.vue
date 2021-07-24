@@ -185,7 +185,7 @@
 
         <div class="title">机器人数据监控统计表</div>
         <div class="charsBox">
-          <div id="charts"></div>
+          <div id="charts" ref="charts"></div>
         </div>
       </Card>
     </div>
@@ -195,9 +195,11 @@
 import * as echarts from "echarts";
 import { Notification, Loading } from "element-ui";
 import axios from "@/libs/api.request";
+import { on, off } from '@/libs/tools';
 export default {
   data() {
     return {
+      charts: null,
       robotOption: [],
       selectedRobot: "全部",
       page: {
@@ -244,6 +246,19 @@ export default {
         "{b}<br/>{a0}:{c0}百<br/>{a1}:{c1}<br/>{a2}:{c2}<br/>{a3}:{c3}%<br/>",
     };
   },
+  computed:{
+    topCollapse(){
+      return this.$store.state.app.mainSideBarCollapse;
+    }
+  },
+  watch: {
+    topCollapse(v, oldv){
+      const _this = this;
+      setTimeout(() => {
+        _this.resize();
+      }, 300);
+    }
+  },
   mounted() {
     // this.initChart();
     this.getSelectlist();
@@ -251,8 +266,14 @@ export default {
     this.getCheckdate();
     this.checktoday();
   },
+  beforeDestroy () {
+    off(window, 'resize', this.resize)
+  },
   created() {},
   methods: {
+    resize() {
+      this.charts.resize()
+    },
     getShowSelected(val) {
       const _this = this;
 
@@ -354,7 +375,7 @@ export default {
       this.selectedRobot = val;
     },
     initChart() {
-      let myChart = echarts.init(document.getElementById("charts"));
+      this.charts = echarts.init(this.$refs.charts);
       let showcheck = this.showcheck;
       let dates = this.dates;
       let rules = this.rules;
@@ -479,7 +500,10 @@ export default {
         ],
       };
 
-      myChart.setOption(option);
+      this.charts.clear();
+      this.charts.setOption(option);
+      this.charts.resize();
+      on(window, 'resize', this.resize)
     },
     getSelectlist() {
       const _this = this;

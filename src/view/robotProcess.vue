@@ -285,7 +285,10 @@ export default {
   },
   watch: {
     topCollapse(v, oldv){
-      if(v !== oldv) this.resize();
+      const _this = this;
+      setTimeout(() => {
+        _this.resize();
+      }, 300);
     }
   },
   beforeDestroy() {
