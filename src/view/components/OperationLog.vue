@@ -16,7 +16,7 @@
             <FormItem label="操作人：" prop="operate">
               <Input v-model="formInline.operate" placeholder="请输入" />
             </FormItem>
-            <FormItem label="起始时间：" prop="beginTime">
+            <FormItem label="起始时间：" >
               <div class="numCount">
                 <Date-picker
                   placeholder="选择日期"
@@ -125,8 +125,16 @@ export default {
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
-      disabledDate1: {},
-      disabledDate2: {},
+      disabledDate1: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
+      disabledDate2: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
       formInline: {
         sceneName: "",
         operate: "",
@@ -205,6 +213,9 @@ export default {
     },
     handleReset(name) {
       this.$refs[name].resetFields();
+      this.formInline.beginTime = '';
+      this.formInline.endTime = '';
+
       this.query();
     },
     currentChange(current) {

@@ -5,63 +5,32 @@
   "data": {
       "list": [
           {
-              "ModifyDT": "2021-04-07T04:36:21.493+0000",
-              "IsAdmin": false,
-              "UserName": "陈泽稷",
-              "LevelCode": "/1/2/16/3/7/4/8/1/",
-              "DeptOrgID": "045E6C49-068F-4329-9AE6-CED084F5A610",
-              "OrgSName": "财务部",
-              "UserCode": "8689712",
-              "OrgForm": 70,
-              "EffDate": "2018-12-31T16:00:00.000+0000",
-              "ListOrder": 1,
-              "OrgName": "财务部",
-              "PID": "045E6C49-068F-4329-9AE6-CED084F5A610",
-              "IsVirtual": false,
-              "OrgID": "79f4667d-60a0-42a4-ab91-4eac01c8254c",
-              "OrgCode": "01",
-              "ExpDate": "9999-12-30T16:00:00.000+0000",
-              "UserID": "0C342CA4-03BD-4CC1-883D-238E54B6EE30",
-              "Level": 8,
-              "IsLowest": true,
-              "IsPermanent": false,
-              "DataStatus": 1,
-              "ApprovalLevel": 0,
-              "IsValid": true
+              "OrgID": "a711f715-56c6-4f94-baf7-73389615bc88",
+              "UserName": "杨红军",
+              "UserID": "4718F628-3F95-4148-BB9D-22952C2833B8",
+              "OrgName": "中铁隧道局集团有限公司财务共享服务中心",
+              "userCode": "1114607"
           },
           {
-              "ModifyDT": "2020-05-06T09:00:45.397+0000",
-              "OrgID": "df35a213-5cb8-4c2f-a471-2e4656fb58a5",
-              "IsAdmin": false,
-              "UserName": "陈泽源",
-              "UserID": "6B6830A4-43B0-41E1-8303-8F0D6A0CD618",
-              "UserCode": "5961976",
-              "IsValid": true
+              "OrgID": "3f296540-9940-4e78-a13b-07618fe4b801",
+              "UserName": "杨红军",
+              "UserID": "6ED3C766-AFF3-4602-B4AA-1217A1880A5E",
+              "OrgName": "中隧二处郑州红旗电缆隧道1标项目部",
+              "userCode": "1002319"
           },
           {
-              "ModifyDT": "2021-04-01T05:53:40.227+0000",
-              "IsAdmin": false,
-              "UserName": "陈泽华",
-              "LevelCode": "/1/2/16/3/24/2/2/",
-              "DeptOrgID": "9580D615-D34A-48B9-866E-9103374A2048",
-              "OrgSName": "财务部",
-              "UserCode": "1021098",
-              "OrgForm": 70,
-              "EffDate": "2016-12-31T16:00:00.000+0000",
-              "ListOrder": 2,
-              "OrgName": "财务部",
-              "PID": "9580D615-D34A-48B9-866E-9103374A2048",
-              "IsVirtual": false,
-              "OrgID": "b40d4dc9-20f7-4acd-93e4-1b364863a702",
-              "OrgCode": "02",
-              "ExpDate": "9999-12-30T16:00:00.000+0000",
-              "UserID": "899CAD97-1C56-49BA-95F1-5598CDE03B0F",
-              "Level": 7,
-              "IsLowest": true,
-              "IsPermanent": false,
-              "DataStatus": 1,
-              "ApprovalLevel": 0,
-              "IsValid": true
+              "OrgID": "00ee7a24-c39e-4c4a-95a1-4f4c3f86352a",
+              "UserName": "杨红军",
+              "UserID": "B7968835-F7D7-452D-B4B1-7ADA7F17CE17",
+              "OrgName": "中隧股份和燕路过江通道南段隧道工程A4标项目部",
+              "userCode": "1151718"
+          },
+          {
+              "OrgID": "c7fa2b15-6b40-4db1-a2e7-1e985611fcea",
+              "UserName": "杨红军（机器人）",
+              "UserID": "DC86DB86-21FC-4BAF-85C3-67FD9CDE2C68",
+              "OrgName": "中铁隧道局集团有限公司财务共享服务中心",
+              "userCode": "8034875"
           }
       ]
   }

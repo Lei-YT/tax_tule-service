@@ -10,7 +10,8 @@
             ref="formInline"
           >
             <FormItem label="表单名称：" prop="name">
-              <Select filterable
+              <Select
+                filterable
                 style="width: 200px"
                 v-model="selected"
                 @on-change="getTypeSelected"
@@ -25,13 +26,14 @@
               </Select>
             </FormItem>
             <FormItem label="机器人分类：" prop="name" :label-width="100">
-              <Select filterable
+              <Select
+                filterable
                 style="width: 120px"
                 v-model="selectedRobot"
                 @on-change="handleRobotSelect"
               >
                 <Option
-                  v-for="(item) in robotOption"
+                  v-for="item in robotOption"
                   :value="item.id"
                   v-bind:key="item.id"
                   >{{ item.name }}</Option
@@ -165,14 +167,14 @@
               <Option value="0">全部</Option>
             </Select>
           </div>
-          <div class="listItem" style="flex: 0 0 20%;">
+          <div class="listItem" style="flex: 0 0 20%">
             <img src="@/assets/images/undone.png" class="icon" />
             <div class="counts">
               <p>未完成任务（单）</p>
               <p>{{ undonenum }} {{ undonenumP }}</p>
             </div>
           </div>
-          <div class="listItem" style="flex: 0 0 20%;">
+          <div class="listItem" style="flex: 0 0 20%">
             <img src="@/assets/images/icon5.png" class="icon" />
             <div class="counts">
               <p>平均每单审核时长 (分钟)</p>
@@ -183,7 +185,7 @@
 
         <div class="title">机器人数据监控统计表</div>
         <div class="charsBox">
-          <div id="charts"></div>
+          <div id="charts" ref="charts"></div>
         </div>
       </Card>
     </div>
@@ -193,9 +195,11 @@
 import * as echarts from "echarts";
 import { Notification, Loading } from "element-ui";
 import axios from "@/libs/api.request";
+import { on, off } from '@/libs/tools';
 export default {
   data() {
     return {
+      charts: null,
       robotOption: [],
       selectedRobot: "全部",
       page: {
@@ -221,8 +225,16 @@ export default {
       timeoutnumP: "",
       checkBeginDate: "",
       checkEndDate: "",
-      disabledDate1: {},
-      disabledDate2: {},
+      disabledDate1: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
+      disabledDate2: {
+        disabledDate(date) {
+          return date && date.valueOf() > new Date();
+        },
+      },
       status: "",
       showcheck: {},
       dates: [],
@@ -234,6 +246,19 @@ export default {
         "{b}<br/>{a0}:{c0}百<br/>{a1}:{c1}<br/>{a2}:{c2}<br/>{a3}:{c3}%<br/>",
     };
   },
+  computed:{
+    topCollapse(){
+      return this.$store.state.app.mainSideBarCollapse;
+    }
+  },
+  watch: {
+    topCollapse(v, oldv){
+      const _this = this;
+      setTimeout(() => {
+        _this.resize();
+      }, 300);
+    }
+  },
   mounted() {
     // this.initChart();
     this.getSelectlist();
@@ -241,8 +266,14 @@ export default {
     this.getCheckdate();
     this.checktoday();
   },
+  beforeDestroy () {
+    off(window, 'resize', this.resize)
+  },
   created() {},
   methods: {
+    resize() {
+      this.charts.resize()
+    },
     getShowSelected(val) {
       const _this = this;
 
@@ -344,7 +375,7 @@ export default {
       this.selectedRobot = val;
     },
     initChart() {
-      let myChart = echarts.init(document.getElementById("charts"));
+      this.charts = echarts.init(this.$refs.charts);
       let showcheck = this.showcheck;
       let dates = this.dates;
       let rules = this.rules;
@@ -469,7 +500,10 @@ export default {
         ],
       };
 
-      myChart.setOption(option);
+      this.charts.clear();
+      this.charts.setOption(option);
+      this.charts.resize();
+      on(window, 'resize', this.resize)
     },
     getSelectlist() {
       const _this = this;
@@ -507,21 +541,27 @@ export default {
     },
     getRobotData() {
       const _this = this;
+      const r = {
+        beginDate: _this.checkBeginDate,
+        endDate: _this.checkEndDate,
+        robot: String(_this.selectedRobot).replace("全部", ""),
+        type: String(_this.selected).replace("全部", "")
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] === null || r[key] === "" || r[key] === undefined) && delete r[key]
+      );
       axios
         .request({
           method: "post",
           url: `/api/bill/robotdatailsdata`,
-          data: {
-            beginDate: _this.checkBeginDate,
-            endDate: _this.checkEndDate,
-            robot: String(_this.selectedRobot).replace("全部", ""),
-          },
+          data: r,
         })
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
             const detailData = data.data.list;
             _this.undonenum = data.data.unfinished;
+            _this.avgBillDatenum = (data.data.averageAuditTime.totalAvgTime / 60).toFixed(2);
             // 1 通过、2驳回、3转热工、4超时 如果没有数据就为0
             const success = detailData.find((row) => row.status == 1);
             _this.successnum = success ? success.num : 0;
@@ -559,66 +599,52 @@ export default {
     getCheckdate() {
       const _this = this;
       if (!_this.checkBeginDate && !_this.checkEndDate) {
-        // _this.checktoday().then((resp) => {
-        //   _this.checkDateData()
-        // })
         var now = new Date();
 
         _this.checkBeginDate = _this.formatDate(now);
         _this.checkEndDate = _this.formatDate(now);
-        _this.checkDateData();
+        _this.getListData();
         _this.getRobotData();
         return false;
       }
-      _this.checkDateData();
+      _this.getListData();
       _this.getRobotData();
     },
-    checkDateData() {
+    getListData() {
       const _this = this;
-      let selected = "";
-      if (_this.selected == "全部") {
-        selected = "";
-      } else {
-        selected = _this.selected;
-      }
+      const r = {
+        beginDate: _this.checkBeginDate,
+        endDate: _this.checkEndDate,
+        robot: String(_this.selectedRobot).replace("全部", ""),
+        type: String(_this.selected).replace("全部", "")
+      };
+      Object.keys(r).forEach(
+        (key) => (r[key] === null || r[key] === "" || r[key] === undefined) && delete r[key]
+      );
       axios
         .request({
           method: "post",
-          url: `/api/bill/checkdatechart`,
-          data: {
-            type: selected,
-            checkBeginDate: _this.checkBeginDate,
-            checkEndDate: _this.checkEndDate,
-            status: _this.status,
-          },
+          url: `/api/bill/robotdimensiondata`,
+          data: r,
         })
         .then((resp) => {
           let data = resp.data;
           if (data.code === 20000) {
-            // _this.failnum = data.data.fail;
-            _this.avgBillDatenum = (data.data.avgBillDate / 60).toFixed(2);
-            // _this.successnum = data.data.success;
-            // _this.timeoutnum = data.data.timeout;
-            // const sumNum = Number(data.data.fail) + Number(data.data.success) + Number(data.data.timeout);
-            // _this.failnumP = `(${_this.failnum / sumNum * 100}%)`;
-            // _this.successnumP = `(${_this.successnum / sumNum * 100}%)`;
-            // _this.timeoutnumP = `(${_this.timeoutnum / sumNum * 100}%)`;
-
             let dates = [];
             let rules = [];
             let totals = [];
             let warnings = [];
             let successarr = [];
 
-            data.data.data.forEach(function (value, key, iterable) {
+            data.data.list.forEach(function (value, key, iterable) {
               dates.push(value.date);
-              let rulesCount = value.rulesCount / 100;
+              let rulesCount = value.rules_count / 100;
               rules.push(rulesCount);
-              totals.push(value.totalCount);
-              warnings.push(value.earlyWarning);
+              totals.push(value.count);
+              warnings.push(value.early_warning);
 
               let successdata = (
-                (value.successCount / value.totalCount) *
+                (value.success_count / value.count) *
                 100
               ).toFixed(2);
               successarr.push(successdata);
@@ -652,7 +678,7 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.checkBeginDate);
-      begindate.setDate(begindate.getDate()-1);
+      begindate.setDate(begindate.getDate() - 1);
       let enddate = new Date(this.checkEndDate);
       this.disabledDate1 = {
         disabledDate(date) {

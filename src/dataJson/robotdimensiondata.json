@@ -1,0 +1,86 @@
+{
+    "success": true,
+    "code": 20000,
+    "message": "成功",
+    "data": {
+        "list": [
+            {
+                "date": "2021-07-21 00",
+                "early_warning": 2,
+                "count": 6,
+                "success_count": 2,
+                "rules_count": 3933
+            },
+            {
+                "date": "2021-07-21 01",
+                "early_warning": 0,
+                "count": 2,
+                "success_count": 1,
+                "rules_count": 1288
+            },
+            {
+                "date": "2021-07-21 07",
+                "early_warning": 1,
+                "count": 12,
+                "success_count": 8,
+                "rules_count": 7861
+            },
+            {
+                "date": "2021-07-21 08",
+                "early_warning": 6,
+                "count": 105,
+                "success_count": 52,
+                "rules_count": 65445
+            },
+            {
+                "date": "2021-07-21 09",
+                "early_warning": 13,
+                "count": 209,
+                "success_count": 95,
+                "rules_count": 134887
+            },
+            {
+                "date": "2021-07-21 10",
+                "early_warning": 19,
+                "count": 179,
+                "success_count": 92,
+                "rules_count": 113279
+            },
+            {
+                "date": "2021-07-21 11",
+                "early_warning": 8,
+                "count": 183,
+                "success_count": 94,
+                "rules_count": 113769
+            },
+            {
+                "date": "2021-07-21 12",
+                "early_warning": 11,
+                "count": 101,
+                "success_count": 63,
+                "rules_count": 64533
+            },
+            {
+                "date": "2021-07-21 13",
+                "early_warning": 2,
+                "count": 51,
+                "success_count": 32,
+                "rules_count": 32962
+            },
+            {
+                "date": "2021-07-21 14",
+                "early_warning": 8,
+                "count": 112,
+                "success_count": 84,
+                "rules_count": 71448
+            },
+            {
+                "date": "2021-07-21 15",
+                "early_warning": 8,
+                "count": 79,
+                "success_count": 53,
+                "rules_count": 50648
+            }
+        ]
+    }
+}

@@ -172,7 +172,15 @@
       </Card>
     </div>
     <!-- 编辑列表资料弹框 -->
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" width="400px">
+
+      <template slot="title">
+        <div class="dialog-title">
+          <i class="el-icon-edit" v-if="type==='edit'"></i>
+          <Icon type="md-person-add" size="20" v-if="type==='add'" />
+          <span class="el-dialog__title">{{title}}</span>
+        </div>
+      </template>
       <el-form
         :model="ruleForm"
         label-width="100px"
@@ -208,13 +216,35 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit('ruleForm')">确 定</el-button>
+        <el-button size="small" @click="dialogFormVisible = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="submit('ruleForm')">确 定</el-button>
       </div>
     </el-dialog>
 
     <!-- 单量设置弹框 -->
-    <el-dialog :title="title" :visible.sync="numFormVisible">
+    <el-dialog :title="title" :visible.sync="numFormVisible" width="400px">
+      <template slot="title">
+        <div class="dialog-title">
+          <svg
+            style="display: block"
+            t="1620485144823"
+            class="icon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="1160"
+            width="24"
+            height="24"
+          >
+            <path
+              d="M594.466 454.588c0-37.137 23.484-68.813 56.252-81.374-7.646-30.584-19.66-59.529-35.499-86.29-32.222 14.2-70.997 8.193-97.212-18.022-26.214-26.214-32.221-64.99-18.022-97.211a363.318 363.318 0 0 0-86.289-35.499c-12.561 32.768-44.237 56.252-81.374 56.252-37.137 0-68.813-23.484-81.374-56.252-30.583 7.646-59.528 19.66-86.289 35.499 14.2 32.222 8.192 70.997-18.022 97.211s-64.99 32.222-97.212 18.023c-15.838 26.76-27.853 55.705-35.499 86.289 32.768 12.56 56.252 44.237 56.252 81.374 0 37.137-23.484 68.813-56.252 81.374 7.646 30.583 19.661 59.528 35.5 86.289 32.22-14.2 70.996-8.192 97.21 18.022 26.215 26.214 32.223 64.99 18.023 97.212 26.76 15.838 55.706 27.853 86.29 35.498 12.56-32.768 44.236-56.251 81.373-56.251 37.137 0 68.813 23.483 81.374 56.251 30.583-7.645 59.529-19.66 86.29-35.498-14.2-32.222-8.193-70.998 18.021-97.212 26.215-26.214 64.99-32.222 97.212-18.022 15.838-26.76 27.853-55.706 35.499-86.29-32.768-12.56-56.252-43.69-56.252-81.373z m-262.144 87.381c-48.06 0-87.381-39.322-87.381-87.381s39.321-87.382 87.381-87.382 87.381 39.322 87.381 87.382-39.321 87.381-87.38 87.381z m359.356-369.732h318.396v80.281H691.678z m0 323.31h318.396v80.282H691.678zM175.582 818.86h834.492v80.281H175.582z"
+              p-id="1161"
+              fill="#1991DD"
+            ></path>
+          </svg>
+          <span class="el-dialog__title">{{title}}</span>
+        </div>
+      </template>
       <el-form :model="ruleForm" label-width="100px" center>
         <el-form-item label="取单量：" prop="getbill">
           <Select v-model="ruleForm.getbill" placeholder="请选择取单量">
@@ -237,8 +267,8 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="numFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="setSubmit()">确 定</el-button>
+        <el-button size="small" @click="numFormVisible = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="setSubmit()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -522,5 +552,8 @@ export default {
 /deep/.ivu-page-item,
 /deep/.ivu-page-item-jump-next {
   display: none;
+}
+/deep/.ivu-input {
+  width: 100%;
 }
 </style>

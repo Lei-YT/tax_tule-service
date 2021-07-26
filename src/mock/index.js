@@ -21,12 +21,13 @@ import powerList from '@/dataJson/power-list.json'
 import userJson from '@/dataJson/user.json'
 
 import logJson from '@/dataJson/log.json'
-import resultJson from '@/dataJson/result16.json'
+import resultJson from '@/dataJson/result17.json'
 import resultDataJson2 from '@/dataJson/result-data10.json'
 import isFirstEdit from '@/dataJson/isFirstEdit.json'
 
 import selectDataJson from '@/dataJson/select.json'
 import checkdateJson from '@/dataJson/checkdate.json'
+import dimensiondata from '@/dataJson/robotdimensiondata.json'
 
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
@@ -306,6 +307,9 @@ Mock.mock(/\/api\/bill\/checkdatechart/, 'post', (req, res) => {
   // console.log('req', req, checkdateJson)
   return Mock.mock(Encrypt(JSON.stringify(checkdateJson)))
 })
+Mock.mock(/\/api\/bill\/robotdimensiondata/, 'post', (req, res) => {
+  return Mock.mock(Encrypt(JSON.stringify(dimensiondata)))
+})
 
 // Mock.mock(/\/sample\/isFirstEdit/, 'get', (req, res) => {
   // console.log('req', req, isFirstEdit)
@@ -448,21 +452,28 @@ Mock.mock(/\/api\/bill\/robotdatailsdata/, 'post', (req, res) => {
     "code": 20000,
     "message": "成功",
     "data": {
-      "unfinished": 0,
-      "list": [
-        {
-          "num": 1796,
-          "status": 1
+        "averageAuditTime": {
+            "rulesAvgTime": 34.4585,
+            "rpaAvgTime": 33.7147,
+            "ocrAvgTime": 34.6889,
+            "totalAvgTime": 125.8123,
+            "convertAvgTime": 13.2857
         },
-        {
-          "num": 968,
-          "status": 2
-        },
-        {
-          "num": 332,
-          "status": 3
-        }
-      ]
+        "unfinished": 48,
+        "list": [
+            {
+                "num": 869,
+                "status": 1
+            },
+            {
+                "num": 360,
+                "status": 2
+            },
+            {
+                "num": 85,
+                "status": 3
+            }
+        ]
     }
-  })));
+})));
 });
