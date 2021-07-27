@@ -11,12 +11,23 @@
             ref="formInline"
           >
             <FormItem label="机器人名称：" prop="sceneName">
-              <Input v-model="formInline.sceneName" placeholder="请输入" />
+              <Select
+                filterable clearable
+                v-model="formInline.sceneName"
+              >
+                <Option
+                  v-for="item in robotOption"
+                  :value="item.name"
+                  v-bind:key="item.id"
+                  >{{ item.name }}</Option
+                >
+                <Option value="全部">全部</Option>
+              </Select>
             </FormItem>
             <FormItem label="操作人：" prop="operate">
               <Input v-model="formInline.operate" placeholder="请输入" />
             </FormItem>
-            <FormItem label="起始时间：" >
+            <FormItem label="起始时间：">
               <div class="numCount">
                 <Date-picker
                   placeholder="选择日期"
@@ -145,6 +156,11 @@ export default {
       tableData: [],
     };
   },
+  computed: {
+    robotOption() {
+      return this.$store.state.invoice.robotList;
+    },
+  },
   created() {
     this.query();
   },
@@ -157,7 +173,7 @@ export default {
       let today = new Date();
 
       let begindate = new Date(this.formInline.beginTime);
-      begindate.setDate(begindate.getDate()-1);
+      begindate.setDate(begindate.getDate() - 1);
       let enddate = new Date(this.formInline.endTime);
       this.disabledDate1 = {
         disabledDate(date) {
@@ -213,8 +229,8 @@ export default {
     },
     handleReset(name) {
       this.$refs[name].resetFields();
-      this.formInline.beginTime = '';
-      this.formInline.endTime = '';
+      this.formInline.beginTime = "";
+      this.formInline.endTime = "";
 
       this.query();
     },

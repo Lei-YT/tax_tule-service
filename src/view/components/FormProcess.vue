@@ -10,7 +10,21 @@
         >
           <div>
             <FormItem label="表单名称" prop="formName">
-              <Input v-model="formName" placeholder="请输入表单名称" />
+              <Select
+                v-if="options.length > 0"
+                clearable
+                filterable
+                placeholder="请输入表单名称"
+                v-model="formName"
+              >
+                <Option
+                  :value="item.name"
+                  v-for="item in options"
+                  v-bind:key="item.id"
+                  >{{ item.name }}</Option
+                >
+              </Select>
+              <Input v-else v-model="formName" placeholder="请输入表单名称" />
             </FormItem>
             <FormItem label="创建日期:" prop="beginDate">
               <div class="numCount">
@@ -308,6 +322,11 @@ export default {
       isUpdate: false,
       modifyData: {},
     };
+  },
+  computed: {
+    options(){
+      return this.$store.state.invoice.formList;
+    },
   },
   mounted() {
     this.selectedRow = [];
