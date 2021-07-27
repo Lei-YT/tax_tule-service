@@ -904,7 +904,7 @@ export default {
             return;
           }
           // let blobType = "application/vnd.ms-excel";
-          const contentType = response.headers['Content-Type'].split(';');
+          const contentType = response.headers['content-type'].split(';');
           const blobType = contentType[0];
           let url = window.URL.createObjectURL(
             new Blob([response.data], { type: blobType })

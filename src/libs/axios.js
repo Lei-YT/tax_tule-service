@@ -49,7 +49,7 @@ class HttpRequest {
       // loadingInstance.close()
       this.destroy(url)
       console.log('res', res);
-      if (res.headers.hasOwnProperty('Content-Disposition')) {
+      if (res.headers.hasOwnProperty('content-disposition')) {
         return res;
       }
       const { data, status } = res
