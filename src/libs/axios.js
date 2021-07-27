@@ -48,6 +48,10 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       // loadingInstance.close()
       this.destroy(url)
+      console.log('res', res);
+      if (res.headers.hasOwnProperty('Content-Disposition')) {
+        return res;
+      }
       const { data, status } = res
       const decryptData = JSON.parse(Decrypt(data));
       return { data: decryptData, status }
