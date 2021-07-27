@@ -84,3 +84,17 @@ export const addFormProcess = (params) => {
     method: 'POST'
   })
 }
+export const getForms = (params = {}) => {
+  return axios.request({
+    url: `/api/bill/findall`,
+    data: params,
+    method: 'POST'
+  })
+}
+export const getRobots = (params = {}) => {
+  return axios.request({
+    url: `/api/bill/robotname`,
+    data: params,
+    method: 'POST'
+  })
+}

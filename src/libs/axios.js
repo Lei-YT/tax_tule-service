@@ -48,6 +48,9 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       // loadingInstance.close()
       this.destroy(url)
+      if (res.headers.hasOwnProperty('content-disposition')) {
+        return res;
+      }
       const { data, status } = res
       const decryptData = JSON.parse(Decrypt(data));
       return { data: decryptData, status }
@@ -107,7 +110,7 @@ class HttpRequest {
     })
   }
   request (options) {
-    console.log(options.data, options.url)
+    console.log(options.url, options.data)
     const rawData = JSON.stringify(options.data);
     const encryptData = Encrypt(rawData);
     options.data = encryptData;
