@@ -27,6 +27,12 @@
           <!-- <img v-show="collapsed" :src="logo" key="min-logo" class="logo" /> -->
         </div>
       </side-menu>
+      <footer style="text-align:center;position: absolute; bottom: 2%; width:100%;font-family: 'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','\5FAE\8F6F\96C5\9ED1',Arial,sans-serif;">
+        <div class="lc-content">
+          <div class="lc-company">技术支持：北京令才科技有限公司</div>
+          <div class="lc-phone">服务电话400-167-8089</div>
+        </div>
+      </footer>
     </Sider>
     <Layout>
       <Header class="header-con">
@@ -128,7 +134,7 @@ export default {
       "closeTag",
       "setCollapse",
     ]),
-    ...mapActions(["handleLogin", "getUnreadMessageCount"]),
+    ...mapActions(["handleLogin", "getRobotList", "getFormList"]),
     turnToPage(route) {
       let { name, params, query } = {};
       if (typeof route === "string") name = route;
@@ -201,6 +207,10 @@ export default {
     }
     // 获取未读消息条数
     // this.getUnreadMessageCount();
+    // 机器人列表
+    this.getRobotList();
+    // 表单名称列表
+    this.getFormList();
   },
 };
 </script>

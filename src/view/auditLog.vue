@@ -34,17 +34,15 @@
             </FormItem>
             <FormItem label="业务名称:" prop="type">
               <Select
-                v-if="formNameOptions.length > 0"
+                v-if="options.length > 0"
                 clearable
                 filterable
                 placeholder="请选择业务名称"
                 v-model="formInline.type"
               >
-                <!-- @on-change="onFormNameChange" -->
-                <!-- <Option value="">全部</Option> -->
                 <Option
                   :value="item.name"
-                  v-for="item in formNameOptions"
+                  v-for="item in options"
                   v-bind:key="item.id"
                   >{{ item.name }}</Option
                 >
@@ -677,6 +675,11 @@ export default {
       selectedFormName: "",
     };
   },
+  computed: {
+    options(){
+      return this.$store.state.invoice.formList;
+    },
+  },
   created() {
     // if (logJson.code == 20000) {
     //   let { data } = logJson.data;
@@ -688,7 +691,7 @@ export default {
     this.adjustWidth();
     window.addEventListener("resize", this.adjustWidth.bind(this));
     this.getWarning();
-    this.getFormNameList();
+    // this.getFormNameList();
     this.query();
   },
   // activated() {
@@ -906,7 +909,9 @@ export default {
             });
             return;
           }
-          let blobType = "application/vnd.ms-excel";
+          // let blobType = "application/vnd.ms-excel";
+          const contentType = response.headers['content-type'].split(';');
+          const blobType = contentType[0];
           let url = window.URL.createObjectURL(
             new Blob([response.data], { type: blobType })
             // response.data

@@ -200,14 +200,14 @@ export default {
   data() {
     return {
       charts: null,
-      robotOption: [],
+      // robotOption: [],
       selectedRobot: "全部",
       page: {
         totalElement: 0, // 总页数
         currentPage: 1, // 当前页数
         size: 10, // 每页显示多少条
       },
-      options: [],
+      // options: [],
       selected: "全部",
       totalnum: 0,
       artificialnum: 0, // 转人工
@@ -249,7 +249,13 @@ export default {
   computed:{
     topCollapse(){
       return this.$store.state.app.mainSideBarCollapse;
-    }
+    },
+    robotOption(){
+      return this.$store.state.invoice.robotList;
+    },
+    options(){
+      return this.$store.state.invoice.formList;
+    },
   },
   watch: {
     topCollapse(v, oldv){
@@ -261,8 +267,8 @@ export default {
   },
   mounted() {
     // this.initChart();
-    this.getSelectlist();
-    this.getRobotList();
+    // this.getSelectlist();
+    // this.getRobotList();
     this.getCheckdate();
     this.checktoday();
   },
