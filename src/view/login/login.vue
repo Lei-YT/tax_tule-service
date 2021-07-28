@@ -68,6 +68,10 @@
         </div>
       </div>
     </div>
+    <div class="lc-content">
+      <span class="lc-company">技术支持：北京令才科技有限公司</span>
+      <span class="lc-phone">服务电话400-167-8089</span>
+    </div>
   </div>
 </template>
 
@@ -240,6 +244,19 @@ export default {
 }
 /deep/.ivu-icon.ivu-icon-ios-close {
   color: #fafafa;
+}
+.lc-content{
+  position: absolute;
+  bottom: 4%;
+  color: aliceblue;
+  width: 400px;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
+}
+.lc-company{
+  float: left;
+}
+.lc-phone{
+  float: right;
 }
 </style>
 
