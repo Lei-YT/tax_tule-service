@@ -70,7 +70,7 @@
     </div>
     <div class="lc-content">
       <span class="lc-company">技术支持：北京令才科技有限公司</span>
-      <span class="lc-phone">服务电话400-167-8089</span>
+      <span class="lc-phone">服务电话：400-167-8089</span>
     </div>
   </div>
 </template>

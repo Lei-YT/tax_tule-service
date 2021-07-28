@@ -30,7 +30,7 @@
       <footer style="text-align:center;position: absolute; bottom: 2%; width:100%;font-family: 'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','\5FAE\8F6F\96C5\9ED1',Arial,sans-serif;">
         <div class="lc-content">
           <div class="lc-company">技术支持：北京令才科技有限公司</div>
-          <div class="lc-phone">服务电话400-167-8089</div>
+          <div class="lc-phone">服务电话：400-167-8089</div>
         </div>
       </footer>
     </Sider>
