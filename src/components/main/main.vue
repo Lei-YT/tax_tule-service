@@ -134,7 +134,7 @@ export default {
       "closeTag",
       "setCollapse",
     ]),
-    ...mapActions(["handleLogin", "getUnreadMessageCount"]),
+    ...mapActions(["handleLogin", "getRobotList", "getFormList"]),
     turnToPage(route) {
       let { name, params, query } = {};
       if (typeof route === "string") name = route;
@@ -207,6 +207,10 @@ export default {
     }
     // 获取未读消息条数
     // this.getUnreadMessageCount();
+    // 机器人列表
+    this.getRobotList();
+    // 表单名称列表
+    this.getFormList();
   },
 };
 </script>
