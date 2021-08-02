@@ -49,7 +49,7 @@
           <img src="@/assets/images/engine.svg" />
           <div>规则引擎</div>
           <a
-            href="http://10.15.196.127/"
+            href="http://fs.crtg.com:6652/"
             target="_blank"
             rel="nofollow"
             class="link-button_white"
