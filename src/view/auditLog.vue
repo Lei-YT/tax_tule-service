@@ -1009,7 +1009,7 @@ export default {
             }
           }, 0);
         }
-        const completeDataLen = allRpaDateValues.filter(d => d !== null).length;
+        const completeDataLen = allRpaDateValues.filter(d => d !== null).length || 1;
         if (column.property === 'rpaDate') {
           sums[index] = "数据获取平均时长";
           _this.calculateAvg(sumColumn, completeDataLen, "rpaDateAvg");
