@@ -996,7 +996,7 @@ export default {
       const sums = [];
       columns.forEach((column, index) => {
         const allRpaDateValues = data.map((item) =>
-          Number(item[column.property])
+          (item[column.property])
         );
         let sumColumn = 0;
         if (!allRpaDateValues.every((value) => isNaN(value))) {
@@ -1009,30 +1009,31 @@ export default {
             }
           }, 0);
         }
-        if (index === 13) {
+        const completeDataLen = allRpaDateValues.filter(d => d !== null).length;
+        if (column.property === 'rpaDate') {
           sums[index] = "数据获取平均时长";
-          _this.calculateAvg(sumColumn, allRpaDateValues.length, "rpaDateAvg");
+          _this.calculateAvg(sumColumn, completeDataLen, "rpaDateAvg");
           return;
         }
-        if (index === 14) {
+        if (column.property === 'ocrDate') {
           sums[index] = "OCR识别平均时长";
-          _this.calculateAvg(sumColumn, allRpaDateValues.length, "ocrDateAvg");
+          _this.calculateAvg(sumColumn, completeDataLen, "ocrDateAvg");
           return;
         }
-        if (index === 15) {
+        if (column.property === 'rulesDate') {
           sums[index] = "规则审核平均时长";
           _this.calculateAvg(
             sumColumn,
-            allRpaDateValues.length,
+            completeDataLen,
             "rulesDateAvg"
           );
           return;
         }
-        if (index === 16) {
+        if (column.property === 'totalDate') {
           sums[index] = "审单平均时长";
           _this.calculateAvg(
             sumColumn,
-            allRpaDateValues.length,
+            completeDataLen,
             "totalDateAvg"
           );
           return;
